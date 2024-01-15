@@ -83,10 +83,6 @@ public final class Constants {
                 // Assumes the encoders are directly mounted on the wheel shafts
                 (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR;
         public static final double kDriveEncoderScale = 0.0470915;
- 
-        public static final double kTurningEncoderDistancePerPulse =
-                // Assumes the encoders are on a 1:1 reduction with the module shaft.
-                (2 * Math.PI) / (double) kEncoderCPR;
 
         public static double kPModuleTurningController = 1.1; //PID Values for angular wheel rotation THESE WERE NEGATIVE?
         public static double kIModuleTurningController = 0;
@@ -100,15 +96,13 @@ public final class Constants {
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI; //Max rotational speed of auton
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI; //Max rotational acceleration of auton
 
-        public static final double maxWaypointAutonSpeed = 1;
-
-        public static final double kPXController = 3.0; // P 0 0 values for auton X, Y, and Theta controllers
+        public static final double kPXController = 0; // P 0 0 values for auton X, Y, and Theta controllers 3.0
         public static final double kDXController = 0; //0.093 // P 0 0 values for auton X, Y, and Theta controllers
 
-        public static final double kPYController = 3.00; //3.05
+        public static final double kPYController = 0; //3.05
         public static final double kDYController = 0;
 
-        public static final double kPThetaController = 2.8; //2.25
+        public static final double kPThetaController = 0; //2.8
         public static final double kDThetaController = 0;
 
         // Constraint for the motion profiled robot angle controller

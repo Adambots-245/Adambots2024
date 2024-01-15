@@ -6,6 +6,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "TestCommand1"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "TestPath1"
@@ -16,15 +22,10 @@
           "data": {
             "waitTime": 2.0
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "TestCommand1"
-          }
         }
       ]
     }
   },
-  "folder": null
+  "folder": null,
+  "choreoAuto": false
 }

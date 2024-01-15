@@ -103,7 +103,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, new Rotation2d(m_gyro.getYaw()))
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, new Rotation2d(Math.toRadians(-m_gyro.getAngle())))
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
 
@@ -118,7 +118,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   public ChassisSpeeds getChassisSpeeds() {
-    return DriveConstants.kDriveKinematics.toChassisSpeeds(ModuleMap.getState(swerveModules));
+    return DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStatesArray());
+  }
+
+  public SwerveModuleState[] getModuleStatesArray() {
+    SwerveModuleState[] arr = new SwerveModuleState[4];
+    int j = 0;
+    for (ModulePosition i : swerveModules.keySet()) {
+      arr[j++] = swerveModules.get(i).getState();
+    }
+    return arr;
   }
 
   /**
