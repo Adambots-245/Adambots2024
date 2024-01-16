@@ -128,8 +128,7 @@ public class ModuleMap {
 
     int idx = 0;
     for (ModulePosition i : ModulePosition.values()) {
-      arr[idx] = swerveModules.get(i).getState();
-      idx++;
+      arr[idx++] = swerveModules.get(i).getState();
     }
     return arr;
   }

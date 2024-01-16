@@ -85,17 +85,20 @@ public class SwerveModule {
 
     m_absoluteEncoder = new CANcoder(turningEncoderChannel);
     m_driveEncoder = m_driveMotor.getEncoder();
-
-    //TODO: Utilize driveEncoder and turningEncoder Reversed flags - instead of negating Joystick values in RobotContainer
-    // m_driveMotor.setInverted(driveEncoderReversed);
     
-    // m_absoluteEncoder.clearStickyFaults();
-    // m_driveMotor.clearFaults();
-    // m_turningMotor.clearFaults();
-    Dash.add("Cancoder: " + m_position.name(), () -> m_absoluteEncoder.getAbsolutePosition().getValueAsDouble()*360+180);
+    // Dash.add("Cancoder: " + m_position.name(), () -> m_absoluteEncoder.getAbsolutePosition().getValueAsDouble()*360+180);
 
     m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
     resetEncoders();
+  }
+
+  /**
+   * Returns the current absolute rotation of the CANcoder in radians.
+   *
+   * @return The current absolute rotation in radians.
+   */
+  private double getCANcoderValue (CANcoder absoluteEncoder) {
+    return Units.degreesToRadians(m_absoluteEncoder.getAbsolutePosition().getValueAsDouble()*360+180);
   }
 
   /**
@@ -104,8 +107,8 @@ public class SwerveModule {
    * @return The current state of the module.
    */
   public SwerveModuleState getState() {
-    double speedMetersPerSecond = ModuleConstants.kDriveEncoderDistancePerPulse * m_driveEncoder.getVelocity();
-    double turningRadians = Units.degreesToRadians(m_absoluteEncoder.getAbsolutePosition().getValueAsDouble()*360+180);
+    double speedMetersPerSecond = ModuleConstants.kDriveEncoderDistancePerPulse * m_driveEncoder.getVelocity(); //replace with  * ModuleConstants.kDriveEncoderScale?
+    double turningRadians = getCANcoderValue(m_absoluteEncoder);
     return new SwerveModuleState(speedMetersPerSecond, new Rotation2d(turningRadians));
   }
 
@@ -115,22 +118,19 @@ public class SwerveModule {
    */
   public void setDesiredState(SwerveModuleState desiredState) {
     double speedMetersPerSecond = ModuleConstants.kDriveEncoderDistancePerPulse * m_driveEncoder.getVelocity(); //TODO: Fix this complete lack of sensible units
-    double turningRadians = Units.degreesToRadians(m_absoluteEncoder.getAbsolutePosition().getValueAsDouble()*360+180);
+    double turningRadians = getCANcoderValue(m_absoluteEncoder);
 
 
     // desiredState.speedMetersPerSecond *= desiredState.angle.minus(new Rotation2d(turningRadians)).getCos(); //TODO: Test this
 
     // Optimize the reference state to avoid spinning further than 90 degrees
-    SwerveModuleState state =
-        SwerveModuleState.optimize(desiredState, new Rotation2d(turningRadians));
+    SwerveModuleState state = SwerveModuleState.optimize(desiredState, new Rotation2d(turningRadians));
 
     // Calculate the drive output from the drive PID controller.
-    final double driveOutput =
-        m_drivePIDController.calculate(speedMetersPerSecond, state.speedMetersPerSecond);
+    final double driveOutput = m_drivePIDController.calculate(speedMetersPerSecond, state.speedMetersPerSecond);
 
     // Calculate the turning motor output from the turning PID controller.
-    final double turnOutput =
-        m_turningPIDController.calculate(turningRadians, state.angle.getRadians());
+    final double turnOutput = m_turningPIDController.calculate(turningRadians, state.angle.getRadians());
 
     // Calculate the turning motor output from the turning PID controller.
 
@@ -145,7 +145,7 @@ public class SwerveModule {
    */
   public SwerveModulePosition getPosition() {
     double distance = m_driveEncoder.getPosition() * ModuleConstants.kDriveEncoderScale;
-    double turningDistance = Units.degreesToRadians(m_absoluteEncoder.getAbsolutePosition().getValueAsDouble()*360+180);
+    double turningDistance = getCANcoderValue(m_absoluteEncoder);
 
     return new SwerveModulePosition(distance, new Rotation2d(turningDistance));
   }
