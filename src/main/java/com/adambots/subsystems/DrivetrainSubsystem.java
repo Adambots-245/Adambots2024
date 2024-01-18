@@ -39,6 +39,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     this.swerveModules = modules;
     m_gyro = gyro;
 
+    m_odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, getGyroYaw(m_gyro), ModuleMap.orderedModulePositions(swerveModules));
+
     AutoBuilder.configureHolonomic(
       this::getPose, // Robot pose supplier
       this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
@@ -55,18 +57,26 @@ public class DrivetrainSubsystem extends SubsystemBase {
       this // Reference to this subsystem to set requirements
   );
 
-    m_odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, new Rotation2d(m_gyro.getYaw()), ModuleMap.orderedModulePositions(swerveModules));
   }
 
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
     m_odometry.update(
-        new Rotation2d(m_gyro.getYaw()),
+        getGyroYaw(m_gyro),
         ModuleMap.orderedModulePositions(swerveModules)
     );
 
     Constants.DriveConstants.field.setRobotPose(getPose());
+  }
+
+  /**
+   * Returns the continuous (does not loop around past pi) value of the gyroscope in radians
+   * Ensure CCW is a positive value change
+   * @return Continous value of gyroscope in radians
+   */
+  public Rotation2d getGyroYaw (AHRS gyro) {
+    return new Rotation2d(Math.toRadians(-m_gyro.getAngle())); //COUNTERCLOCKWISE NEEDS TO BE POSITIVE
   }
 
   /**
@@ -84,7 +94,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
-    m_odometry.resetPosition(new Rotation2d(m_gyro.getYaw()), ModuleMap.orderedModulePositions(swerveModules), pose);
+    m_odometry.resetPosition(getGyroYaw(m_gyro), ModuleMap.orderedModulePositions(swerveModules), pose);
   }
 
   /**
@@ -103,7 +113,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, new Rotation2d(Math.toRadians(-m_gyro.getAngle())))
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getGyroYaw(m_gyro))
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
 
@@ -111,6 +121,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   public void setChassisSpeeds(ChassisSpeeds chassisSpeeds) {
+    // ChassisSpeeds.discretize(chassisSpeeds, 0.02);
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
 
