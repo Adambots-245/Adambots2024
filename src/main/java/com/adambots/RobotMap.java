@@ -12,6 +12,7 @@ import java.util.Map;
 
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
+import com.adambots.sensors.Gyro;
 import com.adambots.subsystems.SwerveModule;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -49,8 +50,7 @@ public class RobotMap {
         public static final int kSecondaryControllerPort = 2; // XBOX Controller
 
         // Robot Devices and Sensors
-        public static final AHRS GyroSensor = new AHRS(Port.kMXP);
-
+        public static final Gyro gyro = new Gyro();
         // Robot Swerve Modules
         public static final HashMap<ModulePosition, SwerveModule> swerveModules = new HashMap<>(
                 Map.of(

@@ -10,6 +10,7 @@ import com.adambots.Constants;
 import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
+import com.adambots.sensors.Gyro;
 import com.adambots.utils.ModuleMap;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -27,7 +28,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DrivetrainSubsystem extends SubsystemBase {
   // The gyro sensor
-  private final AHRS m_gyro;
+  private final Gyro m_gyro;
 
   // Odometry class for tracking robot pose
   private SwerveDriveOdometry m_odometry;
@@ -35,11 +36,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
   // Field details that can be viewed in Glass
   HashMap<ModulePosition, SwerveModule> swerveModules;
 
-  public DrivetrainSubsystem(HashMap<ModulePosition, SwerveModule> modules, AHRS gyro) {
+  public DrivetrainSubsystem(HashMap<ModulePosition, SwerveModule> modules, Gyro gyro) {
     this.swerveModules = modules;
     m_gyro = gyro;
 
-    m_odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, getGyroYaw(m_gyro), ModuleMap.orderedModulePositions(swerveModules));
+    m_odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, m_gyro.getGyroYaw(), ModuleMap.orderedModulePositions(swerveModules));
 
     AutoBuilder.configureHolonomic(
       this::getPose, // Robot pose supplier
@@ -53,7 +54,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
           0.43, // Drive base radius in meters. Distance from robot center to furthest module.
           new ReplanningConfig() // Default path replanning config. See the API for the options here
       ), 
-      () -> false, //TODO: CREATE PATH FLIP SUPPLIER
+      () -> true, //TODO: CREATE PATH FLIP SUPPLIER
       this // Reference to this subsystem to set requirements
   );
 
@@ -63,21 +64,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     m_odometry.update(
-        getGyroYaw(m_gyro),
+        m_gyro.getGyroYaw(),
         ModuleMap.orderedModulePositions(swerveModules)
     );
 
     Constants.DriveConstants.field.setRobotPose(getPose());
   }
 
-  /**
-   * Returns the continuous (does not loop around past pi) value of the gyroscope in radians
-   * Ensure CCW is a positive value change
-   * @return Continous value of gyroscope in radians
-   */
-  public Rotation2d getGyroYaw (AHRS gyro) {
-    return new Rotation2d(Math.toRadians(-m_gyro.getAngle())); //COUNTERCLOCKWISE NEEDS TO BE POSITIVE
-  }
+ 
 
   /**
    * Returns the currently-estimated pose of the robot.
@@ -94,7 +88,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
-    m_odometry.resetPosition(getGyroYaw(m_gyro), ModuleMap.orderedModulePositions(swerveModules), pose);
+    m_odometry.resetPosition(m_gyro.getGyroYaw(), ModuleMap.orderedModulePositions(swerveModules), pose);
   }
 
   /**
@@ -113,7 +107,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getGyroYaw(m_gyro))
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getGyroYaw())
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
 

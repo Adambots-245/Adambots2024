@@ -18,6 +18,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "TestCommand1"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "return1"

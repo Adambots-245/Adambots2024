@@ -96,8 +96,8 @@ public final class Constants {
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI; //Max rotational speed of auton
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI; //Max rotational acceleration of auton
 
-        public static final double kPXController = 0; // P 0 0 values for auton X, Y, and Theta controllers 3.0
-        public static final double kDXController = 0; //0.093 // P 0 0 values for auton X, Y, and Theta controllers
+        public static final double kPXController = 0.03; // P 0 0 values for auton X, Y, and Theta controllers 3.0
+        public static final double kDXController = 0.03; //0.093 // P 0 0 values for auton X, Y, and Theta controllers
 
         public static final double kPYController = 0; //3.05
         public static final double kDYController = 0;

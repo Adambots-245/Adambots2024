@@ -9,6 +9,7 @@
 package com.adambots;
 
 import com.adambots.Gamepad.Buttons;
+import com.adambots.sensors.Gyro;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.Dash;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -34,7 +35,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
- private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(RobotMap.swerveModules, RobotMap.GyroSensor);
+ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(RobotMap.swerveModules, RobotMap.gyro);
 
   //Creates a SmartDashboard element to allow drivers to select differnt autons
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -73,7 +74,7 @@ public class RobotContainer {
     // Buttons.JoystickButton16.onTrue(new TestAutoBalanceCommand(drivetrainSubsystem, RobotMap.GyroSensor, grabbyLifterSubsystem).andThen(new HockeyStopCommand(drivetrainSubsystem)));
     // Buttons.JoystickButton16.onTrue(new AutoBalanceCommand(drivetrainSubsystem, RobotMap.GyroSensor, grabbyLifterSubsystem));
 
-    Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.GyroSensor.reset()));
+    Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.gyro.reset()));
   }
 
   private void registerNamedCommands() {
@@ -94,9 +95,9 @@ public class RobotContainer {
 
     Dash.add("odom x", () -> drivetrainSubsystem.getPose().getX());
     Dash.add("odom y", () -> drivetrainSubsystem.getPose().getY());
-    Dash.add("yaw", () -> RobotMap.GyroSensor.getAngle());
-    Dash.add("pitch", () -> RobotMap.GyroSensor.getPitch());
-    Dash.add("roll", () -> RobotMap.GyroSensor.getRoll());
+    Dash.add("yaw", () -> RobotMap.gyro.getGyroYawDeg());
+    // Dash.add("pitch", () -> RobotMap.GyroSensor.getPitch());
+    // Dash.add("roll", () -> RobotMap.GyroSensor.getRoll());
 
     // Dash.add("LIDAR Dist", () -> RobotMap.lidar.getInches());
 
