@@ -48,8 +48,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
       new HolonomicPathFollowerConfig(
           new PIDConstants(AutoConstants.kPTranslationController, 0, AutoConstants.kDTranslationController), 
           new PIDConstants(AutoConstants.kPThetaController, 0, AutoConstants.kDThetaController),
-          4.5, // Max module speed, in m/s
-          0.43, // Drive base radius in meters. Distance from robot center to furthest module.
+          AutoConstants.kMaxModuleSpeedMetersPerSecond, // Max module speed, in m/s
+          AutoConstants.kDrivebaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
           new ReplanningConfig() // Default path replanning config. See the API for the options here
       ), 
       () -> false, //TODO: CREATE PATH FLIP SUPPLIER
@@ -67,7 +67,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     );
 
     //Update the position of the robot on the ShuffleBoard field
-    Constants.DriveConstants.field.setRobotPose(getPose());
+    Constants.field.setRobotPose(getPose());
   }
 
 

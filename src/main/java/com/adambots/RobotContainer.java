@@ -85,7 +85,7 @@ public class RobotContainer {
 
     //Adds various data to the dashboard that is useful for driving and debugging
     SmartDashboard.putData("Auton Mode", autoChooser);
-    SmartDashboard.putData("Field", Constants.DriveConstants.field);
+    SmartDashboard.putData("Field", Constants.field);
 
     Dash.add("getY", Buttons.forwardSupplier);
     Dash.add("getX", Buttons.sidewaysSupplier);

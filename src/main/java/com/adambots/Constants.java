@@ -11,8 +11,6 @@ import java.util.Map;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 
 /**
@@ -28,10 +26,9 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 
 public final class Constants {
     public static final String kDefaultShuffleboardTab = "debug";
-    public static ShuffleboardTab debugTab;
+    public static Field2d field = new Field2d();
 
     public static final class DriveConstants {
-        public static Field2d field = new Field2d();
 
         public static final boolean kFrontLeftTurningEncoderReversed = true;
         public static final boolean kRearLeftTurningEncoderReversed = false;
@@ -43,10 +40,9 @@ public final class Constants {
         public static final boolean kFrontRightDriveEncoderReversed = false;
         public static final boolean kRearRightDriveEncoderReversed = false;
 
-        // In Meters
-        // Distance between centers of right and left wheels on robot
+        // Distance between centers of right and left wheels on robot in meters
         public static final double kTrackWidth = 0.61;
-        // Distance between front and back wheels on robot
+        // Distance between front and back wheels on robot in meters
         public static final double kWheelBase = 0.61;
 
         public enum ModulePosition {
@@ -54,7 +50,7 @@ public final class Constants {
             FRONT_RIGHT,
             REAR_LEFT,
             REAR_RIGHT
-          }
+        }
       
         public static final Map<ModulePosition, Translation2d> kModuleTranslations = Map.of(
             ModulePosition.FRONT_LEFT, new Translation2d(kWheelBase / 2, kTrackWidth / 2),
@@ -70,47 +66,41 @@ public final class Constants {
             new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
 
         public static final double kMaxSpeedMetersPerSecond = 99; //Used to desaturate module speeds - TODO: tune properly
-        public static final double kSpeedThreshold = 0.001; //Minimum Speed for Swerve Modules
     }
 
     public static final class ModuleConstants {
-        public static final double kMaxModuleAngularSpeedRadiansPerSecond = 16 * Math.PI; //Limits for wheel turning profiled PID
-        public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 16 * Math.PI;
-
         public static final int kEncoderCPR = 4096;
         public static final double kWheelDiameterMeters = 0.15;
         public static final double kDriveEncoderDistancePerPulse = (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR;
         // Assumes the encoders are directly mounted on the wheel shafts
             
-        public static final double kDriveEncoderScale = 0.0470915;
+        public static final double kDriveEncoderScale = 0.0470915; //Tuned value that corrosponds wheel encoders to real distance
 
-        public static double kPModuleTurningController = 1.1; //PID Values for angular wheel rotation THESE WERE NEGATIVE?
-        public static double kIModuleTurningController = 0;
-        public static double kDModuleTurningController = 0.01; //0.02
+        public static final double kPModuleTurningController = 1.1; //PID Values for angular wheel rotation THESE WERE NEGATIVE?
+        public static final double kIModuleTurningController = 0;
+        public static final double kDModuleTurningController = 0.01; //0.02
+
+        public static final double kMaxModuleAngularSpeedRadiansPerSecond = 16 * Math.PI; //Limits for wheel turning profiled PID
+        public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 16 * Math.PI;
 
         public static final double kPModuleDriveController = 1; //P 0 0 for drive controller of swerve module
     }
 
     public static final class AutoConstants {
-        public static final double kMaxAccelerationMetersPerSecondSquared = 1.5; //Max acceleration of auton
-        public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI; //Max rotational speed of auton
-        public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI; //Max rotational acceleration of auton
-
         public static final double kPTranslationController = 0.03; // PD values for auton X, Y translational movement
         public static final double kDTranslationController = 0.03;
 
         public static final double kPThetaController = 0; // PD values for auton rotational movement
         public static final double kDThetaController = 0;
 
-        // Constraint for the motion profiled robot angle controller
-        public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
-                kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+        public static final double kMaxModuleSpeedMetersPerSecond = 4.5; // Max speed of each swerve module, used for auton movement
+        public static final double kDrivebaseRadius = 4.5; // Drive base radius in meters. Distance from robot center to furthest module.
     }
 
     public static final class GamepadConstants {
         // deadzone
         public static final double kDeadZone = 0.15;
-        
+
         /**
          * XBOX 360 South Face Button
          */
