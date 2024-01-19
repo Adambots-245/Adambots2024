@@ -9,7 +9,6 @@
 package com.adambots;
 
 import com.adambots.Gamepad.Buttons;
-import com.adambots.sensors.Gyro;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.Dash;
 import com.pathplanner.lib.auto.AutoBuilder;

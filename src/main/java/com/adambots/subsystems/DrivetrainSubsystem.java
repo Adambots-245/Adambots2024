@@ -12,14 +12,12 @@ import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
 import com.adambots.sensors.Gyro;
 import com.adambots.utils.ModuleMap;
-import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -48,13 +46,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
       this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
       this::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
       new HolonomicPathFollowerConfig(
-          new PIDConstants(AutoConstants.kPXController, 0, AutoConstants.kDXController), 
+          new PIDConstants(AutoConstants.kPTranslationController, 0, AutoConstants.kDTranslationController), 
           new PIDConstants(AutoConstants.kPThetaController, 0, AutoConstants.kDThetaController),
           4.5, // Max module speed, in m/s
           0.43, // Drive base radius in meters. Distance from robot center to furthest module.
           new ReplanningConfig() // Default path replanning config. See the API for the options here
       ), 
-      () -> true, //TODO: CREATE PATH FLIP SUPPLIER
+      () -> false, //TODO: CREATE PATH FLIP SUPPLIER
       this // Reference to this subsystem to set requirements
   );
 
