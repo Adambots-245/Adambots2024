@@ -6,6 +6,16 @@
       "/SmartDashboard/Field": "Field2d"
     }
   },
+  "NetworkTables": {
+    "transitory": {
+      "Shuffleboard": {
+        "debug": {
+          "open": true
+        },
+        "open": true
+      }
+    }
+  },
   "NetworkTables Info": {
     "visible": true
   }
