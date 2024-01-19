@@ -41,10 +41,25 @@ public class Gyro extends BaseSensor {
         return -gyro.getAngle()+180; //COUNTERCLOCKWISE NEEDS TO BE POSITIVE
     }
 
+    /**
+     * Resets the yaw of the gyroscope to 0
+     */
     public void reset () {
         gyro.reset();
     }
 
+    /**
+     * Resets the yaw of the gyroscope to the user specified value in degrees
+     */
+    public void resetToAngle (double offsetDeg) {
+        gyro.reset();
+        gyro.setAngleAdjustment​(offset)
+    }
+
+    /**
+     * Calibrates the gyroscope
+     * Should only be performed on initialization - may take up to 2 seconds to complete
+     */
     public void calibrate () {
         gyro.calibrate();
     }
