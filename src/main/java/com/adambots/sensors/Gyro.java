@@ -12,6 +12,8 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.SPI.Port;
 
+import edu.wpi.first.math.geometry.Pose2d;
+
 /**
  * Add your docs here.
  */
@@ -42,20 +44,35 @@ public class Gyro extends BaseSensor {
     }
 
     /**
-     * Resets the yaw of the gyroscope
+     * Resets the yaw gyroscope
      */
-    public void reset () {
+    public void resetYaw () {
         gyro.reset();
     }
 
     /**
      * Resets the yaw of the gyroscope to the user specified value in degrees
      */
-    public void resetToAngle (double offsetDeg) {
+    public void resetYawToAngle (double offsetDeg) {
         gyro.reset();
-        gyro.setAngleAdjustment​(offset)
+        gyro.setAngleAdjustment​(offset);
     }
 
+    /**
+     * Returns the approximated X, Y and rotation displacement of the robot since last reset
+     * @return Approximated Pose2d of the robot
+     */
+    public Pose2d getDisplacementPose2D (double offsetDeg) {
+        return new Pose2d(gyro.getDisplacementX(), gyro.getDisplacementY(), getContinuousYawRad());
+    }
+
+    /**
+     * Resets the calculated X, Y displacement of the gyro
+     */
+    public void resetDisplacement () {
+        gyro.resetDisplacement();
+    }
+    
     /**
      * Calibrates the gyroscope
      * Should only be performed on initialization - may take up to 2 seconds to complete
