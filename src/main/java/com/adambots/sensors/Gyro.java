@@ -19,8 +19,7 @@ public class Gyro extends BaseSensor {
     private AHRS gyro;
     
     public Gyro (){
-        this.gyro = new AHRS(Port.kMXP);
-
+        this.gyro = new AHRS(Port.kMXP); //Defining the gyroscrope using the MXP port on the roborio (mounted directly to top of Rio)
     }
 
     /**
@@ -29,6 +28,7 @@ public class Gyro extends BaseSensor {
      * @return Continous value of gyroscope in radians
      */
     public Rotation2d getContinuousYawRad () {
+        //References the deg function to ensure no discrepency between the measurments
         return new Rotation2d(Math.toRadians(getContinuousYawDeg()));
     }
 
@@ -42,7 +42,7 @@ public class Gyro extends BaseSensor {
     }
 
     /**
-     * Resets the yaw of the gyroscope to 0
+     * Resets the yaw of the gyroscope
      */
     public void reset () {
         gyro.reset();
