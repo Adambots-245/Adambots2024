@@ -4,11 +4,11 @@
 
 package com.adambots.sensors;
 
-import com.adambots.utils.Dash;
-
 import edu.wpi.first.wpilibj.AnalogInput;
 
-/** Add your docs here. */
+/**
+ * Generic UltrasonicSensor sensor to hide actual implementation and perform range finding
+ */
 public class UltrasonicSensor {
     // The handle to access the sensor
     private final AnalogInput rangefinder;
@@ -25,15 +25,14 @@ public class UltrasonicSensor {
         rangefinder = new AnalogInput(portNumber);
         rangefinder.setOversampleBits(2); // Completely arbitrary
         rangefinder.setAverageBits(5); // Ditto
-        Dash.add("Scaling Factor", () ->  SCALING_FACTOR);
-        Dash.add("AVolts", () -> rangefinder.getAverageVoltage());
-        Dash.add("Volts", () -> rangefinder.getVoltage());
-        Dash.add("I", () -> rangefinder.getAverageVoltage() * SCALING_FACTOR);
+        // Dash.add("Scaling Factor", () ->  SCALING_FACTOR);
+        // Dash.add("AVolts", () -> rangefinder.getAverageVoltage());
+        // Dash.add("Volts", () -> rangefinder.getVoltage());
+        // Dash.add("I", () -> rangefinder.getAverageVoltage() * SCALING_FACTOR);
     }
     
     /** Returns the distance measured in inches.  */
     public double getInches(){
-        // double volts = rangefinder.getAverageVoltage();
         return getCentimeters() / 2.54;
     }
     
@@ -46,10 +45,5 @@ public class UltrasonicSensor {
     /** Returns the distance measured in feet.  */
     public double getFeet(){
         return this.getInches() / 12.0;
-    }
-    
-    public String toString(){
-        // return (int)getFeet() + "' " + (int)(getInches() - (int) getFeet()*12) + "\"";
-        return String.format("%d' %d\n", getFeet(), getInches());
     }
 }

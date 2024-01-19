@@ -5,13 +5,14 @@
 
 package com.adambots.utils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.adambots.Constants.DriveConstants.ModulePosition;
 import com.adambots.subsystems.SwerveModule;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
@@ -92,42 +93,42 @@ public class ModuleMap {
     return (SwerveModulePosition[]) list.toArray(new SwerveModulePosition[0]);
   }
 
-  public static Pose2d orderedValues(Map<ModulePosition, Pose2d> m_swerveModulePoses, Pose2d poser) {
-    return null;
-  }
+//   public static Pose2d orderedValues(Map<ModulePosition, Pose2d> m_swerveModulePoses, Pose2d poser) {
+//     return null;
+//   }
 
-  public static SwerveModuleState[] orderedValues(Map<ModulePosition, SwerveModuleState> moduleStates,
-      SwerveModuleState[] swerveModuleStates, double kmaxspeedmeterspersecond) {
-    return null;
-  }
+//   public static SwerveModuleState[] orderedValues(Map<ModulePosition, SwerveModuleState> moduleStates,
+//       SwerveModuleState[] swerveModuleStates, double kmaxspeedmeterspersecond) {
+//     return null;
+//   }
 
-  public static SwerveModuleState[] orderedValues(Map<ModulePosition, SwerveModuleState> moduleStates,
-      SwerveModuleState[] swerveModuleStates) {
-    return (SwerveModuleState[]) orderedValuesList(moduleStates).toArray(swerveModuleStates);
-  }
+//   public static SwerveModuleState[] orderedValues(Map<ModulePosition, SwerveModuleState> moduleStates,
+//       SwerveModuleState[] swerveModuleStates) {
+//     return (SwerveModuleState[]) orderedValuesList(moduleStates).toArray(swerveModuleStates);
+//   }
 
-  public static <V> V[] orderedValues(Map<ModulePosition, V> map, V[] array) {
-    return orderedValuesList(map).toArray(array);
-  }
+//   public static <V> V[] orderedValues(Map<ModulePosition, V> map, V[] array) {
+//     return orderedValuesList(map).toArray(array);
+//   }
 
-  public static Translation2d[] orderedValues(Map<ModulePosition, Translation2d> kmoduletranslations,
-      Translation2d[] translation2ds) {
-    return (Translation2d[]) orderedValuesList(kmoduletranslations).toArray(translation2ds);
-  }
+//   public static Translation2d[] orderedValues(Map<ModulePosition, Translation2d> kmoduletranslations,
+//       Translation2d[] translation2ds) {
+//     return (Translation2d[]) orderedValuesList(kmoduletranslations).toArray(translation2ds);
+//   }
 
   public static void setDesiredState(HashMap<ModulePosition, SwerveModule> swerveModules, SwerveModuleState[] swerveModuleStates) {
-
     int idx = 0;
+
     for (ModulePosition i : ModulePosition.values()) {
       swerveModules.get(i).setDesiredState(swerveModuleStates[idx++]);
     }
   }
 
-  public static SwerveModuleState[] getState(HashMap<ModulePosition, SwerveModule> swerveModules) {
+  public static SwerveModuleState[] getModuleStates(HashMap<ModulePosition, SwerveModule> swerveModules) {
     SwerveModuleState[] arr = new SwerveModuleState[4];
-
     int idx = 0;
-    for (ModulePosition i : ModulePosition.values()) {
+
+    for (ModulePosition i : swerveModules.keySet()) {
       arr[idx++] = swerveModules.get(i).getState();
     }
     return arr;

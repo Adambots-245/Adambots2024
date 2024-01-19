@@ -15,9 +15,9 @@ import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.math.geometry.Pose2d;
 
 /**
- * Add your docs here.
+ * Generic gyro sensor to hide actual implementation and ensure uniform values across subsystems
  */
-public class Gyro extends BaseSensor {
+public class Gyro {
     private AHRS gyro;
     
     public Gyro (){
@@ -55,7 +55,7 @@ public class Gyro extends BaseSensor {
      */
     public void resetYawToAngle (double offsetDeg) {
         gyro.reset();
-        gyro.setAngleAdjustment​(offset);
+        gyro.setAngleAdjustment(offsetDeg);
     }
 
     /**

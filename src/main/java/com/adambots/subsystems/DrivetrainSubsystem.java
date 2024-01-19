@@ -66,10 +66,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         ModuleMap.orderedModulePositions(swerveModules)
     );
 
+    //Update the position of the robot on the ShuffleBoard field
     Constants.DriveConstants.field.setRobotPose(getPose());
   }
 
- 
 
   /**
    * Returns the currently-estimated pose of the robot.
@@ -81,7 +81,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   /**
-   * Resets the odometry to the specified pose.
+   * Resets the x, y odometry to the specified pose and maintains the current heading.
    *
    * @param pose The pose to which to set the odometry.
    */
@@ -112,25 +112,25 @@ public class DrivetrainSubsystem extends SubsystemBase {
     ModuleMap.setDesiredState(swerveModules, swerveModuleStates);
   }
 
+  /**
+   * Sets the swerve module states as according to the chassis speeds requested
+   *
+   * @param chassisSpeeds The desired ChassisSpeeds of the robot
+   */
   public void setChassisSpeeds(ChassisSpeeds chassisSpeeds) {
-    // ChassisSpeeds.discretize(chassisSpeeds, 0.02);
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
 
     ModuleMap.setDesiredState(swerveModules, swerveModuleStates);
   }
 
+  /**
+   * Gets the chassis speeds of the robot as calculated from the swerve module states
+   *
+   * @return The ChassisSpeeds of the robot
+   */
   public ChassisSpeeds getChassisSpeeds() {
-    return DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStatesArray());
-  }
-
-  public SwerveModuleState[] getModuleStatesArray() {
-    SwerveModuleState[] arr = new SwerveModuleState[4];
-    int j = 0;
-    for (ModulePosition i : swerveModules.keySet()) {
-      arr[j++] = swerveModules.get(i).getState();
-    }
-    return arr;
+    return DriveConstants.kDriveKinematics.toChassisSpeeds(ModuleMap.getModuleStates(swerveModules));
   }
 
   /**
@@ -144,13 +144,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     ModuleMap.setDesiredState(swerveModules, desiredStates);
   }
 
-  public void setPIDValues(double kP, double kI, double kD) {
-    swerveModules.get(ModulePosition.FRONT_LEFT).setPIDValues(kP, kI, kD);
-    swerveModules.get(ModulePosition.FRONT_RIGHT).setPIDValues(kP, kI, kD);
-    swerveModules.get(ModulePosition.REAR_LEFT).setPIDValues(kP, kI, kD);
-    swerveModules.get(ModulePosition.REAR_RIGHT).setPIDValues(kP, kI, kD);
-  }
-
+  /**
+   * Stops the drivetrain
+   */
   public void stop() {
     drive(0, 0, 0, false);
   }

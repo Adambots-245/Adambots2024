@@ -28,7 +28,6 @@ public class SwerveModule {
 
   private final CANcoder m_absoluteEncoder;
   private final RelativeEncoder m_driveEncoder;
-  // private final CANCoderConfiguration m_canCoderConfig = new CANCoderConfiguration();
 
   private final PIDController m_drivePIDController =
       new PIDController(ModuleConstants.kPModuleDriveController, 0, 0);
@@ -45,12 +44,6 @@ public class SwerveModule {
 
   private ModulePosition m_position;
 
-  public void setPIDValues(double kP, double kI, double kD) {
-    m_turningPIDController.setP(kP);
-    m_turningPIDController.setI(kI);
-    m_turningPIDController.setD(kD);
-  }
-
   /**
    * Constructs a SwerveModule.
    *
@@ -62,13 +55,8 @@ public class SwerveModule {
    * @param driveEncoderReversed Whether the drive encoder is reversed.
    * @param turningEncoderReversed Whether the turning encoder is reversed.
    */
-  public SwerveModule(
-      ModulePosition position,
-      int driveMotorChannel,
-      int turningMotorChannel,
-      int turningEncoderChannel,
-      boolean driveEncoderReversed,
-      boolean turningEncoderReversed) {
+  public SwerveModule(ModulePosition position, int driveMotorChannel, int turningMotorChannel, int turningEncoderChannel,
+      boolean driveEncoderReversed, boolean turningEncoderReversed) {
     
     this.m_position = position; // Use position.name() to get the name of the position as a String
 
@@ -81,12 +69,12 @@ public class SwerveModule {
     m_turningMotor.setIdleMode(IdleMode.kBrake);
     m_turningMotor.setSmartCurrentLimit(21);
     m_turningMotor.enableVoltageCompensation(12.6);
-    m_turningMotor.setInverted(true); //Added because PID values were negative NEEDS TESTING
+    m_turningMotor.setInverted(true);
 
     m_absoluteEncoder = new CANcoder(turningEncoderChannel);
     m_driveEncoder = m_driveMotor.getEncoder();
     
-    // Dash.add("Cancoder: " + m_position.name(), () -> m_absoluteEncoder.getAbsolutePosition().getValueAsDouble()*360+180);
+    // Dash.add("Cancoder: " + m_position.name(), () -> getCANcoderValue(m_absoluteEncoder));
 
     m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
     resetEncoders();
@@ -120,7 +108,6 @@ public class SwerveModule {
     double speedMetersPerSecond = ModuleConstants.kDriveEncoderDistancePerPulse * m_driveEncoder.getVelocity(); //TODO: Fix this complete lack of sensible units
     double turningRadians = getCANcoderValue(m_absoluteEncoder);
 
-
     // desiredState.speedMetersPerSecond *= desiredState.angle.minus(new Rotation2d(turningRadians)).getCos(); //TODO: Test this
 
     // Optimize the reference state to avoid spinning further than 90 degrees
@@ -148,11 +135,6 @@ public class SwerveModule {
     double turningDistance = getCANcoderValue(m_absoluteEncoder);
 
     return new SwerveModulePosition(distance, new Rotation2d(turningDistance));
-  }
-
-  public void stop(){
-    m_driveMotor.set(0);
-    m_turningMotor.set(0);
   }
 
   /** Zeroes all the SwerveModule encoders. */

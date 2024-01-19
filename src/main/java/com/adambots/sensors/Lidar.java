@@ -11,10 +11,9 @@ import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
- * Class that implements a Lidar sensor
+ * Generic lidar sensor to hide actual implementation
  */
-public class Lidar extends BaseSensor {
-    public double LIDAR_TOLERANCE = 0; // tune
+public class Lidar {
     private Counter counter;
     private DigitalInput _source = null;
 	
@@ -23,14 +22,12 @@ public class Lidar extends BaseSensor {
 
         _source = new DigitalInput(dioPortNumber);
 
-		System.out.println("Source: " + _source);
 		counter = new Counter(_source);
 
 	    counter.setMaxPeriod(1.0);
 	    // Configure for measuring rising to falling pulses
 	    counter.setSemiPeriodMode(true);
 	    counter.reset();
-		// System.out.println("Counter: " + counter);
     }
     
 	/**
@@ -38,37 +35,21 @@ public class Lidar extends BaseSensor {
 	 * 
 	 * @return Distance in cm
 	 */
-	public double getDistance() {
+	public double getDistCm() {
 		double cm;
 
-		// SmartDashboard.putNumber("Period", counter.getPeriod());
-
-		// if (counter.get() < 1)
-			// return 0;
-
-		// while (counter.get() < 1) {
-		// 	System.out.println("Lidar: waiting for distance measurement");
-		// }
-		/* getPeriod returns time in seconds. The hardware resolution is microseconds.
-		 * The LIDAR-Lite unit sends a high signal for 10 microseconds per cm of distance.
-		 */
+		// getPeriod returns time in seconds. The hardware resolution is microseconds.
+		// The LIDAR-Lite unit sends a high signal for 10 microseconds per cm of distance.
 		cm = (counter.getPeriod() * 1000000.0 / 10.0);
 		return cm;
 	}
 
 	/**
-	 * Converts getDistance() of cm to inches
+	 * Take a measurement and return the distance in inches
+     * 
 	 * @return Distance in inches
 	 */
 	public double getInches() {
-		return getDistance() / 2.54;
-    }
-    
-    /**
-     * Gets distance in Feet
-     * @return Distance in Feet
-     */
-    public double getFeet(){
-        return getInches() / 12;
+		return getDistCm() / 2.54;
     }
 }

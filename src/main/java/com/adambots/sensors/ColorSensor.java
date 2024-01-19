@@ -17,20 +17,15 @@ import com.revrobotics.ColorMatch;
 /**
  * Generic color sensor to hide actual implementation
  */
-public class ColorSensor extends BaseSensor {
+public class ColorSensor {
 
     private final static ColorSensorV3 colorSensor = new ColorSensorV3(RobotMap.I2C_PORT);
-
     private final static ColorMatch colorMatcher = new ColorMatch();
 
     public ColorSensor(){
-    
-        //Init Color Matcher code
+        //Add colors to the color matcher for comparion in matchClosestColor
         colorMatcher.addColorMatch(Color.kBlue);
-        // colorMatcher.addColorMatch(Constants.GREEN_TARGET);
         colorMatcher.addColorMatch(Color.kRed);
-        // colorMatcher.addColorMatch(Constants.YELLOW_TARGET);
-
     }
 
 	public Color getColor() {
@@ -38,7 +33,7 @@ public class ColorSensor extends BaseSensor {
 	}
 
 	public Color matchClosestColor(Color detectedColor) {
-        
+        //Returns the color that detectedColor is closest too, compared against the colors in the colorMatcher
 		return colorMatcher.matchClosestColor(detectedColor).color;
     }
 

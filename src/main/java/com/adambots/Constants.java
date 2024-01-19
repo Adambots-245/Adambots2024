@@ -110,12 +110,7 @@ public final class Constants {
     public static final class GamepadConstants {
         // deadzone
         public static final double kDeadZone = 0.15;
-
-        // Primary Driver Controller Port Number.
-        public static final int kPrimaryDriver = RobotMap.kPrimaryControllerPort;
-
-        // Secondary Driver Controller Port Number.
-        public static final int kSecondaryDriver = RobotMap.kSecondaryControllerPort;
+        
         /**
          * XBOX 360 South Face Button
          */

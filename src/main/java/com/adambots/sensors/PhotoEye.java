@@ -10,13 +10,15 @@ package com.adambots.sensors;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
- * Add your docs here.
+ * Generic PhotoEye sensor to hide actual implementation
  */
-public class PhotoEye extends BaseSensor {
+public class PhotoEye {
     private DigitalInput photoEye;
+
     public PhotoEye (int port){
         this.photoEye = new DigitalInput(port);
     }
+
     public boolean isDetecting(){
         return photoEye.get(); 
     }
@@ -25,14 +27,4 @@ public class PhotoEye extends BaseSensor {
     {
         return photoEye;
     }
-
-    // public static void main(String[] args) {
-    //     PhotoEye pe1 = new PhotoEye(6);
-    //     PhotoEye pe2 = new PhotoEye(7);
-
-    //     while (true){
-    //         System.out.println("PhotoEye1 Detecting: " + pe1.isDetecting());
-    //         System.out.println("PhotoEye2 Detecting: " + pe2.isDetecting());
-    //     }
-    // }
 }
