@@ -95,7 +95,7 @@ public class RobotContainer {
 
     Dash.add("odom x", () -> drivetrainSubsystem.getPose().getX());
     Dash.add("odom y", () -> drivetrainSubsystem.getPose().getY());
-    Dash.add("yaw", () -> RobotMap.gyro.getGyroYawDeg());
+    Dash.add("yaw", () -> RobotMap.gyro.getContinuousYawDeg());
     // Dash.add("pitch", () -> RobotMap.GyroSensor.getPitch());
     // Dash.add("roll", () -> RobotMap.GyroSensor.getRoll());
 

@@ -22,18 +22,30 @@ public class Gyro extends BaseSensor {
         this.gyro = new AHRS(Port.kMXP);
 
     }
+
     /**
-   * Returns the continuous (does not loop around past pi) value of the gyroscope in radians
-   * Ensure CCW is a positive value change
-   * @return Continous value of gyroscope in radians
-   */
-    public Rotation2d getGyroYaw () {
-        return new Rotation2d(Math.toRadians(getGyroYawDeg())); //COUNTERCLOCKWISE NEEDS TO BE POSITIVE
+     * Returns the continuous (Continues from 360-361) value of the gyroscope in radians
+     * Ensure CCW is a positive value change
+     * @return Continous value of gyroscope in radians
+     */
+    public Rotation2d getContinuousYawRad () {
+        return new Rotation2d(Math.toRadians(getContinuousYawDeg()));
     }
-    public double getGyroYawDeg () {
+
+    /**
+     * Returns the continuous (Continues from 360-361) value of the gyroscope in degrees
+     * Ensure CCW is a positive value change
+     * @return Continous value of gyroscope in degrees
+     */
+    public double getContinuousYawDeg () {
         return -gyro.getAngle()+180; //COUNTERCLOCKWISE NEEDS TO BE POSITIVE
-      }
+    }
+
     public void reset () {
         gyro.reset();
+    }
+
+    public void calibrate () {
+        gyro.calibrate();
     }
 }

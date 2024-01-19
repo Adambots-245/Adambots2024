@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
 
-    RobotMap.GyroSensor.calibrate(); // may take up to two seconds to complete
+    RobotMap.gyro.calibrate(); // may take up to two seconds to complete
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our autonomous chooser on the dashboard.
@@ -81,8 +81,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putString("auton selected", m_autonomousCommand.toString());
 
     System.out.println("Init Auton.........");
-    RobotMap.GyroSensor.reset();
-    System.out.println("Gyro Yaw at Startup: " + RobotMap.GyroSensor.getYaw());
+    RobotMap.gyro.reset();
+    System.out.println("Gyro Yaw at Startup: " + RobotMap.gyro.getContinuousYawDeg());
 
     // schedule the autonomous command
     if (m_autonomousCommand != null) {

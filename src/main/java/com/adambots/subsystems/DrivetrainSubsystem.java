@@ -40,7 +40,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     this.swerveModules = modules;
     m_gyro = gyro;
 
-    m_odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, m_gyro.getGyroYaw(), ModuleMap.orderedModulePositions(swerveModules));
+    m_odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, m_gyro.getContinuousYawRad(), ModuleMap.orderedModulePositions(swerveModules));
 
     AutoBuilder.configureHolonomic(
       this::getPose, // Robot pose supplier
@@ -64,7 +64,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     m_odometry.update(
-        m_gyro.getGyroYaw(),
+        m_gyro.getContinuousYawRad(),
         ModuleMap.orderedModulePositions(swerveModules)
     );
 
@@ -88,7 +88,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
-    m_odometry.resetPosition(m_gyro.getGyroYaw(), ModuleMap.orderedModulePositions(swerveModules), pose);
+    m_odometry.resetPosition(m_gyro.getContinuousYawRad(), ModuleMap.orderedModulePositions(swerveModules), pose);
   }
 
   /**
@@ -107,7 +107,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getGyroYaw())
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getContinuousYawRad())
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
 
