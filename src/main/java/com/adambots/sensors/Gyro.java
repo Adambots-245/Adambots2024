@@ -40,14 +40,16 @@ public class Gyro {
      * @return Continous value of gyroscope in degrees
      */
     public double getContinuousYawDeg () {
-        return -gyro.getAngle()+180; //COUNTERCLOCKWISE NEEDS TO BE POSITIVE
+        return -gyro.getAngle(); //COUNTERCLOCKWISE NEEDS TO BE POSITIVE
     }
 
     /**
      * Resets the yaw gyroscope
      */
     public void resetYaw () {
-        gyro.reset();
+        // gyro.reset();
+        gyro.zeroYaw();
+        // gyro.setAngleAdjustment(0.0);
     }
 
     /**

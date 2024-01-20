@@ -64,6 +64,7 @@ public class SwerveModule {
     m_driveMotor.setIdleMode(IdleMode.kBrake);
     m_driveMotor.setSmartCurrentLimit(32);
     m_driveMotor.enableVoltageCompensation(12.6);
+    m_driveMotor.setInverted(driveEncoderReversed);
 
     m_turningMotor = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);
     m_turningMotor.setIdleMode(IdleMode.kBrake);
@@ -75,6 +76,7 @@ public class SwerveModule {
     m_driveEncoder = m_driveMotor.getEncoder();
     
     // Dash.add("Cancoder: " + m_position.name(), () -> getCANcoderValue(m_absoluteEncoder));
+    Dash.add("Cancoder: " + m_position.name(), () -> m_driveEncoder.getVelocity());
 
     m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
     resetEncoders();
@@ -95,7 +97,7 @@ public class SwerveModule {
    * @return The current state of the module.
    */
   public SwerveModuleState getState() {
-    double speedMetersPerSecond = ModuleConstants.kDriveEncoderDistancePerPulse * m_driveEncoder.getVelocity(); //replace with  * ModuleConstants.kDriveEncoderScale?
+    double speedMetersPerSecond = m_driveEncoder.getVelocity()/6.75 * (Math.PI/30); //replace with  * ModuleConstants.kDriveEncoderScale?
     double turningRadians = getCANcoderValue(m_absoluteEncoder);
     return new SwerveModuleState(speedMetersPerSecond, new Rotation2d(turningRadians));
   }

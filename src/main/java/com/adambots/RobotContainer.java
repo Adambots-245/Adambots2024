@@ -116,9 +116,9 @@ public class RobotContainer {
     drivetrainSubsystem.setDefaultCommand(
         new RunCommand(
             () -> drivetrainSubsystem.drive(
-                Buttons.forwardSupplier.getAsDouble()*1.65,
-                Buttons.sidewaysSupplier.getAsDouble()*1.65,
-                Buttons.rotateSupplier.getAsDouble()*1.43,
+                -Buttons.forwardSupplier.getAsDouble()*1.65,
+                -Buttons.sidewaysSupplier.getAsDouble()*1.65,
+                -Buttons.rotateSupplier.getAsDouble()*1.43,
                 true),
             drivetrainSubsystem));
   }

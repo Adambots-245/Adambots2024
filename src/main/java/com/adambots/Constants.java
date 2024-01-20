@@ -35,10 +35,10 @@ public final class Constants {
         public static final boolean kFrontRightTurningEncoderReversed = true;
         public static final boolean kRearRightTurningEncoderReversed = false;
 
-        public static final boolean kFrontLeftDriveEncoderReversed = false;
-        public static final boolean kRearLeftDriveEncoderReversed = false;
-        public static final boolean kFrontRightDriveEncoderReversed = false;
-        public static final boolean kRearRightDriveEncoderReversed = false;
+        public static final boolean kFrontLeftDriveEncoderReversed = true;
+        public static final boolean kRearLeftDriveEncoderReversed = true;
+        public static final boolean kFrontRightDriveEncoderReversed = true;
+        public static final boolean kRearRightDriveEncoderReversed = true;
 
         // Distance between centers of right and left wheels on robot in meters
         public static final double kTrackWidth = 0.61;
@@ -70,7 +70,7 @@ public final class Constants {
 
     public static final class ModuleConstants {
         public static final int kEncoderCPR = 4096;
-        public static final double kWheelDiameterMeters = 0.15;
+        public static final double kWheelDiameterMeters = 0.047625;
         public static final double kDriveEncoderDistancePerPulse = (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR;
         // Assumes the encoders are directly mounted on the wheel shafts
             
@@ -87,8 +87,8 @@ public final class Constants {
     }
 
     public static final class AutoConstants {
-        public static final double kPTranslationController = 0.03; // PD values for auton X, Y translational movement
-        public static final double kDTranslationController = 0.03;
+        public static final double kPTranslationController = 2; // PD values for auton X, Y translational movement
+        public static final double kDTranslationController = 0;
 
         public static final double kPThetaController = 0; // PD values for auton rotational movement
         public static final double kDThetaController = 0;
