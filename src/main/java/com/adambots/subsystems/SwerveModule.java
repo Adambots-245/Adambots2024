@@ -6,6 +6,7 @@ package com.adambots.subsystems;
 
 import com.adambots.Constants.DriveConstants.ModulePosition;
 import com.adambots.utils.Dash;
+import com.adambots.Constants;
 import com.adambots.Constants.ModuleConstants;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -30,7 +31,7 @@ public class SwerveModule {
   private final RelativeEncoder m_driveEncoder;
 
   private final PIDController m_drivePIDController =
-      new PIDController(ModuleConstants.kPModuleDriveController, 0, 0);
+      new PIDController(ModuleConstants.kPModuleDriveController, 0, ModuleConstants.kDModuleDriveController);
 
   // Using a TrapezoidProfile PIDController to allow for smooth turning
   private final ProfiledPIDController m_turningPIDController =
@@ -76,7 +77,7 @@ public class SwerveModule {
     m_driveEncoder = m_driveMotor.getEncoder();
     
     // Dash.add("Cancoder: " + m_position.name(), () -> getCANcoderValue(m_absoluteEncoder));
-    Dash.add("Cancoder: " + m_position.name(), () -> m_driveEncoder.getVelocity());
+    Dash.add("Wheel Speed: " + m_position.name(), () -> m_driveEncoder.getVelocity()*ModuleConstants.kDriveEncoderDistancePerRPM);
 
     m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
     resetEncoders();
@@ -97,7 +98,7 @@ public class SwerveModule {
    * @return The current state of the module.
    */
   public SwerveModuleState getState() {
-    double speedMetersPerSecond = m_driveEncoder.getVelocity()/6.75 * (Math.PI/30); //replace with  * ModuleConstants.kDriveEncoderScale?
+    double speedMetersPerSecond = m_driveEncoder.getVelocity() * ModuleConstants.kDriveEncoderDistancePerRPM; //replace with  * ModuleConstants.kDriveEncoderScale?
     double turningRadians = getCANcoderValue(m_absoluteEncoder);
     return new SwerveModuleState(speedMetersPerSecond, new Rotation2d(turningRadians));
   }
@@ -107,7 +108,7 @@ public class SwerveModule {
    * @param desiredState Desired state with speed and angle.
    */
   public void setDesiredState(SwerveModuleState desiredState) {
-    double speedMetersPerSecond = ModuleConstants.kDriveEncoderDistancePerPulse * m_driveEncoder.getVelocity(); //TODO: Fix this complete lack of sensible units
+    double speedMetersPerSecond = ModuleConstants.kDriveEncoderDistancePerRPM * m_driveEncoder.getVelocity(); //TODO: Fix this complete lack of sensible units
     double turningRadians = getCANcoderValue(m_absoluteEncoder);
 
     // desiredState.speedMetersPerSecond *= desiredState.angle.minus(new Rotation2d(turningRadians)).getCos(); //TODO: Test this
@@ -116,10 +117,10 @@ public class SwerveModule {
     SwerveModuleState state = SwerveModuleState.optimize(desiredState, new Rotation2d(turningRadians));
 
     // Calculate the drive output from the drive PID controller.
-    final double driveOutput = m_drivePIDController.calculate(speedMetersPerSecond, state.speedMetersPerSecond);
+    double driveOutput = m_drivePIDController.calculate(speedMetersPerSecond, state.speedMetersPerSecond);
 
     // Calculate the turning motor output from the turning PID controller.
-    final double turnOutput = m_turningPIDController.calculate(turningRadians, state.angle.getRadians());
+    double turnOutput = m_turningPIDController.calculate(turningRadians, state.angle.getRadians());
 
     // Calculate the turning motor output from the turning PID controller.
 

@@ -65,13 +65,12 @@ public final class Constants {
             new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
             new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
 
-        public static final double kMaxSpeedMetersPerSecond = 99; //Used to desaturate module speeds - TODO: tune properly
+        public static final double kMaxSpeedMetersPerSecond = 4.6; //Used to desaturate module speeds
     }
 
     public static final class ModuleConstants {
-        public static final int kEncoderCPR = 4096;
-        public static final double kWheelDiameterMeters = 0.047625;
-        public static final double kDriveEncoderDistancePerPulse = (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR;
+        public static final double kWheelRadiusMeters = 0.047625;
+        public static final double kDriveEncoderDistancePerRPM =  (Math.PI/30) / 6.75 * Constants.ModuleConstants.kWheelRadiusMeters;
         // Assumes the encoders are directly mounted on the wheel shafts
             
         public static final double kDriveEncoderScale = 0.0470915; //Tuned value that corrosponds wheel encoders to real distance
@@ -83,17 +82,18 @@ public final class Constants {
         public static final double kMaxModuleAngularSpeedRadiansPerSecond = 16 * Math.PI; //Limits for wheel turning profiled PID
         public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 16 * Math.PI;
 
-        public static final double kPModuleDriveController = 1; //P 0 0 for drive controller of swerve module
+        public static final double kPModuleDriveController = 0.3; //P 0 0 for drive controller of swerve module
+         public static final double kDModuleDriveController = 0.016; //P 0 0 for drive controller of swerve module
     }
 
     public static final class AutoConstants {
-        public static final double kPTranslationController = 2; // PD values for auton X, Y translational movement
-        public static final double kDTranslationController = 0;
+        public static final double kPTranslationController = 8; // PD values for auton X, Y translational movement
+        public static final double kDTranslationController = 0.03;
 
         public static final double kPThetaController = 0; // PD values for auton rotational movement
         public static final double kDThetaController = 0;
 
-        public static final double kMaxModuleSpeedMetersPerSecond = 4.5; // Max speed of each swerve module, used for auton movement
+        public static final double kMaxModuleSpeedMetersPerSecond = 4.6; // Max speed of each swerve module, used for auton movement
         public static final double kDrivebaseRadius = 4.5; // Drive base radius in meters. Distance from robot center to furthest module.
     }
 
