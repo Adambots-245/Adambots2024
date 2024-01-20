@@ -90,8 +90,8 @@ public final class Constants {
         public static final double kPTranslationController = 8; // PD values for auton X, Y translational movement
         public static final double kDTranslationController = 0.03;
 
-        public static final double kPThetaController = 0; // PD values for auton rotational movement
-        public static final double kDThetaController = 0;
+        public static final double kPThetaController = 1.1; // PD values for auton rotational movement
+        public static final double kDThetaController = 0.01;
 
         public static final double kMaxModuleSpeedMetersPerSecond = 4.6; // Max speed of each swerve module, used for auton movement
         public static final double kDrivebaseRadius = 4.5; // Drive base radius in meters. Distance from robot center to furthest module.
