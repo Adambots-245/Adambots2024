@@ -6,9 +6,10 @@ package com.adambots.commands.autonCommands;
 
 import com.adambots.subsystems.HangSubsystem;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 
-public class DeployHang extends CommandBase {
+public class DeployHang extends Command {
+  
   HangSubsystem hangSubsystem;
   /** Creates a new DeployHang. */
   public DeployHang(HangSubsystem hangSubsystem) {
@@ -24,7 +25,9 @@ public class DeployHang extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    hangSubsystem.setLeftHangMotorSpeed(0.1);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
