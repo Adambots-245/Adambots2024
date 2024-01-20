@@ -13,8 +13,10 @@ import java.util.Map;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
 import com.adambots.subsystems.SwerveModule;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -27,8 +29,18 @@ public class RobotMap {
         public static final PowerDistribution PDM = new PowerDistribution(1, ModuleType.kCTRE);
 
         // PORTS Definition - This should be the only place to define all ports
-        public final static I2C.Port I2C_PORT = I2C.Port.kOnboard;        
+        public final static I2C.Port I2C_PORT = I2C.Port.kOnboard; 
 
+        //Hang Ports
+        public static final int leftHangMotorPort = 1;
+        public static final int rightHangMotorPort = 1;
+        public static final int leftHangLimitPort = 1;
+        public static final int rightHangLimitPort = 1;
+        //Hang Devices
+        public static final TalonFX leftHangMotor = new TalonFX(leftHangMotorPort);
+        public static final TalonFX rightHangMotor = new TalonFX(rightHangMotorPort);
+        public static final DigitalInput leftHangLimit = new DigitalInput(leftHangLimitPort);
+        public static final DigitalInput rightHangLimit = new DigitalInput(rightHangLimitPort);
         // CAN bus ports
         public static final int kRearLeftEncoderPort = 2;
         public static final int kRearRightEncoderPort = 3;
