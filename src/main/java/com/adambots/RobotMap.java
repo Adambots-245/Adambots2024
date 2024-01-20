@@ -12,8 +12,11 @@ import java.util.Map;
 
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
+import com.adambots.sensors.PhotoEye;
 import com.adambots.subsystems.SwerveModule;
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -28,6 +31,14 @@ public class RobotMap {
 
         // PORTS Definition - This should be the only place to define all ports
         public final static I2C.Port I2C_PORT = I2C.Port.kOnboard;        
+
+        //Intake Ports
+        public static final int groundIntakeMotorPort = 1;
+        public static final int pieceInRobotEyePort = 1;
+
+        //Intake Devices
+        public static final CANSparkMax groundIntakeMotor = new CANSparkMax(groundIntakeMotorPort, MotorType.kBrushless);
+        public static final PhotoEye pieceInRobotEye = new PhotoEye(pieceInRobotEyePort);
 
         // CAN bus ports
         public static final int kRearLeftEncoderPort = 2;
