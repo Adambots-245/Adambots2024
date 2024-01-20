@@ -35,6 +35,8 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
  private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(RobotMap.swerveModules, RobotMap.GyroSensor);
+ private final ArmSubsystem armSubsystem = new ArmSubsytem(RobotMap.shoulderMotor, RobotMap.wristMotor, RobotMap.shoulderEncoder, RobotMap.wristEncoder);
+ private final Shooter shooter = new Shooter(RobotMap.shooterWheel);
 
   //Creates a SmartDashboard element to allow drivers to select differnt autons
   private SendableChooser<Command> autoChooser = new SendableChooser<>();

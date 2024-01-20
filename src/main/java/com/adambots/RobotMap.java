@@ -29,6 +29,24 @@ public class RobotMap {
         // PORTS Definition - This should be the only place to define all ports
         public final static I2C.Port I2C_PORT = I2C.Port.kOnboard;        
 
+        // Arm Ports
+        public static final int shoulderMotorPort = 1;
+        public static final int wristMotorPort = 2;
+        public static final int shoulderEncoderPort = 3;
+        public static final int wristEncoderPort = 4;
+        
+        // Arm Devices
+        public static final TalonFX shoulderMotor = new TalonFX(shoulderMotorPort);
+        public static final TalonFX wristMotor = new TalonFX(wristMotorPort);
+        public static final CANCoder shoulderEncoder = new CANCoder(shoulderEncoderPort);
+        public static final CANCoder wristEncoder = new CANCoder(wristEncoderPort);
+
+        // Shooter Ports
+        public static final int shooterWheelPort = 1;
+
+        // Shooter Devices
+        public static final TalonFX shooterWheel = new TalonFX(shooterWheelPort);
+
         // CAN bus ports
         public static final int kRearLeftEncoderPort = 2;
         public static final int kRearRightEncoderPort = 3;
