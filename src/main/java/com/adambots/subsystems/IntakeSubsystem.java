@@ -4,66 +4,33 @@
 
 package com.adambots.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.adambots.Constants;
 import com.adambots.sensors.PhotoEye;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-  Talon groundIntakeMotor;
-  Talon middleConveyor;
-  Talon rotateIntakeMotor;
-  DigitalInput lowerIntakeLimit;
-  DigitalInput upperIntakeLimit;
-  PhotoEye pieceDetectionEye;
+  CANSparkMax groundIntakeMotor;
   PhotoEye pieceInRobotEye;
-
   double groundIntakeMotorSpeed = 0;
-  double middleConveyorSpeed = 0;
-  double rotateIntakeMotorSpeed = 0;
 
-  public IntakeSubsystem(Talon groundIntakeMotor, Talon middleConveyor, Talon rotateIntakeMotor, DigitalInput lowerIntakeLimit, DigitalInput upperIntakeLimit, PhotoEye pieceDetectionEye, PhotoEye pieceInRobotEye){
+  public IntakeSubsystem(CANSparkMax groundIntakeMotor, PhotoEye pieceInRobotEye){
     this.groundIntakeMotor = groundIntakeMotor;
-    this.middleConveyor = middleConveyor;
-    this.rotateIntakeMotor = rotateIntakeMotor;
-    this.lowerIntakeLimit = lowerIntakeLimit;
-    this.upperIntakeLimit = upperIntakeLimit;
-    this.pieceDetectionEye = pieceDetectionEye;
     this.pieceInRobotEye = pieceInRobotEye;
   }
 
   public void setGroundIntakeMotorSpeed(double newGroundIntakeMotorSpeed){
     groundIntakeMotorSpeed = newGroundIntakeMotorSpeed;
   }
-  
-  
-  public void setMiddleConveyorSpeed(double newMiddleConveyorSpeed){
-    middleConveyorSpeed = newMiddleConveyorSpeed;
-  }
-
-  public void setRotateIntakeMotorSpeed(double newRotateIntakeMotorSpeed){
-    rotateIntakeMotorSpeed = newRotateIntakeMotorSpeed;
-  }
 
   public boolean isPieceInRobot(){
     return pieceInRobotEye.isDetecting();
-  }
-
-  public boolean isPieceDetected(){
-    return pieceDetectionEye.isDetecting();
-  }
-
-  public boolean isIntakeUp(){
-    return upperIntakeLimit.get();
-  }
-
-  public boolean isIntakeDown(){
-    return lowerIntakeLimit.get();
   }
   
   /** Creates a new IntakeSubsystem. */
@@ -72,8 +39,12 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    middleConveyor.set(middleConveyorSpeed);
+
+    if(isPieceInRobot() == true){
+       setGroundIntakeMotorSpeed(0);
+        
+    }
     groundIntakeMotor.set(groundIntakeMotorSpeed);
-    rotateIntakeMotor.set(rotateIntakeMotorSpeed);
-  }
+  } 
 }
+
