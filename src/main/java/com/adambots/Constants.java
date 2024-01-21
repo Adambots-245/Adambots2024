@@ -30,12 +30,7 @@ public final class Constants {
 
     public static final class DriveConstants {
 
-        public static final boolean kFrontLeftTurningEncoderReversed = true;
-        public static final boolean kRearLeftTurningEncoderReversed = false;
-        public static final boolean kFrontRightTurningEncoderReversed = true;
-        public static final boolean kRearRightTurningEncoderReversed = false;
-
-        public static final boolean kFrontLeftDriveEncoderReversed = true;
+        public static final boolean kFrontLeftDriveEncoderReversed = true; //All modules are reversed so that robot movement matches odometry movement
         public static final boolean kRearLeftDriveEncoderReversed = true;
         public static final boolean kFrontRightDriveEncoderReversed = true;
         public static final boolean kRearRightDriveEncoderReversed = true;
@@ -65,25 +60,27 @@ public final class Constants {
             new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
             new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
 
-        public static final double kMaxSpeedMetersPerSecond = 4.6; //Used to desaturate module speeds
+        public static final double kMaxSpeedMetersPerSecond = 4.6; //Max speed of the robot in m/s, used in teleop and auton (should be set to real world value)
+        public static final double kTeleopRotationalSpeed = 10; //Rotational speed factor of the robot to be used for the teleop drive command
     }
 
     public static final class ModuleConstants {
         public static final double kWheelRadiusMeters = 0.047625;
-        public static final double kDriveEncoderDistancePerRPM =  (Math.PI/30) / 6.75 * Constants.ModuleConstants.kWheelRadiusMeters;
-        // Assumes the encoders are directly mounted on the wheel shafts
+        public static final double kSwerveModuleFinalGearRatio = 6.75;
+        public static final double kDriveEncoderDistancePerRPM =  (Math.PI/30) / kSwerveModuleFinalGearRatio * Constants.ModuleConstants.kWheelRadiusMeters;
+        // Convert drive motor rpm to linear wheel speed          RPM to rad/s    Motor rad/s to Wheel rad/s            Wheel rad/s to linear m/s 
             
         public static final double kDriveEncoderScale = 0.0470915; //Tuned value that corrosponds wheel encoders to real distance
 
-        public static final double kPModuleTurningController = 1.1; //PID Values for angular wheel rotation THESE WERE NEGATIVE?
+        public static final double kPModuleDriveController = 0.3; //PID Values for drive motors
+        public static final double kDModuleDriveController = 0.016;
+
+        public static final double kPModuleTurningController = 1.1; //PID Values for turning motors (not drive motors)
         public static final double kIModuleTurningController = 0;
-        public static final double kDModuleTurningController = 0.01; //0.02
+        public static final double kDModuleTurningController = 0.01;
 
         public static final double kMaxModuleAngularSpeedRadiansPerSecond = 16 * Math.PI; //Limits for wheel turning profiled PID
         public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 16 * Math.PI;
-
-        public static final double kPModuleDriveController = 0.3; //P 0 0 for drive controller of swerve module
-         public static final double kDModuleDriveController = 0.016; //P 0 0 for drive controller of swerve module
     }
 
     public static final class AutoConstants {
@@ -93,7 +90,6 @@ public final class Constants {
         public static final double kPThetaController = 1.1; // PD values for auton rotational movement
         public static final double kDThetaController = 0.01;
 
-        public static final double kMaxModuleSpeedMetersPerSecond = 4.6; // Max speed of each swerve module, used for auton movement
         public static final double kDrivebaseRadius = 4.5; // Drive base radius in meters. Distance from robot center to furthest module.
     }
 

@@ -8,6 +8,7 @@
 
 package com.adambots;
 
+import com.adambots.Constants.DriveConstants;
 import com.adambots.Gamepad.Buttons;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.Dash;
@@ -116,9 +117,9 @@ public class RobotContainer {
     drivetrainSubsystem.setDefaultCommand(
         new RunCommand(
             () -> drivetrainSubsystem.drive(
-                -Buttons.forwardSupplier.getAsDouble()*4.6,
-                -Buttons.sidewaysSupplier.getAsDouble()*4.6,
-                -Buttons.rotateSupplier.getAsDouble()*10,
+                -Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond,
+                -Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond,
+                -Buttons.rotateSupplier.getAsDouble()*DriveConstants.kTeleopRotationalSpeed,
                 true),
             drivetrainSubsystem));
   }

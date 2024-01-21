@@ -15,16 +15,11 @@ import com.adambots.Constants.DriveConstants.ModulePosition;
 import com.adambots.sensors.Gyro;
 import com.adambots.subsystems.SwerveModule;
 
-import edu.wpi.first.wpilibj.I2C;
-
 /**
  * Define all the devices here
  */
 public class RobotMap {
     // PORTS Definition - This should be the only place to define all ports
-    public final static I2C.Port I2C_PORT = I2C.Port.kOnboard;        
-
-    // CAN bus ports
     public static final int kRearLeftEncoderPort = 2;
     public static final int kRearRightEncoderPort = 3;
     public static final int kFrontLeftEncoderPort = 4;
@@ -41,7 +36,7 @@ public class RobotMap {
     // Operator Interface (Joystick and XBoxControllers)
     public static final int kJoystickControllerPort = 0;
     public static final int kPrimaryControllerPort = 0; // XBOX Controller - overlaps with joystick so you can use an xbox controller instead of joystick
-    public static final int kSecondaryControllerPort = 1; // XBOX Controller
+    public static final int kSecondaryControllerPort = 1; // XBOX Controller for secondary driver
 
     // Robot Devices and Sensors
     public static final Gyro gyro = new Gyro();
@@ -55,32 +50,28 @@ public class RobotMap {
                     RobotMap.kFrontLeftDriveMotorPort,
                     RobotMap.kFrontLeftTurningMotorPort,
                     RobotMap.kFrontLeftEncoderPort,
-                    DriveConstants.kFrontLeftDriveEncoderReversed,
-                    DriveConstants.kFrontLeftTurningEncoderReversed),
+                    DriveConstants.kFrontLeftDriveEncoderReversed),
             ModulePosition.FRONT_RIGHT,
             new SwerveModule(
                     ModulePosition.FRONT_RIGHT,
                     RobotMap.kFrontRightDriveMotorPort,
                     RobotMap.kFrontRightTurningMotorPort,
                     RobotMap.kFrontRightEncoderPort,
-                    DriveConstants.kFrontRightDriveEncoderReversed,
-                    DriveConstants.kFrontRightTurningEncoderReversed),
+                    DriveConstants.kFrontRightDriveEncoderReversed),
             ModulePosition.REAR_LEFT,
             new SwerveModule(
                     ModulePosition.REAR_LEFT,
                     RobotMap.kRearLeftDriveMotorPort,
                     RobotMap.kRearLeftTurningMotorPort,
                     RobotMap.kRearLeftEncoderPort,
-                    DriveConstants.kRearLeftDriveEncoderReversed,
-                    DriveConstants.kRearLeftTurningEncoderReversed),
+                    DriveConstants.kRearLeftDriveEncoderReversed),
             ModulePosition.REAR_RIGHT,
             new SwerveModule(
                     ModulePosition.REAR_RIGHT,
                     RobotMap.kRearRightDriveMotorPort,
                     RobotMap.kRearRightTurningMotorPort,
                     RobotMap.kRearRightEncoderPort,
-                    DriveConstants.kRearRightDriveEncoderReversed,
-                    DriveConstants.kRearRightTurningEncoderReversed)       
+                    DriveConstants.kRearRightDriveEncoderReversed)       
         )
     );
 }

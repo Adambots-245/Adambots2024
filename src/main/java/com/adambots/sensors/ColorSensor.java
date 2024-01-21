@@ -9,9 +9,9 @@ package com.adambots.sensors;
 
 import com.revrobotics.ColorSensorV3;
 
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 
-import com.adambots.RobotMap;
 import com.revrobotics.ColorMatch;
 
 /**
@@ -19,7 +19,7 @@ import com.revrobotics.ColorMatch;
  */
 public class ColorSensor {
 
-    private final static ColorSensorV3 colorSensor = new ColorSensorV3(RobotMap.I2C_PORT);
+    private final static ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
     private final static ColorMatch colorMatcher = new ColorMatch();
 
     public ColorSensor(){

@@ -48,7 +48,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
       new HolonomicPathFollowerConfig(
           new PIDConstants(AutoConstants.kPTranslationController, 0, AutoConstants.kDTranslationController), 
           new PIDConstants(AutoConstants.kPThetaController, 0, AutoConstants.kDThetaController),
-          AutoConstants.kMaxModuleSpeedMetersPerSecond, // Max module speed, in m/s
+          DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
           AutoConstants.kDrivebaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
           new ReplanningConfig() // Default path replanning config. See the API for the options here
       ), 
@@ -86,9 +86,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
-    // m_odometry.resetPosition(m_gyro.getContinuousYawRad(), ModuleMap.orderedModulePositions(swerveModules), pose);
-        m_odometry.resetPosition(m_gyro.getContinuousYawRad(), ModuleMap.orderedModulePositions(swerveModules), pose);
-
+    m_odometry.resetPosition(m_gyro.getContinuousYawRad(), ModuleMap.orderedModulePositions(swerveModules), pose);
   }
 
   /**
@@ -105,13 +103,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
    *          field.
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-    var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
-        fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getContinuousYawRad())
-            : new ChassisSpeeds(xSpeed, ySpeed, rot));
-    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
-
-    ModuleMap.setDesiredState(swerveModules, swerveModuleStates);
+    if (fieldRelative) {
+      setChassisSpeeds(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getContinuousYawRad()));
+    } else {
+      setChassisSpeeds(new ChassisSpeeds(xSpeed, ySpeed, rot));
+    }
   }
 
   /**
@@ -150,6 +146,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * Stops the drivetrain
    */
   public void stop() {
-    drive(0, 0, 0, false);
+    setChassisSpeeds(new ChassisSpeeds(0, 0, 0));
   }
 }

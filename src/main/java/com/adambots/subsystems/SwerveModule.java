@@ -54,10 +54,9 @@ public class SwerveModule {
    * @param driveEncoderChannels The channels of the drive encoder.
    * @param turningEncoderChannels The channels of the turning encoder.
    * @param driveEncoderReversed Whether the drive encoder is reversed.
-   * @param turningEncoderReversed Whether the turning encoder is reversed.
    */
   public SwerveModule(ModulePosition position, int driveMotorChannel, int turningMotorChannel, int turningEncoderChannel,
-      boolean driveEncoderReversed, boolean turningEncoderReversed) {
+      boolean driveEncoderReversed) {
     
     this.m_position = position; // Use position.name() to get the name of the position as a String
 

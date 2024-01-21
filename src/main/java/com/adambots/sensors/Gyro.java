@@ -49,13 +49,12 @@ public class Gyro {
     public void resetYaw () {
         // gyro.reset();
         gyro.zeroYaw();
-        // gyro.setAngleAdjustment(0.0);
     }
 
     /**
-     * Resets the yaw of the gyroscope to the user specified value in degrees
+     * Resets the yaw of the gyroscope to the user specified value in degrees (UNTESTED)
      */
-    public void resetYawToAngle (double offsetDeg) {
+    public void resetYawToAngle (double offsetDeg) { //TODO: Test this
         gyro.reset();
         gyro.setAngleAdjustment(offsetDeg);
     }
