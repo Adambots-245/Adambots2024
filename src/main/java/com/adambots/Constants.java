@@ -30,10 +30,10 @@ public final class Constants {
 
     public static final class DriveConstants {
 
-        public static final boolean kFrontLeftDriveEncoderReversed = true; //All modules are reversed so that robot movement matches odometry movement
-        public static final boolean kRearLeftDriveEncoderReversed = true;
-        public static final boolean kFrontRightDriveEncoderReversed = true;
-        public static final boolean kRearRightDriveEncoderReversed = true;
+        public static final boolean kFrontLeftDriveMotorReversed = true; //All modules are reversed so that robot movement matches odometry movement
+        public static final boolean kRearLeftDriveMotorReversed = true;
+        public static final boolean kFrontRightDriveMotorReversed = true;
+        public static final boolean kRearRightDriveMotorReversed = true;
 
         // Distance between centers of right and left wheels on robot in meters
         public static final double kTrackWidth = 0.61;

@@ -53,10 +53,9 @@ public class SwerveModule {
    * @param turningMotorChannel The channel of the turning motor.
    * @param driveEncoderChannels The channels of the drive encoder.
    * @param turningEncoderChannels The channels of the turning encoder.
-   * @param driveEncoderReversed Whether the drive encoder is reversed.
+   * @param driveMotorReversed Whether the drive motor is reversed.
    */
-  public SwerveModule(ModulePosition position, int driveMotorChannel, int turningMotorChannel, int turningEncoderChannel,
-      boolean driveEncoderReversed) {
+  public SwerveModule(ModulePosition position, int driveMotorChannel, int turningMotorChannel, int turningEncoderChannel, boolean driveMotorReversed) {
     
     this.m_position = position; // Use position.name() to get the name of the position as a String
 
@@ -64,7 +63,7 @@ public class SwerveModule {
     m_driveMotor.setIdleMode(IdleMode.kBrake);
     m_driveMotor.setSmartCurrentLimit(32);
     m_driveMotor.enableVoltageCompensation(12.6);
-    m_driveMotor.setInverted(driveEncoderReversed);
+    m_driveMotor.setInverted(driveMotorReversed);
 
     m_turningMotor = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);
     m_turningMotor.setIdleMode(IdleMode.kBrake);
@@ -97,7 +96,7 @@ public class SwerveModule {
    * @return The current state of the module.
    */
   public SwerveModuleState getState() {
-    double speedMetersPerSecond = m_driveEncoder.getVelocity() * ModuleConstants.kDriveEncoderDistancePerRPM; //replace with  * ModuleConstants.kDriveEncoderScale?
+    double speedMetersPerSecond = m_driveEncoder.getVelocity() * ModuleConstants.kDriveEncoderDistancePerRPM;
     double turningRadians = getCANcoderValue(m_absoluteEncoder);
     return new SwerveModuleState(speedMetersPerSecond, new Rotation2d(turningRadians));
   }
@@ -107,7 +106,7 @@ public class SwerveModule {
    * @param desiredState Desired state with speed and angle.
    */
   public void setDesiredState(SwerveModuleState desiredState) {
-    double speedMetersPerSecond = ModuleConstants.kDriveEncoderDistancePerRPM * m_driveEncoder.getVelocity(); //TODO: Fix this complete lack of sensible units
+    double speedMetersPerSecond = ModuleConstants.kDriveEncoderDistancePerRPM * m_driveEncoder.getVelocity();
     double turningRadians = getCANcoderValue(m_absoluteEncoder);
 
     // desiredState.speedMetersPerSecond *= desiredState.angle.minus(new Rotation2d(turningRadians)).getCos(); //TODO: Test this

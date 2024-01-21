@@ -50,28 +50,28 @@ public class RobotMap {
                     RobotMap.kFrontLeftDriveMotorPort,
                     RobotMap.kFrontLeftTurningMotorPort,
                     RobotMap.kFrontLeftEncoderPort,
-                    DriveConstants.kFrontLeftDriveEncoderReversed),
+                    DriveConstants.kFrontLeftDriveMotorReversed),
             ModulePosition.FRONT_RIGHT,
             new SwerveModule(
                     ModulePosition.FRONT_RIGHT,
                     RobotMap.kFrontRightDriveMotorPort,
                     RobotMap.kFrontRightTurningMotorPort,
                     RobotMap.kFrontRightEncoderPort,
-                    DriveConstants.kFrontRightDriveEncoderReversed),
+                    DriveConstants.kFrontRightDriveMotorReversed),
             ModulePosition.REAR_LEFT,
             new SwerveModule(
                     ModulePosition.REAR_LEFT,
                     RobotMap.kRearLeftDriveMotorPort,
                     RobotMap.kRearLeftTurningMotorPort,
                     RobotMap.kRearLeftEncoderPort,
-                    DriveConstants.kRearLeftDriveEncoderReversed),
+                    DriveConstants.kRearLeftDriveMotorReversed),
             ModulePosition.REAR_RIGHT,
             new SwerveModule(
                     ModulePosition.REAR_RIGHT,
                     RobotMap.kRearRightDriveMotorPort,
                     RobotMap.kRearRightTurningMotorPort,
                     RobotMap.kRearRightEncoderPort,
-                    DriveConstants.kRearRightDriveEncoderReversed)       
+                    DriveConstants.kRearRightDriveMotorReversed)       
         )
     );
 }
