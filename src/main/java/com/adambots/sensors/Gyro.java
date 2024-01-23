@@ -26,6 +26,7 @@ public class Gyro {
 
     /**
      * Returns the continuous (Continues from 360-361) value of the gyroscope in radians
+     * <p>
      * Ensure CCW is a positive value change
      * @return Continous value of gyroscope in radians
      */
@@ -36,6 +37,7 @@ public class Gyro {
 
     /**
      * Returns the continuous (Continues from 360-361) value of the gyroscope in degrees
+     * <p>
      * Ensure CCW is a positive value change
      * @return Continous value of gyroscope in degrees
      */
@@ -44,10 +46,9 @@ public class Gyro {
     }
 
     /**
-     * Resets the yaw gyroscope
+     * Zeros gyroscope yaw
      */
     public void resetYaw () {
-        // gyro.reset();
         gyro.zeroYaw();
     }
 
@@ -55,8 +56,8 @@ public class Gyro {
      * Resets the yaw of the gyroscope to the user specified value in degrees (UNTESTED)
      */
     public void resetYawToAngle (double offsetDeg) { //TODO: Test this
-        gyro.reset();
-        gyro.setAngleAdjustment(offsetDeg);
+        gyro.zeroYaw();
+        gyro.setAngleAdjustment(gyro.getAngleAdjustment()-offsetDeg);
     }
 
     /**
@@ -76,6 +77,7 @@ public class Gyro {
     
     /**
      * Calibrates the gyroscope
+     * <p>
      * Should only be performed on initialization - may take up to 2 seconds to complete
      */
     public void calibrate () {

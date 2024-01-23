@@ -65,6 +65,8 @@ public class RobotContainer {
    */
   
   private void configureButtonBindings() {
+    Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
+
     //Debugging and Testing
     // Buttons.JoystickButton4.onTrue(armCommands.humanStationConeCommand());
     // Buttons.JoystickButton11.onTrue(Commands.deadline(new WaitCommand(1.5), autonCommands.driveTillBumpedCommand()));
@@ -73,8 +75,6 @@ public class RobotContainer {
 
     // Buttons.JoystickButton16.onTrue(new TestAutoBalanceCommand(drivetrainSubsystem, RobotMap.GyroSensor, grabbyLifterSubsystem).andThen(new HockeyStopCommand(drivetrainSubsystem)));
     // Buttons.JoystickButton16.onTrue(new AutoBalanceCommand(drivetrainSubsystem, RobotMap.GyroSensor, grabbyLifterSubsystem));
-
-    Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
   }
 
   private void registerNamedCommands() {
