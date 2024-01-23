@@ -20,16 +20,20 @@ import com.adambots.subsystems.SwerveModule;
  */
 public class RobotMap {
     // PORTS Definition - This should be the only place to define all ports
-    public static final int kRearLeftEncoderPort = 2;
-    public static final int kRearRightEncoderPort = 3;
-    public static final int kFrontLeftEncoderPort = 4;
-    public static final int kFrontRightEncoderPort = 5;
+    public static final int kRearLeftTurningEncoderPort = 2;
+    public static final int kRearRightTurningEncoderPort = 3;
+    public static final int kFrontLeftTurningEncoderPort = 4;
+    public static final int kFrontRightTurningEncoderPort = 5;
+
     public static final int kFrontRightTurningMotorPort = 13;
     public static final int kFrontRightDriveMotorPort = 11;
+
     public static final int kRearRightTurningMotorPort = 18;
     public static final int kRearRightDriveMotorPort = 16;
+
     public static final int kRearLeftTurningMotorPort = 14;
     public static final int kRearLeftDriveMotorPort = 12;
+    
     public static final int kFrontLeftTurningMotorPort = 15;
     public static final int kFrontLeftDriveMotorPort = 17;        
 
@@ -49,28 +53,28 @@ public class RobotMap {
                     ModulePosition.FRONT_LEFT,
                     RobotMap.kFrontLeftDriveMotorPort,
                     RobotMap.kFrontLeftTurningMotorPort,
-                    RobotMap.kFrontLeftEncoderPort,
+                    RobotMap.kFrontLeftTurningEncoderPort,
                     DriveConstants.kFrontLeftDriveMotorReversed),
             ModulePosition.FRONT_RIGHT,
             new SwerveModule(
                     ModulePosition.FRONT_RIGHT,
                     RobotMap.kFrontRightDriveMotorPort,
                     RobotMap.kFrontRightTurningMotorPort,
-                    RobotMap.kFrontRightEncoderPort,
+                    RobotMap.kFrontRightTurningEncoderPort,
                     DriveConstants.kFrontRightDriveMotorReversed),
             ModulePosition.REAR_LEFT,
             new SwerveModule(
                     ModulePosition.REAR_LEFT,
                     RobotMap.kRearLeftDriveMotorPort,
                     RobotMap.kRearLeftTurningMotorPort,
-                    RobotMap.kRearLeftEncoderPort,
+                    RobotMap.kRearLeftTurningEncoderPort,
                     DriveConstants.kRearLeftDriveMotorReversed),
             ModulePosition.REAR_RIGHT,
             new SwerveModule(
                     ModulePosition.REAR_RIGHT,
                     RobotMap.kRearRightDriveMotorPort,
                     RobotMap.kRearRightTurningMotorPort,
-                    RobotMap.kRearRightEncoderPort,
+                    RobotMap.kRearRightTurningEncoderPort,
                     DriveConstants.kRearRightDriveMotorReversed)       
         )
     );

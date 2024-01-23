@@ -16,7 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 /**
- * Contains functions to convert {@link Map}s with {@link ModulePosition} keys
+ * Contains functions to convert a {@link Map} with {@link ModulePosition} keys
  * to and from arrays so
  * that it's easier to use WPILib swerve functions.
  */

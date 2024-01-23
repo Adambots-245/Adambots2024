@@ -13,12 +13,7 @@ import com.adambots.Constants;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
-/** Dashboard utility to add values to Shuffleboard and automatically update.
- * 
- * Dash.add("Speed", () -> {
- *  return speed;
- * });
- */
+/** Dashboard utility to add values to Shuffleboard and automatically update. */
 public class Dash {
     private static ShuffleboardTab debugTab = Shuffleboard.getTab(Constants.kDefaultShuffleboardTab);
 
