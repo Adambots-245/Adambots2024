@@ -38,7 +38,7 @@ public final class Constants {
         // Distance between front and back wheels on robot in meters
         public static final double kWheelBase = 0.61;
         // Drive base radius in meters. Distance from robot center to furthest module, hypotenuse of kTrackWidth/2 and kWheelBase/2
-        public static final double kDrivebaseRadius = Math.sqrt(Math.pow(kTrackWidth/2, 2) + Math.pow(kWheelBase/2, 2)); 
+        public static final double kDrivebaseRadius = Math.hypot(kTrackWidth/2, kWheelBase/2);
 
         public enum ModulePosition {
             FRONT_LEFT,
