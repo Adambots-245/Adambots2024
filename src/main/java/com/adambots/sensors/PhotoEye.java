@@ -14,12 +14,17 @@ import edu.wpi.first.wpilibj.DigitalInput;
  */
 public class PhotoEye {
     private DigitalInput photoEye;
+    private Boolean inverted;
 
-    public PhotoEye (int port){
+    public PhotoEye (int port, boolean inverted){
         this.photoEye = new DigitalInput(port);
+        this.inverted = inverted;
     }
 
     public boolean isDetecting(){
+        if (inverted) {
+            return photoEye.get(); 
+        }
         return photoEye.get(); 
     }
 

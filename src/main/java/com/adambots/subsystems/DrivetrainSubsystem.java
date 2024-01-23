@@ -49,13 +49,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
           new PIDConstants(AutoConstants.kPTranslationController, 0, AutoConstants.kDTranslationController), 
           new PIDConstants(AutoConstants.kPThetaController, 0, AutoConstants.kDThetaController),
           DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
-          AutoConstants.kDrivebaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
+          DriveConstants.kDrivebaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
           new ReplanningConfig() // Default path replanning config. See the API for the options here
       ), 
       () -> false, //TODO: CREATE PATH FLIP SUPPLIER
       this // Reference to this subsystem to set requirements
-  );
-
+    );
   }
 
   @Override

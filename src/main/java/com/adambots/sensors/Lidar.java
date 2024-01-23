@@ -49,7 +49,7 @@ public class Lidar {
      * 
 	 * @return Distance in inches
 	 */
-	public double getInches() {
+	public double getDistInches() {
 		return getDistCm() / 2.54;
     }
 }

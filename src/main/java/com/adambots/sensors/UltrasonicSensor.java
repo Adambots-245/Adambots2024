@@ -44,6 +44,6 @@ public class UltrasonicSensor {
     
     /** Returns the distance measured in feet.  */
     public double getFeet(){
-        return this.getInches() / 12.0;
+        return getInches() / 12.0;
     }
 }
