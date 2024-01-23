@@ -12,7 +12,6 @@ Select one of the Cancoders that are aligned and then in the Config, make the fo
 
 - Set the Sensor Initialization Strategy to BootToAbsolute
 - Set the Magnet Offset to 0
-- Set the Unit String to deg
 
 Now, save the results and switch to Self-Snapshot tab. Here, run a self-snapshot and record the "Absolute" position.
 

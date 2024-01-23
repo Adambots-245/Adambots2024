@@ -42,7 +42,18 @@ public class ModuleMap {
     return (SwerveModulePosition[]) list.toArray(new SwerveModulePosition[0]);
   }
 
-  
+  /**
+   * Sets desired states of the swerve modules using an {@code Array} in the same order as in
+   * the {@link ModulePosition} enum. This avoids any error in the order of the motors and
+   * modules.
+   * <p>
+   * Useful when setting module states given an array of states
+   *
+   * @param swerveModules
+   * The {@code HashMap} of the swerve modules that are to be set
+   * @param swerveModuleStates
+   * The {@code Array} of SwerveModuleStates to be applied to the swerve modules
+   */
   public static void setDesiredState(HashMap<ModulePosition, SwerveModule> swerveModules, SwerveModuleState[] swerveModuleStates) {
     int idx = 0;
 
@@ -51,7 +62,15 @@ public class ModuleMap {
     }
   }
 
-  
+  /**
+   * Gets the current states of a {@code HashMap} of swerve modules as an {@code Array} in the same order as in
+   * the {@link ModulePosition} enum. This avoids any error in the order of the motors and
+   * modules.
+   *
+   * @param swerveModules
+   * The {@code HashMap} of the swerve modules to get the states of
+   * @return The current SwerveModuleStates as an {@code Array} 
+   */
   public static SwerveModuleState[] getModuleStates(HashMap<ModulePosition, SwerveModule> swerveModules) {
     SwerveModuleState[] arr = new SwerveModuleState[4];
     int idx = 0;
