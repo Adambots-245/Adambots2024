@@ -35,7 +35,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
- private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(RobotMap.swerveModules, RobotMap.gyro);
+  private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(RobotMap.swerveModules, RobotMap.gyro);
 
   //Creates a SmartDashboard element to allow drivers to select differnt autons
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
