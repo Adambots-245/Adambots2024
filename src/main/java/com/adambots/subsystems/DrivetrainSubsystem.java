@@ -115,10 +115,18 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * @param chassisSpeeds The desired ChassisSpeeds of the robot
    */
   public void setChassisSpeeds(ChassisSpeeds chassisSpeeds) {
-    var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
+    setModuleStates(DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds));
+  }
 
-    ModuleMap.setDesiredState(swerveModules, swerveModuleStates);
+  /**
+   * Desaturates and sets the swerve module states.
+   *
+   * @param desiredStates The desired swerve module states.
+   */
+  public void setModuleStates(SwerveModuleState[] desiredStates) {
+    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kMaxSpeedMetersPerSecond);
+
+    ModuleMap.setDesiredState(swerveModules, desiredStates);
   }
 
   /**
@@ -128,17 +136,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
    */
   public ChassisSpeeds getChassisSpeeds() {
     return DriveConstants.kDriveKinematics.toChassisSpeeds(ModuleMap.getModuleStates(swerveModules));
-  }
-
-  /**
-   * Sets the swerve ModuleStates.
-   *
-   * @param desiredStates The desired SwerveModule states.
-   */
-  public void setModuleStates(SwerveModuleState[] desiredStates) {
-    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kMaxSpeedMetersPerSecond);
-
-    ModuleMap.setDesiredState(swerveModules, desiredStates);
   }
 
   /**
