@@ -124,7 +124,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * @param desiredStates The desired swerve module states.
    */
   public void setModuleStates(SwerveModuleState[] desiredStates) {
-    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kMaxSpeedMetersPerSecond);
+    // SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kMaxSpeedMetersPerSecond);
 
     ModuleMap.setDesiredState(swerveModules, desiredStates);
   }

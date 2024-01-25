@@ -78,7 +78,7 @@ public class SwerveModule {
    * @return The current state of the module.
    */
   public SwerveModuleState getState() {
-    double speedMetersPerSecond = m_driveEncoder.getVelocity();
+    double speedMetersPerSecond = m_driveEncoder.getVelocity()*ModuleConstants.kDriveEncoderVelocityConversionFactor;
     Rotation2d turnAngleRadians = m_turningEncoder.getAbsolutePositionRotation2D();
 
     return new SwerveModuleState(speedMetersPerSecond, turnAngleRadians);
@@ -101,7 +101,7 @@ public class SwerveModule {
    * @param desiredState Desired state with speed and angle.
    */
   public void setDesiredState(SwerveModuleState desiredState) {
-    double speedMetersPerSecond = m_driveEncoder.getVelocity();
+    double speedMetersPerSecond = m_driveEncoder.getVelocity()*ModuleConstants.kDriveEncoderVelocityConversionFactor;
     double turnAngleRadians = m_turningEncoder.getAbsolutePositionRadians();
 
     // desiredState.speedMetersPerSecond *= desiredState.angle.minus(new Rotation2d(turnAngleRadians)).getCos(); //TODO: Test this

@@ -83,7 +83,6 @@ public class Robot extends TimedRobot {
     RobotMap.gyro.resetYaw();
     System.out.println("Gyro Yaw at Startup: " + RobotMap.gyro.getContinuousYawDeg());
 
-
     // schedule the autonomous command
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
