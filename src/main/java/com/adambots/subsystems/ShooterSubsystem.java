@@ -4,16 +4,18 @@
 
 package com.adambots.subsystems;
 
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Shooter extends SubsystemBase {
+public class ShooterSubsystem extends SubsystemBase {
   
   TalonFX shooterWheel;
   
 
   double wheelSpeed = 0;
 
-  public Shooter(TalonFX shooterWheel) {
+  public ShooterSubsystem(TalonFX shooterWheel) {
     this.shooterWheel = shooterWheel;
   }
 

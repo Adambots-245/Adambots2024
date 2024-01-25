@@ -13,6 +13,8 @@ import java.util.Map;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
 import com.adambots.subsystems.SwerveModule;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.I2C;
@@ -38,8 +40,8 @@ public class RobotMap {
         // Arm Devices
         public static final TalonFX shoulderMotor = new TalonFX(shoulderMotorPort);
         public static final TalonFX wristMotor = new TalonFX(wristMotorPort);
-        public static final CANCoder shoulderEncoder = new CANCoder(shoulderEncoderPort);
-        public static final CANCoder wristEncoder = new CANCoder(wristEncoderPort);
+        public static final CANcoder shoulderEncoder = new CANcoder(shoulderEncoderPort);
+        public static final CANcoder wristEncoder = new CANcoder(wristEncoderPort);
 
         // Shooter Ports
         public static final int shooterWheelPort = 1;
