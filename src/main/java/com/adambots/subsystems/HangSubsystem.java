@@ -19,6 +19,8 @@ public class HangSubsystem extends SubsystemBase {
   DigitalInput leftHangLimit;
   DigitalInput rightHangLimit;
 
+  // Add Single Solenoid, will be attached to RelayPort, need to look at previous years code to know how to point to Relay port
+
   public HangSubsystem(TalonFX leftHangMotor, TalonFX rightHangMotor, DigitalInput leftHangLimit, DigitalInput rightHangLimit) {
     this.leftHangMotor = leftHangMotor;
     this.rightHangMotor = rightHangMotor;

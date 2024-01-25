@@ -42,7 +42,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     if(isPieceInRobot() == true){
        setGroundIntakeMotorSpeed(0);
-        
+
     }
     groundIntakeMotor.set(groundIntakeMotorSpeed);
   } 
