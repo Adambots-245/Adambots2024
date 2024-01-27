@@ -107,13 +107,13 @@ public class SwerveModule {
     // desiredState.speedMetersPerSecond *= desiredState.angle.minus(new Rotation2d(turnAngleRadians)).getCos(); //TODO: Test this
 
     // Optimize the reference state to avoid spinning further than 90 degrees
-    SwerveModuleState state = SwerveModuleState.optimize(desiredState, new Rotation2d(turnAngleRadians));
+    desiredState = SwerveModuleState.optimize(desiredState, new Rotation2d(turnAngleRadians));
 
     // Calculate the drive output from the drive PID controller.
-    double driveOutput = m_drivePIDController.calculate(speedMetersPerSecond, state.speedMetersPerSecond);
+    double driveOutput = m_drivePIDController.calculate(speedMetersPerSecond, desiredState.speedMetersPerSecond);
 
     // Calculate the turning motor output from the turning PID controller.
-    double turnOutput = m_turningPIDController.calculate(turnAngleRadians, state.angle.getRadians());
+    double turnOutput = m_turningPIDController.calculate(turnAngleRadians, desiredState.angle.getRadians());
 
     //Set the motors to the calculated outputs
     m_driveMotor.set(driveOutput);
