@@ -71,7 +71,7 @@ public class ModuleMap {
    * The {@code HashMap} of the swerve modules to get the states of
    * @return The current SwerveModuleStates as an {@code Array} 
    */
-  public static SwerveModuleState[] getModuleStates(HashMap<ModulePosition, SwerveModule> swerveModules) {
+  public static SwerveModuleState[] orderedModuleStates(HashMap<ModulePosition, SwerveModule> swerveModules) {
     SwerveModuleState[] arr = new SwerveModuleState[4];
     int idx = 0;
 

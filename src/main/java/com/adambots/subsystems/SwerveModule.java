@@ -90,7 +90,7 @@ public class SwerveModule {
    * @return The current position of the module.
    */
   public SwerveModulePosition getPosition() {
-    double distance = m_driveEncoder.getPosition();
+    double distance = m_driveEncoder.getPosition()*ModuleConstants.kDriveEncoderPositionConversionFactor;
     Rotation2d turnAngleRadians = m_turningEncoder.getAbsolutePositionRotation2D();
 
     return new SwerveModulePosition(distance, turnAngleRadians);

@@ -10,6 +10,7 @@ import java.util.function.LongSupplier;
 
 import com.adambots.Constants;
 
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
@@ -32,5 +33,9 @@ public class Dash {
     
     public static void add(String name, BooleanSupplier bval){
         debugTab.addBoolean(name, bval);
+    }
+
+    public static void add(String name, Sendable data){
+        debugTab.add(name, data);
     }
 }

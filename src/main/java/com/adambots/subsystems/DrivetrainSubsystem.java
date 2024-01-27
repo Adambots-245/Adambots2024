@@ -41,19 +41,19 @@ public class DrivetrainSubsystem extends SubsystemBase {
     m_odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, m_gyro.getContinuousYawRad(), ModuleMap.orderedModulePositions(swerveModules));
 
     AutoBuilder.configureHolonomic(
-      this::getPose, // Robot pose supplier
-      this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
-      this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-      this::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
-      new HolonomicPathFollowerConfig(
-          new PIDConstants(AutoConstants.kPTranslationController, 0, AutoConstants.kDTranslationController), 
-          new PIDConstants(AutoConstants.kPThetaController, 0, AutoConstants.kDThetaController),
-          DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
-          DriveConstants.kDrivebaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
-          new ReplanningConfig() // Default path replanning config. See the API for the options here
-      ), 
-      () -> false, //TODO: CREATE PATH FLIP SUPPLIER
-      this // Reference to this subsystem to set requirements
+        this::getPose, // Robot pose supplier
+        this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+        this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+        this::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+        new HolonomicPathFollowerConfig(
+            new PIDConstants(AutoConstants.kPTranslationController, 0, AutoConstants.kDTranslationController), 
+            new PIDConstants(AutoConstants.kPThetaController, 0, AutoConstants.kDThetaController),
+            DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
+            DriveConstants.kDrivebaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
+            new ReplanningConfig() // Default path replanning config. See the API for the options here
+        ), 
+        () -> false, //TODO: CREATE PATH FLIP SUPPLIER
+        this // Reference to this subsystem to set requirements
     );
   }
 
@@ -115,16 +115,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * @param chassisSpeeds The desired ChassisSpeeds of the robot
    */
   public void setChassisSpeeds(ChassisSpeeds chassisSpeeds) {
-    setModuleStates(DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds));
-  }
-
-  /**
-   * Desaturates and sets the swerve module states.
-   *
-   * @param desiredStates The desired swerve module states.
-   */
-  public void setModuleStates(SwerveModuleState[] desiredStates) {
-    // SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kMaxSpeedMetersPerSecond);
+    SwerveModuleState[] desiredStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kMaxSpeedMetersPerSecond);
 
     ModuleMap.setDesiredState(swerveModules, desiredStates);
   }
@@ -135,7 +127,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * @return The ChassisSpeeds of the robot
    */
   public ChassisSpeeds getChassisSpeeds() {
-    return DriveConstants.kDriveKinematics.toChassisSpeeds(ModuleMap.getModuleStates(swerveModules));
+    return DriveConstants.kDriveKinematics.toChassisSpeeds(ModuleMap.orderedModuleStates(swerveModules));
   }
 
   /**
