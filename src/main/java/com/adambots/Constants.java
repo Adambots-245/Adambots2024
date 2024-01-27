@@ -73,8 +73,8 @@ public final class Constants {
         public static final double kPModuleDriveController = 0.3; //PID Values for drive motors
         public static final double kDModuleDriveController = 0.019;
 
-        public static final double kPModuleTurningController = 0.7; //PID Values for turning motors
-        public static final double kDModuleTurningController = 0.026;
+        public static final double kPModuleTurningController = 0.7; //PID Values for turning motors .7
+        public static final double kDModuleTurningController = 0.026; // 0.026
     }
 
     public static final class AutoConstants {
