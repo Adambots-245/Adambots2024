@@ -7,21 +7,18 @@
 
 package com.adambots.sensors;
 
-import com.kauailabs.navx.frc.AHRS;
+import com.ctre.phoenix6.hardware.Pigeon2;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.SPI.Port;
-
-import edu.wpi.first.math.geometry.Pose2d;
 
 /**
  * Generic gyro sensor to hide actual implementation and ensure uniform values across subsystems
  */
 public class Gyro {
-    private AHRS gyro;
+    private Pigeon2 gyro;
     
     public Gyro (){
-        this.gyro = new AHRS(Port.kMXP); //Defining the gyroscrope using the MXP port on the roborio (mounted directly to top of Rio)
+        this.gyro = new Pigeon2(6); //Defining the gyroscrope using the MXP port on the roborio (mounted directly to top of Rio)
     }
 
     /**
@@ -31,6 +28,7 @@ public class Gyro {
      * @return Continous value of gyroscope in degrees
      */
     public double getContinuousYawDeg () {
+        // return -gyro.getAngle(); //COUNTERCLOCKWISE NEEDS TO BE POSITIVE
         return -gyro.getAngle(); //COUNTERCLOCKWISE NEEDS TO BE POSITIVE
     }
 
@@ -41,7 +39,6 @@ public class Gyro {
      * @return Continous value of gyroscope in radians
      */
     public Rotation2d getContinuousYawRad () {
-        //References the deg function to ensure no discrepency between the measurments
         return new Rotation2d(Math.toRadians(getContinuousYawDeg()));
     }
 
@@ -49,38 +46,28 @@ public class Gyro {
      * Zeros gyroscope yaw
      */
     public void resetYaw () {
-        gyro.zeroYaw();
+        gyro.reset();
     }
 
     /**
      * Resets the yaw of the gyroscope to the specified value in degrees (UNTESTED)
      */
     public void resetYawToAngle (double offsetDeg) { //TODO: Test this
-        gyro.zeroYaw();
-        gyro.setAngleAdjustment(gyro.getAngleAdjustment()-offsetDeg);
+        gyro.setYaw(offsetDeg);
     }
 
     /**
      * Returns the approximated X, Y and rotation displacement of the robot since last reset
      * @return Approximated Pose2d of the robot
      */
-    public Pose2d getDisplacementPose2D (double offsetDeg) {
-        return new Pose2d(gyro.getDisplacementX(), gyro.getDisplacementY(), getContinuousYawRad());
-    }
+    // public Pose2d getDisplacementPose2D (double offsetDeg) {
+    //     return new Pose2d(gyro.getRotation2d(), gyro.getDisplacementY(), getContinuousYawRad());
+    // }
 
     /**
      * Resets the calculated X, Y displacement of the gyro
      */
-    public void resetDisplacement () {
-        gyro.resetDisplacement();
-    }
-    
-    /**
-     * Calibrates the gyroscope
-     * <p>
-     * Should only be performed on initialization - may take up to 2 seconds to complete
-     */
-    public void calibrate () {
-        gyro.calibrate();
-    }
+    // public void resetDisplacement () {
+    //     gyro.resetDisplacement();
+    // }
 }

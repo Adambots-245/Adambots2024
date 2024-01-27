@@ -28,10 +28,10 @@ public final class Constants {
 
     public static final class DriveConstants {
 
-        public static final boolean kFrontLeftDriveMotorReversed = false;
+        public static final boolean kFrontLeftDriveMotorReversed = true;
         public static final boolean kRearLeftDriveMotorReversed = false;
         public static final boolean kFrontRightDriveMotorReversed = false;
-        public static final boolean kRearRightDriveMotorReversed = false;
+        public static final boolean kRearRightDriveMotorReversed = true;
 
         // Distance between centers of right and left wheels on robot in meters
         public static final double kTrackWidth = 0.61;
@@ -55,7 +55,7 @@ public final class Constants {
             new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
 
         //Max speed of the robot in m/s, used in teleop and auton (should be set to real world value)
-        public static final double kMaxSpeedMetersPerSecond = 4.6; 
+        public static final double kMaxSpeedMetersPerSecond = 4.35; 
         //Rotational speed factor in rad/s of the robot to be used for the teleop drive command
         public static final double kTeleopRotationalSpeed = 10; 
     }

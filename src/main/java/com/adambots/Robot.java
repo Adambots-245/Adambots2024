@@ -27,7 +27,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    RobotMap.gyro.calibrate(); // may take up to two seconds to complete
     RobotMap.gyro.resetYaw();
     
     // Instantiate our RobotContainer. This will perform all our button bindings,

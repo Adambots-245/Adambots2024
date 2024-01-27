@@ -54,8 +54,8 @@ public class SwerveModule {
     m_driveMotor.setInverted(driveMotorReversed);
 
     m_driveEncoder = m_driveMotor.getEncoder();
-    m_driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveEncoderVelocityConversionFactor);
-    m_driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveEncoderPositionConversionFactor);
+    // m_driveEncoder.setVelocityConversionFactor(1);
+    // m_driveEncoder.setPositionConversionFactor(1);
 
     m_turningMotor = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);
     m_turningMotor.setIdleMode(IdleMode.kBrake);
@@ -66,7 +66,7 @@ public class SwerveModule {
     m_turningEncoder = new AbsoluteEncoder(turningEncoderChannel);
     
     // Dash.add("Cancoder: " + m_position.name(), () -> m_absoluteEncoder.getAbsolutePositionDegrees());
-    Dash.add("Wheel Speed: " + m_position.name(), () -> m_driveEncoder.getVelocity());
+    Dash.add("Wheel Speed: " + m_position.name(), () -> m_driveEncoder.getVelocity()*ModuleConstants.kDriveEncoderVelocityConversionFactor);
 
     m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
     resetEncoders();
@@ -110,7 +110,8 @@ public class SwerveModule {
     desiredState = SwerveModuleState.optimize(desiredState, new Rotation2d(turnAngleRadians));
 
     // Calculate the drive output from the drive PID controller.
-    double driveOutput = m_drivePIDController.calculate(speedMetersPerSecond, desiredState.speedMetersPerSecond);
+    double driveOutput = m_drivePIDController.calculate(speedMetersPerSecond, desiredState.speedMetersPerSecond*1.79);
+    // double driveOutput = m_drivePIDController.calculate(speedMetersPerSecond, 7.8);
 
     // Calculate the turning motor output from the turning PID controller.
     double turnOutput = m_turningPIDController.calculate(turnAngleRadians, desiredState.angle.getRadians());
