@@ -237,12 +237,12 @@ public final class Constants {
 
         
         }
-        State floorState = new State(floorWristAngle,floorShoulderAngle);
-        State ampState = new State(ampWristAngle,ampShoulderAngle);
-        State humanState = new State(humanWristAngle, humanShoulderAngle);
-        State trapState = new State(trapWristAngle, trapShoulderAngle);
-        State defaultState = new State(defaultWristAngle, defaultShoulderAngle);
-        State speakerState = new State(speakerWristAngle, speakerShoulderAngle);
+        final static State floorState = new State(floorWristAngle,floorShoulderAngle);
+        final static State ampState = new State(ampWristAngle,ampShoulderAngle);
+        final static State humanState = new State(humanWristAngle, humanShoulderAngle);
+        final static State trapState = new State(trapWristAngle, trapShoulderAngle);
+        final static State defaultState = new State(defaultWristAngle, defaultShoulderAngle);
+        final static State speakerState = new State(speakerWristAngle, speakerShoulderAngle);
 
     }
 
