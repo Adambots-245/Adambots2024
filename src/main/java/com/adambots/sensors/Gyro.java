@@ -18,7 +18,7 @@ public class Gyro {
     private Pigeon2 gyro;
     
     public Gyro (){
-        this.gyro = new Pigeon2(6); //Defining the gyroscrope using the MXP port on the roborio (mounted directly to top of Rio)
+        this.gyro = new Pigeon2(6); //Defining the gyroscrope using CAN ID 6
     }
 
     /**

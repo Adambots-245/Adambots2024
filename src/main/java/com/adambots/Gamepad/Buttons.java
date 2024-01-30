@@ -11,12 +11,11 @@ import java.util.ArrayList;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
-import com.adambots.Constants.GamepadConstants;
 import com.adambots.RobotMap;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -26,8 +25,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class Buttons {
     // initialize controllers
-    public static final CommandXboxController primaryXboxController = new CommandXboxController(RobotMap.kPrimaryControllerPort);
-    public static final CommandXboxController secondaryXboxController = new CommandXboxController(RobotMap.kSecondaryControllerPort);
+    // public static final CommandXboxController primaryXboxController = new CommandXboxController(RobotMap.kPrimaryControllerPort);
+    // public static final CommandXboxController secondaryXboxController = new CommandXboxController(RobotMap.kSecondaryControllerPort);
     public static final CommandJoystick ex3dPro = new CommandJoystick(RobotMap.kJoystickControllerPort);
     public static final BooleanSupplier isJoystickConnected = () -> ex3dPro.getHID().isConnected() || RobotBase.isSimulation();
 
@@ -70,26 +69,26 @@ public class Buttons {
     // RIGHT STICK Y AXIS primaryJoystick.getRightY()
 
     // secondary buttons
-    public static final Trigger secondaryBackButton = secondaryXboxController.back();
-    public static final Trigger secondaryStartButton = secondaryXboxController.start();
-    public static final Trigger secondaryXButton = secondaryXboxController.x();
-    public static final Trigger secondaryYButton = secondaryXboxController.y();
-    public static final Trigger secondaryBButton = secondaryXboxController.b();
-    public static final Trigger secondaryAButton = secondaryXboxController.a();
-    public static final Trigger secondaryLB = secondaryXboxController.leftBumper();
-    public static final Trigger secondaryRB = secondaryXboxController.rightBumper();
-    public static final Trigger secondaryLeftStickButton = secondaryXboxController.leftStick();
-    public static final Trigger secondaryRightStickButton = secondaryXboxController.rightStick();
+    // public static final Trigger secondaryBackButton = secondaryXboxController.back();
+    // public static final Trigger secondaryStartButton = secondaryXboxController.start();
+    // public static final Trigger secondaryXButton = secondaryXboxController.x();
+    // public static final Trigger secondaryYButton = secondaryXboxController.y();
+    // public static final Trigger secondaryBButton = secondaryXboxController.b();
+    // public static final Trigger secondaryAButton = secondaryXboxController.a();
+    // public static final Trigger secondaryLB = secondaryXboxController.leftBumper();
+    // public static final Trigger secondaryRB = secondaryXboxController.rightBumper();
+    // public static final Trigger secondaryLeftStickButton = secondaryXboxController.leftStick();
+    // public static final Trigger secondaryRightStickButton = secondaryXboxController.rightStick();
 
-    // secondary DPad
-    public static final Trigger secondaryDPadN = secondaryXboxController.pov(GamepadConstants.kDpadNAngle);
-    public static final Trigger secondaryDPadNW = secondaryXboxController.pov(GamepadConstants.kDpadNWAngle);
-    public static final Trigger secondaryDPadW = secondaryXboxController.pov(GamepadConstants.kDpadWAngle);
-    public static final Trigger secondaryDPadSW = secondaryXboxController.pov(GamepadConstants.kDpadSWAngle);
-    public static final Trigger secondaryDPadS = secondaryXboxController.pov(GamepadConstants.kDpadSAngle);
-    public static final Trigger secondaryDPadSE = secondaryXboxController.pov(GamepadConstants.kDpadSEAngle);
-    public static final Trigger secondaryDPadE = secondaryXboxController.pov(GamepadConstants.kDpadEAngle);
-    public static final Trigger secondaryDPadNE = secondaryXboxController.pov(GamepadConstants.kDpadNEAngle);
+    // // secondary DPad
+    // public static final Trigger secondaryDPadN = secondaryXboxController.pov(GamepadConstants.kDpadNAngle);
+    // public static final Trigger secondaryDPadNW = secondaryXboxController.pov(GamepadConstants.kDpadNWAngle);
+    // public static final Trigger secondaryDPadW = secondaryXboxController.pov(GamepadConstants.kDpadWAngle);
+    // public static final Trigger secondaryDPadSW = secondaryXboxController.pov(GamepadConstants.kDpadSWAngle);
+    // public static final Trigger secondaryDPadS = secondaryXboxController.pov(GamepadConstants.kDpadSAngle);
+    // public static final Trigger secondaryDPadSE = secondaryXboxController.pov(GamepadConstants.kDpadSEAngle);
+    // public static final Trigger secondaryDPadE = secondaryXboxController.pov(GamepadConstants.kDpadEAngle);
+    // public static final Trigger secondaryDPadNE = secondaryXboxController.pov(GamepadConstants.kDpadNEAngle);
 
     // secondary axes
     // RIGHT TRIGGER secondaryXboxController.getRightTriggerAxis()
@@ -191,21 +190,24 @@ public class Buttons {
      */
     public static DoubleSupplier forwardSupplier = () -> isJoystickConnected.getAsBoolean()
         ? applyCurve(ex3dPro.getY(), forwardCurve)
-        : deaden(primaryXboxController.getLeftY(), GamepadConstants.kDeadZone);
+        // : deaden(primaryXboxController.getLeftY(), GamepadConstants.kDeadZone);
+        : 0;
 
     /**
      * getX or LeftX
      */
     public static DoubleSupplier sidewaysSupplier = () -> isJoystickConnected.getAsBoolean()
         ? applyCurve(ex3dPro.getX(), sidewaysCurve)
-        : deaden(primaryXboxController.getLeftX(), GamepadConstants.kDeadZone);
+        // : deaden(primaryXboxController.getLeftX(), GamepadConstants.kDeadZone);
+        : 0;
 
     /**
      * getZ or RightX
      */
     public static DoubleSupplier rotateSupplier = () -> isJoystickConnected.getAsBoolean()
         ? applyCurve(ex3dPro.getZ(), rotateCurve)
-        : deaden(primaryXboxController.getRightX(), GamepadConstants.kDeadZone);
+        // : deaden(primaryXboxController.getRightX(), GamepadConstants.kDeadZone);
+        : 0;
 
     /** Rumble the XBox Controller 
      * @param controller pass the primary or secondary controller to rumble

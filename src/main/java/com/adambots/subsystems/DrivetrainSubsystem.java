@@ -7,6 +7,7 @@ package com.adambots.subsystems;
 import java.util.HashMap;
 
 import com.adambots.Constants;
+import com.adambots.RobotMap;
 import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
@@ -50,7 +51,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             new PIDConstants(AutoConstants.kPThetaController, 0, AutoConstants.kDThetaController),
             DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
             DriveConstants.kDrivebaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
-            new ReplanningConfig() // Default path replanning config. See the API for the options here
+            new ReplanningConfig(false, false) // Default path replanning config. See the API for the options here
         ), 
         () -> false, //TODO: CREATE PATH FLIP SUPPLIER
         this // Reference to this subsystem to set requirements
@@ -85,7 +86,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
-    m_odometry.resetPosition(m_gyro.getContinuousYawRad(), ModuleMap.orderedModulePositions(swerveModules), pose);
+    RobotMap.gyro.resetYawToAngle(pose.getRotation().getDegrees());
+    m_odometry.resetPosition(pose.getRotation(), ModuleMap.orderedModulePositions(swerveModules), pose);
   }
 
   /**

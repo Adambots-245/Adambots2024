@@ -5,6 +5,7 @@
 package com.adambots.subsystems;
 
 import com.adambots.Constants.DriveConstants.ModulePosition;
+import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.ModuleConstants;
 import com.adambots.sensors.AbsoluteEncoder;
 import com.adambots.utils.Dash;
@@ -25,9 +26,6 @@ public class SwerveModule {
 
   private final RelativeEncoder m_driveEncoder;
   private final AbsoluteEncoder m_turningEncoder;
-
-  private final PIDController m_drivePIDController =
-      new PIDController(ModuleConstants.kPModuleDriveController, 0, ModuleConstants.kDModuleDriveController);
 
   private final PIDController m_turningPIDController =
       new PIDController(ModuleConstants.kPModuleTurningController, 0, ModuleConstants.kDModuleTurningController);
@@ -54,8 +52,6 @@ public class SwerveModule {
     m_driveMotor.setInverted(driveMotorReversed);
 
     m_driveEncoder = m_driveMotor.getEncoder();
-    // m_driveEncoder.setVelocityConversionFactor(1);
-    // m_driveEncoder.setPositionConversionFactor(1);
 
     m_turningMotor = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);
     m_turningMotor.setIdleMode(IdleMode.kBrake);
@@ -101,17 +97,13 @@ public class SwerveModule {
    * @param desiredState Desired state with speed and angle.
    */
   public void setDesiredState(SwerveModuleState desiredState) {
-    double speedMetersPerSecond = m_driveEncoder.getVelocity()*ModuleConstants.kDriveEncoderVelocityConversionFactor;
     double turnAngleRadians = m_turningEncoder.getAbsolutePositionRadians();
-
-    // desiredState.speedMetersPerSecond *= desiredState.angle.minus(new Rotation2d(turnAngleRadians)).getCos(); //TODO: Test this
 
     // Optimize the reference state to avoid spinning further than 90 degrees
     desiredState = SwerveModuleState.optimize(desiredState, new Rotation2d(turnAngleRadians));
 
-    // Calculate the drive output from the drive PID controller.
-    double driveOutput = m_drivePIDController.calculate(speedMetersPerSecond, desiredState.speedMetersPerSecond*1.79);
-    // double driveOutput = m_drivePIDController.calculate(speedMetersPerSecond, 7.8);
+    // Calculate the drive output by scaling the desired speed from +-max speed to +-1, assuming constant resistive force, this works well.
+    double driveOutput = desiredState.speedMetersPerSecond/DriveConstants.kMaxSpeedMetersPerSecond;
 
     // Calculate the turning motor output from the turning PID controller.
     double turnOutput = m_turningPIDController.calculate(turnAngleRadians, desiredState.angle.getRadians());

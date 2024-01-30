@@ -79,7 +79,6 @@ public class Robot extends TimedRobot {
     System.out.println("auton selected" + m_autonomousCommand.toString());
 
     System.out.println("Init Auton.........");
-    RobotMap.gyro.resetYaw();
     System.out.println("Gyro Yaw at Startup: " + RobotMap.gyro.getContinuousYawDeg());
 
     // schedule the autonomous command

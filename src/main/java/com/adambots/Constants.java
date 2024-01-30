@@ -70,17 +70,14 @@ public final class Constants {
         // Convert drive motor rotations to linear distance             Motor rot to Wheel rot -> Wheel rot to linear meters (circumference)
         public static final double kDriveEncoderPositionConversionFactor = kSwerveModuleFinalGearRatio * 2*Math.PI * kWheelRadiusMeters;
 
-        public static final double kPModuleDriveController = 0.3; //PID Values for drive motors
-        public static final double kDModuleDriveController = 0.019;
-
         public static final double kPModuleTurningController = 0.7; //PID Values for turning motors .7
         public static final double kDModuleTurningController = 0.026; // 0.026
     }
 
     public static final class AutoConstants {
         // PD values for auton X, Y translational movement
-        public static final double kPTranslationController = 8; 
-        public static final double kDTranslationController = 0.03;
+        public static final double kPTranslationController = 12; 
+        public static final double kDTranslationController = 0.1;
 
         // PD values for auton rotational movement
         public static final double kPThetaController = 1.1; 

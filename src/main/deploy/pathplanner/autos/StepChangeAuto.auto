@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2.039986937116732,
-      "y": 1.187416089117893
+      "x": 1.9,
+      "y": 4.89512967613667
     },
-    "rotation": 0.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TestPath5"
+            "pathName": "StepChange"
           }
         }
       ]

@@ -80,6 +80,7 @@ public class RobotContainer {
 
   private void registerNamedCommands() {
     NamedCommands.registerCommand("TestCommand1", new PrintCommand("Test1!"));
+    NamedCommands.registerCommand("ResetGyro", new InstantCommand(() -> RobotMap.gyro.resetYaw()));
   }
 
   private void setupDashboard() {    
