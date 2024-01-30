@@ -39,8 +39,6 @@ public class RobotMap {
 
     // Operator Interface (Joystick and XBoxControllers)
     public static final int kJoystickControllerPort = 0;
-    public static final int kPrimaryControllerPort = 0; // XBOX Controller - overlaps with joystick so you can use an xbox controller instead of joystick
-    public static final int kSecondaryControllerPort = 1; // XBOX Controller for secondary driver
 
     // Robot Devices and Sensors
     public static final Gyro gyro = new Gyro();
