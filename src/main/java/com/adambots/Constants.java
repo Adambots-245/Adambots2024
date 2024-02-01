@@ -220,8 +220,8 @@ public final class Constants {
         public static final double speakerShoulderAngle = 0;
 
         public static class State {
-            double wristAngle;
-            double shoulderAngle;
+            private double wristAngle;
+            private double shoulderAngle;
             public State(double wristAngle, double shoulderAngle) {
                 this.wristAngle = wristAngle;
                 this.shoulderAngle = shoulderAngle;
