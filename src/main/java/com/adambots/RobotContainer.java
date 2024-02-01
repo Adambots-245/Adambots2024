@@ -9,6 +9,7 @@
 package com.adambots;
 
 import com.adambots.Gamepad.Buttons;
+import com.adambots.commands.ChangeArmStateCommand;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
@@ -16,6 +17,7 @@ import com.adambots.RobotMap;
 import com.adambots.utils.Dash;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.adambots.Constants.ArmConstants;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -79,6 +81,14 @@ public class RobotContainer {
     // Buttons.JoystickButton16.onTrue(new AutoBalanceCommand(drivetrainSubsystem, RobotMap.GyroSensor, grabbyLifterSubsystem));
 
     Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.GyroSensor.reset()));
+
+    //Arm State Buttons
+    Buttons.primaryAButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.floorState));
+    Buttons.primaryBButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.ampState));
+    Buttons.primaryXButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.speakerState));
+    Buttons.primaryYButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.humanState));
+    Buttons.primaryStartButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
+    Buttons.primaryBackButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.trapState));
   }
 
   private void registerNamedCommands() {
