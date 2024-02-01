@@ -5,6 +5,8 @@
 package com.adambots.subsystems;
 
 import com.adambots.sensors.PhotoEye;
+import com.adambots.utils.Dash;
+import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
@@ -16,13 +18,14 @@ import com.revrobotics.RelativeEncoder;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-  CANSparkMax groundIntakeMotor;
+  TalonFX groundIntakeMotor;
   PhotoEye pieceInRobotEye;
   double groundIntakeMotorSpeed = 0;
 
-  public IntakeSubsystem(CANSparkMax groundIntakeMotor, PhotoEye pieceInRobotEye){
+  public IntakeSubsystem(TalonFX groundIntakeMotor, PhotoEye pieceInRobotEye){
     this.groundIntakeMotor = groundIntakeMotor;
     this.pieceInRobotEye = pieceInRobotEye;
+    Dash.add("Intake Limit Switch", () -> isPieceInRobot());
   }
 
   public void setGroundIntakeMotorSpeed(double newGroundIntakeMotorSpeed){
@@ -32,18 +35,10 @@ public class IntakeSubsystem extends SubsystemBase {
   public boolean isPieceInRobot(){
     return pieceInRobotEye.isDetecting();
   }
-  
-  /** Creates a new IntakeSubsystem. */
-  public IntakeSubsystem() {}
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
-    if(isPieceInRobot() == true){
-       setGroundIntakeMotorSpeed(0);
-        
-    }
     groundIntakeMotor.set(groundIntakeMotorSpeed);
   } 
 }

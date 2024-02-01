@@ -26,6 +26,7 @@ public class RunIntakeCommand extends Command {
   @Override
   public void execute() {
     intakeSubsystem.setGroundIntakeMotorSpeed(groundIntakeMotorSpeed);
+    System.out.println("asdlfhaskjhfisadhfkjdshafkjds");
   }
 
   // Called once the command ends or is interrupted.

@@ -47,17 +47,17 @@ public class RobotMap {
         public static final CANcoder wristEncoder = new CANcoder(wristEncoderPort);
 
         // Shooter Ports
-        public static final int shooterWheelPort = 1;
+        public static final int shooterWheelPort = 5;
 
         // Shooter Devices
         public static final TalonFX shooterWheel = new TalonFX(shooterWheelPort);
 
         //Intake Ports
-        public static final int groundIntakeMotorPort = 1;
-        public static final int pieceInRobotEyePort = 1;
+        public static final int groundIntakeMotorPort = 6;
+        public static final int pieceInRobotEyePort = 9;
 
         //Intake Devices
-        public static final CANSparkMax groundIntakeMotor = new CANSparkMax(groundIntakeMotorPort, MotorType.kBrushless);
+        public static final TalonFX groundIntakeMotor = new TalonFX(groundIntakeMotorPort);
         public static final PhotoEye pieceInRobotEye = new PhotoEye(pieceInRobotEyePort);
 
         // CAN bus ports
