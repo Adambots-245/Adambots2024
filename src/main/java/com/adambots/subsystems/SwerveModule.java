@@ -97,16 +97,16 @@ public class SwerveModule {
    * @param desiredState Desired state with speed and angle.
    */
   public void setDesiredState(SwerveModuleState desiredState) {
-    double turnAngleRadians = m_turningEncoder.getAbsolutePositionRadians();
+    double currentTurnAngle = m_turningEncoder.getAbsolutePositionRadians();
 
     // Optimize the reference state to avoid spinning further than 90 degrees
-    desiredState = SwerveModuleState.optimize(desiredState, new Rotation2d(turnAngleRadians));
+    desiredState = SwerveModuleState.optimize(desiredState, new Rotation2d(currentTurnAngle));
 
     // Calculate the drive output by scaling the desired speed from +-max speed to +-1, assuming constant resistive force, this works well.
     double driveOutput = desiredState.speedMetersPerSecond/DriveConstants.kMaxSpeedMetersPerSecond;
 
     // Calculate the turning motor output from the turning PID controller.
-    double turnOutput = m_turningPIDController.calculate(turnAngleRadians, desiredState.angle.getRadians());
+    double turnOutput = m_turningPIDController.calculate(currentTurnAngle, desiredState.angle.getRadians());
 
     //Set the motors to the calculated outputs
     m_driveMotor.set(driveOutput);

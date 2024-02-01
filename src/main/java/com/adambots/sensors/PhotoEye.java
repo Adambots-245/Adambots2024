@@ -19,7 +19,7 @@ public class PhotoEye {
     /**
      * Define a PhotoEye sensor on a given DigitalInput port. 
      * If you set up the PhotoEye to return true when not detecting as to ensure a non-critical failure mode, 
-     * you can define it as inverted to maintain the expected (returns true when detecting) return in code.
+     * you can define it as inverted to maintain the expected (reads true when detecting) return in code.
      * <p>
      * (photoeyes return true when disconnected)
      * @param port

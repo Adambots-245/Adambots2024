@@ -17,8 +17,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 public class Gyro {
     private Pigeon2 gyro;
     
-    public Gyro (){
-        this.gyro = new Pigeon2(6); //Defining the gyroscrope using CAN ID 6
+    public Gyro (int CANport){
+        this.gyro = new Pigeon2(CANport); //Defining the gyroscrope using the configured CAN ID
     }
 
     /**
@@ -49,9 +49,9 @@ public class Gyro {
     }
 
     /**
-     * Resets the yaw of the gyroscope to the specified value in degrees (UNTESTED)
+     * Resets the yaw of the gyroscope to the specified value in degrees
      */
-    public void resetYawToAngle (double offsetDeg) { //TODO: Test this
+    public void resetYawToAngle (double offsetDeg) {
         gyro.setYaw(offsetDeg);
     }
 

@@ -8,95 +8,19 @@
 package com.adambots.Gamepad;
 
 import java.util.ArrayList;
-import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import com.adambots.RobotMap;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * All Game Controller Button Mappings
  */
 public class Buttons {
-    // initialize controllers
-    // public static final CommandXboxController primaryXboxController = new CommandXboxController(RobotMap.kPrimaryControllerPort);
-    // public static final CommandXboxController secondaryXboxController = new CommandXboxController(RobotMap.kSecondaryControllerPort);
+    // initialize controller
     public static final CommandJoystick ex3dPro = new CommandJoystick(RobotMap.kJoystickControllerPort);
-    public static final BooleanSupplier isJoystickConnected = () -> ex3dPro.getHID().isConnected() || RobotBase.isSimulation();
-
-    // primary buttons - these should not be used when using joystick as primary controller
-    // public static final Trigger primaryBackButton = primaryJoystick.back();
-    // public static final Trigger primaryStartButton = primaryJoystick.start();
-    // public static final Trigger primaryXButton = primaryJoystick.x();
-    // public static final Trigger primaryYButton = primaryJoystick.y();
-    // public static final Trigger primaryBButton = primaryJoystick.b();
-    // public static final Trigger primaryAButton = primaryJoystick.a();
-    // public static final Trigger primaryLB = primaryJoystick.leftBumper();
-    // public static final Trigger primaryRB = primaryJoystick.rightBumper();
-    // public static final Trigger primaryLeftStickButton = primaryJoystick.leftStick();
-    // public static final Trigger primaryRightStickButton = primaryJoystick.rightStick();
-
-    // primary DPad - these should not be used when using joystick as primary controller
-    // public static final Trigger primaryDPadN = primaryJoystick.pov(GamepadConstants.kDpadNAngle);
-    // public static final Trigger primaryDPadNW = primaryJoystick.pov(GamepadConstants.kDpadNWAngle);
-    // public static final Trigger primaryDPadW = primaryJoystick.pov(GamepadConstants.kDpadWAngle);
-    // public static final Trigger primaryDPadSW = primaryJoystick.pov(GamepadConstants.kDpadSWAngle);
-    // public static final Trigger primaryDPadS = primaryJoystick.pov(GamepadConstants.kDpadSAngle);
-    // public static final Trigger primaryDPadSE = primaryJoystick.pov(GamepadConstants.kDpadSEAngle);
-    // public static final Trigger primaryDPadE = primaryJoystick.pov(GamepadConstants.kDpadEAngle);
-    // public static final Trigger primaryDPadNE = primaryJoystick.pov(GamepadConstants.kDpadNEAngle);
-
-    // primary analog inputs
-    // public static Trigger leftTrigger = new Trigger(()-> {
-    //     return primaryXboxController.getLeftTriggerAxis() > 0.5;
-    // });
-    // public static Trigger rightTrigger = new Trigger(()-> {
-    //     return primaryXboxController.getRightTriggerAxis() > 0.5;
-    // });
-
-    // primary axes
-    // RIGHT TRIGGER primaryJoystick.getRightTriggerAxis()
-    // LEFT TRIGGER primaryJoystick.getLeftTriggerAxis()
-    // LEFT STICK X AXIS primaryJoystick.getLeftX()
-    // LEFT STICK Y AXIS primaryJoystick.getLeftY()
-    // RIGHT STICK X AXIS primaryJoystick.getRightX()
-    // RIGHT STICK Y AXIS primaryJoystick.getRightY()
-
-    // secondary buttons
-    // public static final Trigger secondaryBackButton = secondaryXboxController.back();
-    // public static final Trigger secondaryStartButton = secondaryXboxController.start();
-    // public static final Trigger secondaryXButton = secondaryXboxController.x();
-    // public static final Trigger secondaryYButton = secondaryXboxController.y();
-    // public static final Trigger secondaryBButton = secondaryXboxController.b();
-    // public static final Trigger secondaryAButton = secondaryXboxController.a();
-    // public static final Trigger secondaryLB = secondaryXboxController.leftBumper();
-    // public static final Trigger secondaryRB = secondaryXboxController.rightBumper();
-    // public static final Trigger secondaryLeftStickButton = secondaryXboxController.leftStick();
-    // public static final Trigger secondaryRightStickButton = secondaryXboxController.rightStick();
-
-    // // secondary DPad
-    // public static final Trigger secondaryDPadN = secondaryXboxController.pov(GamepadConstants.kDpadNAngle);
-    // public static final Trigger secondaryDPadNW = secondaryXboxController.pov(GamepadConstants.kDpadNWAngle);
-    // public static final Trigger secondaryDPadW = secondaryXboxController.pov(GamepadConstants.kDpadWAngle);
-    // public static final Trigger secondaryDPadSW = secondaryXboxController.pov(GamepadConstants.kDpadSWAngle);
-    // public static final Trigger secondaryDPadS = secondaryXboxController.pov(GamepadConstants.kDpadSAngle);
-    // public static final Trigger secondaryDPadSE = secondaryXboxController.pov(GamepadConstants.kDpadSEAngle);
-    // public static final Trigger secondaryDPadE = secondaryXboxController.pov(GamepadConstants.kDpadEAngle);
-    // public static final Trigger secondaryDPadNE = secondaryXboxController.pov(GamepadConstants.kDpadNEAngle);
-
-    // secondary axes
-    // RIGHT TRIGGER secondaryXboxController.getRightTriggerAxis()
-    // LEFT TRIGGER secondaryXboxController.getLeftTriggerAxis()
-    // LEFT STICK X AXIS secondaryXboxController.getLeftX()
-    // LEFT STICK Y AXIS secondaryXboxController.getLeftY()
-    // RIGHT STICK X AXIS secondaryXboxController.getRightX()
-    // RIGHT STICK Y AXIS secondaryXboxController.getRightY()
 
     public static final Trigger JoystickButton1 = ex3dPro.button(1);
     public static final Trigger JoystickButton2 = ex3dPro.button(2);
@@ -125,18 +49,6 @@ public class Buttons {
     public static final Trigger JoystickThumbRight = ex3dPro.povRight();
     public static final Trigger JoystickThumbCenter = ex3dPro.povCenter();
 
-    /**
-     * Return a value only if it is greater than a threshold, otherwise return 0
-     * <p>
-     * DO NOT USE ON TOP OF applyCurve, ADJUST THE CURVE ITSELF TO HAVE DESIRED DEADZONE
-     */
-    public static double deaden(double input, double deadenThreshold) {
-        if (Math.abs(input) < deadenThreshold) {
-            return 0;
-        } else {
-            return input;
-        }
-    }
 
     public static class Curve{
         Double[] lookupTable;
@@ -183,54 +95,18 @@ public class Buttons {
     static Curve sidewaysCurve = new Curve("0.0*,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0*,0.0,0.01,0.01,0.02,0.02,0.03,0.04,0.04,0.05,0.05*,0.06,0.06,0.07,0.07,0.08,0.08,0.09,0.09,0.1,0.1,0.11,0.11,0.12,0.12,0.13,0.13,0.14,0.14,0.15,0.15,0.16,0.16,0.17,0.17,0.18,0.18,0.19,0.19,0.2,0.2*,0.21,0.22,0.23,0.24,0.25,0.26,0.27,0.28,0.29,0.3,0.31,0.32,0.33,0.34,0.35,0.36,0.37,0.38,0.39,0.4*,0.42,0.44,0.46,0.48,0.5,0.52,0.54,0.56,0.58,0.6*,0.62,0.64,0.66,0.68,0.7,0.72,0.74,0.76,0.78,0.8,0.82,0.84,0.86,0.88,0.9,0.92,0.94,0.96,0.98,1.0*");
     static Curve rotateCurve = new Curve("0.0*,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0*,0.01,0.01,0.02,0.03,0.04,0.04,0.05,0.06,0.06,0.07*,0.08,0.08,0.09,0.1,0.1,0.11,0.12,0.12,0.13,0.14,0.14,0.15,0.15,0.16,0.17,0.17,0.18,0.19,0.19,0.2*,0.21,0.22,0.23,0.24,0.25,0.26,0.27,0.28,0.29,0.3,0.31,0.32,0.33,0.34,0.35,0.36,0.37,0.38,0.39,0.4*,0.42,0.44,0.46,0.48,0.5,0.52,0.54,0.56,0.58,0.6,0.62,0.64,0.66,0.68,0.7,0.72,0.74,0.76,0.78,0.8,0.82,0.84,0.86,0.88,0.9,0.92,0.94,0.96,0.98,1.0*");
 
-    // If Flight Joystick is connected, then return Joystick Y value - else return
-    // Joystick value from XBoxController
     /**
      * getY or LeftY
      */
-    public static DoubleSupplier forwardSupplier = () -> isJoystickConnected.getAsBoolean()
-        ? applyCurve(ex3dPro.getY(), forwardCurve)
-        // : deaden(primaryXboxController.getLeftY(), GamepadConstants.kDeadZone);
-        : 0;
+    public static DoubleSupplier forwardSupplier = () -> applyCurve(ex3dPro.getY(), forwardCurve);
 
     /**
      * getX or LeftX
      */
-    public static DoubleSupplier sidewaysSupplier = () -> isJoystickConnected.getAsBoolean()
-        ? applyCurve(ex3dPro.getX(), sidewaysCurve)
-        // : deaden(primaryXboxController.getLeftX(), GamepadConstants.kDeadZone);
-        : 0;
+    public static DoubleSupplier sidewaysSupplier = () -> applyCurve(ex3dPro.getX(), sidewaysCurve);
 
     /**
      * getZ or RightX
      */
-    public static DoubleSupplier rotateSupplier = () -> isJoystickConnected.getAsBoolean()
-        ? applyCurve(ex3dPro.getZ(), rotateCurve)
-        // : deaden(primaryXboxController.getRightX(), GamepadConstants.kDeadZone);
-        : 0;
-
-    /** Rumble the XBox Controller 
-     * @param controller pass the primary or secondary controller to rumble
-     * @param timeInMillis how many milliseconds to rumble the controller - max value is 5000
-     * @param intensity0to1 how intense should the rumble be
-     * 
-     * Example: Buttons.rumble(Buttons.primaryJoystick, 2000, 1)
-    */
-    public static void rumble(CommandXboxController controller, int timeInMillis, int intensity0to1){
-        var joy = controller.getHID();
-        final int time = MathUtil.clamp(timeInMillis, 0, 5000);
-
-        // Perform an async operation to avoid scheduler overruns
-        Thread rumbleThread = new Thread(() -> {
-            long rumbleStartTime = System.currentTimeMillis();
-            
-            while (System.currentTimeMillis() - rumbleStartTime <= time) {
-                joy.setRumble(RumbleType.kBothRumble, intensity0to1); // Rumble both sides of the controller
-            }
-            
-            joy.setRumble(RumbleType.kBothRumble, 0);
-        });
-
-        rumbleThread.start();
-    }
+    public static DoubleSupplier rotateSupplier = () -> applyCurve(ex3dPro.getZ(), rotateCurve);
 }

@@ -41,7 +41,7 @@ public class RobotMap {
     public static final int kJoystickControllerPort = 0;
 
     // Robot Devices and Sensors
-    public static final Gyro gyro = new Gyro();
+    public static final Gyro gyro = new Gyro(6);
 
     // Robot Swerve Modules
     public static final HashMap<ModulePosition, SwerveModule> swerveModules = new HashMap<>(
