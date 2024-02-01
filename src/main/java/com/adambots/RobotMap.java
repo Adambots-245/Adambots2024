@@ -14,6 +14,8 @@ import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
 import com.adambots.sensors.PhotoEye;
 import com.adambots.subsystems.SwerveModule;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -31,6 +33,24 @@ public class RobotMap {
 
         // PORTS Definition - This should be the only place to define all ports
         public final static I2C.Port I2C_PORT = I2C.Port.kOnboard;        
+
+        // Arm Ports
+        public static final int shoulderMotorPort = 1;
+        public static final int wristMotorPort = 2;
+        public static final int shoulderEncoderPort = 3;
+        public static final int wristEncoderPort = 4;
+        
+        // Arm Devices
+        public static final TalonFX shoulderMotor = new TalonFX(shoulderMotorPort);
+        public static final TalonFX wristMotor = new TalonFX(wristMotorPort);
+        public static final CANcoder shoulderEncoder = new CANcoder(shoulderEncoderPort);
+        public static final CANcoder wristEncoder = new CANcoder(wristEncoderPort);
+
+        // Shooter Ports
+        public static final int shooterWheelPort = 1;
+
+        // Shooter Devices
+        public static final TalonFX shooterWheel = new TalonFX(shooterWheelPort);
 
         //Intake Ports
         public static final int groundIntakeMotorPort = 1;

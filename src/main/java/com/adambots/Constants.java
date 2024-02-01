@@ -198,4 +198,53 @@ public final class Constants {
         public static final int kDpadWAngle = 270;
         public static final int kDpadNWAngle = 315;
     }
+
+    public static final class ArmConstants{
+        // Floor Pickup
+        public static final double floorWristAngle = 0;
+        public static final double floorShoulderAngle = 0;
+        // Amp Scoring
+        public static final double ampWristAngle = 0;
+        public static final double ampShoulderAngle = 0;
+        // Human Player Pickup
+        public static final double humanWristAngle = 0;
+        public static final double humanShoulderAngle = 0;
+        // trap scoring
+        public static final double trapWristAngle = 0;
+        public static final double trapShoulderAngle = 0;
+        // default
+        public static final double defaultWristAngle = 0;
+        public static final double defaultShoulderAngle = 0;
+        // autonomous starting/speaker
+        public static final double speakerWristAngle = 0;
+        public static final double speakerShoulderAngle = 0;
+
+        public static class State {
+            private double wristAngle;
+            private double shoulderAngle;
+            public State(double wristAngle, double shoulderAngle) {
+                this.wristAngle = wristAngle;
+                this.shoulderAngle = shoulderAngle;
+            }
+
+            public double getWristAngle(){
+                return wristAngle;
+            }
+
+            public double getShoulderAngle(){
+                return shoulderAngle;
+            }
+
+        
+        }
+        final static State floorState = new State(floorWristAngle,floorShoulderAngle);
+        final static State ampState = new State(ampWristAngle,ampShoulderAngle);
+        final static State humanState = new State(humanWristAngle, humanShoulderAngle);
+        final static State trapState = new State(trapWristAngle, trapShoulderAngle);
+        final static State defaultState = new State(defaultWristAngle, defaultShoulderAngle);
+        final static State speakerState = new State(speakerWristAngle, speakerShoulderAngle);
+
+    }
+
+    
 }
