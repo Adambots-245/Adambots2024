@@ -20,8 +20,6 @@ public class AlignNoteCommand extends Command {
 
   public AlignNoteCommand(DrivetrainSubsystem driveTrainSubsystem) {
     this.driveTrainSubsystem = driveTrainSubsystem;
-
-    //Dash.add("horizAngle", () -> oldHorizAngle);
   }
 
 
@@ -71,6 +69,6 @@ public class AlignNoteCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return count >= 2 || notDetected == 50;
+    return count >= 2 || notDetected >= 50;
   }
 }

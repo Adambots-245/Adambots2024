@@ -168,30 +168,7 @@ public class VisionHelpers {
         return LimelightHelpers.getTV("limelight");
     }
 
-    public static double getTurnAngle() {
-        return LimelightHelpers.getLatestResults("limelight").targetingResults.getBotPose2d_wpiBlue().getRotation().getDegrees();
-    }
-
     public static double getDetectedResult() {
         return LimelightHelpers.getFiducialID("limelight");
-    }
-
-    public static Field2d getAprilTagField2d() {
-        // return VisionProcessingSubsystem.getAprilField2d();
-        // Field2d field = new Field2d();
-
-        // field.setRobotPose(
-        //         LimelightHelpers.getLatestResults(VisionConstants.Limelight1).targetingResults.getBotPose2d_wpiBlue());
-        // return field;
-        return null;
-
-    }
-
-    public static Pose2d getAprilTagPose2d() {
-        return LimelightHelpers.getLatestResults("limelight").targetingResults.getBotPose2d_wpiBlue();
-    }
-
-    public static double[] getAprilTagArrayPos() {
-        return LimelightHelpers.getLimelightNTDoubleArray("limelight", "botpose");
     }
 }

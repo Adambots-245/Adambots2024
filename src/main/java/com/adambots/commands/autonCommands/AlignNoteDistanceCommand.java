@@ -20,8 +20,6 @@ public class AlignNoteDistanceCommand extends Command {
 
   public AlignNoteDistanceCommand(DrivetrainSubsystem driveTrainSubsystem) {
     this.driveTrainSubsystem = driveTrainSubsystem;
-
-    //Dash.add("distanceFiltered", () -> oldDistance);
   }
 
 
@@ -47,21 +45,10 @@ public class AlignNoteDistanceCommand extends Command {
     if (VisionHelpers.isDetected() != false) {
       notDetected++;
     }
-  //   driveTrainSubsystem.drive(0, 0, 0, false);
-  //  }
-  //  if (VisionHelpers.isAligned()) {
-  //   driveTrainSubsystem.drive(0, 0, 0, false);
-  //  }
-  //  else if (VisionHelpers.getHorizAngle() < 0 && VisionHelpers.isDetected()){
-  //   driveTrainSubsystem.drive(0, 0.5, 0, false);
-  //  }
-  //  else{
-  //   driveTrainSubsystem.drive(0, -0.5, 0, false);
-  //  }
   }
 
   // Called once the command ends or is interrupted.
-  @Override
+  @Override 
   public void end(boolean interrupted) {
       driveTrainSubsystem.stop();
   }
@@ -69,6 +56,6 @@ public class AlignNoteDistanceCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return count >= 2 || notDetected == 25;
+    return count >= 2 || notDetected >= 50;
   }
 }
