@@ -85,7 +85,83 @@ public final class Constants {
     }
 
     public static final class GamepadConstants {
-        public static final double kDeadZone = 0.15; //Deadzone applied when using Xbox controller joysticks - does not apply to big Joystick
+        // deadzone
+        public static final double kDeadZone = 0.15;
+
+        // Primary Driver Controller Port Number.
+        public static final int kPrimaryDriver = RobotMap.kPrimaryControllerPort;
+
+        // Secondary Driver Controller Port Number.
+        public static final int kSecondaryDriver = RobotMap.kSecondaryControllerPort;
+        /**
+         * XBOX 360 South Face Button
+         */
+        public static final int kButtonA = 1;
+        /**
+         * XBOX 360 East Face Button
+         */
+        public static final int kButtonB = 2;
+        /**
+         * XBOX 360 West Face Button
+         */
+        public static final int kButtonX = 3;
+        /**
+         * XBOX 360 North Face Button
+         */
+        public static final int kButtonY = 4;
+        /**
+         * XBOX 360 Left Bumper (Top)
+         */
+        public static final int kButtonLB = 5;
+        /**
+         * XBOX 360 Right Bumper (Top)
+         */
+        public static final int kButtonRB = 6;
+        /**
+         * XBOX 360 Back Button
+         */
+        public static final int kButtonBack = 7;
+        /**
+         * XBOX 360 Start Button
+         */
+        public static final int kButtonStart = 8;
+        /**
+         * XBOX 360 Left Stick Click Button
+         */
+        public static final int kButtonLeftStick = 9;
+        /**
+         * XBOX 360 Right Stick Click Button
+         */
+        public static final int kButtonRightStick = 10;
+    
+        /**
+         * XBOX 360 Left Horizontal Axis (Left=-1, Right=1)
+         */
+        public static final int kAxisLeftX = 0;
+        /**
+         * XBOX 360 Left Vertical Axis (Up=1, Down=-1)
+         */
+        public static final int kAxisLeftY = 1;
+        /**
+         * XBOX 360 Trigger Axis (LEFT)
+         */
+        public static final int kLeftAxisTriggers = 2;
+        /**
+         * XBOX 360 Trigger Axis (RIGHT)
+         */
+        public static final int kRightAxisTriggers = 3;
+        /**
+         * XBOX 360 Right Horizontal Axis (Left=-1, Right=1)
+         */
+        public static final int kAxisRightX = 4;
+        /**
+         * XBOX 360 Right Vertical Axis (Up=1, Down=-1)
+         */
+        public static final int kAxisRightY = 5;
+    
+        // the ID/port for the whole DPad
+        // POV returns an angle in degrees 0-315 at 45 intervals
+        public static final int kAxisDpadPov = 0;
     
         public static final int kDpadNAngle = 0;
         public static final int kDpadNEAngle = 45;

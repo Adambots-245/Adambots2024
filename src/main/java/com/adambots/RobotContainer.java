@@ -10,8 +10,10 @@ package com.adambots;
 
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Gamepad.Buttons;
+import com.adambots.commands.autonCommands.AlignNoteCommand;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.Dash;
+import com.adambots.utils.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -67,6 +69,7 @@ public class RobotContainer {
   
   private void configureButtonBindings() {
     Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
+    Buttons.primaryAButton.whileTrue(new AlignNoteCommand(drivetrainSubsystem));
 
     //Debugging and Testing
     Buttons.JoystickButton4.onTrue(new InstantCommand(() -> drivetrainSubsystem.resetOdometry(new Pose2d())));
@@ -89,7 +92,7 @@ public class RobotContainer {
     //Adds various data to the dashboard that is useful for driving and debugging
     SmartDashboard.putData("Auton Mode", autoChooser);
 
-    Dash.add("Field", Constants.field);
+   // Dash.add("Field", Constants.field);
 
     Dash.add("getY", Buttons.forwardSupplier);
     Dash.add("getX", Buttons.sidewaysSupplier);
@@ -99,6 +102,16 @@ public class RobotContainer {
     Dash.add("odom x", () -> drivetrainSubsystem.getPose().getX());
     Dash.add("odom y", () -> drivetrainSubsystem.getPose().getY());
     Dash.add("yaw", () -> RobotMap.gyro.getContinuousYawDeg());
+
+    Dash.add("isDetectingPieces", () ->VisionHelpers.isDetectingPieces());
+    Dash.add("getClassName", VisionHelpers.getClassName());
+    Dash.add("getXLocation", () ->VisionHelpers.getXLocation());
+    Dash.add("getYLocation", () ->VisionHelpers.getYLocation());
+    Dash.add("getDistanceToObject", () ->VisionHelpers.getDistanceToObject());
+    Dash.add("isDetected", () ->VisionHelpers.isDetected());
+    Dash.add("getVertAngle", () ->VisionHelpers.getVertAngle());
+    Dash.add("getHorizAngle", () ->VisionHelpers.getHorizAngle());
+    Dash.add("isAligned", () ->VisionHelpers.isAligned());
 
     // Dash.add("pitch", () -> RobotMap.GyroSensor.getPitch());
     // Dash.add("roll", () -> RobotMap.GyroSensor.getRoll());
