@@ -10,11 +10,15 @@ import java.util.function.LongSupplier;
 
 import com.adambots.Constants;
 
-import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
-/** Dashboard utility to add values to Shuffleboard and automatically update. */
+/** Dashboard utility to add values to Shuffleboard and automatically update.
+ * 
+ * Dash.add("Speed", () -> {
+ *  return speed;
+ * });
+ */
 public class Dash {
     private static ShuffleboardTab debugTab = Shuffleboard.getTab(Constants.kDefaultShuffleboardTab);
 
@@ -34,8 +38,7 @@ public class Dash {
     public static void add(String name, BooleanSupplier bval){
         debugTab.addBoolean(name, bval);
     }
-
-    public static void add(String name, Sendable data){
-        debugTab.add(name, data);
+    public static void add(String name, String sval){
+        debugTab.add(name, sval);
     }
 }
