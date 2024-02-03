@@ -7,6 +7,7 @@ package com.adambots.subsystems;
 import com.adambots.sensors.PhotoEye;
 import com.adambots.utils.Dash;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
@@ -26,6 +27,7 @@ public class IntakeSubsystem extends SubsystemBase {
     this.groundIntakeMotor = groundIntakeMotor;
     this.pieceInRobotEye = pieceInRobotEye;
     Dash.add("Intake Limit Switch", () -> isPieceInRobot());
+    groundIntakeMotor.setNeutralMode(NeutralModeValue.Brake);
   }
 
   public void setGroundIntakeMotorSpeed(double newGroundIntakeMotorSpeed){

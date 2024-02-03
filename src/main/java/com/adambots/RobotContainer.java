@@ -13,6 +13,7 @@ import com.adambots.commands.ChangeArmStateCommand;
 import com.adambots.commands.FeedShooterCommand;
 import com.adambots.commands.RunIntakeCommand;
 import com.adambots.commands.RunShooterCommand;
+import com.adambots.commands.autonCommands.FireCommand;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
@@ -85,13 +86,14 @@ public class RobotContainer {
     // Buttons.JoystickButton16.onTrue(new TestAutoBalanceCommand(drivetrainSubsystem, RobotMap.GyroSensor, grabbyLifterSubsystem).andThen(new HockeyStopCommand(drivetrainSubsystem)));
     // Buttons.JoystickButton16.onTrue(new AutoBalanceCommand(drivetrainSubsystem, RobotMap.GyroSensor, grabbyLifterSubsystem));
 
-    Buttons.primaryDPadN.whileTrue(new RunIntakeCommand(intakeSubsystem, -0.3));
+    Buttons.primaryDPadN.whileTrue(new RunIntakeCommand(intakeSubsystem, -0.15));
     Buttons.primaryDPadS.whileTrue(new FeedShooterCommand(intakeSubsystem, -0.5));
 
 
     Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.GyroSensor.reset()));
 
-    Buttons.primaryRB.whileTrue(new RunShooterCommand(shooterSubsystem, 0.7));
+    Buttons.primaryRB.whileTrue(new RunShooterCommand(shooterSubsystem, 1));
+    Buttons.primaryLB.onTrue(new FireCommand(shooterSubsystem, intakeSubsystem));
 
     //Arm State Buttons
     Buttons.primaryAButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.floorState));
