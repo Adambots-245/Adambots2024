@@ -10,18 +10,19 @@ import com.adambots.utils.VisionHelpers;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class AlignNoteCommand extends Command {
+public class AlignNoteDistanceCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
-  private final PIDController m_turningPIDController = new PIDController(0.1, 0, 0.03);
+  private final PIDController m_turningPIDController = new PIDController(0.5, 0, 0);
   private int count;
   private int notDetected;
   private final double filterSens = 0.1;
-  private double oldHorizAngle;
+  private double oldDistance;
+  
 
-  public AlignNoteCommand(DrivetrainSubsystem driveTrainSubsystem) {
+  public AlignNoteDistanceCommand(DrivetrainSubsystem driveTrainSubsystem) {
     this.driveTrainSubsystem = driveTrainSubsystem;
 
-    //Dash.add("horizAngle", () -> oldHorizAngle);
+    //Dash.add("distanceFiltered", () -> oldDistance);
   }
 
 
@@ -29,18 +30,19 @@ public class AlignNoteCommand extends Command {
   public void initialize() {
     count = 0;
     notDetected = 0;
-    oldHorizAngle = VisionHelpers.getHorizAngle();
+    oldDistance = VisionHelpers.getGamePieceArea();
+    System.out.println("hi");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double horizAngle = filterSens*VisionHelpers.getHorizAngle() + (1-filterSens)*oldHorizAngle;
-    oldHorizAngle = horizAngle;
+    double distance = filterSens*VisionHelpers.getGamePieceArea() + (1-filterSens)*oldDistance;
+    oldDistance = distance;
 
-    double drive_output = m_turningPIDController.calculate(horizAngle, 0);
-    driveTrainSubsystem.drive(0, drive_output, 0, false);
-    if (VisionHelpers.isAligned()) {
+    double drive_output = m_turningPIDController.calculate(distance, 0);
+    driveTrainSubsystem.drive(-drive_output, 0, 0, false);
+    if (VisionHelpers.isDistanceAligned()) {
       count++;
     }
     if (VisionHelpers.isDetected() != false) {

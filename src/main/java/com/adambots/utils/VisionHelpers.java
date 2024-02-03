@@ -142,6 +142,12 @@ public class VisionHelpers {
         }
         return false;
     }
+    public static boolean isDistanceAligned(){
+        if((getGamePieceArea()>10&&getGamePieceArea()<15)){
+            return true; 
+        }
+        return false;
+    }
     public static void setPipeline(int pipeline) {
         LimelightHelpers.setPipelineIndex("limelight", pipeline); 
     }
@@ -152,6 +158,10 @@ public class VisionHelpers {
 
     public static double getVertAngle() {
         return LimelightHelpers.getTY("limelight");
+    }
+
+    public static double getGamePieceArea() {
+        return LimelightHelpers.getTA("limelight");
     }
 
     public static boolean isDetected() {
