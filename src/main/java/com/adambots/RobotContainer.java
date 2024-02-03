@@ -11,6 +11,8 @@ package com.adambots;
 import com.adambots.Gamepad.Buttons;
 import com.adambots.commands.ChangeArmStateCommand;
 import com.adambots.commands.FeedShooterCommand;
+import com.adambots.commands.RotateShoulderCommand;
+import com.adambots.commands.RotateWristCommand;
 import com.adambots.commands.RunIntakeCommand;
 import com.adambots.commands.RunShooterCommand;
 import com.adambots.commands.autonCommands.FireCommand;
@@ -45,7 +47,7 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
  private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(RobotMap.swerveModules, RobotMap.GyroSensor);
- private final ArmSubsystem armSubsystem = new ArmSubsystem(RobotMap.shoulderMotor, RobotMap.wristMotor, RobotMap.shoulderEncoder, RobotMap.wristEncoder);
+ private final ArmSubsystem armSubsystem = new ArmSubsystem(RobotMap.shoulderMotor, RobotMap.wristMotor, RobotMap.shoulderEncoder, RobotMap.wristEncoder, RobotMap.shoulderLowerLimit, RobotMap.wristLowerLimit);
  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.shooterWheel);
  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.groundIntakeMotor, RobotMap.pieceInRobotEye);
 
@@ -86,13 +88,11 @@ public class RobotContainer {
     // Buttons.JoystickButton16.onTrue(new TestAutoBalanceCommand(drivetrainSubsystem, RobotMap.GyroSensor, grabbyLifterSubsystem).andThen(new HockeyStopCommand(drivetrainSubsystem)));
     // Buttons.JoystickButton16.onTrue(new AutoBalanceCommand(drivetrainSubsystem, RobotMap.GyroSensor, grabbyLifterSubsystem));
 
-    Buttons.primaryDPadN.whileTrue(new RunIntakeCommand(intakeSubsystem, 0.15));
-    Buttons.primaryDPadS.whileTrue(new FeedShooterCommand(intakeSubsystem, 0.5, true));
+    Buttons.primaryRB.whileTrue(new RunIntakeCommand(intakeSubsystem, 0.15));
 
 
     Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.GyroSensor.reset()));
 
-    Buttons.primaryRB.whileTrue(new RunShooterCommand(shooterSubsystem, 1, true));
     Buttons.primaryLB.onTrue(new FireCommand(shooterSubsystem, intakeSubsystem));
 
     //Arm State Buttons
@@ -102,7 +102,13 @@ public class RobotContainer {
     Buttons.primaryYButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.humanState));
     Buttons.primaryStartButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
     Buttons.primaryBackButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.trapState));
+    Buttons.primaryDPadN.onTrue(new RotateShoulderCommand(armSubsystem, 3));
+    Buttons.primaryDPadS.onTrue(new RotateShoulderCommand(armSubsystem, -3));
+    Buttons.primaryDPadW.onTrue(new RotateWristCommand(armSubsystem, -3));
+    Buttons.primaryDPadE.onTrue(new RotateWristCommand(armSubsystem, 3));
+    
   }
+
 
   private void registerNamedCommands() {
     NamedCommands.registerCommand("TestCommand1", new PrintCommand("Test1!"));
