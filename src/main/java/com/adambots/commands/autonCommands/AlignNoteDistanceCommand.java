@@ -4,7 +4,6 @@
 
 package com.adambots.commands.autonCommands;
 import com.adambots.subsystems.DrivetrainSubsystem;
-import com.adambots.utils.Dash;
 import com.adambots.utils.VisionHelpers;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -12,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class AlignNoteDistanceCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
-  private final PIDController m_turningPIDController = new PIDController(0.5, 0, 0);
+  private final PIDController m_turningPIDController = new PIDController(0.2, 0, 0.0);
   private int count;
   private int notDetected;
   private final double filterSens = 0.1;
@@ -40,8 +39,8 @@ public class AlignNoteDistanceCommand extends Command {
     double distance = filterSens*VisionHelpers.getGamePieceArea() + (1-filterSens)*oldDistance;
     oldDistance = distance;
 
-    double drive_output = m_turningPIDController.calculate(distance, 0);
-    driveTrainSubsystem.drive(-drive_output, 0, 0, false);
+    double drive_output = m_turningPIDController.calculate(distance, 10);
+    driveTrainSubsystem.drive(drive_output, 0, 0, false);
     if (VisionHelpers.isDistanceAligned()) {
       count++;
     }
@@ -70,6 +69,6 @@ public class AlignNoteDistanceCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return count >= 2 || notDetected == 50;
+    return count >= 2 || notDetected == 25;
   }
 }
