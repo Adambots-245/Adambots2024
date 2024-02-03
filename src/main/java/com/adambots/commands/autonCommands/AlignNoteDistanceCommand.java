@@ -4,7 +4,6 @@
 
 package com.adambots.commands.autonCommands;
 import com.adambots.subsystems.DrivetrainSubsystem;
-import com.adambots.utils.Dash;
 import com.adambots.utils.VisionHelpers;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -21,8 +20,6 @@ public class AlignNoteDistanceCommand extends Command {
 
   public AlignNoteDistanceCommand(DrivetrainSubsystem driveTrainSubsystem) {
     this.driveTrainSubsystem = driveTrainSubsystem;
-
-    //Dash.add("distanceFiltered", () -> oldDistance);
   }
 
 
@@ -48,17 +45,6 @@ public class AlignNoteDistanceCommand extends Command {
     if (VisionHelpers.isDetected() != false) {
       notDetected++;
     }
-  //   driveTrainSubsystem.drive(0, 0, 0, false);
-  //  }
-  //  if (VisionHelpers.isAligned()) {
-  //   driveTrainSubsystem.drive(0, 0, 0, false);
-  //  }
-  //  else if (VisionHelpers.getHorizAngle() < 0 && VisionHelpers.isDetected()){
-  //   driveTrainSubsystem.drive(0, 0.5, 0, false);
-  //  }
-  //  else{
-  //   driveTrainSubsystem.drive(0, -0.5, 0, false);
-  //  }
   }
 
   // Called once the command ends or is interrupted.
@@ -70,6 +56,6 @@ public class AlignNoteDistanceCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return count >= 2 || notDetected == 50;
+    return count >= 2 || notDetected >= 50;
   }
 }
