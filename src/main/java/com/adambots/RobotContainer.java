@@ -86,13 +86,13 @@ public class RobotContainer {
     // Buttons.JoystickButton16.onTrue(new TestAutoBalanceCommand(drivetrainSubsystem, RobotMap.GyroSensor, grabbyLifterSubsystem).andThen(new HockeyStopCommand(drivetrainSubsystem)));
     // Buttons.JoystickButton16.onTrue(new AutoBalanceCommand(drivetrainSubsystem, RobotMap.GyroSensor, grabbyLifterSubsystem));
 
-    Buttons.primaryDPadN.whileTrue(new RunIntakeCommand(intakeSubsystem, -0.15));
-    Buttons.primaryDPadS.whileTrue(new FeedShooterCommand(intakeSubsystem, -0.5));
+    Buttons.primaryDPadN.whileTrue(new RunIntakeCommand(intakeSubsystem, 0.15));
+    Buttons.primaryDPadS.whileTrue(new FeedShooterCommand(intakeSubsystem, 0.5, true));
 
 
     Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.GyroSensor.reset()));
 
-    Buttons.primaryRB.whileTrue(new RunShooterCommand(shooterSubsystem, 1));
+    Buttons.primaryRB.whileTrue(new RunShooterCommand(shooterSubsystem, 1, true));
     Buttons.primaryLB.onTrue(new FireCommand(shooterSubsystem, intakeSubsystem));
 
     //Arm State Buttons

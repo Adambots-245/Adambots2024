@@ -28,6 +28,7 @@ public class IntakeSubsystem extends SubsystemBase {
     this.pieceInRobotEye = pieceInRobotEye;
     Dash.add("Intake Limit Switch", () -> isPieceInRobot());
     groundIntakeMotor.setNeutralMode(NeutralModeValue.Brake);
+    groundIntakeMotor.setInverted(true);
   }
 
   public void setGroundIntakeMotorSpeed(double newGroundIntakeMotorSpeed){

@@ -12,12 +12,14 @@ public class RunShooterCommand extends Command {
   /** Creates a new RunShooterCommand. */
   ShooterSubsystem shooterSubsystem;
   double shootMotorSpeed;
+  boolean continuous;
 
-  public RunShooterCommand(ShooterSubsystem shooterSubsystem, double shootMotorSpeed) {
+  public RunShooterCommand(ShooterSubsystem shooterSubsystem, double shootMotorSpeed, boolean continuous) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooterSubsystem);
     this.shooterSubsystem = shooterSubsystem;
     this.shootMotorSpeed = shootMotorSpeed;
+    this.continuous = continuous;
   }
 
   // Called when the command is initially scheduled.
@@ -33,12 +35,14 @@ public class RunShooterCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterSubsystem.setWheelSpeed(0);
+    if (continuous){
+      shooterSubsystem.setWheelSpeed(0);
+    }
   }
     
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return !continuous;
   }
 }

@@ -4,18 +4,22 @@
 
 package com.adambots.commands;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import com.adambots.subsystems.IntakeSubsystem;
+
+import edu.wpi.first.wpilibj2.command.Command;
 
 public class FeedShooterCommand extends Command {
   /** Creates a new FeedShooterCommand. */
   private IntakeSubsystem intakeSubsystem;
   private double groundIntakeMotorSpeed;
-  public FeedShooterCommand(IntakeSubsystem intakeSubsystem, double groundIntakeMotorSpeed) {
+  private boolean continuous;
+  
+  public FeedShooterCommand(IntakeSubsystem intakeSubsystem, double groundIntakeMotorSpeed, boolean continuous) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem);
     this.intakeSubsystem = intakeSubsystem;
     this.groundIntakeMotorSpeed = groundIntakeMotorSpeed;
+    this.continuous = continuous;
   }
 
   // Called when the command is initially scheduled.
@@ -31,12 +35,14 @@ public class FeedShooterCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.setGroundIntakeMotorSpeed(0);
+    if (continuous){
+      intakeSubsystem.setGroundIntakeMotorSpeed(0);
+    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return !continuous;
   }
 }
