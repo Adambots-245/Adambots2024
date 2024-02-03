@@ -10,9 +10,6 @@ package com.adambots;
 
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Gamepad.Buttons;
-import com.adambots.commands.autonCommands.AlignNoteBothCommand;
-import com.adambots.commands.autonCommands.AlignNoteCommand;
-import com.adambots.commands.autonCommands.AlignNoteDistanceCommand;
 import com.adambots.commands.autonCommands.autonCommandGrounds.PickupCommand;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.Dash;

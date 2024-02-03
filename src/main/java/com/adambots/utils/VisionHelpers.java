@@ -3,8 +3,6 @@ package com.adambots.utils;
 
 import com.adambots.utils.LimelightHelpers.LimelightTarget_Detector;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 
 public class VisionHelpers {
     //private NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");

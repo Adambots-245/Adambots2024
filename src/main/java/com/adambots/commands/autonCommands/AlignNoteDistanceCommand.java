@@ -1,15 +1,9 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package com.adambots.commands.autonCommands;
 import com.adambots.subsystems.DrivetrainSubsystem;
-import com.adambots.utils.Dash;
 import com.adambots.utils.VisionHelpers;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class AlignNoteDistanceCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
@@ -18,12 +12,11 @@ public class AlignNoteDistanceCommand extends Command {
   private int notDetected;
   private final double filterSens = 0.1;
   private double oldDistance;
-  double distance;
+  private double distance;
   
 
   public AlignNoteDistanceCommand(DrivetrainSubsystem driveTrainSubsystem) {
     this.driveTrainSubsystem = driveTrainSubsystem;
-    // Dash.add("distance", () -> distance);
   }
 
 
@@ -32,8 +25,6 @@ public class AlignNoteDistanceCommand extends Command {
     count = 0;
     notDetected = 0;
     oldDistance = VisionHelpers.getGamePieceArea();
-    // driveTrainSubsystem.drive(0.2, 0, 0, false);
-    // new WaitCommand(0.1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -51,9 +42,6 @@ public class AlignNoteDistanceCommand extends Command {
       System.out.print("distance: ");
       System.out.println(distance);
     }
-    // if (VisionHelpers.isDistanceAligned()) {
-    //   count++;
-    // }
     if (VisionHelpers.isDetected() != false) {
       notDetected++;
     }
