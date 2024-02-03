@@ -20,6 +20,7 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -43,8 +44,8 @@ public class RobotMap {
         // Arm Devices
         public static final TalonFX shoulderMotor = new TalonFX(shoulderMotorPort);
         public static final TalonFX wristMotor = new TalonFX(wristMotorPort);
-        public static final CANcoder shoulderEncoder = new CANcoder(shoulderEncoderPort);
-        public static final CANcoder wristEncoder = new CANcoder(wristEncoderPort);
+        public static final DutyCycleEncoder shoulderEncoder = new DutyCycleEncoder(shoulderEncoderPort);
+        public static final DutyCycleEncoder wristEncoder = new DutyCycleEncoder(wristEncoderPort);
 
         // Shooter Ports
         public static final int shooterWheelPort = 5;

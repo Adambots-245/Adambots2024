@@ -4,17 +4,17 @@
 
 package com.adambots.subsystems;
 
-import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase {
   TalonFX shoulderMotor;
   TalonFX wristMotor;
-  CANcoder shoulderEncoder;
-  CANcoder wristEncoder;
+  DutyCycleEncoder shoulderEncoder;
+  DutyCycleEncoder wristEncoder;
   PIDController shoulderPID= new PIDController(0, 0, 0);
   PIDController wristPID= new PIDController(0, 0, 0);
 
@@ -22,11 +22,11 @@ public class ArmSubsystem extends SubsystemBase {
   double wristAngle = 0;
   double shoulderSpeed, wristSpeed = 0;
 
-  public ArmSubsystem(TalonFX shoulderMotor, TalonFX wristMotor, CANcoder shoulderEncoder, CANcoder wristEncoder) {
-    this.shoulderMotor=shoulderMotor;
-    this.wristMotor=wristMotor;
-    this.shoulderEncoder=shoulderEncoder;
-    this.wristEncoder=wristEncoder;
+  public ArmSubsystem(TalonFX shoulderMotor, TalonFX wristMotor, DutyCycleEncoder shoulderEncoder, DutyCycleEncoder wristEncoder) {
+    this.shoulderMotor = shoulderMotor;
+    this.wristMotor = wristMotor;
+    this.shoulderEncoder = shoulderEncoder;
+    this.wristEncoder = wristEncoder;
   }
 
   public void setShoulderAngle(double newShoulderAngle) {
@@ -39,8 +39,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    shoulderSpeed = shoulderPID.calculate(shoulderEncoder.getAbsolutePosition().getValueAsDouble(), shoulderAngle);
-    wristSpeed = wristPID.calculate(wristEncoder.getAbsolutePosition().getValueAsDouble(), wristAngle);
+    shoulderSpeed = shoulderPID.calculate(shoulderEncoder.getAbsolutePosition(), shoulderAngle);
+    wristSpeed = wristPID.calculate(wristEncoder.getAbsolutePosition(), wristAngle);
     shoulderMotor.set(shoulderSpeed);
     wristMotor.set(wristSpeed);
   }
