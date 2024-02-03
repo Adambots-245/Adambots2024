@@ -4,7 +4,6 @@ package com.adambots.utils;
 import com.adambots.utils.LimelightHelpers.LimelightTarget_Detector;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 
 public class VisionHelpers {
@@ -138,7 +137,7 @@ public class VisionHelpers {
         return (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
     }
     public static boolean isAligned(){
-        if((getHorizAngle()>-5&&getHorizAngle()<5)&&isDetected()){
+        if((getHorizAngle()>-3&&getHorizAngle()<3)&&isDetected()){
             return true; 
         }
         return false;
@@ -169,7 +168,7 @@ public class VisionHelpers {
 
     public static Field2d getAprilTagField2d() {
         // return VisionProcessingSubsystem.getAprilField2d();
-        Field2d field = new Field2d();
+        // Field2d field = new Field2d();
 
         // field.setRobotPose(
         //         LimelightHelpers.getLatestResults(VisionConstants.Limelight1).targetingResults.getBotPose2d_wpiBlue());
