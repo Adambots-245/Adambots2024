@@ -11,6 +11,7 @@ package com.adambots;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Gamepad.Buttons;
 import com.adambots.subsystems.DrivetrainSubsystem;
+import com.adambots.subsystems.SlamSubsystem;
 import com.adambots.utils.Dash;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -37,6 +38,7 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(RobotMap.swerveModules, RobotMap.gyro);
+  private final SlamSubsystem slamSubsystem = new SlamSubsystem();
 
   //Creates a SmartDashboard element to allow drivers to select differnt autons
   private SendableChooser<Command> autoChooser = new SendableChooser<>();

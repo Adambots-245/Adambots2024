@@ -67,6 +67,14 @@ dependencies {
     nativeRelease wpi.java.vendor.jniRelease(wpi.platforms.desktop)
     simulationRelease wpi.sim.enableRelease()
 
+    implementation("gov.nist.math:jama:1.0.3")
+    implementation("org.ejml:ejml-simple:0.38")
+    implementation("org.apache.commons:commons-math3:3.6.1")
+    implementation("com.fazecast:jSerialComm:2.4.1")
+
+    testImplementation("org.knowm.xchart:xchart:3.2.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
+
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
