@@ -10,7 +10,7 @@ package com.adambots;
 
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Gamepad.Buttons;
-import com.adambots.commands.autonCommands.autonCommandGrounds.PickupCommand;
+import com.adambots.commands.autonCommands.autonCommandGrounds.PickupGamepieceCommand;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.Dash;
 import com.adambots.utils.VisionHelpers;
@@ -69,18 +69,12 @@ public class RobotContainer {
   
   private void configureButtonBindings() {
     Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
-    // Buttons.primaryAButton.whileTrue(new AlignNoteCommand(drivetrainSubsystem));
-    // Buttons.primaryBButton.whileTrue(new AlignNoteDistanceCommand(drivetrainSubsystem));
-    Buttons.primaryYButton.onTrue(new PickupCommand(drivetrainSubsystem));
-
+    
     //Debugging and Testing
     Buttons.JoystickButton4.onTrue(new InstantCommand(() -> drivetrainSubsystem.resetOdometry(new Pose2d())));
-    // Buttons.JoystickButton11.onTrue(Commands.deadline(new WaitCommand(1.5), autonCommands.driveTillBumpedCommand()));
-    // Buttons.JoystickButton16.onTrue(new TurnToGamePieceCommand(drivetrainSubsystem, RobotMap.lidar, Direction.RIGHT));
-    // Buttons.JoystickButton16.onTrue(autonCommands.autoInitAndScoreCone());
-
-    // Buttons.JoystickButton16.onTrue(new TestAutoBalanceCommand(drivetrainSubsystem, RobotMap.GyroSensor, grabbyLifterSubsystem).andThen(new HockeyStopCommand(drivetrainSubsystem)));
-    // Buttons.JoystickButton16.onTrue(new AutoBalanceCommand(drivetrainSubsystem, RobotMap.GyroSensor, grabbyLifterSubsystem));
+    Buttons.primaryYButton.onTrue(new PickupGamepieceCommand(drivetrainSubsystem));
+    // Buttons.primaryAButton.whileTrue(new AlignNoteCommand(drivetrainSubsystem));
+    // Buttons.primaryBButton.whileTrue(new AlignNoteDistanceCommand(drivetrainSubsystem));
   }
 
   private void registerNamedCommands() {
@@ -108,9 +102,9 @@ public class RobotContainer {
     Dash.add("yaw", () -> RobotMap.gyro.getContinuousYawDeg());
 
     Dash.add("getClassName", VisionHelpers.getClassName());
-    Dash.add("getXLocation", () ->VisionHelpers.getXLocation());
-    Dash.add("getYLocation", () ->VisionHelpers.getYLocation());
-    Dash.add("getDistanceToObject", () ->VisionHelpers.getDistanceToObject());
+    // Dash.add("getXLocation", () ->VisionHelpers.getXLocation());
+    // Dash.add("getYLocation", () ->VisionHelpers.getYLocation());
+    // Dash.add("getDistanceToObject", () ->VisionHelpers.getDistanceToObject());
     Dash.add("isDetected", () ->VisionHelpers.isDetected());
     Dash.add("getVertAngle", () ->VisionHelpers.getVertAngle());
     Dash.add("getHorizAngle", () ->VisionHelpers.getHorizAngle());
@@ -122,17 +116,6 @@ public class RobotContainer {
     // Dash.add("roll", () -> RobotMap.GyroSensor.getRoll());
 
     // Dash.add("LIDAR Dist", () -> RobotMap.lidar.getInches());
-
-    // // Dash.add("Vision X:" , () -> VisionHelpers.getAprilTagPose2d().getX());
-    // // Dash.add("Vision Y:" , () -> VisionHelpers.getAprilTagPose2d().getY());
-    // // Dash.add("Vision Index:" , () -> VisionHelpers.getDetectedResult());
-
-    // Dash.add("isDetectingPieces", () -> VisionHelpers.isDetectingPieces("cube"));
-    // Dash.add("pieceX", () -> VisionHelpers.getPieceX("cube"));
-    // Dash.add("pieceY", () -> VisionHelpers.getPieceY("cube"));
-    // Dash.add("DistanceToObject", () -> VisionHelpers.getDistanceToObject());
-    // Dash.add("tx", () -> VisionHelpers.getTX());
-    // Dash.add("Aligned", () -> VisionHelpers.isAligned());
   }
 
   private void setupDefaultCommands() {

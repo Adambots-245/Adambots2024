@@ -5,6 +5,7 @@ import com.adambots.utils.VisionHelpers;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 
+// CURRENTLY NOT WORKING
 public class AlignNoteBothCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
   private final PIDController yPIDController = new PIDController(0.2, 0, 0.05);
