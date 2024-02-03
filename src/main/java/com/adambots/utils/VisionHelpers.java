@@ -137,7 +137,7 @@ public class VisionHelpers {
         return (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
     }
     public static boolean isAligned(){
-        if((getHorizAngle()>-3&&getHorizAngle()<3)&&isDetected()){
+        if((getHorizAngle()>-2&&getHorizAngle()<2)&&isDetected()){
             return true; 
         }
         return false;

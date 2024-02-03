@@ -10,6 +10,7 @@ package com.adambots;
 
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Gamepad.Buttons;
+import com.adambots.commands.autonCommands.AlignNoteBothCommand;
 import com.adambots.commands.autonCommands.AlignNoteCommand;
 import com.adambots.commands.autonCommands.AlignNoteDistanceCommand;
 import com.adambots.commands.autonCommands.autonCommandGrounds.PickupCommand;
@@ -71,10 +72,9 @@ public class RobotContainer {
   
   private void configureButtonBindings() {
     Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
-    Buttons.primaryAButton.whileTrue(new AlignNoteCommand(drivetrainSubsystem));
-    Buttons.primaryBButton.whileTrue(new AlignNoteDistanceCommand(drivetrainSubsystem));
+    // Buttons.primaryAButton.whileTrue(new AlignNoteCommand(drivetrainSubsystem));
+    // Buttons.primaryBButton.whileTrue(new AlignNoteDistanceCommand(drivetrainSubsystem));
     Buttons.primaryYButton.onTrue(new PickupCommand(drivetrainSubsystem));
-
 
     //Debugging and Testing
     Buttons.JoystickButton4.onTrue(new InstantCommand(() -> drivetrainSubsystem.resetOdometry(new Pose2d())));
@@ -98,6 +98,8 @@ public class RobotContainer {
     SmartDashboard.putData("Auton Mode", autoChooser);
 
    // Dash.add("Field", Constants.field);
+
+  //  Dash.add("xPID", () -> AlignNoteCommand);
 
     Dash.add("getY", Buttons.forwardSupplier);
     Dash.add("getX", Buttons.sidewaysSupplier);
