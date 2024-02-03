@@ -17,6 +17,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public ShooterSubsystem(TalonFX shooterWheel) {
     this.shooterWheel = shooterWheel;
+    shooterWheel.setInverted(true);
   }
 
   public void setWheelSpeed(double newWheelSpeed){

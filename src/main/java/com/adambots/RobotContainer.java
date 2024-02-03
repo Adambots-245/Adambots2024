@@ -88,7 +88,7 @@ public class RobotContainer {
     // Buttons.JoystickButton16.onTrue(new TestAutoBalanceCommand(drivetrainSubsystem, RobotMap.GyroSensor, grabbyLifterSubsystem).andThen(new HockeyStopCommand(drivetrainSubsystem)));
     // Buttons.JoystickButton16.onTrue(new AutoBalanceCommand(drivetrainSubsystem, RobotMap.GyroSensor, grabbyLifterSubsystem));
 
-    Buttons.primaryRB.whileTrue(new RunIntakeCommand(intakeSubsystem, 0.15));
+    Buttons.primaryRB.whileTrue(new RunIntakeCommand(intakeSubsystem, 0.3));
 
 
     Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.GyroSensor.reset()));
