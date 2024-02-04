@@ -39,7 +39,9 @@ public class AlignNoteVertCommand extends Command {
     // Calculates the drive output/speed
     double drive_output = m_turningPIDController.calculate(distance, 26);
     if (VisionHelpers.isDetected()){
-      driveTrainSubsystem.drive(drive_output, 0, 0, false);
+      // driveTrainSubsystem.drive(drive_output, 0, 0, false);
+
+      driveTrainSubsystem.drive(drive_output, driveTrainSubsystem.getYSpeed(), driveTrainSubsystem.getRot(), false);
     }
     //Checks to see if the filtered area is within the aligned bounds
     //Checks to see if the robot is at that position for more than just a single moment

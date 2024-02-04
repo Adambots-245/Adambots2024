@@ -16,7 +16,7 @@ public class AlignNoteHorizCommand extends Command {
 
   public AlignNoteHorizCommand(DrivetrainSubsystem driveTrainSubsystem) {
     addRequirements(driveTrainSubsystem);
-
+    System.out.println();
     this.driveTrainSubsystem = driveTrainSubsystem;
   }
 
@@ -42,11 +42,13 @@ public class AlignNoteHorizCommand extends Command {
     if (VisionHelpers.isDetected()){
       //Only moves the robot sidewards and forwards at the same time if the gamepiece isn't too close
       //Otherwise it just aligns to the side 
-      if (VisionHelpers.getGamePieceArea() < 18){
-        driveTrainSubsystem.drive(1, drive_output, 0, false);
-      } else {
-        driveTrainSubsystem.drive(0, drive_output, 0, false);
-      }
+      // if (VisionHelpers.getGamePieceArea() < 18){
+      //   driveTrainSubsystem.drive(1, drive_output, 0, false);
+      // } else {
+      //   driveTrainSubsystem.drive(0, drive_output, 0, false);
+      // }
+
+      driveTrainSubsystem.drive(driveTrainSubsystem.getXSpeed(), drive_output, driveTrainSubsystem.getRot(), false);
     }
     //Checks to see if the filtered angle is within the aligned bounds
     //Checks to see if the robot is at that position for more than just a single moment

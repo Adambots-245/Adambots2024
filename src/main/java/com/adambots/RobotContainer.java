@@ -93,16 +93,18 @@ public class RobotContainer {
     Dash.add("odom y", () -> drivetrainSubsystem.getPose().getY());
     Dash.add("yaw", () -> RobotMap.gyro.getContinuousYawDeg());
 
-    Dash.add("getClassName", VisionHelpers.getClassName());
-    // Dash.add("getXLocation", () ->VisionHelpers.getXLocation());
-    // Dash.add("getYLocation", () ->VisionHelpers.getYLocation());
-    // Dash.add("getDistanceToObject", () ->VisionHelpers.getDistanceToObject());
-    Dash.add("isDetected", () ->VisionHelpers.isDetected());
-    Dash.add("getVertAngle", () ->VisionHelpers.getVertAngle());
-    Dash.add("getHorizAngle", () ->VisionHelpers.getHorizAngle());
-    Dash.add("isAligned", () ->VisionHelpers.isAligned());
-    Dash.add("isDistanceAligned", () ->VisionHelpers.isDistanceAligned());
+    Dash.add("ClassName", VisionHelpers.getClassName());
+    // Dash.add("XLocation", () ->VisionHelpers.getXLocation());
+    // Dash.add("YLocation", () ->VisionHelpers.getYLocation());
+    Dash.add("Detected", () ->VisionHelpers.isDetected());
+    Dash.add("VertAngle", () ->VisionHelpers.getVertAngle());
+    Dash.add("HorizAngle", () ->VisionHelpers.getHorizAngle());
+    Dash.add("Aligned", () ->VisionHelpers.isAligned());
+    Dash.add("DistanceAligned", () ->VisionHelpers.isDistanceAligned());
 
+    Dash.add("XSpeed", () -> drivetrainSubsystem.getXSpeed());
+    Dash.add("YSpeed", () -> drivetrainSubsystem.getYSpeed());
+    Dash.add("Rot", () -> drivetrainSubsystem.getRot());
 
     // Dash.add("pitch", () -> RobotMap.GyroSensor.getPitch());
     // Dash.add("roll", () -> RobotMap.GyroSensor.getRoll());

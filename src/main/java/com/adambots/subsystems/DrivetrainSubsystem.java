@@ -31,6 +31,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   // Odometry class for tracking robot pose
   private SwerveDriveOdometry m_odometry;
+  private double xSpeed;
+  private double ySpeed;
+  private double rot;
 
   // Field details that can be viewed in Glass
   HashMap<ModulePosition, SwerveModule> swerveModules;
@@ -104,6 +107,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
    *          field.
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+    this.xSpeed = xSpeed;
+    this.ySpeed = ySpeed;
+    this.rot = rot;
     if (fieldRelative) {
       setChassisSpeeds(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getContinuousYawRad()));
     } else {
@@ -130,6 +136,18 @@ public class DrivetrainSubsystem extends SubsystemBase {
    */
   public ChassisSpeeds getChassisSpeeds() {
     return DriveConstants.kDriveKinematics.toChassisSpeeds(ModuleMap.orderedModuleStates(swerveModules));
+  }
+
+  public double getXSpeed() {
+    return xSpeed;
+  }
+
+  public double getYSpeed() {
+    return ySpeed;
+  }
+
+  public double getRot() {
+    return rot;
   }
 
   /**
