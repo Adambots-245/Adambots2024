@@ -15,6 +15,8 @@ public class AlignNoteHorizCommand extends Command {
   private double drive_output;
 
   public AlignNoteHorizCommand(DrivetrainSubsystem driveTrainSubsystem) {
+    addRequirements(driveTrainSubsystem);
+
     this.driveTrainSubsystem = driveTrainSubsystem;
   }
 

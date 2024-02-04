@@ -17,6 +17,8 @@ public class AlignNoteBothCommand extends Command {
   private double oldY;
 
   public AlignNoteBothCommand(DrivetrainSubsystem driveTrainSubsystem) {
+    addRequirements(driveTrainSubsystem);
+
     this.driveTrainSubsystem = driveTrainSubsystem;
   }
 

@@ -16,6 +16,8 @@ public class AlignNoteVertCommand extends Command {
   
 
   public AlignNoteVertCommand(DrivetrainSubsystem driveTrainSubsystem) {
+    addRequirements(driveTrainSubsystem);
+
     this.driveTrainSubsystem = driveTrainSubsystem;
   }
 
