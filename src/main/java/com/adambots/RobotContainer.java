@@ -2,6 +2,9 @@ package com.adambots;
 
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Gamepad.Buttons;
+import com.adambots.commands.autonCommands.AlignNoteBothCommand;
+import com.adambots.commands.autonCommands.AlignNoteHorizCommand;
+import com.adambots.commands.autonCommands.AlignNoteVertCommand;
 import com.adambots.commands.autonCommands.autonCommandGrounds.PickupGamepieceCommand;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.Dash;
@@ -15,6 +18,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -64,9 +68,12 @@ public class RobotContainer {
     
     //Debugging and Testing
     Buttons.JoystickButton4.onTrue(new InstantCommand(() -> drivetrainSubsystem.resetOdometry(new Pose2d())));
-    Buttons.primaryYButton.onTrue(new PickupGamepieceCommand(drivetrainSubsystem));
-    // Buttons.primaryAButton.whileTrue(new AlignNoteCommand(drivetrainSubsystem));
-    // Buttons.primaryBButton.whileTrue(new AlignNoteDistanceCommand(drivetrainSubsystem));
+    Buttons.JoystickButton7.onTrue(new AlignNoteBothCommand(drivetrainSubsystem));
+    // Buttons.JoystickButton7.onTrue(Commands.parallel(new AlignNoteHorizCommand(drivetrainSubsystem),
+    //     new AlignNoteVertCommand(drivetrainSubsystem)));
+
+    Buttons.JoystickButton5.whileTrue(new AlignNoteVertCommand(drivetrainSubsystem));
+    Buttons.JoystickButton6.whileTrue(new AlignNoteHorizCommand(drivetrainSubsystem));
   }
 
   private void registerNamedCommands() {

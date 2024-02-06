@@ -11,11 +11,11 @@ public class PickupGamepieceCommand extends SequentialCommandGroup {
 
   public PickupGamepieceCommand(DrivetrainSubsystem drivetrainSubsystem) {
     super(
-      // new AlignNoteHorizCommand(drivetrainSubsystem),
-      // new AlignNoteVertCommand(drivetrainSubsystem)
-      new ParallelCommandGroup(
-        new AlignNoteHorizCommand(drivetrainSubsystem),
-        new AlignNoteVertCommand(drivetrainSubsystem))
+      new AlignNoteHorizCommand(drivetrainSubsystem),
+      new AlignNoteVertCommand(drivetrainSubsystem)
+      // new ParallelCommandGroup(
+      //   new AlignNoteHorizCommand(drivetrainSubsystem),
+      //   new AlignNoteVertCommand(drivetrainSubsystem))
     );
   }
 }

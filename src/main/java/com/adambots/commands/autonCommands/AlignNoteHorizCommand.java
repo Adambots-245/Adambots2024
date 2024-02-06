@@ -48,7 +48,7 @@ public class AlignNoteHorizCommand extends Command {
       //   driveTrainSubsystem.drive(0, drive_output, 0, false);
       // }
 
-      driveTrainSubsystem.drive(driveTrainSubsystem.getXSpeed(), drive_output, driveTrainSubsystem.getRot(), false);
+      driveTrainSubsystem.drive(0, drive_output, driveTrainSubsystem.getRot(), false);
     }
     //Checks to see if the filtered angle is within the aligned bounds
     //Checks to see if the robot is at that position for more than just a single moment
