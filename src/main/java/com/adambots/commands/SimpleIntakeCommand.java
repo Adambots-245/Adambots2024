@@ -7,11 +7,11 @@ package com.adambots.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import com.adambots.subsystems.IntakeSubsystem;
 
-public class RunIntakeCommand extends Command {
+public class SimpleIntakeCommand extends Command {
   private IntakeSubsystem intakeSubsystem;
   private double groundIntakeMotorSpeed;
   /** Creates a new RunIntakeCommand. */
-  public RunIntakeCommand(IntakeSubsystem intakeSubsystem, double groundIntakeMotorSpeed) {
+  public SimpleIntakeCommand(IntakeSubsystem intakeSubsystem, double groundIntakeMotorSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem);
     this.intakeSubsystem = intakeSubsystem;
@@ -32,16 +32,11 @@ public class RunIntakeCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     intakeSubsystem.setGroundIntakeMotorSpeed(0);
-  
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (groundIntakeMotorSpeed >= 0){
-      return intakeSubsystem.isPieceInRobot();
-    } else {
-      return !intakeSubsystem.isPieceInRobot();
-    }
+    return false;
   }
 }
