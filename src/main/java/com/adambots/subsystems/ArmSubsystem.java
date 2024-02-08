@@ -20,8 +20,8 @@ public class ArmSubsystem extends SubsystemBase {
   DigitalInput wristLowerLimit;
   DutyCycleEncoder shoulderEncoder;
   DutyCycleEncoder wristEncoder;
-  PIDController shoulderPID = new PIDController(0, 0, 0);
-  PIDController wristPID = new PIDController(0, 0, 0);
+  PIDController shoulderPID = new PIDController(0.2, 0, 0.01);
+  PIDController wristPID = new PIDController(0.2, 0, 0.01);
 
   double shoulderAngle = 0;
   double wristAngle = 0;
