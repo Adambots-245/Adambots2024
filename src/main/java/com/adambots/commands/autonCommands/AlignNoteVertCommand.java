@@ -37,11 +37,13 @@ public class AlignNoteVertCommand extends Command {
     oldDistance = distance;
 
     // Calculates the drive output/speed
-    double drive_output = m_turningPIDController.calculate(distance, 26);
-    if (VisionHelpers.isDetected()){
+    double drive_output = m_turningPIDController.calculate(distance, 25);
+    if (VisionHelpers.isDetected() == true){
       // driveTrainSubsystem.drive(drive_output, 0, 0, false);
 
       driveTrainSubsystem.drive(drive_output, 0, 0, false);
+    } else {
+      driveTrainSubsystem.stop();
     }
     //Checks to see if the filtered area is within the aligned bounds
     //Checks to see if the robot is at that position for more than just a single moment
@@ -49,7 +51,7 @@ public class AlignNoteVertCommand extends Command {
       count++; 
     }
     //If the robot is not detecting a piece for a while, it adds to this counter
-    if (VisionHelpers.isDetected() != false) {
+    if (VisionHelpers.isDetected() == false) {
       notDetected++;
     }
   }
@@ -64,6 +66,6 @@ public class AlignNoteVertCommand extends Command {
   @Override
   public boolean isFinished() {
     //If the robot is aligned for some time, or the robot is not detecting a piece the command ends
-    return count >= 3 || notDetected >= 25;
+    return count >= 3 || notDetected >= 15;
   }
 }

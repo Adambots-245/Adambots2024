@@ -39,16 +39,18 @@ public class AlignNoteHorizCommand extends Command {
     // Calculates the drive output/speed
     drive_output = m_turningPIDController.calculate(newHoriz, 0);
     //Checks to see if we have an object detected
-    if (VisionHelpers.isDetected()){
+    if (VisionHelpers.isDetected() == true){
       //Only moves the robot sidewards and forwards at the same time if the gamepiece isn't too close
       //Otherwise it just aligns to the side 
-      // if (VisionHelpers.getGamePieceArea() < 18){
-      //   driveTrainSubsystem.drive(1, drive_output, 0, false);
-      // } else {
-      //   driveTrainSubsystem.drive(0, drive_output, 0, false);
-      // }
+      if (VisionHelpers.getGamePieceArea() < 10){
+        driveTrainSubsystem.drive(1, drive_output, 0, false);
+      } else {
+        driveTrainSubsystem.drive(0, drive_output, 0, false);
+      }
 
-      driveTrainSubsystem.drive(0, drive_output, driveTrainSubsystem.getRot(), false);
+      // driveTrainSubsystem.drive(0, drive_output, driveTrainSubsystem.getRot(), false);
+    } else {
+        driveTrainSubsystem.stop();
     }
     //Checks to see if the filtered angle is within the aligned bounds
     //Checks to see if the robot is at that position for more than just a single moment
@@ -56,7 +58,7 @@ public class AlignNoteHorizCommand extends Command {
       alignedCount++;
     }
     //If the robot is not detecting a piece for a while, it adds to this counter
-    if (VisionHelpers.isDetected() != false) {
+    if (VisionHelpers.isDetected() == false) {
       notDetectedCount++;
     }
   }
@@ -71,6 +73,6 @@ public class AlignNoteHorizCommand extends Command {
   @Override
   public boolean isFinished() {
     //If the robot is aligned for some time, or the robot is not detecting a piece the command ends
-    return alignedCount >= 1 || notDetectedCount >= 50;
+    return alignedCount >= 1 || notDetectedCount >= 15;
   }
 }

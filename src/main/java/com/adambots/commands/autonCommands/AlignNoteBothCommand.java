@@ -49,8 +49,8 @@ public class AlignNoteBothCommand extends Command {
     oldHoriz = newHoriz;
     oldVert = newVert;
     horizOutput = horizPIDController.calculate(newHoriz, 0);
-    vertOutput = vertPIDController.calculate(newVert, 26);
-    if (VisionHelpers.isDetected()){
+    vertOutput = vertPIDController.calculate(newVert, 24);
+    if (VisionHelpers.isDetected() == true){
       if (vertCount >= 1){
         driveTrainSubsystem.drive(0, horizOutput, 0, false);
       } else if (horizCount >= 3){

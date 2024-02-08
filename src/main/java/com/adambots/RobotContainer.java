@@ -3,9 +3,9 @@ package com.adambots;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Gamepad.Buttons;
 import com.adambots.commands.autonCommands.AlignNoteBothCommand;
-import com.adambots.commands.autonCommands.AlignNoteHorizCommand;
-import com.adambots.commands.autonCommands.AlignNoteVertCommand;
-import com.adambots.commands.autonCommands.autonCommandGrounds.PickupGamepieceCommand;
+import com.adambots.commands.autonCommands.AlignNoteRotateCommand;
+import com.adambots.commands.autonCommands.autonCommandGrounds.PickupGamepieceRotateCommand;
+import com.adambots.commands.autonCommands.autonCommandGrounds.PickupGamepieceStrafeCommand;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.Dash;
 import com.adambots.utils.VisionHelpers;
@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -68,12 +67,14 @@ public class RobotContainer {
     
     //Debugging and Testing
     Buttons.JoystickButton4.onTrue(new InstantCommand(() -> drivetrainSubsystem.resetOdometry(new Pose2d())));
-    Buttons.JoystickButton7.onTrue(new AlignNoteBothCommand(drivetrainSubsystem));
+    // Buttons.JoystickButton7.onTrue(new AlignNoteBothCommand(drivetrainSubsystem));
     // Buttons.JoystickButton7.onTrue(Commands.parallel(new AlignNoteHorizCommand(drivetrainSubsystem),
     //     new AlignNoteVertCommand(drivetrainSubsystem)));
 
-    Buttons.JoystickButton5.whileTrue(new AlignNoteVertCommand(drivetrainSubsystem));
-    Buttons.JoystickButton6.whileTrue(new AlignNoteHorizCommand(drivetrainSubsystem));
+    Buttons.JoystickButton6.onTrue(new PickupGamepieceStrafeCommand(drivetrainSubsystem));
+    Buttons.JoystickButton5.whileTrue(new AlignNoteRotateCommand(drivetrainSubsystem, true, true));
+    Buttons.JoystickButton10.whileTrue(new AlignNoteRotateCommand(drivetrainSubsystem, false, true));
+    Buttons.JoystickButton9.whileTrue(new PickupGamepieceRotateCommand(drivetrainSubsystem));
   }
 
   private void registerNamedCommands() {
@@ -108,10 +109,6 @@ public class RobotContainer {
     Dash.add("HorizAngle", () ->VisionHelpers.getHorizAngle());
     Dash.add("Aligned", () ->VisionHelpers.isAligned());
     Dash.add("DistanceAligned", () ->VisionHelpers.isDistanceAligned());
-
-    Dash.add("XSpeed", () -> drivetrainSubsystem.getXSpeed());
-    Dash.add("YSpeed", () -> drivetrainSubsystem.getYSpeed());
-    Dash.add("Rot", () -> drivetrainSubsystem.getRot());
 
     // Dash.add("pitch", () -> RobotMap.GyroSensor.getPitch());
     // Dash.add("roll", () -> RobotMap.GyroSensor.getRoll());
