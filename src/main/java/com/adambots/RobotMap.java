@@ -19,6 +19,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.SPI.Port;
 
@@ -34,13 +35,14 @@ public class RobotMap {
         //Hang Ports
         public static final int leftHangMotorPort = 1;
         public static final int rightHangMotorPort = 1;
-        public static final int leftHangLimitPort = 1;
-        public static final int rightHangLimitPort = 1;
+        public static final int leftRelayPort = 1;
+        public static final int rightRelayPort = 1;
         //Hang Devices
         public static final TalonFX leftHangMotor = new TalonFX(leftHangMotorPort);
         public static final TalonFX rightHangMotor = new TalonFX(rightHangMotorPort);
-        public static final DigitalInput leftHangLimit = new DigitalInput(leftHangLimitPort);
-        public static final DigitalInput rightHangLimit = new DigitalInput(rightHangLimitPort);
+        public static final Relay leftRelay = new Relay(leftRelayPort);
+        public static final Relay rightRelay = new Relay(rightRelayPort);
+       
         // CAN bus ports
         public static final int kRearLeftEncoderPort = 2;
         public static final int kRearRightEncoderPort = 3;
