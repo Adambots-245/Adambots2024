@@ -9,7 +9,7 @@ public final class Constants {
     public static Field2d field = new Field2d();
 
     public static final class VisionConstants {
-
+        public static final String noteLimelite = "limelite";
     }
 
     public static final class DriveConstants {

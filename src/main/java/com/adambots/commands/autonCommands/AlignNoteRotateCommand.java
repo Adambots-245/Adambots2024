@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class AlignNoteRotateCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
-  private final PIDController m_turningPIDController = new PIDController(0.1, 0, 0.032);
+  private final PIDController m_turningPIDController = new PIDController(0.1, 0, 0.03);
   private int alignedCount;
   private int notDetectedCount;
   private final double filterSens = 0.1;
