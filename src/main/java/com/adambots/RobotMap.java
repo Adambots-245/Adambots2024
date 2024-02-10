@@ -39,8 +39,8 @@ public class RobotMap {
         // Arm Ports
         public static final int shoulderMotorPort = 1;
         public static final int wristMotorPort = 2;
-        public static final int shoulderEncoderPort = 3;
-        public static final int wristEncoderPort = 4;
+        public static final int shoulderEncoderPort = 0;
+        public static final int wristEncoderPort = 1;
         public static final int shoulderLowerLimitPort = 20;
         public static final int wristLowerLimitPort = 21;
         
