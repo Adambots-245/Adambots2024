@@ -48,10 +48,10 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(RobotMap.swerveModules, RobotMap.gyro);
  //private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(RobotMap.swerveModules, RobotMap.GyroSensor);
- private final ArmSubsystem armSubsystem = new ArmSubsystem(RobotMap.shoulderMotor, RobotMap.wristMotor, RobotMap.shoulderEncoder, RobotMap.wristEncoder, RobotMap.shoulderLowerLimit, RobotMap.wristLowerLimit);
+ private final ArmSubsystem armSubsystem = new ArmSubsystem(RobotMap.shoulderMotor, RobotMap.wristMotor, RobotMap.shoulderEncoder, RobotMap.wristEncoder);
  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.shooterWheel);
  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.groundIntakeMotor, RobotMap.firstPieceInRobotEye, RobotMap.secondPieceInRobotEye);
-private final HangSubsystem hangSubsystem = new HangSubsystem(RobotMap.leftHangMotor, RobotMap.rightHangMotor, RobotMap.leftRelay, RobotMap.rightRelay);
+//  private final HangSubsystem hangSubsystem = new HangSubsystem(RobotMap.leftHangMotor, RobotMap.rightHangMotor, RobotMap.leftRelay, RobotMap.rightRelay);
 
   //Creates a SmartDashboard element to allow drivers to select differnt autons
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -85,7 +85,7 @@ private final HangSubsystem hangSubsystem = new HangSubsystem(RobotMap.leftHangM
     
     //Debugging and Testing
     Buttons.JoystickButton4.onTrue(new InstantCommand(() -> drivetrainSubsystem.resetOdometry(new Pose2d())));
-    Buttons.JoystickButton2.onTrue(new PickupGamepieceCommand(drivetrainSubsystem));
+    // Buttons.JoystickButton2.onTrue(new PickupGamepieceCommand(drivetrainSubsystem));
     // Buttons.primaryAButton.whileTrue(new AlignNoteCommand(drivetrainSubsystem));
     // Buttons.primaryBButton.whileTrue(new AlignNoteDistanceCommand(drivetrainSubsystem));
     // Buttons.JoystickButton4.onTrue(armCommands.humanStationConeCommand());

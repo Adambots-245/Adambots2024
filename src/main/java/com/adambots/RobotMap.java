@@ -45,12 +45,12 @@ public class RobotMap {
         public static final PowerDistribution PDM = new PowerDistribution(1, ModuleType.kRev);
 
         // Arm Ports
-        public static final int shoulderMotorPort = 1;
-        public static final int wristMotorPort = 2;
+        public static final int shoulderMotorPort = 22;
+        public static final int wristMotorPort = 21;
         public static final int shoulderEncoderPort = 0;
         public static final int wristEncoderPort = 1;
-        public static final int shoulderLowerLimitPort = 20;
-        public static final int wristLowerLimitPort = 21;
+        // public static final int shoulderLowerLimitPort = 20;
+        // public static final int wristLowerLimitPort = 21;
         
         // Arm Devices
         public static final BaseMotor shoulderMotor = new TalonFXMotor(shoulderMotorPort);
@@ -59,8 +59,8 @@ public class RobotMap {
         // public static final TalonFX wristMotor = new TalonFX(wristMotorPort);
         public static final DutyCycleEncoder shoulderEncoder = new DutyCycleEncoder(shoulderEncoderPort);
         public static final DutyCycleEncoder wristEncoder = new DutyCycleEncoder(wristEncoderPort);
-        public static final DigitalInput shoulderLowerLimit = new DigitalInput(shoulderLowerLimitPort);
-        public static final DigitalInput wristLowerLimit = new DigitalInput(wristLowerLimitPort);
+        // public static final DigitalInput shoulderLowerLimit = new DigitalInput(shoulderLowerLimitPort);
+        // public static final DigitalInput wristLowerLimit = new DigitalInput(wristLowerLimitPort);
 
         // Shooter Ports
         public static final int shooterWheelPort = 5;
@@ -72,7 +72,7 @@ public class RobotMap {
         //Intake Ports
         public static final int groundIntakeMotorPort = 6;
         public static final int secondPieceInRobotEyePort = 9;
-        public static final int firstPieceInRobotEyePort = 0;
+        public static final int firstPieceInRobotEyePort = 7;
 
         //Intake Devices
         public static final BaseMotor groundIntakeMotor = new TalonFXMotor(groundIntakeMotorPort);
@@ -84,7 +84,7 @@ public class RobotMap {
         public static final int leftHangMotorPort = 1;
         public static final int rightHangMotorPort = 1;
         public static final int leftRelayPort = 1;
-        public static final int rightRelayPort = 1;
+        public static final int rightRelayPort = 0;
         //Hang Devices
         public static final TalonFX leftHangMotor = new TalonFX(leftHangMotorPort);
         public static final TalonFX rightHangMotor = new TalonFX(rightHangMotorPort);

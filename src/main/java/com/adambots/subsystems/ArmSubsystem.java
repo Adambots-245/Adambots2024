@@ -15,10 +15,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ArmSubsystem extends SubsystemBase {
   BaseMotor shoulderMotor;
   BaseMotor wristMotor;
-  DigitalInput shoulderUpperLimit;
-  DigitalInput shoulderLowerLimit;
-  DigitalInput wristUpperLimit;
-  DigitalInput wristLowerLimit;
   DutyCycleEncoder shoulderEncoder;
   DutyCycleEncoder wristEncoder;
   PIDController shoulderPID = new PIDController(0.2, 0, 0.01);
@@ -28,13 +24,11 @@ public class ArmSubsystem extends SubsystemBase {
   double wristAngle = 0;
   double shoulderSpeed, wristSpeed = 0;
 
-  public ArmSubsystem(BaseMotor shoulderMotor, BaseMotor wristMotor, DutyCycleEncoder shoulderEncoder, DutyCycleEncoder wristEncoder, DigitalInput shoulderLowerLimit, DigitalInput wristLowerLimit) {
+  public ArmSubsystem(BaseMotor shoulderMotor, BaseMotor wristMotor, DutyCycleEncoder shoulderEncoder, DutyCycleEncoder wristEncoder) {
     this.shoulderMotor = shoulderMotor;
     this.wristMotor = wristMotor;
     this.shoulderEncoder = shoulderEncoder;
     this.wristEncoder = wristEncoder;
-    this.shoulderLowerLimit = shoulderLowerLimit;
-    this.wristLowerLimit = wristLowerLimit;
 
     shoulderAngle = getShoulderAngle();
     wristAngle = getWristAngle();
@@ -52,14 +46,6 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void setWristAngle(double newWristAngle) {
     wristAngle = newWristAngle;
-  }
-
-  public boolean shoulderLowerLimitPressed() {
-    return shoulderLowerLimit.get();
-  }
-
-  public boolean wristLowerLimitPressed() {
-    return wristLowerLimit.get();
   }
 
   public void incrementShoulderAngle(double shoulderIncrement) {
