@@ -8,7 +8,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 /** Add your docs here. */
-public class TalonFXMotor extends Motor{
+public class TalonFXMotor extends BaseMotor{
 
     TalonFX motor;
 

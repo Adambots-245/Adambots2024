@@ -6,11 +6,10 @@ package com.adambots.utils;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
-import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 /** Add your docs here. */
-public class NEOMotor extends Motor{
+public class NEOMotor extends BaseMotor{
 
     CANSparkMax motor;
 

@@ -14,6 +14,8 @@ import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
 import com.adambots.sensors.PhotoEye;
 import com.adambots.subsystems.SwerveModule;
+import com.adambots.utils.BaseMotor;
+import com.adambots.utils.TalonFXMotor;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.kauailabs.navx.frc.AHRS;
@@ -46,8 +48,10 @@ public class RobotMap {
         public static final int wristLowerLimitPort = 21;
         
         // Arm Devices
-        public static final TalonFX shoulderMotor = new TalonFX(shoulderMotorPort);
-        public static final TalonFX wristMotor = new TalonFX(wristMotorPort);
+        public static final BaseMotor shoulderMotor = new TalonFXMotor(shoulderMotorPort);
+        // public static final TalonFX shoulderMotor = new TalonFX(shoulderMotorPort);
+        public static final BaseMotor wristMotor = new TalonFXMotor(wristMotorPort);
+        // public static final TalonFX wristMotor = new TalonFX(wristMotorPort);
         public static final DutyCycleEncoder shoulderEncoder = new DutyCycleEncoder(shoulderEncoderPort);
         public static final DutyCycleEncoder wristEncoder = new DutyCycleEncoder(wristEncoderPort);
         public static final DigitalInput shoulderLowerLimit = new DigitalInput(shoulderLowerLimitPort);
@@ -57,7 +61,8 @@ public class RobotMap {
         public static final int shooterWheelPort = 5;
 
         // Shooter Devices
-        public static final TalonFX shooterWheel = new TalonFX(shooterWheelPort);
+        public static final BaseMotor shooterWheel = new TalonFXMotor(shooterWheelPort);
+        //public static final TalonFX shooterWheel = new TalonFX(shooterWheelPort);
 
         //Intake Ports
         public static final int groundIntakeMotorPort = 6;
@@ -65,7 +70,8 @@ public class RobotMap {
         public static final int firstPieceInRobotEyePort = 0;
 
         //Intake Devices
-        public static final TalonFX groundIntakeMotor = new TalonFX(groundIntakeMotorPort);
+        public static final BaseMotor groundIntakeMotor = new TalonFXMotor(groundIntakeMotorPort);
+        //public static final TalonFX groundIntakeMotor = new TalonFX(groundIntakeMotorPort);
         public static final PhotoEye secondPieceInRobotEye = new PhotoEye(secondPieceInRobotEyePort);
         public static final PhotoEye firstPieceInRobotEye = new PhotoEye(firstPieceInRobotEyePort);
 

@@ -200,24 +200,27 @@ public final class Constants {
     }
 
     public static final class ArmConstants{
+        // Arm Angle Offset
+        public static final double shoulderOffset = 0;
+        public static final double wristOffset = 0;
         // Floor Pickup
-        public static final double floorWristAngle = 45;
-        public static final double floorShoulderAngle = 45;
+        public static final double floorWristAngle = 45%360;
+        public static final double floorShoulderAngle = 45%360;
         // Amp Scoring
-        public static final double ampWristAngle = 10;
-        public static final double ampShoulderAngle = 10;
+        public static final double ampWristAngle = (floorWristAngle + 10)%360;
+        public static final double ampShoulderAngle = (floorShoulderAngle + 10)%360;
         // Human Player Pickup
-        public static final double humanWristAngle = 20;
-        public static final double humanShoulderAngle = 20;
+        public static final double humanWristAngle = (floorWristAngle + 20)%360;
+        public static final double humanShoulderAngle = (floorShoulderAngle + 20)%360;
         // trap scoring
-        public static final double trapWristAngle = 60;
-        public static final double trapShoulderAngle = 60;
+        public static final double trapWristAngle = (floorWristAngle + 60)%360;
+        public static final double trapShoulderAngle = (floorShoulderAngle + 60)%360;
         // default
-        public static final double defaultWristAngle = 25;
-        public static final double defaultShoulderAngle = 25;
+        public static final double defaultWristAngle = (floorWristAngle + 25)%360;
+        public static final double defaultShoulderAngle = (floorShoulderAngle + 25)%360;
         // autonomous starting/speaker
-        public static final double speakerWristAngle = 35;
-        public static final double speakerShoulderAngle = 35;
+        public static final double speakerWristAngle = (floorWristAngle + 35)%360;
+        public static final double speakerShoulderAngle = (floorShoulderAngle + 35)%360;
 
         public static class State {
             private double wristAngle;

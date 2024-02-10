@@ -33,7 +33,7 @@ public class RunIntakeCommand extends Command {
   public void execute() {
     if (intakeSubsystem.isFirstPieceInRobot()) {
       intakeSubsystem.setGroundIntakeMotorSpeed(0.1);
-      isFirstSpeed = true;
+     isFirstSpeed = true;
     }
   }
 
@@ -47,6 +47,6 @@ public class RunIntakeCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return intakeSubsystem.isSecondPieceInRobot() && isFirstSpeed;
+    return intakeSubsystem.isSecondPieceInRobot(); // && isFirstSpeed;
   }
 }

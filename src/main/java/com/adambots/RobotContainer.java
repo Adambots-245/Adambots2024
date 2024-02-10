@@ -137,9 +137,6 @@ public class RobotContainer {
     Dash.add("roll", () -> RobotMap.GyroSensor.getRoll());
     Dash.add("IntakeSpeed", () -> intakeSubsystem.getIntakeSpeed());
 
-    Dash.add("getIntake", () -> intakeSubsystem.getIntake());
-
-
 
     // Dash.add("LIDAR Dist", () -> RobotMap.lidar.getInches());
 

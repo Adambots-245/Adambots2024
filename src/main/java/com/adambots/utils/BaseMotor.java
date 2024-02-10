@@ -4,12 +4,11 @@
 
 package com.adambots.utils;
 
-import com.ctre.phoenix6.signals.NeutralModeValue;
 
 /** Add your docs here. */
-public abstract class Motor {
+public abstract class BaseMotor {
 
-    public Motor(){
+    public BaseMotor(){
         
     }
 

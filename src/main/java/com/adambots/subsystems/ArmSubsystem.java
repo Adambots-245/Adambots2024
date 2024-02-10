@@ -4,8 +4,8 @@
 
 package com.adambots.subsystems;
 
+import com.adambots.utils.BaseMotor;
 import com.adambots.utils.Dash;
-import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase {
-  TalonFX shoulderMotor;
-  TalonFX wristMotor;
+  BaseMotor shoulderMotor;
+  BaseMotor wristMotor;
   DigitalInput shoulderUpperLimit;
   DigitalInput shoulderLowerLimit;
   DigitalInput wristUpperLimit;
@@ -28,13 +28,19 @@ public class ArmSubsystem extends SubsystemBase {
   double wristAngle = 0;
   double shoulderSpeed, wristSpeed = 0;
 
-  public ArmSubsystem(TalonFX shoulderMotor, TalonFX wristMotor, DutyCycleEncoder shoulderEncoder, DutyCycleEncoder wristEncoder, DigitalInput shoulderLowerLimit, DigitalInput wristLowerLimit) {
+  public ArmSubsystem(BaseMotor shoulderMotor, BaseMotor wristMotor, DutyCycleEncoder shoulderEncoder, DutyCycleEncoder wristEncoder, DigitalInput shoulderLowerLimit, DigitalInput wristLowerLimit) {
     this.shoulderMotor = shoulderMotor;
     this.wristMotor = wristMotor;
     this.shoulderEncoder = shoulderEncoder;
     this.wristEncoder = wristEncoder;
     this.shoulderLowerLimit = shoulderLowerLimit;
     this.wristLowerLimit = wristLowerLimit;
+
+    shoulderAngle = getShoulderAngle();
+    wristAngle = getWristAngle();
+
+    shoulderPID.enableContinuousInput(0, 360);
+    wristPID.enableContinuousInput(0, 360);
 
     Dash.add("Shoulder Encoder", () -> getShoulderAngle());
     Dash.add("Wrist Encoder", () -> getWristAngle());
@@ -76,25 +82,25 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     shoulderSpeed = shoulderPID.calculate(getShoulderAngle(), shoulderAngle);
     wristSpeed = wristPID.calculate(getWristAngle(), wristAngle);
-    failSafes();
+    //failSafes();
     shoulderMotor.set(shoulderSpeed);
     wristMotor.set(wristSpeed);
 
   }
 
-  private void failSafes() {
-    if (shoulderLowerLimitPressed()) {
-      shoulderEncoder.reset();
-      if (shoulderSpeed < 0) {
-        shoulderSpeed = 0;
-      }
-    }
-    if (wristLowerLimitPressed()){
-      wristEncoder.reset();
-      if (wristSpeed < 0) {
-        wristSpeed = 0;
-      }
-    }
+  // private void failSafes() {
+  //   if (shoulderLowerLimitPressed()) {
+  //     shoulderEncoder.reset();
+  //     if (shoulderSpeed < 0) {
+  //       shoulderSpeed = 0;
+  //     }
+  //   }
+  //   if (wristLowerLimitPressed()){
+  //     wristEncoder.reset();
+  //     if (wristSpeed < 0) {
+  //       wristSpeed = 0;
+  //     }
+  //   }
 
-  }
+  //}
 }
