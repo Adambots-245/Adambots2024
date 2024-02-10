@@ -1,9 +1,10 @@
 package com.adambots;
 
 import com.adambots.Constants.DriveConstants;
+import com.adambots.Constants.VisionConstants;
 import com.adambots.Gamepad.Buttons;
-import com.adambots.commands.autonCommands.AlignNoteBothCommand;
-import com.adambots.commands.autonCommands.AlignNoteRotateCommand;
+// import com.adambots.commands.autonCommands.AlignNoteBothCommand;
+import com.adambots.commands.autonCommands.AlignRotateCommand;
 import com.adambots.commands.autonCommands.autonCommandGrounds.PickupGamepieceRotateCommand;
 import com.adambots.commands.autonCommands.autonCommandGrounds.PickupGamepieceStrafeCommand;
 import com.adambots.subsystems.DrivetrainSubsystem;
@@ -72,8 +73,10 @@ public class RobotContainer {
     //     new AlignNoteVertCommand(drivetrainSubsystem)));
 
     Buttons.JoystickButton6.onTrue(new PickupGamepieceStrafeCommand(drivetrainSubsystem));
-    Buttons.JoystickButton5.whileTrue(new AlignNoteRotateCommand(drivetrainSubsystem, true, true));
-    Buttons.JoystickButton10.whileTrue(new AlignNoteRotateCommand(drivetrainSubsystem, false, true));
+        Buttons.JoystickButton7.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.aprilLimelite));
+
+    Buttons.JoystickButton5.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.noteLimelite));
+    Buttons.JoystickButton10.whileTrue(new AlignRotateCommand(drivetrainSubsystem, false, true, VisionConstants.noteLimelite));
     Buttons.JoystickButton9.whileTrue(new PickupGamepieceRotateCommand(drivetrainSubsystem));
   }
 
@@ -101,14 +104,14 @@ public class RobotContainer {
     Dash.add("odom y", () -> drivetrainSubsystem.getPose().getY());
     Dash.add("yaw", () -> RobotMap.gyro.getContinuousYawDeg());
 
-    Dash.add("ClassName", VisionHelpers.getClassName());
+    Dash.add("ClassName", VisionHelpers.getClassName(VisionConstants.noteLimelite));
     // Dash.add("XLocation", () ->VisionHelpers.getXLocation());
     // Dash.add("YLocation", () ->VisionHelpers.getYLocation());
-    Dash.add("Detected", () ->VisionHelpers.isDetected());
-    Dash.add("VertAngle", () ->VisionHelpers.getVertAngle());
-    Dash.add("HorizAngle", () ->VisionHelpers.getHorizAngle());
-    Dash.add("Aligned", () ->VisionHelpers.isAligned());
-    Dash.add("DistanceAligned", () ->VisionHelpers.isDistanceAligned());
+    Dash.add("Detected", () ->VisionHelpers.isDetected(VisionConstants.noteLimelite));
+    Dash.add("VertAngle", () ->VisionHelpers.getVertAngle(VisionConstants.noteLimelite));
+    Dash.add("HorizAngle", () ->VisionHelpers.getHorizAngle(VisionConstants.noteLimelite));
+    Dash.add("Aligned", () ->VisionHelpers.isAligned(VisionConstants.noteLimelite));
+    Dash.add("DistanceAligned", () ->VisionHelpers.isDistanceAligned(VisionConstants.noteLimelite));
 
     // Dash.add("pitch", () -> RobotMap.GyroSensor.getPitch());
     // Dash.add("roll", () -> RobotMap.GyroSensor.getRoll());

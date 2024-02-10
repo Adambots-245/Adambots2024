@@ -1,5 +1,6 @@
 package com.adambots.commands.autonCommands;
 import com.adambots.Constants.DriveConstants;
+import com.adambots.Constants.VisionConstants;
 import com.adambots.Gamepad.Buttons;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.VisionHelpers;
@@ -7,9 +8,10 @@ import com.adambots.utils.VisionHelpers;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class AlignNoteRotateCommand extends Command {
+public class AlignRotateCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
-  private final PIDController m_turningPIDController = new PIDController(0.1, 0, 0.03);
+  private final PIDController noteTurningPIDController = new PIDController(VisionConstants.kpRotatePID, 0, VisionConstants.kdRotatePID);
+  private final PIDController aprilTurningPIDController = new PIDController(0.08, 0, 0.03);
   private int alignedCount;
   private int notDetectedCount;
   private final double filterSens = 0.1;
@@ -18,34 +20,40 @@ public class AlignNoteRotateCommand extends Command {
   private double drive_output;
   private boolean fieldOrientated;
   private boolean continuous;
+  private String limelight;
 
-  public AlignNoteRotateCommand(DrivetrainSubsystem driveTrainSubsystem, boolean fieldOrientated, boolean continuous) {
+  public AlignRotateCommand(DrivetrainSubsystem driveTrainSubsystem, boolean fieldOrientated, boolean continuous, String limelight) {
     addRequirements(driveTrainSubsystem);
     this.driveTrainSubsystem = driveTrainSubsystem;
     this.fieldOrientated = fieldOrientated;
     this.continuous = continuous;
+    this.limelight = limelight;
   }
 
   @Override
   public void initialize() {
-    oldRotate = VisionHelpers.getHorizAngle();;
+    oldRotate = VisionHelpers.getHorizAngle(limelight);
     alignedCount = 0;
     notDetectedCount = 0;
     drive_output = 0;
-    newRotate = VisionHelpers.getHorizAngle();
+    newRotate = VisionHelpers.getHorizAngle(limelight);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     //Filter to stop large changes in data while runing, to make the PID work better
-    newRotate = filterSens*VisionHelpers.getHorizAngle() + (1-filterSens)*oldRotate;
+    newRotate = filterSens*VisionHelpers.getHorizAngle(limelight) + (1-filterSens)*oldRotate;
     oldRotate = newRotate;
 
     // Calculates the drive rotation
-    drive_output = m_turningPIDController.calculate(Math.abs(newRotate), 0);
+    if (limelight == VisionConstants.noteLimelite){
+      drive_output = noteTurningPIDController.calculate(Math.abs(newRotate), 0);
+    } else{
+      drive_output = aprilTurningPIDController.calculate(Math.abs(newRotate), 0);
+    }
     //Checks to see if we have an object detected
-    if (VisionHelpers.isDetected()){
+    if (VisionHelpers.isDetected(limelight)){
       //Aligns differntly if it is field orientated or not
       if (fieldOrientated == true){
           //Moves left or right depending on the angle
@@ -68,11 +76,11 @@ public class AlignNoteRotateCommand extends Command {
     }
     //Checks to see if the filtered angle is within the aligned bounds
     //Checks to see if the robot is at that position for more than just a single moment
-    if((newRotate>-5&&newRotate<5)&&VisionHelpers.isDetected()){
+    if((newRotate>-5&&newRotate<5)&&VisionHelpers.isDetected(limelight)){
       alignedCount++;
     }
     //If the robot is not detecting a piece for a while, it adds to this counter
-    if (VisionHelpers.isDetected() == false) {
+    if (VisionHelpers.isDetected(limelight) == false) {
       notDetectedCount++;
     }
   }

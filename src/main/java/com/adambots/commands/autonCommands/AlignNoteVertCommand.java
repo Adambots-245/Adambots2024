@@ -1,4 +1,5 @@
 package com.adambots.commands.autonCommands;
+import com.adambots.Constants.VisionConstants;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.VisionHelpers;
 
@@ -7,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class AlignNoteVertCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
-  private final PIDController m_turningPIDController = new PIDController(0.1, 0, 0.02);
+  private final PIDController m_turningPIDController = new PIDController(VisionConstants.kpVertPID, 0, VisionConstants.kdVertPID);
   private int count;
   private int notDetected;
   private final double filterSens = 0.1;
@@ -26,19 +27,19 @@ public class AlignNoteVertCommand extends Command {
   public void initialize() {
     count = 0;
     notDetected = 0;
-    oldDistance = VisionHelpers.getGamePieceArea();
+    oldDistance = VisionHelpers.getGamePieceArea(VisionConstants.noteLimelite);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     //Filter to stop large changes in data while runing, to make the PID work better
-    distance = filterSens*VisionHelpers.getGamePieceArea() + (1-filterSens)*oldDistance;
+    distance = filterSens*VisionHelpers.getGamePieceArea(VisionConstants.noteLimelite) + (1-filterSens)*oldDistance;
     oldDistance = distance;
 
     // Calculates the drive output/speed
     double drive_output = m_turningPIDController.calculate(distance, 25);
-    if (VisionHelpers.isDetected() == true){
+    if (VisionHelpers.isDetected(VisionConstants.noteLimelite) == true){
       // driveTrainSubsystem.drive(drive_output, 0, 0, false);
 
       driveTrainSubsystem.drive(drive_output, 0, 0, false);
@@ -51,7 +52,7 @@ public class AlignNoteVertCommand extends Command {
       count++; 
     }
     //If the robot is not detecting a piece for a while, it adds to this counter
-    if (VisionHelpers.isDetected() == false) {
+    if (VisionHelpers.isDetected(VisionConstants.noteLimelite) == false) {
       notDetected++;
     }
   }

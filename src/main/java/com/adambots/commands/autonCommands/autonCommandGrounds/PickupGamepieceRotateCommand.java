@@ -1,6 +1,7 @@
 package com.adambots.commands.autonCommands.autonCommandGrounds;
 
-import com.adambots.commands.autonCommands.AlignNoteRotateCommand;
+import com.adambots.commands.autonCommands.AlignRotateCommand;
+import com.adambots.Constants.VisionConstants;
 import com.adambots.commands.autonCommands.AlignNoteVertCommand;
 import com.adambots.subsystems.DrivetrainSubsystem;
 
@@ -10,7 +11,7 @@ public class PickupGamepieceRotateCommand extends SequentialCommandGroup {
 
   public PickupGamepieceRotateCommand(DrivetrainSubsystem drivetrainSubsystem) {
     super(
-        new AlignNoteRotateCommand(drivetrainSubsystem, false, true),
+        new AlignRotateCommand(drivetrainSubsystem, false, true, VisionConstants.noteLimelite),
         new AlignNoteVertCommand(drivetrainSubsystem)
       );
   }
