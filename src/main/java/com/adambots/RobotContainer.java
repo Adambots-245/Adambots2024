@@ -13,6 +13,7 @@ import com.adambots.commands.autonCommands.AdjustNote;
 import com.adambots.commands.autonCommands.FireCommand;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
+import com.adambots.subsystems.HangSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
 import com.adambots.RobotMap;
 import com.adambots.subsystems.IntakeSubsystem;
@@ -50,6 +51,7 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
  private final ArmSubsystem armSubsystem = new ArmSubsystem(RobotMap.shoulderMotor, RobotMap.wristMotor, RobotMap.shoulderEncoder, RobotMap.wristEncoder, RobotMap.shoulderLowerLimit, RobotMap.wristLowerLimit);
  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.shooterWheel);
  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.groundIntakeMotor, RobotMap.firstPieceInRobotEye, RobotMap.secondPieceInRobotEye);
+private final HangSubsystem hangSubsystem = new HangSubsystem(RobotMap.leftHangMotor, RobotMap.rightHangMotor, RobotMap.leftRelay, RobotMap.rightRelay);
 
   //Creates a SmartDashboard element to allow drivers to select differnt autons
   private SendableChooser<Command> autoChooser = new SendableChooser<>();

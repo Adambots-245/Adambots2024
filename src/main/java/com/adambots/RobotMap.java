@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.SPI.Port;
 
@@ -78,6 +79,17 @@ public class RobotMap {
         //public static final TalonFX groundIntakeMotor = new TalonFX(groundIntakeMotorPort);
         public static final PhotoEye secondPieceInRobotEye = new PhotoEye(secondPieceInRobotEyePort, false);
         public static final PhotoEye firstPieceInRobotEye = new PhotoEye(firstPieceInRobotEyePort, false);
+
+        //Hang Ports
+        public static final int leftHangMotorPort = 1;
+        public static final int rightHangMotorPort = 1;
+        public static final int leftRelayPort = 1;
+        public static final int rightRelayPort = 1;
+        //Hang Devices
+        public static final TalonFX leftHangMotor = new TalonFX(leftHangMotorPort);
+        public static final TalonFX rightHangMotor = new TalonFX(rightHangMotorPort);
+        public static final Relay leftRelay = new Relay(leftRelayPort);
+        public static final Relay rightRelay = new Relay(rightRelayPort);
 
         // CAN bus ports
         public static final int kRearLeftEncoderPort = 2;
