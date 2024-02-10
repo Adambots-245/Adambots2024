@@ -31,7 +31,7 @@ public final class Constants {
         public static final boolean kFrontLeftDriveMotorReversed = true;
         public static final boolean kRearLeftDriveMotorReversed = false;
         public static final boolean kFrontRightDriveMotorReversed = false;
-        public static final boolean kRearRightDriveMotorReversed = true;
+        public static final boolean kRearRightDriveMotorReversed = false;
 
         // Distance between centers of right and left wheels on robot in meters
         public static final double kTrackWidth = 0.61;
@@ -70,7 +70,7 @@ public final class Constants {
         // Convert drive motor rotations to linear distance             Motor rot to Wheel rot -> Wheel rot to linear meters (circumference)
         public static final double kDriveEncoderPositionConversionFactor = kSwerveModuleFinalGearRatio * 2*Math.PI * kWheelRadiusMeters;
 
-        public static final double kPModuleTurningController = 0.7; //PID Values for turning motors .7
+        public static final double kPModuleTurningController = 0.7; //0.7 //PID Values for turning motors .7
         public static final double kDModuleTurningController = 0.026; // 0.026
     }
 

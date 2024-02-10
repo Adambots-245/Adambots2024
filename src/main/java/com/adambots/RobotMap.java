@@ -43,7 +43,7 @@ public class RobotMap {
     public static final int kSecondaryControllerPort = 2; // XBOX Controller
 
     // Robot Devices and Sensors
-    public static final Gyro gyro = new Gyro(6);
+    public static final Gyro gyro = new Gyro(0);
 
     // Robot Swerve Modules
     public static final HashMap<ModulePosition, SwerveModule> swerveModules = new HashMap<>(
