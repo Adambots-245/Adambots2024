@@ -53,9 +53,9 @@ public class RobotMap {
         // public static final int wristLowerLimitPort = 21;
         
         // Arm Devices
-        public static final BaseMotor shoulderMotor = new TalonFXMotor(shoulderMotorPort);
+        public static final BaseMotor shoulderMotor = new TalonFXMotor(shoulderMotorPort, Constants.canivore);
         // public static final TalonFX shoulderMotor = new TalonFX(shoulderMotorPort);
-        public static final BaseMotor wristMotor = new TalonFXMotor(wristMotorPort);
+        public static final BaseMotor wristMotor = new TalonFXMotor(wristMotorPort, Constants.canivore);
         // public static final TalonFX wristMotor = new TalonFX(wristMotorPort);
         public static final DutyCycleEncoder shoulderEncoder = new DutyCycleEncoder(shoulderEncoderPort);
         public static final DutyCycleEncoder wristEncoder = new DutyCycleEncoder(wristEncoderPort);
@@ -66,16 +66,17 @@ public class RobotMap {
         public static final int shooterWheelPort = 5;
 
         // Shooter Devices
-        public static final BaseMotor shooterWheel = new TalonFXMotor(shooterWheelPort);
+        public static final BaseMotor shooterWheel = new TalonFXMotor(shooterWheelPort, Constants.canivore);
         //public static final TalonFX shooterWheel = new TalonFX(shooterWheelPort);
 
         //Intake Ports
         public static final int groundIntakeMotorPort = 6;
-        public static final int secondPieceInRobotEyePort = 9;
-        public static final int firstPieceInRobotEyePort = 7;
+      
+        public static final int secondPieceInRobotEyePort = 6;
+        public static final int firstPieceInRobotEyePort = 8;
 
         //Intake Devices
-        public static final BaseMotor groundIntakeMotor = new TalonFXMotor(groundIntakeMotorPort);
+        public static final BaseMotor groundIntakeMotor = new TalonFXMotor(groundIntakeMotorPort, Constants.canivore);
         //public static final TalonFX groundIntakeMotor = new TalonFX(groundIntakeMotorPort);
         public static final PhotoEye secondPieceInRobotEye = new PhotoEye(secondPieceInRobotEyePort, false);
         public static final PhotoEye firstPieceInRobotEye = new PhotoEye(firstPieceInRobotEyePort, false);
@@ -86,8 +87,8 @@ public class RobotMap {
         public static final int leftRelayPort = 1;
         public static final int rightRelayPort = 0;
         //Hang Devices
-        public static final TalonFX leftHangMotor = new TalonFX(leftHangMotorPort);
-        public static final TalonFX rightHangMotor = new TalonFX(rightHangMotorPort);
+        public static final TalonFX leftHangMotor = new TalonFX(leftHangMotorPort, Constants.canivore);
+        public static final TalonFX rightHangMotor = new TalonFX(rightHangMotorPort, Constants.canivore);
         public static final Relay leftRelay = new Relay(leftRelayPort);
         public static final Relay rightRelay = new Relay(rightRelayPort);
 
@@ -111,7 +112,7 @@ public class RobotMap {
     public static final int kSecondaryControllerPort = 2; // XBOX Controller
 
     // Robot Devices and Sensors
-    public static final Gyro gyro = new Gyro(6);
+    public static final Gyro gyro = new Gyro(0);
 
     // Robot Swerve Modules
     public static final HashMap<ModulePosition, SwerveModule> swerveModules = new HashMap<>(

@@ -115,10 +115,15 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
     Buttons.primaryYButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.humanState));
     Buttons.primaryStartButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
     Buttons.primaryBackButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.trapState));
-    Buttons.primaryDPadN.onTrue(new RotateShoulderCommand(armSubsystem, 3));
-    Buttons.primaryDPadS.onTrue(new RotateShoulderCommand(armSubsystem, -3));
-    Buttons.primaryDPadW.onTrue(new RotateWristCommand(armSubsystem, -3));
-    Buttons.primaryDPadE.onTrue(new RotateWristCommand(armSubsystem, 3));
+    Buttons.primaryDPadN.whileTrue(new RotateShoulderCommand(armSubsystem, 0.5));
+    Buttons.primaryDPadS.whileTrue(new RotateShoulderCommand(armSubsystem, -0.5));
+    Buttons.primaryDPadW.whileTrue(new RotateWristCommand(armSubsystem, -0.5));
+    Buttons.primaryDPadE.whileTrue(new RotateWristCommand(armSubsystem, 0.5));
+
+    //Hang buttons
+    // Buttons.primaryLeftStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setRelay(true)));
+        // Buttons.primaryRightStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setRelay(false)));
+
     
     // Buttons.JoystickButton7.onTrue(new AlignNoteBothCommand(drivetrainSubsystem));
     // Buttons.JoystickButton7.onTrue(Commands.parallel(new AlignNoteHorizCommand(drivetrainSubsystem),

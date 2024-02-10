@@ -18,10 +18,10 @@ public class AdjustNote extends SequentialCommandGroup {
     super(
       new RunIntakeCommand(intakeSubsystem,0.2),
       // new ParallelDeadlineGroup(new WaitCommand(0.05), new RunCommand(() -> intakeSubsystem.setGroundIntakeMotorSpeed(0.1))),
-      new ParallelDeadlineGroup(new WaitCommand(0.4), new RunCommand(() -> intakeSubsystem.setGroundIntakeMotorSpeed(-0.12))),
+      new ParallelDeadlineGroup(new WaitCommand(0.2), new RunCommand(() -> intakeSubsystem.setGroundIntakeMotorSpeed(-0.1))),
       new SlowIntakeCommand(intakeSubsystem, 0.09),
       // new ParallelDeadlineGroup(new WaitCommand(0.05), new RunCommand(() -> intakeSubsystem.setGroundIntakeMotorSpeed(0.1))),
-      new ParallelDeadlineGroup(new WaitCommand(0.4), new RunCommand(() -> intakeSubsystem.setGroundIntakeMotorSpeed(-0.12))),
+      new ParallelDeadlineGroup(new WaitCommand(0.2), new RunCommand(() -> intakeSubsystem.setGroundIntakeMotorSpeed(-0.1))),
       new SlowIntakeCommand(intakeSubsystem, 0.09)
       // new ParallelDeadlineGroup(new WaitCommand(0.3), new RunCommand(() -> intakeSubsystem.setGroundIntakeMotorSpeed(-0.1))),
       // new SlowIntakeCommand(intakeSubsystem)

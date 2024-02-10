@@ -16,6 +16,10 @@ public class TalonFXMotor extends BaseMotor{
         motor = new TalonFX(portNum);
     }
 
+    public TalonFXMotor(int portNum, String bus){
+        motor = new TalonFX(portNum, bus);
+    }
+
     @Override
     public void set(double speed){
         motor.set(speed);

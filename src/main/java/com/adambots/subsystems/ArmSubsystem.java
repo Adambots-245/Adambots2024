@@ -17,8 +17,13 @@ public class ArmSubsystem extends SubsystemBase {
   BaseMotor wristMotor;
   DutyCycleEncoder shoulderEncoder;
   DutyCycleEncoder wristEncoder;
-  PIDController shoulderPID = new PIDController(0.2, 0, 0.01);
-  PIDController wristPID = new PIDController(0.2, 0, 0.01);
+  PIDController shoulderPID = new PIDController(0.2, 0, 0);
+  PIDController wristPID = new PIDController(0.04, 0, 0.01);
+
+  double shoulderLowerLimit = 130;
+  double shoulderUpperLimit = 200;
+  double wristLowerLimit = 276;
+  double wristUpperLimit = 280;
 
   double shoulderAngle = 0;
   double wristAngle = 0;
@@ -31,7 +36,13 @@ public class ArmSubsystem extends SubsystemBase {
     this.wristEncoder = wristEncoder;
 
     shoulderAngle = getShoulderAngle();
-    wristAngle = getWristAngle();
+    wristAngle = 265;//getWristAngle();
+
+    shoulderMotor.setInverted(false);
+    wristMotor.setInverted(true);
+
+    shoulderMotor.setNeutralMode(true);
+    wristMotor.setNeutralMode(true);
 
     shoulderPID.enableContinuousInput(0, 360);
     wristPID.enableContinuousInput(0, 360);
@@ -68,25 +79,30 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     shoulderSpeed = shoulderPID.calculate(getShoulderAngle(), shoulderAngle);
     wristSpeed = wristPID.calculate(getWristAngle(), wristAngle);
-    //failSafes();
-    shoulderMotor.set(shoulderSpeed);
-    wristMotor.set(wristSpeed);
-
+    failSafes();
+    //shoulderMotor.set(Math.max(Math.min(shoulderSpeed, 0.08), -0.08));
+    shoulderMotor.set(0);
+    wristMotor.set(Math.max(Math.min(wristSpeed, 0.1), -0.1));
   }
 
-  // private void failSafes() {
-  //   if (shoulderLowerLimitPressed()) {
-  //     shoulderEncoder.reset();
-  //     if (shoulderSpeed < 0) {
-  //       shoulderSpeed = 0;
-  //     }
-  //   }
-  //   if (wristLowerLimitPressed()){
-  //     wristEncoder.reset();
-  //     if (wristSpeed < 0) {
-  //       wristSpeed = 0;
-  //     }
-  //   }
+  private void failSafes() {
+    if(getShoulderAngle() < 151){
+      wristLowerLimit = 276;
+    }else{
+      wristLowerLimit = 160;
+    }
+    if (getShoulderAngle() > shoulderUpperLimit && shoulderSpeed > 0){
+      shoulderAngle = shoulderUpperLimit;
+    } 
+    if(getShoulderAngle() < shoulderLowerLimit && shoulderSpeed < 0) {
+        shoulderAngle = shoulderLowerLimit;
+    }
+    if (getWristAngle() < wristLowerLimit && wristSpeed < 0){
+      wristAngle = wristLowerLimit;
+    }
+    if(getWristAngle() > wristUpperLimit && wristSpeed > 0){
+        wristAngle = wristUpperLimit;
+    }
 
-  //}
+  }
 }

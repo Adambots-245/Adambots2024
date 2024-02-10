@@ -8,6 +8,8 @@ public final class Constants {
     public static final String kDefaultShuffleboardTab = "debug";
     public static Field2d field = new Field2d();
 
+    public static final String canivore = "CANivore";
+
     public static final class VisionConstants {
         public static final String noteLimelite = "limelight-notebot";
         public static final String aprilLimelite = "limelight-april";
@@ -24,10 +26,10 @@ public final class Constants {
 
     public static final class DriveConstants {
 
-        public static final boolean kFrontLeftDriveMotorReversed = true;
+        public static final boolean kFrontLeftDriveMotorReversed = false;
         public static final boolean kRearLeftDriveMotorReversed = false;
         public static final boolean kFrontRightDriveMotorReversed = false;
-        public static final boolean kRearRightDriveMotorReversed = true;
+        public static final boolean kRearRightDriveMotorReversed = false;
 
         // Distance between centers of right and left wheels on robot in meters
         public static final double kTrackWidth = 0.61;
