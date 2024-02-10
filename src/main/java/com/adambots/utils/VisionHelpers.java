@@ -3,14 +3,20 @@ package com.adambots.utils;
 
 import com.adambots.utils.LimelightHelpers.LimelightTarget_Detector;
 
+import edu.wpi.first.math.geometry.Pose3d;
+
 
 public class VisionHelpers {
     //private NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     private VisionHelpers() {
     }
+    
+    public static Pose3d getTargetposeCameraspace(String limelight) {
+        return LimelightHelpers.getTargetPose3d_CameraSpace(limelight);
+    }
 
-    public static String getClassName() {
-        LimelightTarget_Detector[] targetDetector = LimelightHelpers.getLatestResults("limelight").targetingResults.targets_Detector;
+    public static String getClassName(String limelight) {
+        LimelightTarget_Detector[] targetDetector = LimelightHelpers.getLatestResults(limelight).targetingResults.targets_Detector;
 
         if (targetDetector == null || targetDetector.length == 0) {
             return "";
@@ -19,16 +25,16 @@ public class VisionHelpers {
         return targetDetector[0].className;
     }
 
-    public static boolean isDetectingPieces() {
-        if (getClassName() == "") {
+    public static boolean isDetectingPieces(String limelight) {
+        if (getClassName(limelight) == "") {
             return false;
         } else {
             return true;
         }
     }
 
-    public static boolean isDetectingPieces(String type){
-        LimelightTarget_Detector[] targetDetector = LimelightHelpers.getLatestResults("limelight").targetingResults.targets_Detector;
+    public static boolean isDetectingPieces(String limelight, String type){
+        LimelightTarget_Detector[] targetDetector = LimelightHelpers.getLatestResults(limelight).targetingResults.targets_Detector;
         
         int index = -1;
         if(targetDetector != null){
@@ -42,8 +48,8 @@ public class VisionHelpers {
         return index != -1;
     }
 
-    public static double getXLocation() {
-        LimelightTarget_Detector[] targetDetector = LimelightHelpers.getLatestResults("limelight").targetingResults.targets_Detector;
+    public static double getXLocation(String limelight) {
+        LimelightTarget_Detector[] targetDetector = LimelightHelpers.getLatestResults(limelight).targetingResults.targets_Detector;
 
         if (targetDetector == null || targetDetector.length == 0) {
             return -1.0;
@@ -52,8 +58,8 @@ public class VisionHelpers {
         return targetDetector[0].tx_pixels;
     }
 
-    public static double getXLocation(String type) {
-        LimelightTarget_Detector[] targetDetector = LimelightHelpers.getLatestResults("limelight").targetingResults.targets_Detector;
+    public static double getXLocation(String limelight, String type) {
+        LimelightTarget_Detector[] targetDetector = LimelightHelpers.getLatestResults(limelight).targetingResults.targets_Detector;
 
         int index = -1;
         if(targetDetector != null){
@@ -71,8 +77,8 @@ public class VisionHelpers {
         return targetDetector[index].tx;
     }
 
-    public static double getYLocation() {
-        LimelightTarget_Detector[] targetDetector = LimelightHelpers.getLatestResults("limelight").targetingResults.targets_Detector;
+    public static double getYLocation(String limelight) {
+        LimelightTarget_Detector[] targetDetector = LimelightHelpers.getLatestResults(limelight).targetingResults.targets_Detector;
 
         if (targetDetector == null || targetDetector.length == 0) {
             return -1.0;
@@ -81,8 +87,8 @@ public class VisionHelpers {
         return targetDetector[0].ty_pixels;
     }
 
-    public static double getYLocation(String type){
-        LimelightTarget_Detector[] targetDetector = LimelightHelpers.getLatestResults("limelight").targetingResults.targets_Detector;
+    public static double getYLocation(String limelight, String type){
+        LimelightTarget_Detector[] targetDetector = LimelightHelpers.getLatestResults(limelight).targetingResults.targets_Detector;
 
         int index = -1;
         if(targetDetector != null){
@@ -111,40 +117,39 @@ public class VisionHelpers {
     //     double goalHeightInches = 4;
 
     //     double angleToGoalDegrees = limelightMountAngleDegrees + getYLocation();
-
     //     // calculate distance
     //     return (goalHeightInches - limelightLensHeightInches) / Math.tan(Math.toRadians(angleToGoalDegrees));
     // }
 
-    public static boolean isAligned(){
-        return Math.abs(getHorizAngle()) < 2 && isDetected();
+    public static boolean isAligned(String limelight){
+        return Math.abs(getHorizAngle(limelight)) < 2 && isDetected(limelight);
     }
 
-    public static boolean isDistanceAligned(){
-        return getGamePieceArea() > 10 && getGamePieceArea() < 15;
+    public static boolean isDistanceAligned(String limelight){
+        return getGamePieceArea(limelight) > 10 && getGamePieceArea(limelight) < 15;
     }
 
-    public static void setPipeline(int pipeline) {
-        LimelightHelpers.setPipelineIndex("limelight", pipeline); 
+    public static void setPipeline(String limelight,int pipeline) {
+        LimelightHelpers.setPipelineIndex(limelight, pipeline); 
     }
 
-    public static double getHorizAngle() {
-        return LimelightHelpers.getTX("limelight");
+    public static double getHorizAngle(String limelight) {
+        return LimelightHelpers.getTX(limelight);
     }
 
-    public static double getVertAngle() {
-        return LimelightHelpers.getTY("limelight");
+    public static double getVertAngle(String limelight) {
+        return LimelightHelpers.getTY(limelight);
     }
 
-    public static double getGamePieceArea() {
-        return LimelightHelpers.getTA("limelight");
+    public static double getGamePieceArea(String limelight) {
+        return LimelightHelpers.getTA(limelight);
     }
 
-    public static boolean isDetected() {
-        return LimelightHelpers.getTV("limelight");
+    public static boolean isDetected(String limelight) {
+        return LimelightHelpers.getTV(limelight);
     }
 
-    public static double getDetectedResult() {
-        return LimelightHelpers.getFiducialID("limelight");
+    public static double getDetectedResult(String limelight) {
+        return LimelightHelpers.getFiducialID(limelight);
     }
 }
