@@ -26,6 +26,7 @@ import com.adambots.utils.Dash;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.adambots.Constants.ArmConstants;
+import com.adambots.Constants.GamepadConstants;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -35,6 +36,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 
 /**
@@ -50,7 +52,7 @@ public class RobotContainer {
  private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(RobotMap.swerveModules, RobotMap.GyroSensor);
  private final ArmSubsystem armSubsystem = new ArmSubsystem(RobotMap.shoulderMotor, RobotMap.wristMotor, RobotMap.shoulderEncoder, RobotMap.wristEncoder, RobotMap.shoulderLowerLimit, RobotMap.wristLowerLimit);
  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.shooterWheel);
- private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.groundIntakeMotor, RobotMap.pieceInRobotEye);
+ private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.groundIntakeMotor, RobotMap.firstPieceInRobotEye, RobotMap.secondPieceInRobotEye);
 
   //Creates a SmartDashboard element to allow drivers to select differnt autons
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -133,6 +135,11 @@ public class RobotContainer {
     Dash.add("yaw", () -> RobotMap.GyroSensor.getAngle());
     Dash.add("pitch", () -> RobotMap.GyroSensor.getPitch());
     Dash.add("roll", () -> RobotMap.GyroSensor.getRoll());
+    Dash.add("IntakeSpeed", () -> intakeSubsystem.getIntakeSpeed());
+
+    Dash.add("getIntake", () -> intakeSubsystem.getIntake());
+
+
 
     // Dash.add("LIDAR Dist", () -> RobotMap.lidar.getInches());
 
@@ -157,6 +164,12 @@ public class RobotContainer {
                 Buttons.rotateSupplier.getAsDouble()*1.43,
                 true),
             drivetrainSubsystem));
+    intakeSubsystem.setDefaultCommand(
+      new RunCommand(
+      
+        () -> intakeSubsystem.setGroundIntakeMotorSpeed(Buttons.deaden(Buttons.primaryJoystick.getRightY(),GamepadConstants.kDeadZone) * 0.2), 
+        intakeSubsystem)
+    );
   }
 
   /**

@@ -20,13 +20,19 @@ import com.revrobotics.RelativeEncoder;
 public class IntakeSubsystem extends SubsystemBase {
 
   TalonFX groundIntakeMotor;
-  PhotoEye pieceInRobotEye;
+  PhotoEye firstPieceInRobotEye;
+  PhotoEye secondPieceInRobotEye;
+  PhotoEye initEye;
   double groundIntakeMotorSpeed = 0;
+  boolean isIntaking = false;
 
-  public IntakeSubsystem(TalonFX groundIntakeMotor, PhotoEye pieceInRobotEye){
+  public IntakeSubsystem(TalonFX groundIntakeMotor, PhotoEye firstPieceInRobotEye, PhotoEye secondPieceInRobotEye){
     this.groundIntakeMotor = groundIntakeMotor;
-    this.pieceInRobotEye = pieceInRobotEye;
-    Dash.add("Intake Limit Switch", () -> isPieceInRobot());
+    this.secondPieceInRobotEye = secondPieceInRobotEye;
+    this.firstPieceInRobotEye = firstPieceInRobotEye;
+    Dash.add("Second Intake Limit Switch", () -> isSecondPieceInRobot());
+    Dash.add("First Intake Limit Switch", () -> isFirstPieceInRobot());
+
     groundIntakeMotor.setNeutralMode(NeutralModeValue.Brake);
     groundIntakeMotor.setInverted(true);
   }
@@ -35,8 +41,23 @@ public class IntakeSubsystem extends SubsystemBase {
     groundIntakeMotorSpeed = newGroundIntakeMotorSpeed;
   }
 
-  public boolean isPieceInRobot(){
-    return pieceInRobotEye.isDetecting();
+  public boolean isSecondPieceInRobot(){
+    return secondPieceInRobotEye.isDetecting();
+  }
+
+  public boolean isFirstPieceInRobot(){
+    return firstPieceInRobotEye.isDetecting();
+  }
+
+  public double getIntakeSpeed(){
+    return groundIntakeMotor.getVelocity().getValueAsDouble()/512;
+  }
+  public boolean getIntake(){
+    if (getIntakeSpeed() > 0 && groundIntakeMotor.getSupplyCurrent().getValueAsDouble() > 3){
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @Override

@@ -7,25 +7,26 @@ package com.adambots.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import com.adambots.subsystems.IntakeSubsystem;
 
-public class SimpleIntakeCommand extends Command {
+public class SlowIntakeCommand extends Command {
   private IntakeSubsystem intakeSubsystem;
-  private double groundIntakeMotorSpeed;
+  private double newSlowSpeed;
   /** Creates a new RunIntakeCommand. */
-  public SimpleIntakeCommand(IntakeSubsystem intakeSubsystem, double groundIntakeMotorSpeed) {
+  public SlowIntakeCommand(IntakeSubsystem intakeSubsystem, double newSlowSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem);
     this.intakeSubsystem = intakeSubsystem;
-    this.groundIntakeMotorSpeed = groundIntakeMotorSpeed;
+    this.newSlowSpeed = newSlowSpeed;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+      intakeSubsystem.setGroundIntakeMotorSpeed(newSlowSpeed);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.setGroundIntakeMotorSpeed(groundIntakeMotorSpeed);
   }
 
   // Called once the command ends or is interrupted.
@@ -37,6 +38,6 @@ public class SimpleIntakeCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return intakeSubsystem.isSecondPieceInRobot();
   }
 }

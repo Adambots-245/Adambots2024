@@ -60,11 +60,13 @@ public class RobotMap {
 
         //Intake Ports
         public static final int groundIntakeMotorPort = 6;
-        public static final int pieceInRobotEyePort = 9;
+        public static final int secondPieceInRobotEyePort = 9;
+        public static final int firstPieceInRobotEyePort = 0;
 
         //Intake Devices
         public static final TalonFX groundIntakeMotor = new TalonFX(groundIntakeMotorPort);
-        public static final PhotoEye pieceInRobotEye = new PhotoEye(pieceInRobotEyePort);
+        public static final PhotoEye secondPieceInRobotEye = new PhotoEye(secondPieceInRobotEyePort);
+        public static final PhotoEye firstPieceInRobotEye = new PhotoEye(firstPieceInRobotEyePort);
 
         // CAN bus ports
         public static final int kRearLeftEncoderPort = 2;

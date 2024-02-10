@@ -10,6 +10,8 @@ import com.adambots.subsystems.IntakeSubsystem;
 public class RunIntakeCommand extends Command {
   private IntakeSubsystem intakeSubsystem;
   private double groundIntakeMotorSpeed;
+  private boolean isFirstSpeed;
+  private int time;
   /** Creates a new RunIntakeCommand. */
   public RunIntakeCommand(IntakeSubsystem intakeSubsystem, double groundIntakeMotorSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -20,12 +22,19 @@ public class RunIntakeCommand extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    intakeSubsystem.setGroundIntakeMotorSpeed(groundIntakeMotorSpeed);
+    isFirstSpeed = false;
+    time = 0;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.setGroundIntakeMotorSpeed(groundIntakeMotorSpeed);
+    if (intakeSubsystem.isFirstPieceInRobot()) {
+      intakeSubsystem.setGroundIntakeMotorSpeed(0.1);
+      isFirstSpeed = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -38,10 +47,6 @@ public class RunIntakeCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (groundIntakeMotorSpeed >= 0){
-      return intakeSubsystem.isPieceInRobot();
-    } else {
-      return !intakeSubsystem.isPieceInRobot();
-    }
+    return intakeSubsystem.isSecondPieceInRobot() && isFirstSpeed;
   }
 }

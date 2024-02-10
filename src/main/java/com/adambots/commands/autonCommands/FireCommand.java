@@ -25,7 +25,7 @@ public class FireCommand extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new RunShooterCommand(shooterSubsystem, 1, false), 
       new WaitCommand(2), 
-      new FeedShooterCommand(intakeSubsystem, 0.5, false), 
+      new FeedShooterCommand(intakeSubsystem, 0.3, false), 
       new WaitCommand(1), 
       new FeedShooterCommand(intakeSubsystem, 0, false), 
       new RunShooterCommand(shooterSubsystem, 0, false));
