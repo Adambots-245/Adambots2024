@@ -1,4 +1,4 @@
-package com.adambots.commands.autonCommands;
+package com.adambots.commands.visionCommands;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.VisionHelpers;

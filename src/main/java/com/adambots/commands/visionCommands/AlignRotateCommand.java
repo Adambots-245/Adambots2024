@@ -1,4 +1,4 @@
-package com.adambots.commands.autonCommands;
+package com.adambots.commands.visionCommands;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.Gamepad.Buttons;
