@@ -41,7 +41,7 @@ public class RobotMap {
     public static final int kFrontLeftTurningEncoderPort = 4;
     public static final int kFrontRightTurningEncoderPort = 5;
 
-        public static final PowerDistribution PDM = new PowerDistribution(1, ModuleType.kCTRE);
+        public static final PowerDistribution PDM = new PowerDistribution(1, ModuleType.kRev);
 
         // Arm Ports
         public static final int shoulderMotorPort = 1;

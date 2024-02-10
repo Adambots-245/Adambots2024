@@ -27,6 +27,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    RobotMap.PDM.setSwitchableChannel(true);
     RobotMap.gyro.resetYaw();
     
     // Instantiate our RobotContainer. This will perform all our button bindings,
