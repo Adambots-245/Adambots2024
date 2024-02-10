@@ -201,23 +201,23 @@ public final class Constants {
 
     public static final class ArmConstants{
         // Floor Pickup
-        public static final double floorWristAngle = 0;
-        public static final double floorShoulderAngle = 0;
+        public static final double floorWristAngle = 45;
+        public static final double floorShoulderAngle = 45;
         // Amp Scoring
-        public static final double ampWristAngle = 0;
-        public static final double ampShoulderAngle = 0;
+        public static final double ampWristAngle = 10;
+        public static final double ampShoulderAngle = 10;
         // Human Player Pickup
-        public static final double humanWristAngle = 0;
-        public static final double humanShoulderAngle = 0;
+        public static final double humanWristAngle = 20;
+        public static final double humanShoulderAngle = 20;
         // trap scoring
-        public static final double trapWristAngle = 0;
-        public static final double trapShoulderAngle = 0;
+        public static final double trapWristAngle = 60;
+        public static final double trapShoulderAngle = 60;
         // default
-        public static final double defaultWristAngle = 0;
-        public static final double defaultShoulderAngle = 0;
+        public static final double defaultWristAngle = 25;
+        public static final double defaultShoulderAngle = 25;
         // autonomous starting/speaker
-        public static final double speakerWristAngle = 0;
-        public static final double speakerShoulderAngle = 0;
+        public static final double speakerWristAngle = 35;
+        public static final double speakerShoulderAngle = 35;
 
         public static class State {
             private double wristAngle;

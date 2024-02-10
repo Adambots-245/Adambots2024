@@ -4,6 +4,7 @@
 
 package com.adambots.subsystems;
 
+import com.adambots.utils.Dash;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -20,8 +21,8 @@ public class ArmSubsystem extends SubsystemBase {
   DigitalInput wristLowerLimit;
   DutyCycleEncoder shoulderEncoder;
   DutyCycleEncoder wristEncoder;
-  PIDController shoulderPID = new PIDController(0, 0, 0);
-  PIDController wristPID = new PIDController(0, 0, 0);
+  PIDController shoulderPID = new PIDController(0.2, 0, 0.01);
+  PIDController wristPID = new PIDController(0.2, 0, 0.01);
 
   double shoulderAngle = 0;
   double wristAngle = 0;
@@ -34,6 +35,9 @@ public class ArmSubsystem extends SubsystemBase {
     this.wristEncoder = wristEncoder;
     this.shoulderLowerLimit = shoulderLowerLimit;
     this.wristLowerLimit = wristLowerLimit;
+
+    Dash.add("Shoulder Encoder", () -> getShoulderAngle());
+    Dash.add("Wrist Encoder", () -> getWristAngle());
   }
 
   public void setShoulderAngle(double newShoulderAngle) {
@@ -59,11 +63,19 @@ public class ArmSubsystem extends SubsystemBase {
     public void incrementWristAngle(double wristIncrement) {
     wristAngle += wristIncrement;
   }
+
+  public double getWristAngle(){
+    return wristEncoder.getAbsolutePosition() * 360;
+  }
+
+  public double getShoulderAngle(){
+    return shoulderEncoder.getAbsolutePosition() * 360;
+  }
   
   @Override
   public void periodic() {
-    shoulderSpeed = shoulderPID.calculate(shoulderEncoder.getAbsolutePosition(), shoulderAngle);
-    wristSpeed = wristPID.calculate(wristEncoder.getAbsolutePosition(), wristAngle);
+    shoulderSpeed = shoulderPID.calculate(getShoulderAngle(), shoulderAngle);
+    wristSpeed = wristPID.calculate(getWristAngle(), wristAngle);
     failSafes();
     shoulderMotor.set(shoulderSpeed);
     wristMotor.set(wristSpeed);
