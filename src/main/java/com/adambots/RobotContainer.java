@@ -117,8 +117,8 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
     Buttons.primaryBackButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.trapState));
     Buttons.primaryDPadN.whileTrue(new RotateShoulderCommand(armSubsystem, 0.5));
     Buttons.primaryDPadS.whileTrue(new RotateShoulderCommand(armSubsystem, -0.5));
-    Buttons.primaryDPadW.whileTrue(new RotateWristCommand(armSubsystem, -0.5));
-    Buttons.primaryDPadE.whileTrue(new RotateWristCommand(armSubsystem, 0.5));
+    Buttons.primaryDPadW.whileTrue(new RotateWristCommand(armSubsystem, -1));
+    Buttons.primaryDPadE.whileTrue(new RotateWristCommand(armSubsystem, 1));
 
     //Hang buttons
     // Buttons.primaryLeftStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setRelay(true)));

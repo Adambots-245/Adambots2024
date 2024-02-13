@@ -19,7 +19,7 @@ public class ArmSubsystem extends SubsystemBase {
   PIDController shoulderPID = new PIDController(0.02, 0.000055, 0.00017);
   PIDController wristPID = new PIDController(0.015, 0, 0.00012); //0.01
 
-  double shoulderLowerLimit = 130;
+  double shoulderLowerLimit = 116;
   double shoulderUpperLimit = 200;
   double wristLowerLimit = 160;
   double wristUpperLimit = 280;
@@ -34,8 +34,8 @@ public class ArmSubsystem extends SubsystemBase {
     this.shoulderEncoder = shoulderEncoder;
     this.wristEncoder = wristEncoder;
 
-    shoulderAngle = 150;//getShoulderAngle();
-    wristAngle = 230;//getWristAngle();
+    shoulderAngle = getShoulderAngle();
+    wristAngle = getWristAngle();
 
     shoulderMotor.setInverted(false);
     wristMotor.setInverted(true);
@@ -79,8 +79,8 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderSpeed = shoulderPID.calculate(getShoulderAngle(), shoulderAngle);
     wristSpeed = wristPID.calculate(getWristAngle(), wristAngle);
     failSafes();
-    // shoulderMotor.set(shoulderSpeed);
-    shoulderMotor.set(0);
+    shoulderMotor.set(shoulderSpeed);
+    // shoulderMotor.set(0);
     wristMotor.set(Math.max(Math.min(wristSpeed, 0.8), -0.8));
   }
 
