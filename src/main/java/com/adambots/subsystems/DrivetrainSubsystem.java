@@ -13,6 +13,7 @@ import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
 import com.adambots.sensors.Gyro;
 import com.adambots.utils.ModuleMap;
+import com.adambots.utils.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -23,6 +24,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -32,7 +34,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
   // Odometry class for tracking robot pose
   private SwerveDriveOdometry m_odometry;
 
-  // Field details that can be viewed in Glass
   HashMap<ModulePosition, SwerveModule> swerveModules;
 
   public DrivetrainSubsystem(HashMap<ModulePosition, SwerveModule> modules, Gyro gyro) {
@@ -68,6 +69,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     //Update the position of the robot on the ShuffleBoard field
     Constants.field.setRobotPose(getPose());
+    Constants.aprilTagfield.setRobotPose(VisionHelpers.getAprilTagPose2d());
   }
 
 

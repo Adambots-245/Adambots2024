@@ -1,8 +1,10 @@
 
 package com.adambots.utils;
 
+import com.adambots.Constants.VisionConstants;
 import com.adambots.utils.LimelightHelpers.LimelightTarget_Detector;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 
 
@@ -11,8 +13,20 @@ public class VisionHelpers {
     private VisionHelpers() {
     }
     
-    public static Pose3d getTargetposeCameraspace(String limelight) {
-        return LimelightHelpers.getTargetPose3d_CameraSpace(limelight);
+    public static Pose3d getCameraPoseTargetSpace(String limelight) {
+        return LimelightHelpers.getBotPose3d_TargetSpace(limelight);
+    }
+
+    public static Pose2d getAprilTagPose2d() {
+        return LimelightHelpers.getLatestResults(VisionConstants.aprilLimelite).targetingResults.getBotPose2d_wpiRed();
+        // return null;
+
+    }
+
+    public static Pose2d getAprilTagBotPose2d() {
+        return LimelightHelpers.getLatestResults(VisionConstants.aprilLimelite).targetingResults.getBotPose2d();
+        // return null;
+
     }
 
     public static String getClassName(String limelight) {

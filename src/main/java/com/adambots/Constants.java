@@ -6,7 +6,9 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 
 public final class Constants {
     public static final String kDefaultShuffleboardTab = "debug";
-    public static Field2d field = new Field2d();
+    public static Field2d field = new Field2d();    
+    public static Field2d aprilTagfield = new Field2d();
+
 
     public static final class VisionConstants {
         public static final String noteLimelite = "limelight-notebot";
