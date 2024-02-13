@@ -8,7 +8,6 @@ import com.adambots.utils.BaseMotor;
 import com.adambots.utils.Dash;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -17,12 +16,12 @@ public class ArmSubsystem extends SubsystemBase {
   BaseMotor wristMotor;
   DutyCycleEncoder shoulderEncoder;
   DutyCycleEncoder wristEncoder;
-  PIDController shoulderPID = new PIDController(0.2, 0, 0);
-  PIDController wristPID = new PIDController(0.04, 0, 0.01);
+  PIDController shoulderPID = new PIDController(0.02, 0.000055, 0.00017);
+  PIDController wristPID = new PIDController(0.015, 0, 0.00012); //0.01
 
   double shoulderLowerLimit = 130;
   double shoulderUpperLimit = 200;
-  double wristLowerLimit = 276;
+  double wristLowerLimit = 160;
   double wristUpperLimit = 280;
 
   double shoulderAngle = 0;
@@ -35,8 +34,8 @@ public class ArmSubsystem extends SubsystemBase {
     this.shoulderEncoder = shoulderEncoder;
     this.wristEncoder = wristEncoder;
 
-    shoulderAngle = getShoulderAngle();
-    wristAngle = 265;//getWristAngle();
+    shoulderAngle = 150;//getShoulderAngle();
+    wristAngle = 230;//getWristAngle();
 
     shoulderMotor.setInverted(false);
     wristMotor.setInverted(true);
@@ -80,17 +79,17 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderSpeed = shoulderPID.calculate(getShoulderAngle(), shoulderAngle);
     wristSpeed = wristPID.calculate(getWristAngle(), wristAngle);
     failSafes();
-    //shoulderMotor.set(Math.max(Math.min(shoulderSpeed, 0.08), -0.08));
+    // shoulderMotor.set(shoulderSpeed);
     shoulderMotor.set(0);
-    wristMotor.set(Math.max(Math.min(wristSpeed, 0.1), -0.1));
+    wristMotor.set(Math.max(Math.min(wristSpeed, 0.8), -0.8));
   }
 
   private void failSafes() {
-    if(getShoulderAngle() < 151){
-      wristLowerLimit = 276;
-    }else{
-      wristLowerLimit = 160;
-    }
+    // if(getShoulderAngle() < 151){
+    //   wristLowerLimit = 276;
+    // }else{
+    //   wristLowerLimit = 160;
+    // }
     if (getShoulderAngle() > shoulderUpperLimit && shoulderSpeed > 0){
       shoulderAngle = shoulderUpperLimit;
     } 
