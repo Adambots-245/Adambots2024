@@ -12,6 +12,7 @@ import com.adambots.commands.RunIntakeCommand;
 import com.adambots.commands.RunShooterCommand;
 import com.adambots.commands.autonCommands.AdjustNote;
 import com.adambots.commands.autonCommands.FireCommand;
+import com.adambots.commands.autonCommands.ScoreAutonCommand;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.commands.autonCommands.autonCommandGrounds.PickupGamepieceRotateCommand;
 import com.adambots.commands.autonCommands.autonCommandGrounds.PickupGamepieceStrafeCommand;
@@ -109,16 +110,18 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
     Buttons.primaryLB.onTrue(new FireCommand(shooterSubsystem, intakeSubsystem));
 
     //Arm State Buttons
-    Buttons.primaryAButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.floorState));
+    Buttons.primaryStartButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.floorState));
     Buttons.primaryBButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.ampState));
-    Buttons.primaryXButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.speakerState));
-    Buttons.primaryYButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.humanState));
-    Buttons.primaryStartButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
-    Buttons.primaryBackButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.trapState));
-    Buttons.primaryDPadN.whileTrue(new RotateShoulderCommand(armSubsystem, 0.5));
-    Buttons.primaryDPadS.whileTrue(new RotateShoulderCommand(armSubsystem, -0.5));
-    Buttons.primaryDPadW.whileTrue(new RotateWristCommand(armSubsystem, -1));
-    Buttons.primaryDPadE.whileTrue(new RotateWristCommand(armSubsystem, 1));
+    Buttons.primaryBackButton.onTrue(new ScoreAutonCommand(armSubsystem, ArmConstants.speakerState));
+    Buttons.primaryXButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.humanState));
+    Buttons.primaryDPadE.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
+    // Buttons.primaryXButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.trapState));
+    
+    Buttons.primaryDPadN.whileTrue(new RotateShoulderCommand(armSubsystem,1));
+    Buttons.primaryDPadS.whileTrue(new RotateShoulderCommand(armSubsystem, -0.1));
+    
+    Buttons.primaryAButton.whileTrue(new RotateWristCommand(armSubsystem, -0.5));
+    Buttons.primaryYButton.whileTrue(new RotateWristCommand(armSubsystem, 0.5));
 
     //Hang buttons
     // Buttons.primaryLeftStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setRelay(true)));
