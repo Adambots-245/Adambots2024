@@ -1,39 +1,29 @@
 package com.adambots;
 
-import java.util.List;
-
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.Gamepad.Buttons;
 // import com.adambots.commands.autonCommands.AlignNoteBothCommand;
 import com.adambots.commands.autonCommands.AlignRotateCommand;
 import com.adambots.commands.autonCommands.PathPlannerAlign;
-import com.adambots.commands.autonCommands.TestDriveToAprilTagCommand;
 import com.adambots.commands.autonCommands.autonCommandGrounds.PickupGamepieceRotateCommand;
 import com.adambots.commands.autonCommands.autonCommandGrounds.PickupGamepieceStrafeCommand;
-import com.adambots.sensors.Gyro;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.Dash;
 import com.adambots.utils.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.path.GoalEndState;
-import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 
 /**
@@ -77,30 +67,9 @@ public class RobotContainer {
   
   private void configureButtonBindings() {
     Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
-    Buttons.JoystickButton2.whileTrue(Commands.runOnce(() -> {
-      Pose2d currentPose = drivetrainSubsystem.getPose();
-      Pose2d currentAprilPose = VisionHelpers.getAprilTagPose2d();
-      // The rotation component in these poses represents the direction of travel
-      // Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d());
-      Pose2d startPos = new Pose2d(currentPose.getTranslation(), currentPose.getRotation());
-      Pose2d endPos = new Pose2d(currentPose.getTranslation().plus(new Translation2d(currentAprilPose.getTranslation().getX()-1.23, currentAprilPose.getTranslation().getY() - 2.55)), new Rotation2d());
-      // Pose2d endPos = new Pose2d(new Translation2d(6.7, 1.49), new Rotation2d(0));
+    // Buttons.JoystickButton2.onTrue(new SequentialCommandGroup(new PathPlannerAlign(drivetrainSubsystem, VisionConstants.aprilTagPose2d), new PathPlannerAlign(drivetrainSubsystem, VisionConstants.aprilTagPose2d)));
+    Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem, VisionConstants.aprilTagPose2d));
 
-      List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos, endPos);
-      PathPlannerPath path = new PathPlannerPath(
-        bezierPoints, 
-        new PathConstraints(
-          5, 5, 
-          Units.degreesToRadians(360), Units.degreesToRadians(540)
-        ),  
-        new GoalEndState(0.0, new Rotation2d(Math.toRadians(270)))
-      );
-
-      // Prevent this path from being flipped on the red alliance, since the given positions are already correct
-      path.preventFlipping = true;
-
-      AutoBuilder.followPath(path).schedule();
-    }));
 
     //Debugging and Testing
     Buttons.JoystickButton4.onTrue(new InstantCommand(() -> drivetrainSubsystem.resetOdometry(new Pose2d())));
@@ -130,7 +99,6 @@ public class RobotContainer {
    // Dash.add("Field", Constants.field);
    SmartDashboard.putData("AprilTagField",Constants.aprilTagfield);   
    SmartDashboard.putData("Field",Constants.field);
-
 
   //  Dash.add("xPID", () -> AlignNoteCommand);
 

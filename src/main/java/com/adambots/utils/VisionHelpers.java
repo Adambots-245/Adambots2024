@@ -19,14 +19,10 @@ public class VisionHelpers {
 
     public static Pose2d getAprilTagPose2d() {
         return LimelightHelpers.getLatestResults(VisionConstants.aprilLimelite).targetingResults.getBotPose2d_wpiRed();
-        // return null;
-
     }
 
     public static Pose2d getAprilTagBotPose2d() {
-        return LimelightHelpers.getLatestResults(VisionConstants.aprilLimelite).targetingResults.getBotPose2d();
-        // return null;
-
+        return LimelightHelpers.getLatestResults(VisionConstants.aprilLimelite).targetingResults.getBotPose2d();  
     }
 
     public static String getClassName(String limelight) {

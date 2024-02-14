@@ -3,13 +3,14 @@ import java.util.List;
 
 import com.adambots.Constants.VisionConstants;
 import com.adambots.subsystems.DrivetrainSubsystem;
+import com.adambots.utils.Dash;
 import com.adambots.utils.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -18,40 +19,47 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class PathPlannerAlign extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
-  private PathPlannerPath path;
+  private Pose2d targetPos;
+  private static PathPlannerPath path;
 
-  public PathPlannerAlign(DrivetrainSubsystem driveTrainSubsystem) {
+  public PathPlannerAlign(DrivetrainSubsystem driveTrainSubsystem, Pose2d targetPose) {
     addRequirements(driveTrainSubsystem);
+    // Dash.add("isFInsihed", () -> AutoBuilder.followPath(path).isFinished());
+    this.targetPos = targetPose;
     this.driveTrainSubsystem = driveTrainSubsystem;
   }
 
   @Override
   public void initialize() {
-    // Create a list of bezier points from poses. Each pose represents one waypoint.
-    // The rotation component of the pose should be the direction of travel. Do not use holonomic rotation.
-    List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(
-            new Pose2d(1.0, 1.0, Rotation2d.fromDegrees(0)),
-            new Pose2d(3.0, 1.0, Rotation2d.fromDegrees(0)),
-            new Pose2d(5.0, 3.0, Rotation2d.fromDegrees(90))
-    );
+    Pose2d currentPose = driveTrainSubsystem.getPose();
+      Pose2d currentAprilPose = VisionHelpers.getAprilTagPose2d();
+      Pose2d startPos = new Pose2d(currentPose.getTranslation(), currentPose.getRotation());
+      Pose2d endPos;
+      endPos = new Pose2d(currentPose.getTranslation().plus(new Translation2d(currentAprilPose.getTranslation().getX()-targetPos.getTranslation().getX(), currentAprilPose.getTranslation().getY() - targetPos.getTranslation().getY())), new Rotation2d());
 
-    // Create the path using the bezier points created above
-    path = new PathPlannerPath(
-            bezierPoints,
-            new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI), // The constraints for this path. If using a differential drivetrain, the angular constraints have no effect.
-            new GoalEndState(0.0, Rotation2d.fromDegrees(-90)) // Goal end state. You can set a holonomic rotation here. If using a differential drivetrain, the rotation will have no effect.
-    );
+      // Pose2d endPos = new Pose2d(new Translation2d(6.7, 1.49), new Rotation2d(0));
 
-    // Prevent the path from being flipped if the coordinates are already correct
-    path.preventFlipping =true;
+      List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos, endPos);
+      path = new PathPlannerPath(
+        bezierPoints, 
+        new PathConstraints(
+          5, 5, 
+          Units.degreesToRadians(360), Units.degreesToRadians(540)
+        ),  
+        new GoalEndState(0.0, new Rotation2d(Math.toRadians(270)))
+      );
 
-    AutoBuilder.followPath(path);
+      // Prevent this path from being flipped on the red alliance, since the given positions are already correct
+      path.preventFlipping = true;
+      if (VisionHelpers.isDetected(VisionConstants.aprilLimelite)){
+        AutoBuilder.followPath(path).schedule();
+      }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // AutoBuilder.followPath(path);
+    
   }
 
   // Called once the command ends or is interrupted.
@@ -60,9 +68,15 @@ public class PathPlannerAlign extends Command {
       driveTrainSubsystem.stop();
   }
 
+  public static PathPlannerPath getPath(){
+    return path;
+  }
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    
+    // return AutoBuilder.followPath(path).isFinished();
+    return true;
   }
 }
