@@ -35,6 +35,8 @@ public class ChangeArmStateCommand extends Command {
     shoulderAngle = armState.getShoulderAngle();
     armSubsystem.setWristAngle(wristAngle);
     armSubsystem.setShoulderAngle(shoulderAngle);
+
+    armSubsystem.setCurrentState(armState.getStateName());
   }
 
   // Called once the command ends or is interrupted.

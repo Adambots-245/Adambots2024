@@ -9,6 +9,7 @@ import com.adambots.commands.RunShooterCommand;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
@@ -16,18 +17,14 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class FireCommand extends SequentialCommandGroup {
-  ShooterSubsystem shooterSubsystem;
-  IntakeSubsystem intakeSubsystem;
+  
   public FireCommand(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
-    this.shooterSubsystem = shooterSubsystem;
-    this.intakeSubsystem = intakeSubsystem;
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new RunShooterCommand(shooterSubsystem, 1, false), 
-      new WaitCommand(2), 
-      new FeedShooterCommand(intakeSubsystem, 0.3, false), 
+    
+  
+    super(
+      new FeedShooterCommand(intakeSubsystem, shooterSubsystem), 
       new WaitCommand(1), 
-      new FeedShooterCommand(intakeSubsystem, 0, false), 
-      new RunShooterCommand(shooterSubsystem, 0, false));
+      new RunShooterCommand(shooterSubsystem, 0, false),
+      new InstantCommand(() -> intakeSubsystem.setGroundIntakeMotorSpeed(0)));
   }
 }

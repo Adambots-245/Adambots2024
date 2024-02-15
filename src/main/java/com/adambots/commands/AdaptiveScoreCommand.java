@@ -4,31 +4,32 @@
 
 package com.adambots.commands;
 
-import com.adambots.subsystems.ArmSubsystem;
+import com.adambots.subsystems.IntakeSubsystem;
+import com.adambots.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class RotateShoulderCommand extends Command {
-  /** Creates a new RotateShoulderCommand. */
-  private ArmSubsystem armSubsystem;
-  double shoulderIncrement;
-  private boolean manualAdjust;
-  public RotateShoulderCommand(ArmSubsystem armSubsystem, double shoulderIncrement, boolean manualAdjust) {
+public class AdaptiveScoreCommand extends Command {
+  /** Creates a new AdaptiveScoreCommand. */
+  ShooterSubsystem shooterSubsystem;
+  IntakeSubsystem intakeSubsystem;
+  
+
+  public AdaptiveScoreCommand(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(armSubsystem);
-    this.shoulderIncrement = shoulderIncrement;
-    this.armSubsystem = armSubsystem;
-    this.manualAdjust = manualAdjust;
+    this.shooterSubsystem = shooterSubsystem;
+    this.intakeSubsystem = intakeSubsystem;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSubsystem.incrementShoulderAngle(shoulderIncrement);
   }
 
   // Called once the command ends or is interrupted.
@@ -38,6 +39,6 @@ public class RotateShoulderCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !manualAdjust;
+    return false;
   }
 }

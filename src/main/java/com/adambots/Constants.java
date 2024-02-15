@@ -188,8 +188,8 @@ public final class Constants {
         public static final double trapWristAngle = (floorWristAngle + 60) % 360;
         public static final double trapShoulderAngle = (floorShoulderAngle + 60) % 360;
         // default
-        public static final double defaultWristAngle = (floorWristAngle + 25)%360;
-        public static final double defaultShoulderAngle = (floorShoulderAngle + 25) % 360;
+        public static final double defaultWristAngle = (floorWristAngle - 63) % 360;
+        public static final double defaultShoulderAngle = (floorShoulderAngle + 82.9) % 360;
         // autonomous starting/speaker
         public static final double speakerWristAngle = (floorWristAngle - 63) % 360; //210.7
         public static final double speakerShoulderAngle = (floorShoulderAngle + 82.9) % 360; //199.5
@@ -197,9 +197,11 @@ public final class Constants {
         public static class State {
             private double wristAngle;
             private double shoulderAngle;
-            public State(double wristAngle, double shoulderAngle) {
+            private String stateName;
+            public State(double wristAngle, double shoulderAngle, String stateName) {
                 this.wristAngle = wristAngle;
                 this.shoulderAngle = shoulderAngle;
+                this.stateName = stateName;
             }
 
             public double getWristAngle(){
@@ -210,14 +212,18 @@ public final class Constants {
                 return shoulderAngle;
             }
 
+            public String getStateName() {
+                return stateName;
+            }
+
         
         }
-        final static State floorState = new State(floorWristAngle,floorShoulderAngle);
-        final static State ampState = new State(ampWristAngle,ampShoulderAngle);
-        final static State humanState = new State(humanWristAngle, humanShoulderAngle);
-        final static State trapState = new State(trapWristAngle, trapShoulderAngle);
-        final static State defaultState = new State(defaultWristAngle, defaultShoulderAngle);
-        final static State speakerState = new State(speakerWristAngle, speakerShoulderAngle);
+        public final static State floorState = new State(floorWristAngle,floorShoulderAngle, "floor");
+        public final static State ampState = new State(ampWristAngle,ampShoulderAngle, "amp");
+        public final static State humanState = new State(humanWristAngle, humanShoulderAngle, "human");
+        public final static State trapState = new State(trapWristAngle, trapShoulderAngle, "trap");
+        public final static State defaultState = new State(defaultWristAngle, defaultShoulderAngle, "default");
+        public final static State speakerState = new State(speakerWristAngle, speakerShoulderAngle, "speaker");
 
     }
 

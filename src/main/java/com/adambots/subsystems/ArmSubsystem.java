@@ -4,6 +4,7 @@
 
 package com.adambots.subsystems;
 
+import com.adambots.Constants.ArmConstants.State;
 import com.adambots.utils.BaseMotor;
 import com.adambots.utils.Dash;
 
@@ -27,6 +28,8 @@ public class ArmSubsystem extends SubsystemBase {
   double shoulderAngle = 0;
   double wristAngle = 0;
   double shoulderSpeed, wristSpeed = 0;
+
+  String currentState;
 
   public ArmSubsystem(BaseMotor shoulderMotor, BaseMotor wristMotor, DutyCycleEncoder shoulderEncoder, DutyCycleEncoder wristEncoder) {
     this.shoulderMotor = shoulderMotor;
@@ -73,6 +76,14 @@ public class ArmSubsystem extends SubsystemBase {
 
   public double getShoulderAngle(){
     return shoulderEncoder.getAbsolutePosition() * 360;
+  }
+
+  public void setCurrentState(String currentState) {
+    this.currentState = currentState;
+  }
+
+  public String getCurrentState() {
+    return currentState;
   }
   
   @Override

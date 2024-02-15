@@ -10,9 +10,9 @@ import com.adambots.commands.RotateShoulderCommand;
 import com.adambots.commands.RotateWristCommand;
 import com.adambots.commands.RunIntakeCommand;
 import com.adambots.commands.RunShooterCommand;
-import com.adambots.commands.autonCommands.AdjustNote;
+import com.adambots.commands.autonCommands.IntakeWithAdjustCommand;
 import com.adambots.commands.autonCommands.FireCommand;
-import com.adambots.commands.autonCommands.ScoreAutonCommand;
+import com.adambots.commands.autonCommands.PrimeShooterCommand;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.commands.autonCommands.autonCommandGrounds.PickupGamepieceRotateCommand;
 import com.adambots.commands.autonCommands.autonCommandGrounds.PickupGamepieceStrafeCommand;
@@ -86,7 +86,7 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
    */
   
   private void configureButtonBindings() {
-    Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
+    Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
     
     //Debugging and Testing
     Buttons.JoystickButton4.onTrue(new InstantCommand(() -> drivetrainSubsystem.resetOdometry(new Pose2d())));
@@ -102,26 +102,38 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
     // Buttons.JoystickButton16.onTrue(new AutoBalanceCommand(drivetrainSubsystem, RobotMap.GyroSensor, grabbyLifterSubsystem));
 
     // Buttons.primaryRB.whileTrue(new RunIntakeCommand(intakeSubsystem, 0.3));
-    Buttons.primaryRB.whileTrue(new AdjustNote(intakeSubsystem));
+    Buttons.primaryRB.whileTrue(new IntakeWithAdjustCommand(intakeSubsystem, armSubsystem));
+    Buttons.primaryRB.onFalse(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
 
 
     // Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.GyroSensor.reset()));
 
-    Buttons.primaryLB.onTrue(new FireCommand(shooterSubsystem, intakeSubsystem));
+    Buttons.JoystickButton1.onTrue(new FireCommand(shooterSubsystem, intakeSubsystem));
+    
+    Buttons.primaryYButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem));
+    Buttons.primaryYButton.onFalse(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
+
+
 
     //Arm State Buttons
     Buttons.primaryStartButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.floorState));
+    
+
     Buttons.primaryBButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.ampState));
-    Buttons.primaryBackButton.onTrue(new ScoreAutonCommand(armSubsystem, ArmConstants.speakerState));
+    Buttons.primaryBButton.onFalse(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
+
+   
     Buttons.primaryXButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.humanState));
-    Buttons.primaryDPadE.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
+    Buttons.primaryXButton.onFalse(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
+
+    // Buttons.primaryDPadE.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
     // Buttons.primaryXButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.trapState));
     
-    Buttons.primaryDPadN.whileTrue(new RotateShoulderCommand(armSubsystem,1));
-    Buttons.primaryDPadS.whileTrue(new RotateShoulderCommand(armSubsystem, -0.1));
+    Buttons.primaryDPadN.whileTrue(new RotateShoulderCommand(armSubsystem,1, true));
+    Buttons.primaryDPadS.whileTrue(new RotateShoulderCommand(armSubsystem, -0.1, true));
     
-    Buttons.primaryAButton.whileTrue(new RotateWristCommand(armSubsystem, -0.5));
-    Buttons.primaryYButton.whileTrue(new RotateWristCommand(armSubsystem, 0.5));
+    Buttons.primaryDPadE.whileTrue(new RotateWristCommand(armSubsystem, -0.5, true));
+    Buttons.primaryDPadW.whileTrue(new RotateWristCommand(armSubsystem, 0.5, true));
 
     //Hang buttons
     // Buttons.primaryLeftStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setRelay(true)));

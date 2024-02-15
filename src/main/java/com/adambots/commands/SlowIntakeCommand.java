@@ -9,19 +9,17 @@ import com.adambots.subsystems.IntakeSubsystem;
 
 public class SlowIntakeCommand extends Command {
   private IntakeSubsystem intakeSubsystem;
-  private double newSlowSpeed;
   /** Creates a new RunIntakeCommand. */
-  public SlowIntakeCommand(IntakeSubsystem intakeSubsystem, double newSlowSpeed) {
+  public SlowIntakeCommand(IntakeSubsystem intakeSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem);
     this.intakeSubsystem = intakeSubsystem;
-    this.newSlowSpeed = newSlowSpeed;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      intakeSubsystem.setGroundIntakeMotorSpeed(newSlowSpeed);
+    intakeSubsystem.setGroundIntakeMotorSpeed(0.09);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
