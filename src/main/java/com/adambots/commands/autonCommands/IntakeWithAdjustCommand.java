@@ -20,14 +20,13 @@ public class IntakeWithAdjustCommand extends SequentialCommandGroup {
   public IntakeWithAdjustCommand(IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem) {
     super(
       new ChangeArmStateCommand(armSubsystem, ArmConstants.floorState),
-      new RunIntakeCommand(intakeSubsystem, armSubsystem,0.2, 0.13),
-      new GrabAndRetractCommand(armSubsystem, ArmConstants.defaultState),
+      new RunIntakeCommand(intakeSubsystem, armSubsystem,0.3, 0.13)
       // new ParallelDeadlineGroup(new WaitCommand(0.05), new RunCommand(() -> intakeSubsystem.setGroundIntakeMotorSpeed(0.1))),
-      new ParallelDeadlineGroup(new WaitCommand(0.2), new RunCommand(() -> intakeSubsystem.setGroundIntakeMotorSpeed(-0.1))),
-      new SlowIntakeCommand(intakeSubsystem),
-      // new ParallelDeadlineGroup(new WaitCommand(0.05), new RunCommand(() -> intakeSubsystem.setGroundIntakeMotorSpeed(0.1))),
-      new ParallelDeadlineGroup(new WaitCommand(0.2), new RunCommand(() -> intakeSubsystem.setGroundIntakeMotorSpeed(-0.1))),
-      new SlowIntakeCommand(intakeSubsystem)
+      // new ParallelDeadlineGroup(new WaitCommand(0.2), new RunCommand(() -> intakeSubsystem.setGroundIntakeMotorSpeed(-0.1))),
+      // new SlowIntakeCommand(intakeSubsystem),
+      // new ParallelDeadineGroup(new WaitCommand(0.05), new RunCommand(() -> intakeSubsystem.setGroundIntakeMotorSpeed(0.1))),
+      // new ParallelDeadlineGroup(new WaitCommand(0.2), new RunCommand(() -> intakeSubsystem.setGroundIntakeMotorSpeed(-0.1))),
+      // new SlowIntakeCommand(intakeSubsystem)
       // new ParallelDeadlineGroup(new WaitCommand(0.3), new RunCommand(() -> intakeSubsystem.setGroundIntakeMotorSpeed(-0.1))),
       // new SlowIntakeCommand(intakeSubsystem)
     );                                                                            

@@ -23,7 +23,7 @@ public class PrimeShooterCommand extends SequentialCommandGroup {
   /** Creates a new ScoreAutonSpeakerCommand. */
   public PrimeShooterCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem) {
     super(
-      new ChangeArmStateCommand(armSubsystem, ArmConstants.speakerState),
+      // new ChangeArmStateCommand(armSubsystem, ArmConstants.speakerState),
       new InstantCommand(() -> shooterSubsystem.setWheelSpeed(1))
     );   
   }

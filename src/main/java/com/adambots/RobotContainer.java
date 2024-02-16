@@ -12,6 +12,7 @@ import com.adambots.commands.RunIntakeCommand;
 import com.adambots.commands.RunShooterCommand;
 import com.adambots.commands.autonCommands.IntakeWithAdjustCommand;
 import com.adambots.commands.autonCommands.FireCommand;
+import com.adambots.commands.autonCommands.GrabAndRetractCommand;
 import com.adambots.commands.autonCommands.PrimeShooterCommand;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.commands.autonCommands.autonCommandGrounds.PickupGamepieceRotateCommand;
@@ -97,7 +98,7 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
 
     // Buttons.primaryRB.whileTrue(new RunIntakeCommand(intakeSubsystem, 0.3));
     Buttons.primaryRB.whileTrue(new IntakeWithAdjustCommand(intakeSubsystem, armSubsystem));
-    Buttons.primaryRB.onFalse(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
+    Buttons.primaryRB.onFalse(new GrabAndRetractCommand(armSubsystem, ArmConstants.defaultState));
 
 
     // Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.GyroSensor.reset()));
@@ -105,7 +106,7 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
     Buttons.JoystickButton1.onTrue(new FireCommand(shooterSubsystem, intakeSubsystem));
     
     Buttons.primaryYButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem));
-    Buttons.primaryYButton.onFalse(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
+    // Buttons.primaryYButton.onFalse(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
 
 
 
@@ -199,7 +200,7 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
     intakeSubsystem.setDefaultCommand(
       new RunCommand(
       
-        () -> intakeSubsystem.setGroundIntakeMotorSpeed(Buttons.deaden(Buttons.primaryJoystick.getRightY(),GamepadConstants.kDeadZone) * 0.2), 
+        () -> intakeSubsystem.setGroundIntakeMotorSpeed(Buttons.deaden(Buttons.primaryJoystick.getRightY(),GamepadConstants.kDeadZone) * 0.3), 
         intakeSubsystem)
     );
   }

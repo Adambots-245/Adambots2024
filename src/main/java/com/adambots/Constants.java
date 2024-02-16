@@ -177,8 +177,8 @@ public final class Constants {
         public static final double shoulderOffset = 0;
         public static final double wristOffset = 0;
         // Floor Pickup
-        public static final double floorWristAngle = 278.6 % 360;
-        public static final double floorShoulderAngle = 116.6 % 360;
+        public static final double floorWristAngle = 276.3 % 360;
+        public static final double floorShoulderAngle = 120.5 % 360;
         // Amp Scoring
         public static final double ampWristAngle = (floorWristAngle - 28) % 360; //237.8
         public static final double ampShoulderAngle = (floorShoulderAngle + 65.0) % 360; //181.6
