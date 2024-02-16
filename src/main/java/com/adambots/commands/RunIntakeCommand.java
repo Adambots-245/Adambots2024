@@ -4,23 +4,28 @@
 
 package com.adambots.commands;
 
+import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class RunIntakeCommand extends Command {
   private IntakeSubsystem intakeSubsystem;
   private double groundIntakeMotorSpeed;
   private double slowIntakeSpeed;
+  private ArmSubsystem armSubsystem;
 
   /** Creates a new RunIntakeCommand. */
-  public RunIntakeCommand(IntakeSubsystem intakeSubsystem, double groundIntakeMotorSpeed, double slowIntakeSpeed) {
+  public RunIntakeCommand(IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem, double groundIntakeMotorSpeed, double slowIntakeSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intakeSubsystem);
+    addRequirements(intakeSubsystem, armSubsystem);
   
     this.intakeSubsystem = intakeSubsystem;
     this.groundIntakeMotorSpeed = groundIntakeMotorSpeed;
     this.slowIntakeSpeed = slowIntakeSpeed;
+    this.armSubsystem = armSubsystem;
   }
 
   // Called when the command is initially scheduled.
@@ -35,6 +40,10 @@ public class RunIntakeCommand extends Command {
   public void execute() {
     if (intakeSubsystem.isFirstPieceInRobot()) {
       intakeSubsystem.setGroundIntakeMotorSpeed(slowIntakeSpeed);
+      new SequentialCommandGroup(
+      new RotateWristCommand(armSubsystem, 0.5, false),
+      new WaitCommand(0.3)
+      ).schedule();
     }
   }
 

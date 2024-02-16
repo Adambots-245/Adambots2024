@@ -93,13 +93,7 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
     //Buttons.JoystickButton2.onTrue(new PickupGamepieceCommand(drivetrainSubsystem));
     // Buttons.primaryAButton.whileTrue(new AlignNoteCommand(drivetrainSubsystem));
     // Buttons.primaryBButton.whileTrue(new AlignNoteDistanceCommand(drivetrainSubsystem));
-    // Buttons.JoystickButton4.onTrue(armCommands.humanStationConeCommand());
-    // Buttons.JoystickButton11.onTrue(Commands.deadline(new WaitCommand(1.5), autonCommands.driveTillBumpedCommand()));
-    // Buttons.JoystickButton16.onTrue(new TurnToGamePieceCommand(drivetrainSubsystem, RobotMap.lidar, Direction.RIGHT));
-    // Buttons.JoystickButton16.onTrue(autonCommands.autoInitAndScoreCone());
 
-    // Buttons.JoystickButton16.onTrue(new TestAutoBalanceCommand(drivetrainSubsystem, RobotMap.GyroSensor, grabbyLifterSubsystem).andThen(new HockeyStopCommand(drivetrainSubsystem)));
-    // Buttons.JoystickButton16.onTrue(new AutoBalanceCommand(drivetrainSubsystem, RobotMap.GyroSensor, grabbyLifterSubsystem));
 
     // Buttons.primaryRB.whileTrue(new RunIntakeCommand(intakeSubsystem, 0.3));
     Buttons.primaryRB.whileTrue(new IntakeWithAdjustCommand(intakeSubsystem, armSubsystem));
@@ -141,12 +135,9 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
 
     
     // Buttons.JoystickButton7.onTrue(new AlignNoteBothCommand(drivetrainSubsystem));
-    // Buttons.JoystickButton7.onTrue(Commands.parallel(new AlignNoteHorizCommand(drivetrainSubsystem),
-    //     new AlignNoteVertCommand(drivetrainSubsystem)));
 
     Buttons.JoystickButton6.onTrue(new PickupGamepieceStrafeCommand(drivetrainSubsystem));
-        Buttons.JoystickButton7.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.aprilLimelite));
-
+    Buttons.JoystickButton7.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.aprilLimelite));
     Buttons.JoystickButton5.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.noteLimelite));
     Buttons.JoystickButton10.whileTrue(new AlignRotateCommand(drivetrainSubsystem, false, true, VisionConstants.noteLimelite));
     Buttons.JoystickButton9.whileTrue(new PickupGamepieceRotateCommand(drivetrainSubsystem));

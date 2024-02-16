@@ -15,17 +15,18 @@ public final class Constants {
         public static final String aprilLimelite = "limelight-april";
         public static final double kpBothPID = 0.1;
         public static final double kdBothPID = 0.035;
+
         public static final double kpHorizPID = 0.1;
         public static final double kdHorizPID = 0.02;
+
         public static final double kpRotatePID = 0.1;
         public static final double kdRotatePID = 0.03;
+
         public static final double kpVertPID = 0.1;
         public static final double kdVertPID = 0.02;
-
     }
 
     public static final class DriveConstants {
-
         public static final boolean kFrontLeftDriveMotorReversed = false;
         public static final boolean kRearLeftDriveMotorReversed = false;
         public static final boolean kFrontRightDriveMotorReversed = false;
