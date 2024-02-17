@@ -1,4 +1,4 @@
-package com.adambots.commands.autonCommands.autonCommandGrounds;
+package com.adambots.commands.autonCommands.autonCommandGroups;
 
 import com.adambots.Constants.VisionConstants;
 import com.adambots.commands.visionCommands.AlignNoteVertCommand;
@@ -13,6 +13,6 @@ public class PickupGamepieceRotateCommand extends SequentialCommandGroup {
     super(
         new AlignRotateCommand(drivetrainSubsystem, false, true, VisionConstants.noteLimelite),
         new AlignNoteVertCommand(drivetrainSubsystem)
-      );
+    );
   }
 }

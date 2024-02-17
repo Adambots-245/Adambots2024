@@ -20,17 +20,18 @@ public final class Constants {
         public static final String aprilLimelite = "limelight-april";
         public static final double kpBothPID = 0.1;
         public static final double kdBothPID = 0.035;
+
         public static final double kpHorizPID = 0.1;
         public static final double kdHorizPID = 0.02;
-        public static final double kpRotatePID = 0.1;
-        public static final double kdRotatePID = 0.03;
+
+        public static final double kpRotatePID = 0.08;
+        public static final double kdRotatePID = 0.025;
+
         public static final double kpVertPID = 0.1;
         public static final double kdVertPID = 0.02;
-
     }
 
     public static final class DriveConstants {
-
         public static final boolean kFrontLeftDriveMotorReversed = false;
         public static final boolean kRearLeftDriveMotorReversed = false;
         public static final boolean kFrontRightDriveMotorReversed = false;
@@ -181,30 +182,35 @@ public final class Constants {
         public static final double shoulderOffset = 0;
         public static final double wristOffset = 0;
         // Floor Pickup
-        public static final double floorWristAngle = 45%360;
-        public static final double floorShoulderAngle = 45%360;
+        public static final double floorWristAngle = 276.3 % 360;
+        public static final double floorShoulderAngle = 118.5 % 360;
         // Amp Scoring
-        public static final double ampWristAngle = (floorWristAngle + 10)%360;
-        public static final double ampShoulderAngle = (floorShoulderAngle + 10)%360;
+        public static final double ampWristAngle = (floorWristAngle - 28) % 360; //237.8
+        public static final double ampShoulderAngle = (floorShoulderAngle + 67.0) % 360; //181.6
         // Human Player Pickup
-        public static final double humanWristAngle = (floorWristAngle + 20)%360;
-        public static final double humanShoulderAngle = (floorShoulderAngle + 20)%360;
+        public static final double humanWristAngle = (floorWristAngle - 0.4) % 360;
+        public static final double humanShoulderAngle = (floorShoulderAngle + 66.4) % 360;
         // trap scoring
-        public static final double trapWristAngle = (floorWristAngle + 60)%360;
-        public static final double trapShoulderAngle = (floorShoulderAngle + 60)%360;
+        public static final double trapWristAngle = (floorWristAngle + 60) % 360;
+        public static final double trapShoulderAngle = (floorShoulderAngle + 66) % 360;
         // default
-        public static final double defaultWristAngle = (floorWristAngle + 25)%360;
-        public static final double defaultShoulderAngle = (floorShoulderAngle + 25)%360;
+        public static final double defaultWristAngle = (floorWristAngle - 106) % 360;
+        public static final double defaultShoulderAngle = (floorShoulderAngle + 46) % 360;
         // autonomous starting/speaker
-        public static final double speakerWristAngle = (floorWristAngle + 35)%360;
-        public static final double speakerShoulderAngle = (floorShoulderAngle + 35)%360;
+        public static final double speakerWristAngle = (floorWristAngle - 63) % 360; //210.7
+        public static final double speakerShoulderAngle = (floorShoulderAngle + 84.9) % 360; //199.5
+
+        public static final double liftNoteWristAngle = (floorWristAngle - 6) % 360;
+        public static final double liftNoteShoulderAngle = (floorShoulderAngle + 50) % 360; 
 
         public static class State {
             private double wristAngle;
             private double shoulderAngle;
-            public State(double wristAngle, double shoulderAngle) {
+            private String stateName;
+            public State(double wristAngle, double shoulderAngle, String stateName) {
                 this.wristAngle = wristAngle;
                 this.shoulderAngle = shoulderAngle;
+                this.stateName = stateName;
             }
 
             public double getWristAngle(){
@@ -215,16 +221,18 @@ public final class Constants {
                 return shoulderAngle;
             }
 
+            public String getStateName() {
+                return stateName;
+            }
+
         
         }
-        final static State floorState = new State(floorWristAngle,floorShoulderAngle);
-        final static State ampState = new State(ampWristAngle,ampShoulderAngle);
-        final static State humanState = new State(humanWristAngle, humanShoulderAngle);
-        final static State trapState = new State(trapWristAngle, trapShoulderAngle);
-        final static State defaultState = new State(defaultWristAngle, defaultShoulderAngle);
-        final static State speakerState = new State(speakerWristAngle, speakerShoulderAngle);
-
+        public final static State floorState = new State(floorWristAngle,floorShoulderAngle, "floor");
+        public final static State ampState = new State(ampWristAngle,ampShoulderAngle, "amp");
+        public final static State humanState = new State(humanWristAngle, humanShoulderAngle, "human");
+        public final static State trapState = new State(trapWristAngle, trapShoulderAngle, "trap");
+        public final static State defaultState = new State(defaultWristAngle, defaultShoulderAngle, "default");
+        public final static State speakerState = new State(speakerWristAngle, speakerShoulderAngle, "speaker");
+        public final static State liftNoteState = new State(liftNoteWristAngle, liftNoteShoulderAngle, "liftNote");
     }
-
-    
 }

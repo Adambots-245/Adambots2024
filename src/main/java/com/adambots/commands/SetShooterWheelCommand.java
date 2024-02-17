@@ -9,43 +9,43 @@ import com.adambots.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class RunShooterCommand extends Command {
-  /** Creates a new RunShooterCommand. */
+public class SetShooterWheelCommand extends Command {
+  /** Creates a new SetShooterWheelCommand. */
   ShooterSubsystem shooterSubsystem;
   IntakeSubsystem intakeSubsystem;
-  double shootMotorSpeed;
-  boolean continuous;
 
-  public RunShooterCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, double shootMotorSpeed, boolean continuous) {
+  public SetShooterWheelCommand(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooterSubsystem);
+    addRequirements(shooterSubsystem, intakeSubsystem);
     this.shooterSubsystem = shooterSubsystem;
     this.intakeSubsystem = intakeSubsystem;
-    this.shootMotorSpeed = shootMotorSpeed;
-    this.continuous = continuous;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+     if (intakeSubsystem.getNote()) {
+      shooterSubsystem.setWheelSpeed(1);
+     }
+     else {
+      shooterSubsystem.setWheelSpeed(0);
+     }
+    
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    shooterSubsystem.setWheelSpeed(shootMotorSpeed);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (continuous){
-      shooterSubsystem.setWheelSpeed(0);
-    }
+    shooterSubsystem.setWheelSpeed(0);
   }
-    
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !continuous;
+    return false;
   }
 }

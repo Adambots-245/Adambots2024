@@ -4,25 +4,21 @@
 
 package com.adambots.commands.autonCommands;
 
-import com.adambots.commands.FeedShooterCommand;
-import com.adambots.commands.RunShooterCommand;
+import com.adambots.commands.SetShooterWheelCommand;
+import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
-
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class FireCommand extends SequentialCommandGroup {
+public class PrimeShooterCommand extends SequentialCommandGroup {
   
-  public FireCommand(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
+  public PrimeShooterCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
     super(
-      new FeedShooterCommand(intakeSubsystem, shooterSubsystem), 
-      new WaitCommand(1), 
-      new RunShooterCommand(intakeSubsystem, shooterSubsystem, 0, false),
-      new InstantCommand(() -> intakeSubsystem.setGroundIntakeMotorSpeed(0)));
+      // new ChangeArmStateCommand(armSubsystem, ArmConstants.speakerState),
+      new SetShooterWheelCommand(shooterSubsystem, intakeSubsystem)
+    );   
   }
 }

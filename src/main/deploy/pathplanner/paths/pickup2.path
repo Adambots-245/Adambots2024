@@ -3,70 +3,48 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.6248870155402261,
-        "y": 4.539149258478095
+        "x": 2.41,
+        "y": 4.1
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3182397535970536,
-        "y": 4.049179990251271
+        "x": 2.6373441619921745,
+        "y": 3.5718051464633596
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.4599653194866877,
-        "y": 2.0577367680817487
+        "x": 3.410259374013754,
+        "y": 3.03310666535741
       },
       "prevControl": {
-        "x": 1.5879626875790933,
-        "y": 2.131168568663442
+        "x": 2.824717546724679,
+        "y": 3.126793357723663
       },
       "nextControl": {
-        "x": 3.2821425106443183,
-        "y": 1.988500794089526
+        "x": 4.393178620332132,
+        "y": 2.8758395859464683
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.947467564191511,
-        "y": 3.765026131606093
+        "x": 7.4973413284915,
+        "y": 4.251033666118688
       },
       "prevControl": {
-        "x": 4.064574153382736,
-        "y": 3.60779853790042
-      },
-      "nextControl": {
-        "x": 5.622330895900156,
-        "y": 3.8852072728692786
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 7.5084016094780255,
-        "y": 4.2882277107506495
-      },
-      "prevControl": {
-        "x": 4.460981885337801,
-        "y": 4.490165162350303
+        "x": 5.729655565637749,
+        "y": 4.530032208222826
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1.3,
-      "rotationDegrees": 90.0,
-      "rotateFast": true
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
@@ -95,13 +73,13 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": 42.35745470593529,
+    "rotation": 173.1572265873691,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "3 Piece Auto",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 179.05865922369975,
     "velocity": 0
   },
   "useDefaultConstraints": false

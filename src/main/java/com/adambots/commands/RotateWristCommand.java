@@ -12,10 +12,13 @@ public class RotateWristCommand extends Command {
   /** Creates a new RotateWristCommand. */
   private ArmSubsystem armSubsystem;
   double wristIncrement;
-  public RotateWristCommand(ArmSubsystem armSubsystem, double wristIncrement) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  boolean manualAdjust;
+  public RotateWristCommand(ArmSubsystem armSubsystem, double wristIncrement, boolean manualAdjust) {
+    addRequirements(armSubsystem);
+
     this.armSubsystem = armSubsystem;
     this.wristIncrement = wristIncrement;
+    this.manualAdjust = manualAdjust;
   }
 
   // Called when the command is initially scheduled.
@@ -35,6 +38,6 @@ public class RotateWristCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return !manualAdjust;
   }
 }

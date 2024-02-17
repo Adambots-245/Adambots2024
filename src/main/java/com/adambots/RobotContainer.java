@@ -1,34 +1,24 @@
 package com.adambots;
 
+import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.DriveConstants;
+import com.adambots.Constants.GamepadConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.Gamepad.Buttons;
-// import com.adambots.commands.autonCommands.AlignNoteBothCommand;
-// import com.adambots.commands.autonCommands.AlignRotateCommand;
 import com.adambots.commands.autonCommands.PathPlannerAlign;
-// import com.adambots.commands.autonCommands.autonCommandGrounds.PickupGamepieceCommand;
 import com.adambots.commands.ChangeArmStateCommand;
-import com.adambots.commands.FeedShooterCommand;
 import com.adambots.commands.RotateShoulderCommand;
 import com.adambots.commands.RotateWristCommand;
-import com.adambots.commands.RunIntakeCommand;
-import com.adambots.commands.RunShooterCommand;
 import com.adambots.commands.autonCommands.FireCommand;
-import com.adambots.subsystems.ArmSubsystem;
-import com.adambots.commands.autonCommands.autonCommandGrounds.PickupGamepieceRotateCommand;
-import com.adambots.commands.autonCommands.autonCommandGrounds.PickupGamepieceStrafeCommand;
 import com.adambots.commands.visionCommands.AlignRotateCommand;
+import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
-import com.adambots.subsystems.HangSubsystem;
-import com.adambots.subsystems.ShooterSubsystem;
-import com.adambots.RobotMap;
 import com.adambots.subsystems.IntakeSubsystem;
+import com.adambots.subsystems.ShooterSubsystem;
 import com.adambots.utils.Dash;
 import com.adambots.utils.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.adambots.Constants.ArmConstants;
-import com.adambots.Constants.GamepadConstants;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -39,8 +29,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+// import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 
 /**
@@ -91,49 +80,43 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
     Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
     // Buttons.JoystickButton2.onTrue(new SequentialCommandGroup(new PathPlannerAlign(drivetrainSubsystem, VisionConstants.aprilTagPose2d), new PathPlannerAlign(drivetrainSubsystem, VisionConstants.aprilTagPose2d)));
     Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem, VisionConstants.aprilTagPose2d));
-
-
+    Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
+    
     //Debugging and Testing
     Buttons.JoystickButton4.onTrue(new InstantCommand(() -> drivetrainSubsystem.resetOdometry(new Pose2d())));
     //Buttons.JoystickButton2.onTrue(new PickupGamepieceCommand(drivetrainSubsystem));
-    // Buttons.primaryAButton.whileTrue(new AlignNoteCommand(drivetrainSubsystem));
-    // Buttons.primaryBButton.whileTrue(new AlignNoteDistanceCommand(drivetrainSubsystem));
-    // Buttons.JoystickButton4.onTrue(armCommands.humanStationConeCommand());
-    // Buttons.JoystickButton11.onTrue(Commands.deadline(new WaitCommand(1.5), autonCommands.driveTillBumpedCommand()));
-    // Buttons.JoystickButton16.onTrue(new TurnToGamePieceCommand(drivetrainSubsystem, RobotMap.lidar, Direction.RIGHT));
-    // Buttons.JoystickButton16.onTrue(autonCommands.autoInitAndScoreCone());
 
-    // Buttons.JoystickButton16.onTrue(new TestAutoBalanceCommand(drivetrainSubsystem, RobotMap.GyroSensor, grabbyLifterSubsystem).andThen(new HockeyStopCommand(drivetrainSubsystem)));
-    // Buttons.JoystickButton16.onTrue(new AutoBalanceCommand(drivetrainSubsystem, RobotMap.GyroSensor, grabbyLifterSubsystem));
-
-    // Buttons.primaryRB.whileTrue(new RunIntakeCommand(intakeSubsystem, 0.3));
-
+    Buttons.primaryLeftStickButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
+    Buttons.primaryBackButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.speakerState));
     // Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.GyroSensor.reset()));
-
-    Buttons.primaryLB.onTrue(new FireCommand(shooterSubsystem, intakeSubsystem));
+    Buttons.JoystickButton1.onTrue(new FireCommand(shooterSubsystem, intakeSubsystem));
 
     //Arm State Buttons
-    Buttons.primaryAButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.floorState));
+    Buttons.primaryStartButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.speakerState));
+    // Buttons.primaryStartButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
+
     Buttons.primaryBButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.ampState));
-    Buttons.primaryXButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.speakerState));
-    Buttons.primaryYButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.humanState));
-    Buttons.primaryStartButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
-    Buttons.primaryBackButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.trapState));
-    Buttons.primaryDPadN.whileTrue(new RotateShoulderCommand(armSubsystem, 0.5));
-    Buttons.primaryDPadS.whileTrue(new RotateShoulderCommand(armSubsystem, -0.5));
-    Buttons.primaryDPadW.whileTrue(new RotateWristCommand(armSubsystem, -1));
-    Buttons.primaryDPadE.whileTrue(new RotateWristCommand(armSubsystem, 1));
+    Buttons.primaryBButton.onFalse(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
+
+    Buttons.primaryXButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.humanState));
+    Buttons.primaryXButton.onFalse(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
+
+    // Buttons.primaryDPadE.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
+    // Buttons.primaryXButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.trapState));
+    
+    Buttons.primaryDPadN.whileTrue(new RotateShoulderCommand(armSubsystem,1, true));
+    Buttons.primaryDPadS.whileTrue(new RotateShoulderCommand(armSubsystem, -0.1, true));
+    
+    Buttons.primaryDPadE.whileTrue(new RotateWristCommand(armSubsystem, -0.5, true));
+    Buttons.primaryDPadW.whileTrue(new RotateWristCommand(armSubsystem, 0.5, true));
 
     //Hang buttons
     // Buttons.primaryLeftStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setRelay(true)));
-        // Buttons.primaryRightStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setRelay(false)));
+    // Buttons.primaryRightStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setRelay(false)));
 
-    Buttons.JoystickButton6.onTrue(new PickupGamepieceStrafeCommand(drivetrainSubsystem));
     Buttons.JoystickButton7.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.aprilLimelite));
-
     Buttons.JoystickButton5.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.noteLimelite));
     Buttons.JoystickButton10.whileTrue(new AlignRotateCommand(drivetrainSubsystem, false, true, VisionConstants.noteLimelite));
-    Buttons.JoystickButton9.whileTrue(new PickupGamepieceRotateCommand(drivetrainSubsystem));
   }
 
 
@@ -147,12 +130,9 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
 
     //Adds various data to the dashboard that is useful for driving and debugging
     SmartDashboard.putData("Auton Mode", autoChooser);
-
-   // Dash.add("Field", Constants.field);
-   SmartDashboard.putData("AprilTagField",Constants.aprilTagfield);   
-   SmartDashboard.putData("Field",Constants.field);
-
-  //  Dash.add("xPID", () -> AlignNoteCommand);
+    // Dash.add("Field", Constants.field);
+    SmartDashboard.putData("AprilTagField",Constants.aprilTagfield);   
+    SmartDashboard.putData("Field",Constants.field);
 
     Dash.add("getY", Buttons.forwardSupplier);
     Dash.add("getX", Buttons.sidewaysSupplier);
@@ -176,13 +156,6 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
     Dash.add("Aligned", () ->VisionHelpers.isAligned(VisionConstants.noteLimelite));
     Dash.add("DistanceAligned", () ->VisionHelpers.isDistanceAligned(VisionConstants.noteLimelite));
 
-    // Dash.add("getXVision", () -> VisionHelpers.getCameraPoseTargetSpace(VisionConstants.aprilLimelite).getX());
-    // Dash.add("getYVision", () -> VisionHelpers.getCameraPoseTargetSpace(VisionConstants.aprilLimelite).getY());
-    // Dash.add("getZVision", () -> VisionHelpers.getCameraPoseTargetSpace(VisionConstants.aprilLimelite).getZ());
-    // Dash.add("robotPosVisionX", () -> VisionHelpers.getAprilTagPose2d().getX());
-    // Dash.add("robotPosVisionY", () -> VisionHelpers.getAprilTagPose2d().getY());
-
-
     // Dash.add("pitch", () -> RobotMap.GyroSensor.getPitch());
     // Dash.add("roll", () -> RobotMap.GyroSensor.getRoll());
 
@@ -201,7 +174,7 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
     intakeSubsystem.setDefaultCommand(
       new RunCommand(
       
-        () -> intakeSubsystem.setGroundIntakeMotorSpeed(Buttons.deaden(Buttons.primaryJoystick.getRightY(),GamepadConstants.kDeadZone) * 0.2), 
+        () -> intakeSubsystem.setGroundIntakeMotorSpeed(Buttons.deaden(Buttons.primaryJoystick.getRightY(),GamepadConstants.kDeadZone) * 0.3), 
         intakeSubsystem)
     );
   }
@@ -215,4 +188,4 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
     return autoChooser.getSelected();
   }
 }
-//Blahaj_Counter: 2
+//Blahaj_Counter: 3

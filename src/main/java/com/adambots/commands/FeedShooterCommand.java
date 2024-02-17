@@ -5,21 +5,20 @@
 package com.adambots.commands;
 
 import com.adambots.subsystems.IntakeSubsystem;
+import com.adambots.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class FeedShooterCommand extends Command {
   /** Creates a new FeedShooterCommand. */
   private IntakeSubsystem intakeSubsystem;
-  private double groundIntakeMotorSpeed;
-  private boolean continuous;
+  private ShooterSubsystem shooterSubsystem;
   
-  public FeedShooterCommand(IntakeSubsystem intakeSubsystem, double groundIntakeMotorSpeed, boolean continuous) {
+  public FeedShooterCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intakeSubsystem);
+    addRequirements(intakeSubsystem, shooterSubsystem);
     this.intakeSubsystem = intakeSubsystem;
-    this.groundIntakeMotorSpeed = groundIntakeMotorSpeed;
-    this.continuous = continuous;
+    this.shooterSubsystem = shooterSubsystem;
   }
 
   // Called when the command is initially scheduled.
@@ -29,20 +28,23 @@ public class FeedShooterCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.setGroundIntakeMotorSpeed(groundIntakeMotorSpeed);
+  
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (continuous){
-      intakeSubsystem.setGroundIntakeMotorSpeed(0);
-    }
+    if (shooterSubsystem.getShooterVelocity() > 85){
+      intakeSubsystem.setGroundIntakeMotorSpeed(0.3);
+      intakeSubsystem.setNote(false);
+      new RunShooterCommand(intakeSubsystem, shooterSubsystem, 0, false);
+    } 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !continuous;
+    return true;
   }
 }
