@@ -52,7 +52,11 @@ public class PathPlannerAlign extends Command {
     }
     int targetAngle = 0;
     if (noteAlign == true){
-      targetAngle = (int) VisionHelpers.getHorizAngle(VisionConstants.noteLimelite);
+      if (VisionHelpers.getHorizAngle(VisionConstants.noteLimelite) < 0){
+        targetAngle = 360 + (int) VisionHelpers.getHorizAngle(VisionConstants.noteLimelite);
+      } {
+        targetAngle = (int) VisionHelpers.getHorizAngle(VisionConstants.noteLimelite);
+      }
     }
     // Creates a path to follow
     List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos, endPos);

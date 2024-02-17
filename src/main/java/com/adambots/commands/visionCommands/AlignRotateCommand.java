@@ -1,4 +1,5 @@
 package com.adambots.commands.visionCommands;
+import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.Gamepad.Buttons;
@@ -10,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class AlignRotateCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
-  private final PIDController noteTurningPIDController = new PIDController(VisionConstants.kpRotatePID, 0, VisionConstants.kdRotatePID);
+  private final PIDController noteTurningPIDController = new PIDController(AutoConstants.kPThetaController, 0, AutoConstants.kDThetaController);
   private final PIDController aprilTurningPIDController = new PIDController(0.08, 0, 0.03);
   private int alignedCount;
   private int notDetectedCount;
