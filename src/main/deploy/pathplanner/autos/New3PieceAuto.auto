@@ -12,28 +12,15 @@
     "data": {
       "commands": [
         {
-          "type": "sequential",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "pickup1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "TestCommand1"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "pickup2"
-                }
-              }
-            ]
+            "name": "SpinShooterCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FeedShooterCommand"
           }
         }
       ]
