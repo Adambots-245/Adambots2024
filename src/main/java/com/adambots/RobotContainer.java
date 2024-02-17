@@ -3,12 +3,15 @@ package com.adambots;
 import com.adambots.Constants.*;
 import com.adambots.Gamepad.Buttons;
 import com.adambots.commands.*;
+import com.adambots.commands.autonCommands.PathPlannerAlign;
+import com.adambots.commands.visionCommands.AlignRotateCommand;
 import com.adambots.subsystems.*;
 import com.adambots.utils.Dash;
 import com.adambots.utils.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -17,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+// import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 
 /**
@@ -63,12 +67,23 @@ public class RobotContainer {
    */
   
   private void configureButtonBindings() {
+    Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
+    // Buttons.JoystickButton2.onTrue(new SequentialCommandGroup(new PathPlannerAlign(drivetrainSubsystem, VisionConstants.aprilTagPose2d), new PathPlannerAlign(drivetrainSubsystem, VisionConstants.aprilTagPose2d)));
+    Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem));
+    Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
+    
+    //Debugging and Testing
+    Buttons.JoystickButton4.onTrue(new InstantCommand(() -> drivetrainSubsystem.resetOdometry(new Pose2d())));
+    //Buttons.JoystickButton2.onTrue(new PickupGamepieceCommand(drivetrainSubsystem));
+
+    // Buttons.primaryDPadE.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
+    // Buttons.primaryXButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.trapState));
+    
     //Debugging and Testing
     // Buttons.JoystickButton2.onTrue(new PickupGamepieceCommand(drivetrainSubsystem));
     // Buttons.primaryAButton.whileTrue(new AlignNoteCommand(drivetrainSubsystem));
     // Buttons.primaryBButton.whileTrue(new AlignNoteDistanceCommand(drivetrainSubsystem));
 
-    Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
     Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem));
 
     // Buttons.JoystickButton6.onTrue(new PickupGamepieceStrafeCommand(drivetrainSubsystem));
@@ -93,7 +108,10 @@ public class RobotContainer {
     //Hang buttons
     // Buttons.primaryLeftStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setRelay(true)));
     // Buttons.primaryRightStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setRelay(false)));
-    
+
+    Buttons.JoystickButton7.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.aprilLimelite));
+    Buttons.JoystickButton5.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.noteLimelite));
+    Buttons.JoystickButton10.whileTrue(new AlignRotateCommand(drivetrainSubsystem, false, true, VisionConstants.noteLimelite));
   }
 
 
@@ -107,10 +125,9 @@ public class RobotContainer {
 
     //Adds various data to the dashboard that is useful for driving and debugging
     SmartDashboard.putData("Auton Mode", autoChooser);
-
-   // Dash.add("Field", Constants.field);
-
-  //  Dash.add("xPID", () -> AlignNoteCommand);
+    // Dash.add("Field", Constants.field);
+    SmartDashboard.putData("AprilTagField",Constants.aprilTagfield);   
+    SmartDashboard.putData("Field",Constants.field);
 
     Dash.add("getY", Buttons.forwardSupplier);
     Dash.add("getX", Buttons.sidewaysSupplier);
@@ -166,4 +183,4 @@ public class RobotContainer {
     return autoChooser.getSelected();
   }
 }
-//Blahaj_Counter: 2
+//Blahaj_Counter: 3
