@@ -5,21 +5,25 @@
 package com.adambots.subsystems;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 import com.adambots.Constants;
 import com.adambots.RobotMap;
 import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.DriveConstants;
+import com.adambots.Constants.VisionConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
 import com.adambots.sensors.Gyro;
 import com.adambots.utils.ModuleMap;
 import com.adambots.utils.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -56,6 +60,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
         () -> false, //TODO: CREATE PATH FLIP SUPPLIER
         this // Reference to this subsystem to set requirements
     );
+
+    PPHolonomicDriveController.setRotationTargetOverride(this::getRotationTargetNoteOverride);
+    PPHolonomicDriveController.setRotationTargetOverride(this::getRotationTargetAprilOverride);
   }
 
   @Override
@@ -71,6 +78,27 @@ public class DrivetrainSubsystem extends SubsystemBase {
     Constants.aprilTagfield.setRobotPose(VisionHelpers.getAprilTagPose2d());
   }
 
+  public Optional<Rotation2d> getRotationTargetNoteOverride(){
+    // Some condition that should decide if we want to override rotation
+    if(VisionHelpers.isDetected(VisionConstants.noteLimelite)) {
+        // Return an optional containing the rotation override (this should be a field relative rotation)
+        return Optional.of(new Rotation2d(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite)));
+    } else {
+        // return an empty optional when we don't want to override the path's rotation
+        return Optional.empty();
+    }
+  }
+
+  public Optional<Rotation2d> getRotationTargetAprilOverride(){
+    // Some condition that should decide if we want to override rotation
+    if(VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
+        // Return an optional containing the rotation override (this should be a field relative rotation)
+        return Optional.of(new Rotation2d(VisionHelpers.getHorizAngle(VisionConstants.aprilLimelite)));
+    } else {
+        // return an empty optional when we don't want to override the path's rotation
+        return Optional.empty();
+    }
+  }
 
   /**
    * Returns the currently-estimated pose of the robot.

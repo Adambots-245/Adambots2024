@@ -15,7 +15,7 @@ public final class Constants {
     public static final String canivore = "CANivore";
 
     public static final class VisionConstants {
-        public static final Pose2d aprilTagPose2d = new Pose2d(new Translation2d(1.23, 2.55), new Rotation2d());
+        public static final Pose2d aprilTagRedPose2d = new Pose2d(new Translation2d(1.23, 2.55), new Rotation2d());
         public static final String noteLimelite = "limelight-notebot";
         public static final String aprilLimelite = "limelight-april";
         public static final double kpBothPID = 0.1;

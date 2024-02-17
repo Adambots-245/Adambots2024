@@ -21,6 +21,10 @@ public class VisionHelpers {
         return LimelightHelpers.getLatestResults(VisionConstants.aprilLimelite).targetingResults.getBotPose2d_wpiRed();
     }
 
+    public static int getAprilTagID() {
+        return (int) LimelightHelpers.getFiducialID(VisionConstants.aprilLimelite);
+    }
+
     public static Pose2d getAprilTagBotPose2d() {
         return LimelightHelpers.getLatestResults(VisionConstants.aprilLimelite).targetingResults.getBotPose2d();  
     }
@@ -144,6 +148,9 @@ public class VisionHelpers {
     }
 
     public static double getHorizAngle(String limelight) {
+        if (limelight == VisionConstants.aprilLimelite){
+            
+        }
         return LimelightHelpers.getTX(limelight);
     }
 

@@ -19,12 +19,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class PathPlannerAlign extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
-  private Pose2d targetPos;
   private static PathPlannerPath path;
+  private Pose2d targetPos;
 
-  public PathPlannerAlign(DrivetrainSubsystem driveTrainSubsystem, Pose2d targetPos) {
+  public PathPlannerAlign(DrivetrainSubsystem driveTrainSubsystem) {
     addRequirements(driveTrainSubsystem);
-    this.targetPos = targetPos;
     this.driveTrainSubsystem = driveTrainSubsystem;
   }
 
@@ -36,7 +35,12 @@ public class PathPlannerAlign extends Command {
     Pose2d currentAprilPos = VisionHelpers.getAprilTagPose2d();
     Pose2d startPos = new Pose2d(currentPos.getTranslation(), currentPos.getRotation());
     // Adds distance from the current robot pose, to align to the desired target pos
+    targetPos = VisionConstants.aprilTagRedPose2d;
     Pose2d endPos = new Pose2d(currentPos.getTranslation().plus(new Translation2d(currentAprilPos.getTranslation().getX()-targetPos.getTranslation().getX(), currentAprilPos.getTranslation().getY() - targetPos.getTranslation().getY())), new Rotation2d());
+    if (VisionHelpers.getAprilTagID() == 4){
+      targetPos = VisionConstants.aprilTagRedPose2d;
+      endPos = new Pose2d(currentPos.getTranslation().plus(new Translation2d(currentAprilPos.getTranslation().getX()-targetPos.getTranslation().getX(), currentAprilPos.getTranslation().getY() - targetPos.getTranslation().getY())), new Rotation2d());
+    }
 
     // Creates a path to follow
     List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos, endPos);
