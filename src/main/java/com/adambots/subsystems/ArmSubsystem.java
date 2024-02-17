@@ -10,6 +10,7 @@ import com.adambots.utils.Dash;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -93,15 +94,12 @@ public class ArmSubsystem extends SubsystemBase {
   
   @Override
   public void periodic() {
-    failsafeShoulder = false;
-    failsafeWrist = false;
+    if (DriverStation.isEnabled()) {shoulderSpeed = shoulderPID.calculate(getShoulderAngle(), targetShoulderAngle);}
+    else {shoulderSpeed = 0;}
+    if (DriverStation.isEnabled()) {wristSpeed = wristPID.calculate(getWristAngle(), targetWristAngle);}
+    else {wristSpeed = 0;}
 
     failSafes();
-
-    if (!failsafeShoulder) {shoulderSpeed = shoulderPID.calculate(getShoulderAngle(), targetShoulderAngle);}
-    else {shoulderSpeed = 0;}
-    if (!failsafeWrist) {wristSpeed = wristPID.calculate(getWristAngle(), targetWristAngle);}
-    else {wristSpeed = 0;}
 
     wristSpeed = MathUtil.clamp(wristSpeed, -0.3, 0.3);
 
@@ -117,19 +115,19 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     if(getShoulderAngle() < 160 && getWristAngle() < 160 && shoulderSpeed < 0){
-      failsafeShoulder = true;
+      shoulderSpeed = 0;
     }
     if (getShoulderAngle() > shoulderUpperLimit && shoulderSpeed > 0){
-      failsafeShoulder = true;
+      shoulderSpeed = 0;
     } 
     if(getShoulderAngle() < shoulderLowerLimit && shoulderSpeed < 0) {
-      failsafeShoulder = true;
+      shoulderSpeed = 0;
     }
-    if (getWristAngle() < wristLowerLimit && /*wristMotor.getVelocity()*/wristSpeed < 0){
-      failsafeWrist = true;
+    if (getWristAngle() < wristLowerLimit && wristSpeed < 0){
+      wristSpeed = 0;
     }
-    if(getWristAngle() > wristUpperLimit && /*wristMotor.getVelocity()*/wristSpeed > 0){
-      failsafeWrist = true;
+    if(getWristAngle() > wristUpperLimit && wristSpeed > 0){
+      wristSpeed = 0;
     }
   }
 }
