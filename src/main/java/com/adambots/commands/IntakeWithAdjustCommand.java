@@ -7,8 +7,10 @@ package com.adambots.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import com.adambots.Constants.ArmConstants;
+import com.adambots.Constants.VisionConstants;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
+import com.adambots.utils.VisionHelpers;
 
 
 public class IntakeWithAdjustCommand extends Command {
@@ -30,7 +32,7 @@ public class IntakeWithAdjustCommand extends Command {
   public void initialize() {
     if (!intakeSubsystem.isSecondPieceInRobot()) {
       armSubsystem.setCurrentState(ArmConstants.floorState);
-      intakeSubsystem.setGroundIntakeMotorSpeed(0.2);
+      intakeSubsystem.setGroundIntakeMotorSpeed(0.17);
     }
   }
 
@@ -49,6 +51,7 @@ public class IntakeWithAdjustCommand extends Command {
   public void end(boolean interrupted) {
     armSubsystem.setCurrentState(ArmConstants.defaultState);
     intakeSubsystem.setGroundIntakeMotorSpeed(0);
+    VisionHelpers.blinkLight(VisionConstants.noteLimelite);
   }
 
   // Returns true when the command should end.

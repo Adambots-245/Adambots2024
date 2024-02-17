@@ -13,6 +13,14 @@ public class VisionHelpers {
     private VisionHelpers() {
     }
     
+    public static void blinkLight(String limelight) {
+        LimelightHelpers.setLEDMode_ForceBlink(limelight);
+    }
+
+    public static void offLight(String limelight) {
+        LimelightHelpers.setLEDMode_ForceOff(limelight);
+    }
+
     public static Pose3d getCameraPoseTargetSpace(String limelight) {
         return LimelightHelpers.getBotPose3d_TargetSpace(limelight);
     }
