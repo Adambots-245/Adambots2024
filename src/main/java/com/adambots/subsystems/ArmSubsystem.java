@@ -31,7 +31,7 @@ public class ArmSubsystem extends SubsystemBase {
   double targetWristAngle = ArmConstants.defaultState.getWristAngle();
   double shoulderSpeed, wristSpeed = 0;
 
-  String currentStateName;
+  String currentStateName = "default";
 
   public ArmSubsystem(BaseMotor shoulderMotor, BaseMotor wristMotor, DutyCycleEncoder shoulderEncoder, DutyCycleEncoder wristEncoder) {
     this.shoulderMotor = shoulderMotor;
@@ -110,6 +110,11 @@ public class ArmSubsystem extends SubsystemBase {
     }else{
       wristLowerLimit = 160;
     }
+
+    if(getShoulderAngle() < 160 && getWristAngle() < wristLowerLimit){
+      shoulderSpeed = 0;
+    }
+
     if (getShoulderAngle() > shoulderUpperLimit && shoulderSpeed > 0){
       targetShoulderAngle = shoulderUpperLimit;
       shoulderSpeed = 0;
@@ -118,11 +123,11 @@ public class ArmSubsystem extends SubsystemBase {
         targetShoulderAngle = shoulderLowerLimit;
         shoulderSpeed = 0;
     }
-    if (getWristAngle() < wristLowerLimit && shoulderMotor.getVelocity() < 0){
+    if (getWristAngle() < wristLowerLimit && /*wristMotor.getVelocity()*/wristSpeed < 0){
       targetWristAngle = wristLowerLimit;
       wristSpeed = 0;
     }
-    if(getWristAngle() > wristUpperLimit && shoulderMotor.getVelocity() > 0){
+    if(getWristAngle() > wristUpperLimit && /*wristMotor.getVelocity()*/wristSpeed > 0){
         targetWristAngle = wristUpperLimit;
         wristSpeed = 0;
     }

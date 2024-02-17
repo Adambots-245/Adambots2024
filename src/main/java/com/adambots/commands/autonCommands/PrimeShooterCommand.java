@@ -4,6 +4,8 @@
 
 package com.adambots.commands.autonCommands;
 
+import com.adambots.Constants.ArmConstants;
+import com.adambots.commands.ChangeArmStateCommand;
 import com.adambots.commands.SetShooterWheelCommand;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
@@ -17,7 +19,7 @@ public class PrimeShooterCommand extends SequentialCommandGroup {
   
   public PrimeShooterCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
     super(
-      // new ChangeArmStateCommand(armSubsystem, ArmConstants.speakerState),
+      new ChangeArmStateCommand(armSubsystem, ArmConstants.speakerState),
       new SetShooterWheelCommand(shooterSubsystem, intakeSubsystem)
     );   
   }

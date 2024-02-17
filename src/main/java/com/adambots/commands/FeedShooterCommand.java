@@ -15,8 +15,8 @@ public class FeedShooterCommand extends Command {
   private ShooterSubsystem shooterSubsystem;
   
   public FeedShooterCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem, shooterSubsystem);
+    
     this.intakeSubsystem = intakeSubsystem;
     this.shooterSubsystem = shooterSubsystem;
   }
@@ -28,23 +28,19 @@ public class FeedShooterCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  
-    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (shooterSubsystem.getShooterVelocity() > 85){
-      intakeSubsystem.setGroundIntakeMotorSpeed(0.3);
-      intakeSubsystem.setNote(false);
-      new RunShooterCommand(intakeSubsystem, shooterSubsystem, 0, false);
-    } 
+    intakeSubsystem.setGroundIntakeMotorSpeed(0.3);
+    intakeSubsystem.setNote(false);
+    new RunShooterCommand(intakeSubsystem, shooterSubsystem, 0, false);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return shooterSubsystem.getShooterVelocity() > 85;
   }
 }
