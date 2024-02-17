@@ -62,13 +62,13 @@ public class AlignNoteBothCommand extends Command {
     } else {
       driveTrainSubsystem.stop();
     }
-    if(newVert>24){
+    if(newVert > 24){
       vertCount++; 
     }
-    if((newHoriz>-2&&newHoriz<2)&&VisionHelpers.isDetected(VisionConstants.noteLimelite)){
+    if(Math.abs(newHoriz) < 2 && VisionHelpers.isDetected(VisionConstants.noteLimelite)){
       horizCount++;
     }
-    if (VisionHelpers.isDetected(VisionConstants.noteLimelite) == false) {
+    if (!VisionHelpers.isDetected(VisionConstants.noteLimelite)) {
       notDetectedCount++;
     }
   }
@@ -76,14 +76,12 @@ public class AlignNoteBothCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      driveTrainSubsystem.stop();
+    driveTrainSubsystem.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return (vertCount >= 1 && horizCount >= 1) || notDetectedCount >= 50;
-        // return vertCount >= 1|| notDetectedCount >= 50;
-
   }
 }

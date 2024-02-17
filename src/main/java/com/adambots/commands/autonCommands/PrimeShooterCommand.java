@@ -4,25 +4,17 @@
 
 package com.adambots.commands.autonCommands;
 
-import com.adambots.Constants.ArmConstants;
-import com.adambots.Constants.ArmConstants.State;
-import com.adambots.commands.ChangeArmStateCommand;
-import com.adambots.commands.RotateShoulderCommand;
 import com.adambots.commands.SetShooterWheelCommand;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
-
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class PrimeShooterCommand extends SequentialCommandGroup {
   
-  /** Creates a new ScoreAutonSpeakerCommand. */
   public PrimeShooterCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
     super(
       // new ChangeArmStateCommand(armSubsystem, ArmConstants.speakerState),

@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class GrabAndRetractCommand extends SequentialCommandGroup {
-  /** Creates a new GrabAndRetractCommand. */
+
   public GrabAndRetractCommand(ArmSubsystem armSubsystem, State armState) {
     super(
       // new ParallelRaceGroup(new WaitCommand(1), new RotateWristCommand(armSubsystem, 10, true), new RotateShoulderCommand(armSubsystem, 1, true)),
@@ -27,6 +27,5 @@ public class GrabAndRetractCommand extends SequentialCommandGroup {
       new WaitCommand(0.5),
       new ChangeArmStateCommand(armSubsystem, armState)
     );   
-    
   }
 }

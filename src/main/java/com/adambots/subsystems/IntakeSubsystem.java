@@ -24,6 +24,7 @@ public class IntakeSubsystem extends SubsystemBase {
     this.groundIntakeMotor = groundIntakeMotor;
     this.secondPieceInRobotEye = secondPieceInRobotEye;
     this.firstPieceInRobotEye = firstPieceInRobotEye;
+    
     Dash.add("Second Intake Limit Switch", () -> isSecondPieceInRobot());
     Dash.add("First Intake Limit Switch", () -> isFirstPieceInRobot());
 

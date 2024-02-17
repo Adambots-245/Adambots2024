@@ -14,7 +14,8 @@ public class RotateWristCommand extends Command {
   double wristIncrement;
   boolean manualAdjust;
   public RotateWristCommand(ArmSubsystem armSubsystem, double wristIncrement, boolean manualAdjust) {
-    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(armSubsystem);
+
     this.armSubsystem = armSubsystem;
     this.wristIncrement = wristIncrement;
     this.manualAdjust = manualAdjust;

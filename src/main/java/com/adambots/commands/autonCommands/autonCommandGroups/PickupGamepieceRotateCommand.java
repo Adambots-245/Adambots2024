@@ -13,6 +13,6 @@ public class PickupGamepieceRotateCommand extends SequentialCommandGroup {
     super(
         new AlignRotateCommand(drivetrainSubsystem, false, true, VisionConstants.noteLimelite),
         new AlignNoteVertCommand(drivetrainSubsystem)
-      );
+    );
   }
 }

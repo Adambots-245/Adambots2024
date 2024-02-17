@@ -9,24 +9,26 @@ import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class RunIntakeCommand extends Command {
   private IntakeSubsystem intakeSubsystem;
+  private ArmSubsystem armSubsystem;
   private double groundIntakeMotorSpeed;
   private double slowIntakeSpeed;
-  private ArmSubsystem armSubsystem;
+//   private double slowIntakeSpeed;
+//   private ArmSubsystem armSubsystem;
 
   /** Creates a new RunIntakeCommand. */
   public RunIntakeCommand(IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem, double groundIntakeMotorSpeed, double slowIntakeSpeed) {
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem, armSubsystem);
   
     this.intakeSubsystem = intakeSubsystem;
     this.groundIntakeMotorSpeed = groundIntakeMotorSpeed;
     this.slowIntakeSpeed = slowIntakeSpeed;
     this.armSubsystem = armSubsystem;
+
+    // this.slowIntakeSpeed = slowIntakeSpeed;
+    // this.armSubsystem = armSubsystem;
   }
 
   // Called when the command is initially scheduled.

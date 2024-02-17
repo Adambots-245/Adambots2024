@@ -1,34 +1,29 @@
 package com.adambots;
 
+import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.DriveConstants;
+import com.adambots.Constants.GamepadConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.Gamepad.Buttons;
 // import com.adambots.commands.autonCommands.autonCommandGrounds.PickupGamepieceCommand;
 import com.adambots.commands.ChangeArmStateCommand;
-import com.adambots.commands.FeedShooterCommand;
 import com.adambots.commands.RotateShoulderCommand;
 import com.adambots.commands.RotateWristCommand;
-import com.adambots.commands.RunIntakeCommand;
-import com.adambots.commands.RunShooterCommand;
-import com.adambots.commands.autonCommands.IntakeWithAdjustCommand;
 import com.adambots.commands.autonCommands.FireCommand;
 import com.adambots.commands.autonCommands.GrabAndRetractCommand;
+import com.adambots.commands.autonCommands.IntakeWithAdjustCommand;
 import com.adambots.commands.autonCommands.PrimeShooterCommand;
 import com.adambots.commands.autonCommands.autonCommandGroups.PickupGamepieceRotateCommand;
 import com.adambots.commands.autonCommands.autonCommandGroups.PickupGamepieceStrafeCommand;
-import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.commands.visionCommands.AlignRotateCommand;
+import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
-import com.adambots.subsystems.HangSubsystem;
-import com.adambots.subsystems.ShooterSubsystem;
-import com.adambots.RobotMap;
 import com.adambots.subsystems.IntakeSubsystem;
+import com.adambots.subsystems.ShooterSubsystem;
 import com.adambots.utils.Dash;
 import com.adambots.utils.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.adambots.Constants.ArmConstants;
-import com.adambots.Constants.GamepadConstants;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -39,7 +34,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 
 /**
