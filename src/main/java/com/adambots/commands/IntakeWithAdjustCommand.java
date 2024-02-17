@@ -30,7 +30,7 @@ public class IntakeWithAdjustCommand extends Command {
   public void initialize() {
     if (!intakeSubsystem.isSecondPieceInRobot()) {
       armSubsystem.setCurrentState(ArmConstants.floorState);
-      intakeSubsystem.setGroundIntakeMotorSpeed(0.3);
+      intakeSubsystem.setGroundIntakeMotorSpeed(0.2);
     }
   }
 
@@ -38,8 +38,8 @@ public class IntakeWithAdjustCommand extends Command {
   @Override
   public void execute() {
     if (state == "initial" && intakeSubsystem.isFirstPieceInRobot()) {
-      intakeSubsystem.setGroundIntakeMotorSpeed(0.09);
-      armSubsystem.incrementWristAngle(10);
+      intakeSubsystem.setGroundIntakeMotorSpeed(0.06);
+      armSubsystem.incrementWristAngle(30);
       state = "touchNote"; //keep this line, prevents above code from running repeatedly
     }
   }
@@ -49,7 +49,9 @@ public class IntakeWithAdjustCommand extends Command {
   public void end(boolean interrupted) {
     armSubsystem.setCurrentState(ArmConstants.defaultState);
     intakeSubsystem.setGroundIntakeMotorSpeed(0);
-    new AdjustNoteCommand(intakeSubsystem).schedule();
+    // if (state == "touchNote") {
+    //   new AdjustNoteCommand(intakeSubsystem).schedule();
+    // }
   }
 
   // Returns true when the command should end.

@@ -67,7 +67,7 @@ public class RobotContainer {
    */
   
   private void configureButtonBindings() {
-    Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
+    // Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
     // Buttons.JoystickButton2.onTrue(new SequentialCommandGroup(new PathPlannerAlign(drivetrainSubsystem, VisionConstants.aprilTagPose2d), new PathPlannerAlign(drivetrainSubsystem, VisionConstants.aprilTagPose2d)));
     Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem, true, false));
     Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
@@ -95,9 +95,13 @@ public class RobotContainer {
 
 
     Buttons.primaryAButton.whileTrue(new IntakeWithAdjustCommand(armSubsystem, intakeSubsystem));
-    Buttons.primaryYButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem));
     Buttons.primaryBButton.whileTrue(new HumanStationCommand(armSubsystem, intakeSubsystem));
     Buttons.primaryXButton.whileTrue(new AmpCommand(armSubsystem));
+
+    Buttons.primaryYButton.onTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem));
+    Buttons.primaryYButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
+
+    // Buttons.primaryStartButton.onTrue(new AdjustNoteCommand(intakeSubsystem));
 
     Buttons.primaryDPadN.whileTrue(new RotateShoulderCommand(armSubsystem,1, true));
     Buttons.primaryDPadS.whileTrue(new RotateShoulderCommand(armSubsystem, -0.1, true));
@@ -168,8 +172,7 @@ public class RobotContainer {
             drivetrainSubsystem));
     intakeSubsystem.setDefaultCommand(
       new RunCommand(
-      
-        () -> intakeSubsystem.setGroundIntakeMotorSpeed(Buttons.deaden(Buttons.primaryJoystick.getRightY(),GamepadConstants.kDeadZone) * 0.3), 
+        () -> intakeSubsystem.setGroundIntakeMotorSpeed(Buttons.deaden(Buttons.primaryJoystick.getRightY(),GamepadConstants.kDeadZone) * 0.1), 
         intakeSubsystem)
     );
   }

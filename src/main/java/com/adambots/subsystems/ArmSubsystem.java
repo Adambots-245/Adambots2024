@@ -4,7 +4,6 @@
 
 package com.adambots.subsystems;
 
-import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.ArmConstants.State;
 import com.adambots.utils.BaseMotor;
 import com.adambots.utils.Dash;
@@ -27,8 +26,8 @@ public class ArmSubsystem extends SubsystemBase {
   double wristLowerLimit = 160;
   double wristUpperLimit = 280;
 
-  double targetShoulderAngle = ArmConstants.defaultState.getShoulderAngle();
-  double targetWristAngle = ArmConstants.defaultState.getWristAngle();
+  double targetShoulderAngle;
+  double targetWristAngle;
   double shoulderSpeed, wristSpeed = 0;
 
   Boolean failsafeWrist, failsafeShoulder = false;
