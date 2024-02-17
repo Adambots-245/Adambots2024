@@ -19,10 +19,14 @@ public class PathPlannerAlign extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
   private static PathPlannerPath path;
   private Pose2d targetPos;
+  private boolean noteAlign;
+  private boolean aprilAlign;
 
-  public PathPlannerAlign(DrivetrainSubsystem driveTrainSubsystem) {
+  public PathPlannerAlign(DrivetrainSubsystem driveTrainSubsystem, boolean noteAlign, boolean aprilAlign) {
     addRequirements(driveTrainSubsystem);
     this.driveTrainSubsystem = driveTrainSubsystem;
+    this.noteAlign = noteAlign; 
+    this.aprilAlign = aprilAlign;
   }
 
   @Override
@@ -35,28 +39,42 @@ public class PathPlannerAlign extends Command {
     // Adds distance from the current robot pose, to align to the desired target pos
     targetPos = VisionConstants.aprilTagRedPose2d;
     Pose2d endPos = new Pose2d(currentPos.getTranslation().plus(new Translation2d(currentAprilPos.getTranslation().getX()-targetPos.getTranslation().getX(), currentAprilPos.getTranslation().getY() - targetPos.getTranslation().getY())), new Rotation2d());
-    if (VisionHelpers.getAprilTagID() == 4){
-      targetPos = VisionConstants.aprilTagRedPose2d;
-      endPos = new Pose2d(currentPos.getTranslation().plus(new Translation2d(currentAprilPos.getTranslation().getX()-targetPos.getTranslation().getX(), currentAprilPos.getTranslation().getY() - targetPos.getTranslation().getY())), new Rotation2d());
+    if (aprilAlign == true){
+      if (VisionHelpers.getAprilTagID() == 4){
+        targetPos = VisionConstants.aprilTagRedPose2d;
+        endPos = new Pose2d(currentPos.getTranslation().plus(new Translation2d(currentAprilPos.getTranslation().getX()-targetPos.getTranslation().getX(), currentAprilPos.getTranslation().getY() - targetPos.getTranslation().getY())), new Rotation2d());
+      }
     }
-
+    else if (noteAlign == true){
+      endPos = new Pose2d(currentPos.getTranslation(), new Rotation2d());
+    }
+    int targetAngle = 0;
+    if (noteAlign == true){
+      targetAngle = (int) VisionHelpers.getHorizAngle(VisionConstants.noteLimelite);
+    }
     // Creates a path to follow
     List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos, endPos);
     path = new PathPlannerPath(
       bezierPoints, 
       new PathConstraints(
-        5, 5, 
+        1, 1, 
         Units.degreesToRadians(360), Units.degreesToRadians(540)
       ),  
-      new GoalEndState(0.0, new Rotation2d(Math.toRadians(270)))
+      new GoalEndState(0.0, new Rotation2d(Math.toRadians(targetAngle)))
     );
 
     // Prevent this path from being flipped on the red alliance, since the given positions are already correct
     path.preventFlipping = true;
 
-    // Only moves toward the path if there is an april tag detected 
-    if (VisionHelpers.isDetected(VisionConstants.aprilLimelite)){
-      AutoBuilder.followPath(path).schedule();
+    // Only moves toward the path if there is an april tag detected
+    if (aprilAlign == true){
+      if (VisionHelpers.isDetected(VisionConstants.aprilLimelite)){
+        AutoBuilder.followPath(path).schedule();
+      }
+    } else if (noteAlign == true){
+      if (VisionHelpers.isDetected(VisionConstants.noteLimelite)){
+        AutoBuilder.followPath(path).schedule();
+      }
     }
   }
 

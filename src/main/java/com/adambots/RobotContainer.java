@@ -69,7 +69,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
     // Buttons.JoystickButton2.onTrue(new SequentialCommandGroup(new PathPlannerAlign(drivetrainSubsystem, VisionConstants.aprilTagPose2d), new PathPlannerAlign(drivetrainSubsystem, VisionConstants.aprilTagPose2d)));
-    Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem));
+    Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem, true, false));
     Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
     
     //Debugging and Testing
