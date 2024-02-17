@@ -4,7 +4,7 @@
   "holonomicMode": true,
   "pathFolders": [
     "3 Piece Auto",
-    "3 Piece Closed Auto"
+    "3 Piece Close Auto"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,
