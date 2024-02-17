@@ -4,26 +4,30 @@
 
 package com.adambots.commands;
 
-import com.adambots.subsystems.IntakeSubsystem;
+import com.adambots.Constants.ArmConstants;
+import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class FeedShooterCommand extends Command {
+public class PrimeShooterCommand extends Command {
   /** Creates a new FeedShooterCommand. */
-  private IntakeSubsystem intakeSubsystem;
+  private ArmSubsystem armSubsystem;
   private ShooterSubsystem shooterSubsystem;
   
-  public FeedShooterCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
-    addRequirements(intakeSubsystem, shooterSubsystem);
+  public PrimeShooterCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem) {
+    addRequirements(armSubsystem, shooterSubsystem);
     
-    this.intakeSubsystem = intakeSubsystem;
+    this.armSubsystem = armSubsystem;
     this.shooterSubsystem = shooterSubsystem;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    armSubsystem.setCurrentState(ArmConstants.speakerState);
+    shooterSubsystem.setWheelSpeed(1);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -33,14 +37,13 @@ public class FeedShooterCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.setGroundIntakeMotorSpeed(0.3);
-    intakeSubsystem.setNote(false);
-    new RunShooterCommand(intakeSubsystem, shooterSubsystem, 0, false);
+    armSubsystem.setCurrentState(ArmConstants.defaultState);
+    shooterSubsystem.setWheelSpeed(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return shooterSubsystem.getShooterVelocity() > 85;
+    return false;
   }
 }

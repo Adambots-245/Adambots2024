@@ -4,41 +4,40 @@
 
 package com.adambots.commands;
 
-import edu.wpi.first.wpilibj2.command.Command;
-
-import com.adambots.Constants.ArmConstants.State;
+import com.adambots.Constants.ArmConstants;
 import com.adambots.subsystems.ArmSubsystem;
 
+import edu.wpi.first.wpilibj2.command.Command;
 
-public class ChangeArmStateCommand extends Command {
-  /** Creates a new ChangeArmStateCommand. */
-  ArmSubsystem armSubsystem;
-  State armState;
-
-  public ChangeArmStateCommand(ArmSubsystem armSubsystem, State armState) {
+public class AmpCommand extends Command {
+  /** Creates a new FeedShooterCommand. */
+  private ArmSubsystem armSubsystem;
+  
+  public AmpCommand(ArmSubsystem armSubsystem) {
     addRequirements(armSubsystem);
-
+    
     this.armSubsystem = armSubsystem;
-    this.armState = armState;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    armSubsystem.setCurrentState(ArmConstants.ampState);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    armSubsystem.setCurrentState(armState);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    armSubsystem.setCurrentState(ArmConstants.defaultState);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

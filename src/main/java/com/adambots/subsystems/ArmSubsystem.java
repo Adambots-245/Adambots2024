@@ -31,7 +31,9 @@ public class ArmSubsystem extends SubsystemBase {
   double targetWristAngle = ArmConstants.defaultState.getWristAngle();
   double shoulderSpeed, wristSpeed = 0;
 
-  String currentStateName;
+  Boolean failsafeWrist, failsafeShoulder = false;
+
+  String currentStateName = "default";
 
   public ArmSubsystem(BaseMotor shoulderMotor, BaseMotor wristMotor, DutyCycleEncoder shoulderEncoder, DutyCycleEncoder wristEncoder) {
     this.shoulderMotor = shoulderMotor;
@@ -54,7 +56,6 @@ public class ArmSubsystem extends SubsystemBase {
     Dash.add("Shoulder Encoder", () -> getShoulderAngle());
     Dash.add("Wrist Encoder", () -> getWristAngle());
     Dash.add("wristSpeed",() ->  wristMotor.getVelocity());
-
   }
 
 //   public void setTargetShoulderAngle(double newShoulderAngle) {
@@ -93,10 +94,15 @@ public class ArmSubsystem extends SubsystemBase {
   
   @Override
   public void periodic() {
-    shoulderSpeed = shoulderPID.calculate(getShoulderAngle(), targetShoulderAngle);
-    wristSpeed = wristPID.calculate(getWristAngle(), targetWristAngle);
+    failsafeShoulder = false;
+    failsafeWrist = false;
 
     failSafes();
+
+    if (!failsafeShoulder) {shoulderSpeed = shoulderPID.calculate(getShoulderAngle(), targetShoulderAngle);}
+    else {shoulderSpeed = 0;}
+    if (!failsafeWrist) {wristSpeed = wristPID.calculate(getWristAngle(), targetWristAngle);}
+    else {wristSpeed = 0;}
 
     wristSpeed = MathUtil.clamp(wristSpeed, -0.3, 0.3);
 
@@ -110,21 +116,21 @@ public class ArmSubsystem extends SubsystemBase {
     }else{
       wristLowerLimit = 160;
     }
+
+    if(getShoulderAngle() < 160 && getWristAngle() < 160 && shoulderSpeed < 0){
+      failsafeShoulder = true;
+    }
     if (getShoulderAngle() > shoulderUpperLimit && shoulderSpeed > 0){
-      targetShoulderAngle = shoulderUpperLimit;
-      shoulderSpeed = 0;
+      failsafeShoulder = true;
     } 
     if(getShoulderAngle() < shoulderLowerLimit && shoulderSpeed < 0) {
-        targetShoulderAngle = shoulderLowerLimit;
-        shoulderSpeed = 0;
+      failsafeShoulder = true;
     }
-    if (getWristAngle() < wristLowerLimit && shoulderMotor.getVelocity() < 0){
-      targetWristAngle = wristLowerLimit;
-      wristSpeed = 0;
+    if (getWristAngle() < wristLowerLimit && /*wristMotor.getVelocity()*/wristSpeed < 0){
+      failsafeWrist = true;
     }
-    if(getWristAngle() > wristUpperLimit && shoulderMotor.getVelocity() > 0){
-        targetWristAngle = wristUpperLimit;
-        wristSpeed = 0;
+    if(getWristAngle() > wristUpperLimit && /*wristMotor.getVelocity()*/wristSpeed > 0){
+      failsafeWrist = true;
     }
   }
 }
