@@ -9,13 +9,13 @@ import com.adambots.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class RotateShoulderCommand extends Command {
-  /** Creates a new RotateShoulderCommand. */
   private ArmSubsystem armSubsystem;
-  double shoulderIncrement;
+  private double shoulderIncrement;
   private boolean manualAdjust;
+
   public RotateShoulderCommand(ArmSubsystem armSubsystem, double shoulderIncrement, boolean manualAdjust) {
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(armSubsystem);
+
     this.shoulderIncrement = shoulderIncrement;
     this.armSubsystem = armSubsystem;
     this.manualAdjust = manualAdjust;

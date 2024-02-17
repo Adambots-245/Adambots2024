@@ -4,10 +4,12 @@
 
 package com.adambots.subsystems;
 
+import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.ArmConstants.State;
 import com.adambots.utils.BaseMotor;
 import com.adambots.utils.Dash;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,11 +27,11 @@ public class ArmSubsystem extends SubsystemBase {
   double wristLowerLimit = 160;
   double wristUpperLimit = 280;
 
-  double shoulderAngle = 0;
-  double wristAngle = 0;
+  double targetShoulderAngle = ArmConstants.defaultState.getShoulderAngle();
+  double targetWristAngle = ArmConstants.defaultState.getWristAngle();
   double shoulderSpeed, wristSpeed = 0;
 
-  String currentState;
+  String currentStateName;
 
   public ArmSubsystem(BaseMotor shoulderMotor, BaseMotor wristMotor, DutyCycleEncoder shoulderEncoder, DutyCycleEncoder wristEncoder) {
     this.shoulderMotor = shoulderMotor;
@@ -37,8 +39,8 @@ public class ArmSubsystem extends SubsystemBase {
     this.shoulderEncoder = shoulderEncoder;
     this.wristEncoder = wristEncoder;
 
-    shoulderAngle = getShoulderAngle();
-    wristAngle = getWristAngle();
+    targetShoulderAngle = getShoulderAngle();
+    targetWristAngle = getWristAngle();
 
     shoulderMotor.setInverted(false);
     wristMotor.setInverted(true);
@@ -51,23 +53,22 @@ public class ArmSubsystem extends SubsystemBase {
 
     Dash.add("Shoulder Encoder", () -> getShoulderAngle());
     Dash.add("Wrist Encoder", () -> getWristAngle());
-
   }
 
-  public void setShoulderAngle(double newShoulderAngle) {
-    shoulderAngle = newShoulderAngle;
-  }
+//   public void setTargetShoulderAngle(double newShoulderAngle) {
+//     targetShoulderAngle = newShoulderAngle;
+//   }
 
-  public void setWristAngle(double newWristAngle) {
-    wristAngle = newWristAngle;
-  }
+//   public void setTargetWristAngle(double newWristAngle) {
+//     targetWristAngle = newWristAngle;
+//   }
 
   public void incrementShoulderAngle(double shoulderIncrement) {
-    shoulderAngle += shoulderIncrement;
-
+    targetShoulderAngle += shoulderIncrement;
   }
-    public void incrementWristAngle(double wristIncrement) {
-    wristAngle += wristIncrement;
+
+  public void incrementWristAngle(double wristIncrement) {
+    targetWristAngle += wristIncrement;
   }
 
   public double getWristAngle(){
@@ -78,25 +79,27 @@ public class ArmSubsystem extends SubsystemBase {
     return shoulderEncoder.getAbsolutePosition() * 360;
   }
 
-  public void setCurrentState(String currentState) {
-    this.currentState = currentState;
+  public void setCurrentState(State newState) {
+    currentStateName = newState.getStateName();
+    targetShoulderAngle = newState.getShoulderAngle();
+    targetWristAngle = newState.getWristAngle();
   }
 
-  public String getCurrentState() {
-    return currentState;
+  public String getCurrentStateName() {
+    return currentStateName;
   }
   
   @Override
   public void periodic() {
-    shoulderSpeed = shoulderPID.calculate(getShoulderAngle(), shoulderAngle);
-    wristSpeed = wristPID.calculate(getWristAngle(), wristAngle);
+    shoulderSpeed = shoulderPID.calculate(getShoulderAngle(), targetShoulderAngle);
+    wristSpeed = wristPID.calculate(getWristAngle(), targetWristAngle);
+
     failSafes();
+
+    wristSpeed = MathUtil.clamp(wristSpeed, -0.3, 0.3);
+
     shoulderMotor.set(shoulderSpeed);
-    // shoulderMotor.set(0);
-    wristMotor.set(Math.max(Math.min(wristSpeed, 0.3), -0.3));
-
-        // System.out.println(getWristAngle());
-
+    wristMotor.set(wristSpeed);
   }
 
   private void failSafes() {
@@ -106,18 +109,20 @@ public class ArmSubsystem extends SubsystemBase {
     //   wristLowerLimit = 160;
     // }
     if (getShoulderAngle() > shoulderUpperLimit && shoulderSpeed > 0){
-      shoulderAngle = shoulderUpperLimit;
+      targetShoulderAngle = shoulderUpperLimit;
+      shoulderSpeed = 0;
     } 
     if(getShoulderAngle() < shoulderLowerLimit && shoulderSpeed < 0) {
-        shoulderAngle = shoulderLowerLimit;
+        targetShoulderAngle = shoulderLowerLimit;
+        shoulderSpeed = 0;
     }
     if (getWristAngle() < wristLowerLimit && wristSpeed < 0){
-      wristAngle = wristLowerLimit;
+      targetWristAngle = wristLowerLimit;
+      wristSpeed = 0;
     }
     if(getWristAngle() > wristUpperLimit && wristSpeed > 0){
-        wristAngle = wristUpperLimit;
+        targetWristAngle = wristUpperLimit;
+        wristSpeed = 0;
     }
-
-    
   }
 }

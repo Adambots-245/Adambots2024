@@ -19,12 +19,11 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 public class FireCommand extends SequentialCommandGroup {
   
   public FireCommand(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
-    
-  
     super(
-      new FeedShooterCommand(intakeSubsystem, shooterSubsystem), 
-      new WaitCommand(1), 
-      new RunShooterCommand(shooterSubsystem, 0, false),
-      new InstantCommand(() -> intakeSubsystem.setGroundIntakeMotorSpeed(0)));
+        new FeedShooterCommand(intakeSubsystem, shooterSubsystem), 
+        new WaitCommand(1), 
+        new RunShooterCommand(shooterSubsystem, 0, false),
+        new InstantCommand(() -> intakeSubsystem.setGroundIntakeMotorSpeed(0))
+    );
   }
 }

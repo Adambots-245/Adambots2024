@@ -14,8 +14,6 @@ public class ChangeArmStateCommand extends Command {
   /** Creates a new ChangeArmStateCommand. */
   ArmSubsystem armSubsystem;
   State armState;
-  double wristAngle;
-  double shoulderAngle;
 
   public ChangeArmStateCommand(ArmSubsystem armSubsystem, State armState) {
     addRequirements(armSubsystem);
@@ -31,12 +29,7 @@ public class ChangeArmStateCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    wristAngle = armState.getWristAngle();
-    shoulderAngle = armState.getShoulderAngle();
-    armSubsystem.setWristAngle(wristAngle);
-    armSubsystem.setShoulderAngle(shoulderAngle);
-
-    armSubsystem.setCurrentState(armState.getStateName());
+    armSubsystem.setCurrentState(armState);
   }
 
   // Called once the command ends or is interrupted.

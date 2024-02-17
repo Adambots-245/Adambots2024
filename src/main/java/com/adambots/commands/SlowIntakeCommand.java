@@ -9,10 +9,10 @@ import com.adambots.subsystems.IntakeSubsystem;
 
 public class SlowIntakeCommand extends Command {
   private IntakeSubsystem intakeSubsystem;
-  /** Creates a new RunIntakeCommand. */
+
   public SlowIntakeCommand(IntakeSubsystem intakeSubsystem) {
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem);
+
     this.intakeSubsystem = intakeSubsystem;
   }
 
