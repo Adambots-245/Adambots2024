@@ -148,9 +148,6 @@ public class VisionHelpers {
     }
 
     public static double getHorizAngle(String limelight) {
-        if (limelight == VisionConstants.aprilLimelite){
-            
-        }
         return LimelightHelpers.getTX(limelight);
     }
 
