@@ -14,6 +14,8 @@ public class HumanStationCommand extends Command {
   /** Creates a new FeedShooterCommand. */
   private ArmSubsystem armSubsystem;
   private IntakeSubsystem intakeSubsystem;
+
+  private int inc = 0;
   
   public HumanStationCommand(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
     addRequirements(armSubsystem, intakeSubsystem);
@@ -25,6 +27,7 @@ public class HumanStationCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    inc = 0;
     armSubsystem.setCurrentState(ArmConstants.humanState);
     intakeSubsystem.setGroundIntakeMotorSpeed(0.2);
   }
@@ -32,8 +35,11 @@ public class HumanStationCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (intakeSubsystem.isSecondPieceInRobot()) {
+    if (inc > 5
+    ) {
       intakeSubsystem.setGroundIntakeMotorSpeed(0);
+    } else if (intakeSubsystem.isSecondPieceInRobot()) {
+      inc++;
     } else if (intakeSubsystem.isFirstPieceInRobot()) {
       intakeSubsystem.setGroundIntakeMotorSpeed(0.09);
     } 
@@ -42,6 +48,7 @@ public class HumanStationCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    intakeSubsystem.setGroundIntakeMotorSpeed(0);
     armSubsystem.setCurrentState(ArmConstants.defaultState);
   }
 

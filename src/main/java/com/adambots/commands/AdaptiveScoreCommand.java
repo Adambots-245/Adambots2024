@@ -20,8 +20,6 @@ public class AdaptiveScoreCommand extends Command {
   
 
   public AdaptiveScoreCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
-    addRequirements(armSubsystem, shooterSubsystem, intakeSubsystem);
-
     this.shooterSubsystem = shooterSubsystem;
     this.intakeSubsystem = intakeSubsystem;
     this.armSubsystem = armSubsystem;
@@ -33,7 +31,7 @@ public class AdaptiveScoreCommand extends Command {
     if (armSubsystem.getCurrentStateName() == "speaker") {
       new FeedShooterCommand(intakeSubsystem, shooterSubsystem).schedule();
     } else if (armSubsystem.getCurrentStateName() == "amp") {
-      ampScoreCommand = new AmpScoreCommand(intakeSubsystem, shooterSubsystem);
+      ampScoreCommand = new AmpScoreCommand(intakeSubsystem);
       ampScoreCommand.schedule();
     }
   }
@@ -46,7 +44,7 @@ public class AdaptiveScoreCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (ampScoreCommand.isScheduled()) {
+    if (armSubsystem.getCurrentStateName() == "amp") {
       ampScoreCommand.cancel();
     }
   }
