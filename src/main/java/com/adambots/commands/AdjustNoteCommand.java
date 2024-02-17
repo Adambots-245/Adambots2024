@@ -1,8 +1,7 @@
 
 
-package com.adambots.commands.autonCommands;
+package com.adambots.commands;
 
-import com.adambots.commands.SlowIntakeCommand;
 import com.adambots.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj2.command.RunCommand;

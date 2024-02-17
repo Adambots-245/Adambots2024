@@ -1,23 +1,9 @@
 package com.adambots;
 
-import com.adambots.Constants.ArmConstants;
-import com.adambots.Constants.DriveConstants;
-import com.adambots.Constants.GamepadConstants;
-import com.adambots.Constants.VisionConstants;
+import com.adambots.Constants.*;
 import com.adambots.Gamepad.Buttons;
-import com.adambots.commands.ChangeArmStateCommand;
-import com.adambots.commands.FeedShooterCommand;
-import com.adambots.commands.IntakeWithAdjustCommand;
-import com.adambots.commands.RotateShoulderCommand;
-import com.adambots.commands.RotateWristCommand;
-import com.adambots.commands.autonCommands.PrimeShooterCommand;
-import com.adambots.commands.autonCommands.autonCommandGroups.PickupGamepieceRotateCommand;
-import com.adambots.commands.autonCommands.autonCommandGroups.PickupGamepieceStrafeCommand;
-import com.adambots.commands.visionCommands.AlignRotateCommand;
-import com.adambots.subsystems.ArmSubsystem;
-import com.adambots.subsystems.DrivetrainSubsystem;
-import com.adambots.subsystems.IntakeSubsystem;
-import com.adambots.subsystems.ShooterSubsystem;
+import com.adambots.commands.*;
+import com.adambots.subsystems.*;
 import com.adambots.utils.Dash;
 import com.adambots.utils.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -43,12 +29,11 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
-private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(RobotMap.swerveModules, RobotMap.gyro);
- //private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(RobotMap.swerveModules, RobotMap.GyroSensor);
- private final ArmSubsystem armSubsystem = new ArmSubsystem(RobotMap.shoulderMotor, RobotMap.wristMotor, RobotMap.shoulderEncoder, RobotMap.wristEncoder);
- private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.shooterWheel);
- private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.groundIntakeMotor, RobotMap.firstPieceInRobotEye, RobotMap.secondPieceInRobotEye);
-//  private final HangSubsystem hangSubsystem = new HangSubsystem(RobotMap.leftHangMotor, RobotMap.rightHangMotor, RobotMap.leftRelay, RobotMap.rightRelay);
+  private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(RobotMap.swerveModules, RobotMap.gyro);
+  private final ArmSubsystem armSubsystem = new ArmSubsystem(RobotMap.shoulderMotor, RobotMap.wristMotor, RobotMap.shoulderEncoder, RobotMap.wristEncoder);
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.shooterWheel);
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.groundIntakeMotor, RobotMap.firstPieceInRobotEye, RobotMap.secondPieceInRobotEye);
+  // private final HangSubsystem hangSubsystem = new HangSubsystem(RobotMap.leftHangMotor, RobotMap.rightHangMotor, RobotMap.leftRelay, RobotMap.rightRelay);
 
   //Creates a SmartDashboard element to allow drivers to select differnt autons
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -84,27 +69,21 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
     // Buttons.primaryBButton.whileTrue(new AlignNoteDistanceCommand(drivetrainSubsystem));
 
     Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
-    Buttons.JoystickButton1.onTrue(new FeedShooterCommand(intakeSubsystem, shooterSubsystem));
+    Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem));
 
-    Buttons.JoystickButton6.onTrue(new PickupGamepieceStrafeCommand(drivetrainSubsystem));
-    Buttons.JoystickButton7.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.aprilLimelite));
-    Buttons.JoystickButton5.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.noteLimelite));
-    Buttons.JoystickButton10.whileTrue(new AlignRotateCommand(drivetrainSubsystem, false, true, VisionConstants.noteLimelite));
-    Buttons.JoystickButton9.whileTrue(new PickupGamepieceRotateCommand(drivetrainSubsystem));
+    // Buttons.JoystickButton6.onTrue(new PickupGamepieceStrafeCommand(drivetrainSubsystem));
+    // Buttons.JoystickButton7.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.aprilLimelite));
+    // Buttons.JoystickButton5.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.noteLimelite));
+    // Buttons.JoystickButton10.whileTrue(new AlignRotateCommand(drivetrainSubsystem, false, true, VisionConstants.noteLimelite));
+    // Buttons.JoystickButton9.whileTrue(new PickupGamepieceRotateCommand(drivetrainSubsystem));
+    // Buttons.JoystickButton7.onTrue(new AlignNoteBothCommand(drivetrainSubsystem));
 
 
+    Buttons.primaryAButton.whileTrue(new IntakeWithAdjustCommand(armSubsystem, intakeSubsystem));
+    Buttons.primaryYButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem));
+    Buttons.primaryBButton.whileTrue(new HumanStationCommand(armSubsystem, intakeSubsystem));
+    Buttons.primaryXButton.whileTrue(new AmpCommand(armSubsystem));
 
-
-    Buttons.primaryXButton.whileTrue(new IntakeWithAdjustCommand(armSubsystem, intakeSubsystem));
-    Buttons.primaryYButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem));
-    // Buttons.primaryYButton.onFalse(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
-
-    //Arm State Buttons
-    Buttons.primaryStartButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
-
-    // Buttons.primaryDPadE.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
-    // Buttons.primaryXButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.trapState));
-    
     Buttons.primaryDPadN.whileTrue(new RotateShoulderCommand(armSubsystem,1, true));
     Buttons.primaryDPadS.whileTrue(new RotateShoulderCommand(armSubsystem, -0.1, true));
     
@@ -113,10 +92,8 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
 
     //Hang buttons
     // Buttons.primaryLeftStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setRelay(true)));
-        // Buttons.primaryRightStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setRelay(false)));
-
+    // Buttons.primaryRightStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setRelay(false)));
     
-    // Buttons.JoystickButton7.onTrue(new AlignNoteBothCommand(drivetrainSubsystem));
   }
 
 
