@@ -13,7 +13,6 @@ import com.adambots.commands.RotateShoulderCommand;
 import com.adambots.commands.RotateWristCommand;
 import com.adambots.commands.RunIntakeCommand;
 import com.adambots.commands.RunShooterCommand;
-import com.adambots.commands.autonCommands.AdjustNote;
 import com.adambots.commands.autonCommands.FireCommand;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.commands.autonCommands.autonCommandGrounds.PickupGamepieceRotateCommand;
@@ -108,8 +107,6 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
     // Buttons.JoystickButton16.onTrue(new AutoBalanceCommand(drivetrainSubsystem, RobotMap.GyroSensor, grabbyLifterSubsystem));
 
     // Buttons.primaryRB.whileTrue(new RunIntakeCommand(intakeSubsystem, 0.3));
-    Buttons.primaryRB.whileTrue(new AdjustNote(intakeSubsystem));
-
 
     // Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.GyroSensor.reset()));
 
@@ -131,13 +128,8 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
     // Buttons.primaryLeftStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setRelay(true)));
         // Buttons.primaryRightStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setRelay(false)));
 
-    
-    // Buttons.JoystickButton7.onTrue(new AlignNoteBothCommand(drivetrainSubsystem));
-    // Buttons.JoystickButton7.onTrue(Commands.parallel(new AlignNoteHorizCommand(drivetrainSubsystem),
-    //     new AlignNoteVertCommand(drivetrainSubsystem)));
-
     Buttons.JoystickButton6.onTrue(new PickupGamepieceStrafeCommand(drivetrainSubsystem));
-        Buttons.JoystickButton7.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.aprilLimelite));
+    Buttons.JoystickButton7.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.aprilLimelite));
 
     Buttons.JoystickButton5.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.noteLimelite));
     Buttons.JoystickButton10.whileTrue(new AlignRotateCommand(drivetrainSubsystem, false, true, VisionConstants.noteLimelite));
