@@ -14,9 +14,9 @@ import com.adambots.commands.autonCommands.IntakeWithAdjustCommand;
 import com.adambots.commands.autonCommands.FireCommand;
 import com.adambots.commands.autonCommands.GrabAndRetractCommand;
 import com.adambots.commands.autonCommands.PrimeShooterCommand;
+import com.adambots.commands.autonCommands.autonCommandGroups.PickupGamepieceRotateCommand;
+import com.adambots.commands.autonCommands.autonCommandGroups.PickupGamepieceStrafeCommand;
 import com.adambots.subsystems.ArmSubsystem;
-import com.adambots.commands.autonCommands.autonCommandGrounds.PickupGamepieceRotateCommand;
-import com.adambots.commands.autonCommands.autonCommandGrounds.PickupGamepieceStrafeCommand;
 import com.adambots.commands.visionCommands.AlignRotateCommand;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.subsystems.HangSubsystem;
@@ -100,19 +100,24 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
     Buttons.primaryRB.whileTrue(new IntakeWithAdjustCommand(intakeSubsystem, armSubsystem));
     Buttons.primaryRB.onFalse(new GrabAndRetractCommand(armSubsystem, ArmConstants.defaultState));
 
+    Buttons.primaryLeftStickButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
+    Buttons.primaryBackButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.speakerState));
+
+
 
     // Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.GyroSensor.reset()));
 
     Buttons.JoystickButton1.onTrue(new FireCommand(shooterSubsystem, intakeSubsystem));
     
-    Buttons.primaryYButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem));
+    Buttons.primaryYButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem));
     // Buttons.primaryYButton.onFalse(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
 
 
 
     //Arm State Buttons
-    Buttons.primaryStartButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.floorState));
-    
+    Buttons.primaryStartButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.speakerState));
+    // Buttons.primaryStartButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
+
 
     Buttons.primaryBButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.ampState));
     Buttons.primaryBButton.onFalse(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
@@ -120,6 +125,8 @@ private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(
    
     Buttons.primaryXButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.humanState));
     Buttons.primaryXButton.onFalse(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
+
+    // Buttons.primary
 
     // Buttons.primaryDPadE.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
     // Buttons.primaryXButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.trapState));

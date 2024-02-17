@@ -35,13 +35,16 @@ public class FeedShooterCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-   
+    if (shooterSubsystem.getShooterVelocity() > 85){
       intakeSubsystem.setGroundIntakeMotorSpeed(0.3);
+      intakeSubsystem.setNote(false);
+      new RunShooterCommand(intakeSubsystem, shooterSubsystem, 0, false);
+    } 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return shooterSubsystem.getShooterVelocity() > 85;
+    return true;
   }
 }

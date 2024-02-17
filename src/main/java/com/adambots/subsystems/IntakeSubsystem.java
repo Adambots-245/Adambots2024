@@ -18,6 +18,7 @@ public class IntakeSubsystem extends SubsystemBase {
   PhotoEye initEye;
   double groundIntakeMotorSpeed = 0;
   boolean isIntaking = false;
+  boolean isNote = false;
 
   public IntakeSubsystem(BaseMotor groundIntakeMotor, PhotoEye firstPieceInRobotEye, PhotoEye secondPieceInRobotEye){
     this.groundIntakeMotor = groundIntakeMotor;
@@ -44,6 +45,13 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public double getIntakeSpeed(){
     return groundIntakeMotor.getVelocity()/512;
+  }
+  public void setNote(boolean note){
+    isNote = note;
+  }
+
+  public boolean getNote(){
+    return isNote;
   }
 
   @Override

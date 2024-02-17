@@ -4,6 +4,7 @@
 
 package com.adambots.commands.autonCommands;
 
+import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.ArmConstants.State;
 import com.adambots.commands.ChangeArmStateCommand;
 import com.adambots.commands.RotateShoulderCommand;
@@ -21,7 +22,9 @@ public class GrabAndRetractCommand extends SequentialCommandGroup {
   /** Creates a new GrabAndRetractCommand. */
   public GrabAndRetractCommand(ArmSubsystem armSubsystem, State armState) {
     super(
-      new ParallelRaceGroup(new WaitCommand(1), new RotateWristCommand(armSubsystem, 10, true), new RotateShoulderCommand(armSubsystem, 1, true)),
+      // new ParallelRaceGroup(new WaitCommand(1), new RotateWristCommand(armSubsystem, 10, true), new RotateShoulderCommand(armSubsystem, 1, true)),
+      new ChangeArmStateCommand(armSubsystem, ArmConstants.liftNoteState),
+      new WaitCommand(0.5),
       new ChangeArmStateCommand(armSubsystem, armState)
     );   
     

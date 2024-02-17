@@ -1,4 +1,4 @@
-package com.adambots.commands.autonCommands.autonCommandGrounds;
+package com.adambots.commands.autonCommands.autonCommandGroups;
 
 import com.adambots.Constants.VisionConstants;
 import com.adambots.commands.visionCommands.AlignNoteVertCommand;

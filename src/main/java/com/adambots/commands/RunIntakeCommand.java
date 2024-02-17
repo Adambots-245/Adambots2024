@@ -4,6 +4,7 @@
 
 package com.adambots.commands;
 
+import com.adambots.Constants.ArmConstants;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 
@@ -38,12 +39,10 @@ public class RunIntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if (intakeSubsystem.isFirstPieceInRobot()) {
-    //   intakeSubsystem.setGroundIntakeMotorSpeed(slowIntakeSpeed);
-    //   new SequentialCommandGroup(
-    //   new RotateWristCommand(armSubsystem, 0.5, false),
-    //   new WaitCommand(2)
-    //   ).schedule();
+    if (intakeSubsystem.isFirstPieceInRobot()) {
+      intakeSubsystem.setGroundIntakeMotorSpeed(slowIntakeSpeed);
+      intakeSubsystem.setNote(true);
+    }
     
   }
 
@@ -52,6 +51,7 @@ public class RunIntakeCommand extends Command {
   public void end(boolean interrupted) {
 
   intakeSubsystem.setGroundIntakeMotorSpeed(0);
+  new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState).schedule();
   // new SequentialCommandGroup(
   //     new RotateWristCommand(armSubsystem, 0.5, false),
   //     new WaitCommand(0.6)
@@ -61,6 +61,6 @@ public class RunIntakeCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return intakeSubsystem.isFirstPieceInRobot();
+    return intakeSubsystem.isSecondPieceInRobot();
   }
 }

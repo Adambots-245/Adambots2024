@@ -8,7 +8,9 @@ import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.ArmConstants.State;
 import com.adambots.commands.ChangeArmStateCommand;
 import com.adambots.commands.RotateShoulderCommand;
+import com.adambots.commands.SetShooterWheelCommand;
 import com.adambots.subsystems.ArmSubsystem;
+import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -21,10 +23,10 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 public class PrimeShooterCommand extends SequentialCommandGroup {
   
   /** Creates a new ScoreAutonSpeakerCommand. */
-  public PrimeShooterCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem) {
+  public PrimeShooterCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
     super(
       // new ChangeArmStateCommand(armSubsystem, ArmConstants.speakerState),
-      new InstantCommand(() -> shooterSubsystem.setWheelSpeed(1))
+      new SetShooterWheelCommand(shooterSubsystem, intakeSubsystem)
     );   
   }
 }
