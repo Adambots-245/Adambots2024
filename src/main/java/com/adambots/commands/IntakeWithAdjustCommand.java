@@ -49,9 +49,6 @@ public class IntakeWithAdjustCommand extends Command {
   public void end(boolean interrupted) {
     armSubsystem.setCurrentState(ArmConstants.defaultState);
     intakeSubsystem.setGroundIntakeMotorSpeed(0);
-    // if (state == "touchNote") {
-    //   new AdjustNoteCommand(intakeSubsystem).schedule();
-    // }
   }
 
   // Returns true when the command should end.

@@ -77,7 +77,7 @@ public class RobotContainer {
     //Buttons.JoystickButton2.onTrue(new PickupGamepieceCommand(drivetrainSubsystem));
 
     // Buttons.primaryDPadE.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
-    // Buttons.primaryXButton.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.trapState));
+    // Buttons.primaryXButton.onTruef(new ChangeArmStateCommand(armSubsystem, ArmConstants.trapState));
     
     //Debugging and Testing
     // Buttons.JoystickButton2.onTrue(new PickupGamepieceCommand(drivetrainSubsystem));
