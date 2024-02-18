@@ -49,9 +49,9 @@ public class AlignRotateCommand extends Command {
 
     // Calculates the drive rotation
     if (limelight == VisionConstants.noteLimelite){
-      drive_output = noteTurningPIDController.calculate(Math.abs(newRotate), 0);
+      drive_output = noteTurningPIDController.calculate(Math.abs(Math.toRadians(newRotate)), 0);
     } else{
-      drive_output = aprilTurningPIDController.calculate(Math.abs(newRotate), 0);
+      drive_output = noteTurningPIDController.calculate(Math.abs(Math.toRadians(newRotate)), 0);
     }
     //Checks to see if we have an object detected
     if (VisionHelpers.isDetected(limelight)){
