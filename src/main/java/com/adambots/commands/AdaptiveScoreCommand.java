@@ -4,6 +4,8 @@
 
 package com.adambots.commands;
 
+import com.adambots.commands.intakeCommands.AmpScoreCommand;
+import com.adambots.commands.intakeCommands.FeedShooterCommand;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
