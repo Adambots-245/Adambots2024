@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.util.Color;
 
 public final class Constants {
     public static final String kDefaultShuffleboardTab = "debug";
@@ -18,6 +19,10 @@ public final class Constants {
     public static final class LEDConstants {
         public static final int LEDS_IN_STRIP = 200;
         public static final CANdle candleLEDs = new CANdle(31);
+        public static final Color yellow = new Color(255, 150, 0);
+        public static final Color blue = new Color(0, 0, 255);
+        public static final Color orange = new Color(255, 90, 5);
+
     }
 
     public static final class VisionConstants {
@@ -123,26 +128,26 @@ public final class Constants {
         public static final double shoulderOffset = 0;
         public static final double wristOffset = 0;
         // Floor Pickup
-        public static final double floorWristAngle = 276.3 % 360;
-        public static final double floorShoulderAngle = 118.5 % 360;
+        public static final double floorWristAngle = 302 % 360;
+        public static final double floorShoulderAngle = 121.5 % 360;
         // Amp Scoring
-        public static final double ampWristAngle = (floorWristAngle - 28) % 360; //237.8
-        public static final double ampShoulderAngle = (floorShoulderAngle + 67.0) % 360; //181.6
+        public static final double ampWristAngle = (floorWristAngle - 24.5) % 360; //237.8
+        public static final double ampShoulderAngle = (floorShoulderAngle + 62.8) % 360; //181.6
         // Human Player Pickup
-        public static final double humanWristAngle = (floorWristAngle - 0.4) % 360;
-        public static final double humanShoulderAngle = (floorShoulderAngle + 66.4) % 360;
+        public static final double humanWristAngle = (floorWristAngle + 40.7) % 360;
+        public static final double humanShoulderAngle = (floorShoulderAngle + 48.2) % 360;
         // trap scoring
         public static final double trapWristAngle = (floorWristAngle + 60) % 360;
         public static final double trapShoulderAngle = (floorShoulderAngle + 66) % 360;
         // default
-        public static final double defaultWristAngle = (floorWristAngle - 106) % 360;
-        public static final double defaultShoulderAngle = (floorShoulderAngle + 46) % 360;
+        public static final double defaultWristAngle = (floorWristAngle - 129) % 360;
+        public static final double defaultShoulderAngle = (floorShoulderAngle + 41.8) % 360;
         // autonomous starting/speaker
         public static final double speakerWristAngle = (floorWristAngle - 61) % 360; //210.7
         public static final double speakerShoulderAngle = (floorShoulderAngle + 84.9) % 360; //199.5
 
-        public static final double liftNoteWristAngle = (floorWristAngle - 6) % 360;
-        public static final double liftNoteShoulderAngle = (floorShoulderAngle + 50) % 360; 
+        // public static final double liftNoteWristAngle = (floorWristAngle - 6) % 360;
+        // public static final double liftNoteShoulderAngle = (floorShoulderAngle + 50) % 360; 
 
         public static class State {
             private double wristAngle;
@@ -174,6 +179,6 @@ public final class Constants {
         public final static State trapState = new State(trapWristAngle, trapShoulderAngle, "trap");
         public final static State defaultState = new State(defaultWristAngle, defaultShoulderAngle, "default");
         public final static State speakerState = new State(speakerWristAngle, speakerShoulderAngle, "speaker");
-        public final static State liftNoteState = new State(liftNoteWristAngle, liftNoteShoulderAngle, "liftNote");
+        // public final static State liftNoteState = new State(liftNoteWristAngle, liftNoteShoulderAngle, "liftNote");
     }
 }

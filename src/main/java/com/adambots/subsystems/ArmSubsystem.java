@@ -45,10 +45,10 @@ public class ArmSubsystem extends SubsystemBase {
     targetWristAngle = getWristAngle();
 
     shoulderMotor.setInverted(false);
-    wristMotor.setInverted(true);
+    wristMotor.setInverted(false);
 
-    shoulderMotor.setNeutralMode(true);
-    wristMotor.setNeutralMode(true);
+    shoulderMotor.setNeutralMode(false);
+    wristMotor.setNeutralMode(false);
 
     shoulderPID.enableContinuousInput(0, 360);
     wristPID.enableContinuousInput(0, 360);
@@ -103,8 +103,10 @@ public class ArmSubsystem extends SubsystemBase {
 
     wristSpeed = MathUtil.clamp(wristSpeed, -0.3, 0.3);
 
-    shoulderMotor.set(shoulderSpeed);
-    wristMotor.set(wristSpeed);
+    // shoulderMotor.set(shoulderSpeed);
+    // wristMotor.set(wristSpeed);
+    shoulderMotor.set(0);
+    wristMotor.set(0);
   }
 
   private void failSafes() {

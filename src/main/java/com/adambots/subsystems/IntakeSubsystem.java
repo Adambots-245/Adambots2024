@@ -19,6 +19,7 @@ public class IntakeSubsystem extends SubsystemBase {
   double groundIntakeMotorSpeed = 0;
   boolean isIntaking = false;
   boolean isNote = false;
+  boolean slowSpeed = false;
 
   public IntakeSubsystem(BaseMotor groundIntakeMotor, PhotoEye firstPieceInRobotEye, PhotoEye secondPieceInRobotEye){
     this.groundIntakeMotor = groundIntakeMotor;
@@ -27,13 +28,21 @@ public class IntakeSubsystem extends SubsystemBase {
     
     Dash.add("Second Intake Limit Switch", () -> isSecondPieceInRobot());
     Dash.add("First Intake Limit Switch", () -> isFirstPieceInRobot());
+    Dash.add("Intake Velocity", () -> groundIntakeMotor.getVelocity());
+    Dash.add("Intake Speed", () -> groundIntakeMotorSpeed);
 
     groundIntakeMotor.setNeutralMode(true);
     groundIntakeMotor.setInverted(true);
   }
 
   public void setGroundIntakeMotorSpeed(double newGroundIntakeMotorSpeed){
+    slowSpeed = false;
     groundIntakeMotorSpeed = newGroundIntakeMotorSpeed;
+  }
+
+  public void setGroundIntakeMotorSpeedSlow(){
+    groundIntakeMotorSpeed = 0.1;
+    slowSpeed = true;
   }
 
   public boolean isSecondPieceInRobot(){
@@ -58,7 +67,17 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    groundIntakeMotor.set(groundIntakeMotorSpeed);
+    if (slowSpeed == true){
+      if (groundIntakeMotor.getVelocity() < 0.5){
+        groundIntakeMotor.set(groundIntakeMotorSpeed);
+        groundIntakeMotorSpeed = groundIntakeMotorSpeed + 0.01; 
+      } else {
+        groundIntakeMotor.set(groundIntakeMotorSpeed);
+        groundIntakeMotorSpeed = groundIntakeMotorSpeed - 0.01; 
+      }
+    } else {
+      groundIntakeMotor.set(groundIntakeMotorSpeed);
+    }
   } 
 }
 

@@ -40,7 +40,7 @@ public class CANdleSubsystem extends SubsystemBase {
   public void periodic() {
     // setLEDs(255, 0, 0, 0, 100);
     // setLEDs(0, 0, 255, 101, 200); 
-    changeAnimation(AnimationTypes.Larson);
+    setColor(LEDConstants.yellow);
     
     if (candle == null) {
       // Log.info("No Candle Device Set");

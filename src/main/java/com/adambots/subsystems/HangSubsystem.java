@@ -27,6 +27,12 @@ public class HangSubsystem extends SubsystemBase {
     this.rightHangMotor = rightHangMotor;
     this.leftRelay = leftRelay;
     this.rightRelay = rightRelay;
+    rightHangMotor.setInverted(true);
+  }
+
+  public void setHangMotorSpeed(double newHangMotorSpeed){
+    leftHangMotorSpeed = newHangMotorSpeed;
+    rightHangMotorSpeed = newHangMotorSpeed;
   }
 
   public void setLeftHangMotorSpeed(double newLeftHangMotorSpeed){
@@ -52,6 +58,11 @@ public class HangSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    // if (leftHangMotorSpeed > 0){
+    //   setRelay(true);
+    // } else {
+    //   setRelay(false);
+    // }
     // This method will be called once per scheduler run
     leftHangMotor.set(leftHangMotorSpeed);
     rightHangMotor.set(rightHangMotorSpeed);

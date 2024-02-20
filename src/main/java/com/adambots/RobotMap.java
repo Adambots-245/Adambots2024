@@ -57,8 +57,8 @@ public class RobotMap {
     //Intake Ports
     public static final int groundIntakeMotorPort = 6;
     
-    public static final int secondPieceInRobotEyePort = 6;
-    public static final int firstPieceInRobotEyePort = 8;
+    public static final int secondPieceInRobotEyePort = 8;
+    public static final int firstPieceInRobotEyePort = 6;
 
     //Intake Devices
     public static final BaseMotor groundIntakeMotor = new TalonFXMotor(groundIntakeMotorPort, Constants.canivore);
@@ -66,14 +66,14 @@ public class RobotMap {
     public static final PhotoEye firstPieceInRobotEye = new PhotoEye(firstPieceInRobotEyePort, false);
 
     //Hang Ports
-    public static final int leftHangMotorPort = 1;
-    public static final int rightHangMotorPort = 1;
+    public static final int leftHangMotorPort = 10;
+    public static final int rightHangMotorPort = 14;
     public static final int leftRelayPort = 1;
     public static final int rightRelayPort = 0;
 
     //Hang Devices
-    public static final TalonFX leftHangMotor = new TalonFX(leftHangMotorPort, Constants.canivore);
-    public static final TalonFX rightHangMotor = new TalonFX(rightHangMotorPort, Constants.canivore);
+    public static final TalonFX leftHangMotor = new TalonFX(leftHangMotorPort);
+    public static final TalonFX rightHangMotor = new TalonFX(rightHangMotorPort);
     public static final Relay leftRelay = new Relay(leftRelayPort);
     public static final Relay rightRelay = new Relay(rightRelayPort);
 

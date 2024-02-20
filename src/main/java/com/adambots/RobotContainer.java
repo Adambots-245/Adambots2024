@@ -3,6 +3,7 @@ package com.adambots;
 import com.adambots.Constants.*;
 import com.adambots.Gamepad.Buttons;
 import com.adambots.commands.*;
+import com.adambots.commands.driveCommands.AngleRotateCommand;
 import com.adambots.commands.visionCommands.AlignRotateCommand;
 import com.adambots.commands.visionCommands.PathPlannerAlign;
 import com.adambots.subsystems.*;
@@ -19,11 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -39,8 +37,8 @@ public class RobotContainer {
   private final ArmSubsystem armSubsystem = new ArmSubsystem(RobotMap.shoulderMotor, RobotMap.wristMotor, RobotMap.shoulderEncoder, RobotMap.wristEncoder);
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.shooterWheel);
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.groundIntakeMotor, RobotMap.firstPieceInRobotEye, RobotMap.secondPieceInRobotEye);
-  private final CANdleSubsystem ledSubsystem = new CANdleSubsystem(LEDConstants.candleLEDs);
-  // private final HangSubsystem hangSubsystem = new HangSubsystem(RobotMap.leftHangMotor, RobotMap.rightHangMotor, RobotMap.leftRelay, RobotMap.rightRelay);
+  private final CANdleSubsystem cANdleSubsystem = new CANdleSubsystem(LEDConstants.candleLEDs);
+  private final HangSubsystem hangSubsystem = new HangSubsystem(RobotMap.leftHangMotor, RobotMap.rightHangMotor, RobotMap.leftRelay, RobotMap.rightRelay);
 
   //Creates a SmartDashboard element to allow drivers to select differnt autons
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -111,19 +109,28 @@ public class RobotContainer {
 
     // Buttons.primaryStartButton.onTrue(new AdjustNoteCommand(intakeSubsystem));
 
-    Buttons.primaryDPadN.whileTrue(new RotateShoulderCommand(armSubsystem,1, true));
-    Buttons.primaryDPadS.whileTrue(new RotateShoulderCommand(armSubsystem, -0.1, true));
-    
+    // Buttons.primaryDPadN.whileTrue(new RotateShoulderCommand(armSubsystem,1, true));
+    // Buttons.primaryDPadS.whileTrue(new RotateShoulderCommand(armSubsystem, -0.1, true));
+
+    Buttons.primaryDPadN.onTrue(new InstantCommand(() -> hangSubsystem.setHangMotorSpeed(0.1)));
+    Buttons.primaryDPadN.onFalse(new InstantCommand(() -> hangSubsystem.setHangMotorSpeed(0)));
+
+    Buttons.primaryDPadS.onTrue(new InstantCommand(() -> hangSubsystem.setHangMotorSpeed(-0.1)));
+    Buttons.primaryDPadS.onFalse(new InstantCommand(() -> hangSubsystem.setHangMotorSpeed(0)));  
+
     Buttons.primaryDPadE.whileTrue(new RotateWristCommand(armSubsystem, -0.5, true));
     Buttons.primaryDPadW.whileTrue(new RotateWristCommand(armSubsystem, 0.5, true));
 
     //Hang buttons
-    // Buttons.primaryLeftStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setRelay(true)));
-    // Buttons.primaryRightStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setRelay(false)));
+    Buttons.primaryLeftStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setRelay(true)));
+    Buttons.primaryRightStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setRelay(false)));
 
-    Buttons.JoystickButton7.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.aprilLimelite));
-    Buttons.JoystickButton5.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.noteLimelite));
-    Buttons.JoystickButton10.whileTrue(new AlignRotateCommand(drivetrainSubsystem, false, true, VisionConstants.noteLimelite));
+    Buttons.JoystickButton3.whileTrue(new AngleRotateCommand(drivetrainSubsystem, cANdleSubsystem, RobotMap.gyro));
+
+    Buttons.JoystickButton7.whileTrue(new AlignRotateCommand(drivetrainSubsystem, armSubsystem, cANdleSubsystem, true, true, VisionConstants.aprilLimelite));
+    Buttons.JoystickButton5.whileTrue(new AlignRotateCommand(drivetrainSubsystem, armSubsystem, cANdleSubsystem, true, true, VisionConstants.noteLimelite));
+    Buttons.JoystickButton10.whileTrue(new AlignRotateCommand(drivetrainSubsystem, armSubsystem, cANdleSubsystem, false, true, VisionConstants.noteLimelite));
+
   }
 
 
@@ -134,6 +141,11 @@ public class RobotContainer {
 
   private void setupDashboard() {    
     autoChooser = AutoBuilder.buildAutoChooser();
+    // cANdleSubsystem.configBrightness(1);
+    // cANdleSubsystem.clearAllAnims();
+    // cANdleSubsystem.setColor(LEDConstants.yellow);
+    // cANdleSubsystem.changeAnimation(CANdleSubsystem.Animat
+    // ionTypes.Larson);
 
     //Adds various data to the dashboard that is useful for driving and debugging
     SmartDashboard.putData("Auton Mode", autoChooser);
@@ -170,19 +182,29 @@ public class RobotContainer {
   }
 
   private void setupDefaultCommands() {
-    drivetrainSubsystem.setDefaultCommand(
-        new RunCommand(
-            () -> drivetrainSubsystem.drive(
-                -Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond,
-                -Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond,
-                -Buttons.rotateSupplier.getAsDouble()*DriveConstants.kTeleopRotationalSpeed,
-                true),
-            drivetrainSubsystem));
+    // drivetrainSubsystem.setDefaultCommand(
+    //     new RunCommand(
+    //         () -> drivetrainSubsystem.drive(
+    //             -Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond,
+    //             -Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond,
+    //             -Buttons.rotateSupplier.getAsDouble()*DriveConstants.kTeleopRotationalSpeed,
+    //             true),
+    //         drivetrainSubsystem));
     intakeSubsystem.setDefaultCommand(
       new RunCommand(
-        () -> intakeSubsystem.setGroundIntakeMotorSpeed(Buttons.deaden(Buttons.primaryJoystick.getRightY(),GamepadConstants.kDeadZone) * 0.1), 
+        () -> intakeSubsystem.setGroundIntakeMotorSpeed(Buttons.deaden(Buttons.primaryJoystick.getRightY(),GamepadConstants.kDeadZone) * 0.3), 
         intakeSubsystem)
     );
+    // hangSubsystem.setDefaultCommand(
+    //   new ParallelCommandGroup(
+    //     new RunCommand(
+    //     () -> hangSubsystem.setLeftHangMotorSpeed(Buttons.deaden(Buttons.primaryJoystick.getRightY(),GamepadConstants.kDeadZone) * 0.1), 
+    //     intakeSubsystem)
+    //     // new RunCommand(
+    //     // () -> hangSubsystem.setRightHangMotorSpeed(Buttons.deaden(Buttons.primaryJoystick.getLeftY(),GamepadConstants.kDeadZone) * 0.1), 
+    //     // intakeSubsystem)
+    //   )
+    // );
   }
 
   /**

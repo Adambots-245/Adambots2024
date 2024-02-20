@@ -1,8 +1,12 @@
 package com.adambots.commands.visionCommands;
+import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.DriveConstants;
+import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.Gamepad.Buttons;
+import com.adambots.subsystems.ArmSubsystem;
+import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.VisionHelpers;
 
@@ -11,8 +15,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class AlignRotateCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
+  private ArmSubsystem armSubsystem;
+  private CANdleSubsystem caNdleSubsystem;
   private final PIDController noteTurningPIDController = new PIDController(AutoConstants.kPThetaController, 0, AutoConstants.kDThetaController);
-  private final PIDController aprilTurningPIDController = new PIDController(0.08, 0, 0.03);
+  // private final PIDController aprilTurningPIDController = new PIDController(0.08, 0, 0.03);
   private int alignedCount;
   private int notDetectedCount;
   private final double filterSens = 0.1;
@@ -23,9 +29,11 @@ public class AlignRotateCommand extends Command {
   private boolean continuous;
   private String limelight;
 
-  public AlignRotateCommand(DrivetrainSubsystem driveTrainSubsystem, boolean fieldOrientated, boolean continuous, String limelight) {
+  public AlignRotateCommand(DrivetrainSubsystem driveTrainSubsystem, ArmSubsystem armSubsystem, CANdleSubsystem caNdleSubsystem, boolean fieldOrientated, boolean continuous, String limelight) {
     addRequirements(driveTrainSubsystem);
     this.driveTrainSubsystem = driveTrainSubsystem;
+    this.caNdleSubsystem = caNdleSubsystem;
+    this.armSubsystem = armSubsystem;
     this.fieldOrientated = fieldOrientated;
     this.continuous = continuous;
     this.limelight = limelight;
@@ -38,6 +46,8 @@ public class AlignRotateCommand extends Command {
     notDetectedCount = 0;
     drive_output = 0;
     newRotate = VisionHelpers.getHorizAngle(limelight);
+    caNdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.SetAll);
+    caNdleSubsystem.setColor(LEDConstants.yellow);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -54,7 +64,7 @@ public class AlignRotateCommand extends Command {
       drive_output = noteTurningPIDController.calculate((double)(Math.round((Math.abs(Math.toRadians(newRotate)) / 100d))) / 100d, 0);
     }
     //Checks to see if we have an object detected
-    if (VisionHelpers.isDetected(limelight)){
+    if (VisionHelpers.isDetected(limelight) && armSubsystem.getCurrentStateName() == ArmConstants.floorState.getStateName()){
       //Aligns differntly if it is field orientated or not
       if (fieldOrientated == true){
           //Moves left or right depending on the angle
@@ -79,6 +89,9 @@ public class AlignRotateCommand extends Command {
     //Checks to see if the robot is at that position for more than just a single moment
     if((newRotate>-5&&newRotate<5)&&VisionHelpers.isDetected(limelight)){
       alignedCount++;
+      caNdleSubsystem.setColor(LEDConstants.blue);
+    } else {
+      caNdleSubsystem.setColor(LEDConstants.yellow);
     }
     //If the robot is not detecting a piece for a while, it adds to this counter
     if (VisionHelpers.isDetected(limelight) == false) {
@@ -90,6 +103,8 @@ public class AlignRotateCommand extends Command {
   @Override
   public void end(boolean interrupted) {
       driveTrainSubsystem.stop();
+      caNdleSubsystem.clearAllAnims();
+      caNdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.Larson);
   }
 
   // Returns true when the command should end.
