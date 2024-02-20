@@ -1,5 +1,7 @@
 package com.adambots;
 
+import com.ctre.phoenix.led.CANdle;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -11,8 +13,12 @@ public final class Constants {
     public static Field2d field = new Field2d();    
     public static Field2d aprilTagfield = new Field2d();
 
-
     public static final String canivore = "CANivore";
+
+    public static final class LEDConstants {
+        public static final int LEDS_IN_STRIP = 200;
+        public static final CANdle candleLEDs = new CANdle(31);
+    }
 
     public static final class VisionConstants {
         public static final Pose2d aprilTagRedPose2d = new Pose2d(new Translation2d(1.23, 2.55), new Rotation2d());
