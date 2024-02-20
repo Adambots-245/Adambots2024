@@ -3,8 +3,8 @@ package com.adambots;
 import com.adambots.Constants.*;
 import com.adambots.Gamepad.Buttons;
 import com.adambots.commands.*;
-import com.adambots.commands.autonCommands.PathPlannerAlign;
 import com.adambots.commands.visionCommands.AlignRotateCommand;
+import com.adambots.commands.visionCommands.PathPlannerAlign;
 import com.adambots.subsystems.*;
 import com.adambots.utils.Dash;
 import com.adambots.utils.VisionHelpers;
@@ -12,6 +12,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -48,6 +49,8 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    DriverStation.silenceJoystickConnectionWarning(true);
+    
     setupDefaultCommands();
 
     // Register Commands for use in PathPlanner
@@ -71,7 +74,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Buttons.JoystickButton1.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
     // Buttons.JoystickButton2.onTrue(new SequentialCommandGroup(new PathPlannerAlign(drivetrainSubsystem, VisionConstants.aprilTagPose2d), new PathPlannerAlign(drivetrainSubsystem, VisionConstants.aprilTagPose2d)));
-    Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem, true, false));
+    Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem).andThen(new PathPlannerAlign(drivetrainSubsystem)));
     Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
     
     //Debugging and Testing
@@ -97,8 +100,8 @@ public class RobotContainer {
 
 
     Buttons.primaryAButton.whileTrue(new IntakeWithAdjustCommand(armSubsystem, intakeSubsystem));
-    Buttons.primaryAButton.onFalse(new WaitCommand(1).andThen(new ParallelDeadlineGroup(new WaitCommand(1.5), new InstantCommand(() -> VisionHelpers.offLight(VisionConstants.noteLimelite)))));
-
+    // Buttons.primaryAButton.onFalse(new WaitCommand(1).andThen(new ParallelDeadlineGroup(new WaitCommand(1.5), new InstantCommand(() -> VisionHelpers.offLight(VisionConstants.noteLimelite)))));
+    Buttons.primaryAButton.onFalse(new InstantCommand(() -> VisionHelpers.offLight(VisionConstants.noteLimelite)));
 
     Buttons.primaryBButton.whileTrue(new HumanStationCommand(armSubsystem, intakeSubsystem));
     Buttons.primaryXButton.whileTrue(new AmpCommand(armSubsystem)); //Maybe add a slowintake
