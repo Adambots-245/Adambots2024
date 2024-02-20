@@ -2,26 +2,31 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package com.adambots.commands;
+package com.adambots.commands.armCommands;
 
-import com.adambots.subsystems.IntakeSubsystem;
+import com.adambots.Constants.ArmConstants;
+import com.adambots.subsystems.ArmSubsystem;
+import com.adambots.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class AmpScoreCommand extends Command {
+public class RetractShooterCommand extends Command {
   /** Creates a new FeedShooterCommand. */
-  private IntakeSubsystem intakeSubsystem;
+  private ArmSubsystem armSubsystem;
+  private ShooterSubsystem shooterSubsystem;
   
-  public AmpScoreCommand(IntakeSubsystem intakeSubsystem) {
-    addRequirements(intakeSubsystem);
+  public RetractShooterCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem) {
+    addRequirements(armSubsystem, shooterSubsystem);
     
-    this.intakeSubsystem = intakeSubsystem;
+    this.armSubsystem = armSubsystem;
+    this.shooterSubsystem = shooterSubsystem;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intakeSubsystem.setGroundIntakeMotorSpeed(-0.1);
+    armSubsystem.setCurrentState(ArmConstants.defaultState);
+    shooterSubsystem.setWheelSpeed(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,12 +37,12 @@ public class AmpScoreCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.setGroundIntakeMotorSpeed(0);
+    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

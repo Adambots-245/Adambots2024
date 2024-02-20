@@ -1,13 +1,15 @@
 package com.adambots;
 
-import com.ctre.phoenix.led.CANdle;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.util.Color;
 
+/**
+ * All constant values for robot operation - Any ports should be defined in {@link RobotMap} 
+ */
 public final class Constants {
     public static final String kDefaultShuffleboardTab = "debug";
     public static Field2d field = new Field2d();    
@@ -17,7 +19,7 @@ public final class Constants {
 
     public static final class LEDConstants {
         public static final int LEDS_IN_STRIP = 200;
-        public static final CANdle candleLEDs = new CANdle(31);
+        public static final Color adambotsYellow = new Color(255, 216, 0);
     }
 
     public static final class VisionConstants {
@@ -80,8 +82,8 @@ public final class Constants {
         // Convert drive motor rotations to linear distance             Motor rot to Wheel rot -> Wheel rot to linear meters (circumference)
         public static final double kDriveEncoderPositionConversionFactor = kSwerveModuleFinalGearRatio * 2*Math.PI * kWheelRadiusMeters;
 
-        public static final double kPModuleTurningController = 0.7; //PID Values for turning motors .7
-        public static final double kDModuleTurningController = 0.026; // 0.026
+        public static final double kPModuleTurningController = 0.7; //PID Values for turning motors
+        public static final double kDModuleTurningController = 0.026;
     }
 
     public static final class AutoConstants {
@@ -95,19 +97,10 @@ public final class Constants {
     }
 
     public static final class GamepadConstants {
-        // deadzone
+        // Xbox controller joystick deadzone
         public static final double kDeadZone = 0.15;
-
-        // Primary Driver Controller Port Number.
-        public static final int kPrimaryDriver = RobotMap.kPrimaryControllerPort;
-
-        // Secondary Driver Controller Port Number.
-        public static final int kSecondaryDriver = RobotMap.kSecondaryControllerPort;
     
-        // the ID/port for the whole DPad
-        // POV returns an angle in degrees 0-315 at 45 intervals
-        public static final int kAxisDpadPov = 0;
-    
+        // DPad returns an angle in degrees 0-315 at 45 intervals
         public static final int kDpadNAngle = 0;
         public static final int kDpadNEAngle = 45;
         public static final int kDpadEAngle = 90;
@@ -119,6 +112,16 @@ public final class Constants {
     }
 
     public static final class ArmConstants{
+        // Shoulder Limits
+        public static final double shoulderLowerLimit = 115;
+        public static final double shoulderDangerZoneThreshold = 160;
+        public static final double shoulderUpperLimit = 203;
+
+        // Wrist Limits
+        public static final double wristLowerLimit = 160;
+        public static final double wristDangerZoneLowerLimit = 271.5;
+        public static final double wristUpperLimit = 280;
+
         // Arm Angle Offset
         public static final double shoulderOffset = 0;
         public static final double wristOffset = 0;
@@ -131,23 +134,24 @@ public final class Constants {
         // Human Player Pickup
         public static final double humanWristAngle = (floorWristAngle - 0.4) % 360;
         public static final double humanShoulderAngle = (floorShoulderAngle + 66.4) % 360;
-        // trap scoring
+        // Trap scoring
         public static final double trapWristAngle = (floorWristAngle + 60) % 360;
         public static final double trapShoulderAngle = (floorShoulderAngle + 66) % 360;
-        // default
+        // Default
         public static final double defaultWristAngle = (floorWristAngle - 106) % 360;
         public static final double defaultShoulderAngle = (floorShoulderAngle + 46) % 360;
-        // autonomous starting/speaker
+        // Autonomous starting pose/speaker
         public static final double speakerWristAngle = (floorWristAngle - 61) % 360; //210.7
         public static final double speakerShoulderAngle = (floorShoulderAngle + 84.9) % 360; //199.5
 
-        public static final double liftNoteWristAngle = (floorWristAngle - 6) % 360;
-        public static final double liftNoteShoulderAngle = (floorShoulderAngle + 50) % 360; 
+        // public static final double liftNoteWristAngle = (floorWristAngle - 6) % 360;
+        // public static final double liftNoteShoulderAngle = (floorShoulderAngle + 50) % 360; 
 
         public static class State {
             private double wristAngle;
             private double shoulderAngle;
             private String stateName;
+
             public State(double wristAngle, double shoulderAngle, String stateName) {
                 this.wristAngle = wristAngle;
                 this.shoulderAngle = shoulderAngle;
@@ -165,15 +169,14 @@ public final class Constants {
             public String getStateName() {
                 return stateName;
             }
-
-        
         }
-        public final static State floorState = new State(floorWristAngle,floorShoulderAngle, "floor");
-        public final static State ampState = new State(ampWristAngle,ampShoulderAngle, "amp");
+
+        public final static State floorState = new State(floorWristAngle, floorShoulderAngle, "floor");
+        public final static State ampState = new State(ampWristAngle, ampShoulderAngle, "amp");
         public final static State humanState = new State(humanWristAngle, humanShoulderAngle, "human");
         public final static State trapState = new State(trapWristAngle, trapShoulderAngle, "trap");
         public final static State defaultState = new State(defaultWristAngle, defaultShoulderAngle, "default");
         public final static State speakerState = new State(speakerWristAngle, speakerShoulderAngle, "speaker");
-        public final static State liftNoteState = new State(liftNoteWristAngle, liftNoteShoulderAngle, "liftNote");
+        // public final static State liftNoteState = new State(liftNoteWristAngle, liftNoteShoulderAngle, "liftNote");
     }
 }

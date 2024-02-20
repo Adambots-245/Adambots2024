@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class AlignRotateCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
   private final PIDController noteTurningPIDController = new PIDController(AutoConstants.kPThetaController, 0, AutoConstants.kDThetaController);
-  private final PIDController aprilTurningPIDController = new PIDController(0.08, 0, 0.03);
+  // private final PIDController aprilTurningPIDController = new PIDController(0.08, 0, 0.03);
   private int alignedCount;
   private int notDetectedCount;
   private final double filterSens = 0.1;

@@ -2,42 +2,42 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package com.adambots.commands;
+package com.adambots.commands.armCommands;
 
+import com.adambots.Constants.ArmConstants;
 import com.adambots.subsystems.ArmSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class RotateWristCommand extends Command {
-  /** Creates a new RotateWristCommand. */
+public class AmpCommand extends Command {
+  /** Creates a new FeedShooterCommand. */
   private ArmSubsystem armSubsystem;
-  double wristIncrement;
-  boolean manualAdjust;
-  public RotateWristCommand(ArmSubsystem armSubsystem, double wristIncrement, boolean manualAdjust) {
+  
+  public AmpCommand(ArmSubsystem armSubsystem) {
     addRequirements(armSubsystem);
-
+    
     this.armSubsystem = armSubsystem;
-    this.wristIncrement = wristIncrement;
-    this.manualAdjust = manualAdjust;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    armSubsystem.setCurrentState(ArmConstants.ampState);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    armSubsystem.incrementWristAngle(wristIncrement);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    armSubsystem.setCurrentState(ArmConstants.defaultState);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !manualAdjust;
+    return false;
   }
 }

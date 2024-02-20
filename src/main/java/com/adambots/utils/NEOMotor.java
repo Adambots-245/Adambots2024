@@ -42,20 +42,19 @@ public class NEOMotor extends BaseMotor{
 
     @Override
     public double getPosition(){
-        System.out.println("WARNING: Functionality for this method has not been implemented.");
+        System.err.println("WARNING: Functionality for this method has not been implemented.");
         return 0;
     }
 
     @Override
     public double getVelocity(){
-        System.out.println("WARNING: Functionality for this method has not been implemented.");
+        System.err.println("WARNING: Functionality for this method has not been implemented.");
         return 0;
     }
 
     @Override
     public double getAcceleration(){
-        System.out.println("WARNING: Functionality for this method has not been implemented.");
+        System.err.println("WARNING: Functionality for this method has not been implemented.");
         return 0;
     }
-
 }

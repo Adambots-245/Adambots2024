@@ -28,6 +28,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -55,14 +56,40 @@ public class DrivetrainSubsystem extends SubsystemBase {
             new PIDConstants(AutoConstants.kPThetaController, 0, AutoConstants.kDThetaController),
             DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
             DriveConstants.kDrivebaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
-            new ReplanningConfig(false, false) // Default path replanning config. See the API for the options here
+            new ReplanningConfig(true, false) // Default path replanning config. See the API for the options here
         ), 
-        () -> false, //TODO: CREATE PATH FLIP SUPPLIER
+        () -> { //Flips path if on the red side of the field - ENSURE FIELD SIDE IS CORRECTLY SET IN DRIVERSTATION BEFORE TESTING AUTON
+              var alliance = DriverStation.getAlliance();
+              if (alliance.isPresent()) {
+                return alliance.get() == DriverStation.Alliance.Red;
+              }
+              return false;
+            },
         this // Reference to this subsystem to set requirements
     );
 
     PPHolonomicDriveController.setRotationTargetOverride(this::getRotationTargetNoteOverride);
-    PPHolonomicDriveController.setRotationTargetOverride(this::getRotationTargetAprilOverride);
+    // PPHolonomicDriveController.setRotationTargetOverride(this::getRotationTargetAprilOverride);
+  }
+
+  public Optional<Rotation2d> getRotationTargetNoteOverride(){
+    if(VisionHelpers.isDetected(VisionConstants.noteLimelite)) {
+      // Return an optional containing the rotation override (this should be a field relative rotation)
+      return Optional.of(new Rotation2d(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite)));
+    } else {
+      // return an empty optional when we don't want to override the path's rotation
+      return Optional.empty();
+    }
+  }
+
+  public Optional<Rotation2d> getRotationTargetAprilOverride(){
+    if(VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
+      // Return an optional containing the rotation override (this should be a field relative rotation)
+      return Optional.of(new Rotation2d(VisionHelpers.getHorizAngle(VisionConstants.aprilLimelite)));
+    } else {
+      // return an empty optional when we don't want to override the path's rotation
+      return Optional.empty();
+    }
   }
 
   @Override
@@ -78,28 +105,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     Constants.aprilTagfield.setRobotPose(VisionHelpers.getAprilTagPose2d());
   }
 
-  public Optional<Rotation2d> getRotationTargetNoteOverride(){
-    // Some condition that should decide if we want to override rotation
-    if(VisionHelpers.isDetected(VisionConstants.noteLimelite)) {
-        // Return an optional containing the rotation override (this should be a field relative rotation)
-        return Optional.of(new Rotation2d(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite)));
-    } else {
-        // return an empty optional when we don't want to override the path's rotation
-        return Optional.empty();
-    }
-  }
-
-  public Optional<Rotation2d> getRotationTargetAprilOverride(){
-    // Some condition that should decide if we want to override rotation
-    if(VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
-        // Return an optional containing the rotation override (this should be a field relative rotation)
-        return Optional.of(new Rotation2d(VisionHelpers.getHorizAngle(VisionConstants.aprilLimelite)));
-    } else {
-        // return an empty optional when we don't want to override the path's rotation
-        return Optional.empty();
-    }
-  }
-
   /**
    * Returns the currently-estimated pose of the robot.
    *
@@ -110,7 +115,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   /**
-   * Resets the x, y odometry to the specified pose and maintains the current heading.
+   * Resets the odometry and gyro to the specified pose, including x, y, and heading.
    *
    * @param pose The pose to which to set the odometry.
    */
@@ -123,9 +128,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * Method to drive the robot using joystick info.
    *
    * @param xSpeed
-   *          Speed of the robot in the x direction (forward).
+   *          Speed (m/s) of the robot in the x direction (forward).
    * @param ySpeed
-   *          Speed of the robot in the y direction (sideways).
+   *          Speed (m/s) of the robot in the y direction (sideways).
    * @param rot
    *          Angular rate of the robot.
    * @param fieldRelative
