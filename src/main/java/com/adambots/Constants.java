@@ -1,7 +1,5 @@
 package com.adambots;
 
-import com.ctre.phoenix.led.CANdle;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -9,6 +7,9 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.util.Color;
 
+/**
+ * All constant values for robot operation - Any ports should be defined in {@link RobotMap} 
+ */
 public final class Constants {
     public static final String kDefaultShuffleboardTab = "debug";
     public static Field2d field = new Field2d();    
@@ -18,11 +19,11 @@ public final class Constants {
 
     public static final class LEDConstants {
         public static final int LEDS_IN_STRIP = 200;
-        public static final CANdle candleLEDs = new CANdle(31);
+
+        public static final Color adambotsYellow = new Color(255, 216, 0);
         public static final Color yellow = new Color(255, 150, 0);
         public static final Color blue = new Color(0, 0, 255);
         public static final Color orange = new Color(255, 90, 5);
-
     }
 
     public static final class VisionConstants {
@@ -85,8 +86,8 @@ public final class Constants {
         // Convert drive motor rotations to linear distance             Motor rot to Wheel rot -> Wheel rot to linear meters (circumference)
         public static final double kDriveEncoderPositionConversionFactor = kSwerveModuleFinalGearRatio * 2*Math.PI * kWheelRadiusMeters;
 
-        public static final double kPModuleTurningController = 0.7; //PID Values for turning motors .7
-        public static final double kDModuleTurningController = 0.026; // 0.026
+        public static final double kPModuleTurningController = 0.7; //PID Values for turning motors
+        public static final double kDModuleTurningController = 0.026;
     }
 
     public static final class AutoConstants {
@@ -100,19 +101,10 @@ public final class Constants {
     }
 
     public static final class GamepadConstants {
-        // deadzone
+        // Xbox controller joystick deadzone
         public static final double kDeadZone = 0.15;
-
-        // Primary Driver Controller Port Number.
-        public static final int kPrimaryDriver = RobotMap.kPrimaryControllerPort;
-
-        // Secondary Driver Controller Port Number.
-        public static final int kSecondaryDriver = RobotMap.kSecondaryControllerPort;
     
-        // the ID/port for the whole DPad
-        // POV returns an angle in degrees 0-315 at 45 intervals
-        public static final int kAxisDpadPov = 0;
-    
+        // DPad returns an angle in degrees 0-315 at 45 intervals
         public static final int kDpadNAngle = 0;
         public static final int kDpadNEAngle = 45;
         public static final int kDpadEAngle = 90;
@@ -124,6 +116,16 @@ public final class Constants {
     }
 
     public static final class ArmConstants{
+        // Shoulder Limits
+        public static final double shoulderLowerLimit = 115;
+        public static final double shoulderDangerZoneThreshold = 160;
+        public static final double shoulderUpperLimit = 203;
+
+        // Wrist Limits
+        public static final double wristLowerLimit = 160;
+        public static final double wristDangerZoneLowerLimit = 271.5;
+        public static final double wristUpperLimit = 280;
+
         // Arm Angle Offset
         public static final double shoulderOffset = 0;
         public static final double wristOffset = 0;
@@ -153,6 +155,7 @@ public final class Constants {
             private double wristAngle;
             private double shoulderAngle;
             private String stateName;
+
             public State(double wristAngle, double shoulderAngle, String stateName) {
                 this.wristAngle = wristAngle;
                 this.shoulderAngle = shoulderAngle;
@@ -170,11 +173,10 @@ public final class Constants {
             public String getStateName() {
                 return stateName;
             }
-
-        
         }
-        public final static State floorState = new State(floorWristAngle,floorShoulderAngle, "floor");
-        public final static State ampState = new State(ampWristAngle,ampShoulderAngle, "amp");
+
+        public final static State floorState = new State(floorWristAngle, floorShoulderAngle, "floor");
+        public final static State ampState = new State(ampWristAngle, ampShoulderAngle, "amp");
         public final static State humanState = new State(humanWristAngle, humanShoulderAngle, "human");
         public final static State trapState = new State(trapWristAngle, trapShoulderAngle, "trap");
         public final static State defaultState = new State(defaultWristAngle, defaultShoulderAngle, "default");

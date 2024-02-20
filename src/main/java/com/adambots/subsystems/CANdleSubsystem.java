@@ -24,45 +24,26 @@ import com.ctre.phoenix.led.TwinkleAnimation.TwinklePercent;
 import com.ctre.phoenix.led.TwinkleOffAnimation;
 import com.ctre.phoenix.led.TwinkleOffAnimation.TwinkleOffPercent;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-// import frc.robot.utils.Log;
 
 public class CANdleSubsystem extends SubsystemBase {
-  // private static final int LEDS_PER_ANIMATION = 30;
   private static final int LEDS_IN_STRIP = LEDConstants.LEDS_IN_STRIP;
-  private CANdle candle; //= new CANdle(Constants.CANDLE_CAN_PORT, "rio");
+  private CANdle candle;
   private Animation toAnimate = null;
-  int time = 0; 
-
   
   @Override
-  public void periodic() {
-    // setLEDs(255, 0, 0, 0, 100);
-    // setLEDs(0, 0, 255, 101, 200); 
-    setColor(LEDConstants.yellow);
-    
+  public void periodic() {    
     if (candle == null) {
-      // Log.info("No Candle Device Set");
       return;
     }
 
-    // This method will be called once per scheduler run
     if (toAnimate == null) {   
       if(!setAnim) {
         /* Only setLEDs once, because every set will transmit a frame */
-        // candle.setLEDs(255, 255, 255, 0, 0, 1);
-        // candle.setLEDs(255, 255, 0, 0, 1, 1);
-        // candle.setLEDs(255, 0, 255, 0, 2, 1);
-        // candle.setLEDs(255, 0, 0, 0, 3, 1);
-        // candle.setLEDs(0, 255, 255, 0, 4, 1);
-        // candle.setLEDs(0, 255, 0, 0, 5, 1);
-        // candle.setLEDs(0, 0, 0, 0, 6, 1);
-        // candle.setLEDs(0, 0, 255, 0, 7, 1);
         setAnim = true;
-        // green = 255;
         candle.setLEDs((int) (red), (int) (green), (int) (blue), 0, 0, LEDS_IN_STRIP);
-        //   Log.infoF("No Animation: Setting LEDs to: R(%d)G(%d)B(%d)", red, green, blue);
       }
     } else {
       toAnimate.setSpeed((animateSpeed + 1) * 0.5);
@@ -71,15 +52,7 @@ public class CANdleSubsystem extends SubsystemBase {
     }
 
     candle.modulateVBatOutput(vbatOutput);
-
-    if(clearAllAnims) {
-      clearAllAnims = false;
-      for(int i = 0; i < 10; ++i) {
-          candle.clearAnimation(i);
-      }
-    }
   }
-
 
   public enum AnimationTypes {
     ColorFlow,
@@ -95,7 +68,6 @@ public class CANdleSubsystem extends SubsystemBase {
     Empty
   }
 
-  private AnimationTypes currentAnimation;
   private int red = 0;
   private int green = 0;
   private int blue = 0;
@@ -103,107 +75,28 @@ public class CANdleSubsystem extends SubsystemBase {
   private int candleChannel;
   private boolean animDirection = true;
   private boolean setAnim;
-  private double animateSpeed = .1;
-  private boolean clearAllAnims = false;
+  private double animateSpeed = 0.1;
 
   public CANdleSubsystem(CANdle candleDevice) {
     this.candle = candleDevice;
+
     changeAnimation(AnimationTypes.SetAll);
+    setColor(LEDConstants.adambotsYellow); //Adambots Yellow
+
     CANdleConfiguration configAll = new CANdleConfiguration();
     configAll.statusLedOffWhenActive = true;
     configAll.disableWhenLOS = true;
     configAll.stripType = LEDStripType.GRB; // the BTF-Lighting LED strip uses GRB format
     configAll.brightnessScalar = 1;
     configAll.vBatOutputMode = VBatOutputMode.Modulated;
+
     candleDevice.configAllSettings(configAll, 100);
-  }
-
-  public void incrementAnimation() {
-    switch (currentAnimation) {
-      case ColorFlow:
-        changeAnimation(AnimationTypes.Fire);
-        break;
-      case Fire:
-        changeAnimation(AnimationTypes.Larson);
-        break;
-      case Larson:
-        changeAnimation(AnimationTypes.Rainbow);
-        break;
-      case Rainbow:
-        changeAnimation(AnimationTypes.RgbFade);
-        break;
-      case RgbFade:
-        changeAnimation(AnimationTypes.SingleFade);
-        break;
-      case SingleFade:
-        changeAnimation(AnimationTypes.Strobe);
-        break;
-      case Strobe:
-        changeAnimation(AnimationTypes.Twinkle);
-        break;
-      case Twinkle:
-        changeAnimation(AnimationTypes.TwinkleOff);
-        break;
-      case TwinkleOff:
-        changeAnimation(AnimationTypes.Empty);
-        break;
-      case Empty:
-        changeAnimation(AnimationTypes.ColorFlow);
-        break;
-      case SetAll:
-        changeAnimation(AnimationTypes.ColorFlow);
-        break;
-    }
-  }
-
-  public void decrementAnimation() {
-    switch (currentAnimation) {
-      case ColorFlow:
-        changeAnimation(AnimationTypes.TwinkleOff);
-        break;
-      case Fire:
-        changeAnimation(AnimationTypes.ColorFlow);
-        break;
-      case Larson:
-        changeAnimation(AnimationTypes.Fire);
-        break;
-      case Rainbow:
-        changeAnimation(AnimationTypes.Larson);
-        break;
-      case RgbFade:
-        changeAnimation(AnimationTypes.Rainbow);
-        break;
-      case SingleFade:
-        changeAnimation(AnimationTypes.RgbFade);
-        break;
-      case Strobe:
-        changeAnimation(AnimationTypes.SingleFade);
-        break;
-      case Twinkle:
-        changeAnimation(AnimationTypes.Strobe);
-        break;
-      case TwinkleOff:
-        changeAnimation(AnimationTypes.Twinkle);
-        break;
-      case Empty:
-        changeAnimation(AnimationTypes.TwinkleOff);
-        break;
-      case SetAll:
-        changeAnimation(AnimationTypes.ColorFlow);
-        break;
-    }
-  }
-
-  public void toggleAnimDirection() {
-    animDirection = !animDirection;
-  }
-
-  public void setColors() {
-    changeAnimation(AnimationTypes.SetAll);
   }
 
   public void setColor(Color color) {
     setColor((int) color.red, (int) color.green, (int) color.blue);
+
+    setAnim = false;
   }
 
   /**
@@ -214,20 +107,9 @@ public class CANdleSubsystem extends SubsystemBase {
    * @param b - Blue (0 to 255)
    */
   public void setColor(int r, int g, int b) {
-    if (r < 0 || r > 255)
-      this.red = 0;
-    else
-      this.red = r;
-
-    if (g < 0 || g > 255)
-      this.green = 0;
-    else
-      this.green = g;
-
-    if (b < 0 || b > 255)
-      this.blue = 0;
-    else
-      this.blue = b;
+    this.red = MathUtil.clamp(r, 0, 255);
+    this.green = MathUtil.clamp(g, 0, 255);
+    this.blue = MathUtil.clamp(b, 0, 255);
 
     setAnim = false;
   }
@@ -241,15 +123,9 @@ public class CANdleSubsystem extends SubsystemBase {
    * @param numOfLEDs - Number of LEDs to light up with this color
    */
   public void setLEDs(int r, int g, int b, int startIdx, int numOfLEDs){
-
-    if (r < 0 || r > 255)
-      r = 0;
-    
-    if (g < 0 || g > 255)
-      g = 0;
-    
-    if (b < 0 || b > 255)
-      b = 0;
+    r = MathUtil.clamp(r, 0, 255);
+    g = MathUtil.clamp(g, 0, 255);
+    b = MathUtil.clamp(b, 0, 255);
     
     if (startIdx < 0 || startIdx > LEDS_IN_STRIP)
       startIdx = 0;
@@ -260,46 +136,44 @@ public class CANdleSubsystem extends SubsystemBase {
     candle.setLEDs(r, g, b, 0, startIdx, numOfLEDs);
   }
 
-  public void setmodulateVBatOutput(double dutyCycle) {
-    this.vbatOutput = dutyCycle;
-  }
+  // public void setmodulateVBatOutput(double dutyCycle) {
+  //   this.vbatOutput = dutyCycle;
+  // }
 
   /* Wrappers so we can access the CANdle from the subsystem */
-  public double getVbat() {
-    return candle.getBusVoltage();
-  }
+  // public double getVbat() {
+  //   return candle.getBusVoltage();
+  // }
 
-  public double get5V() {
-    return candle.get5VRailVoltage();
-  }
+  // public double get5V() {
+  //   return candle.get5VRailVoltage();
+  // }
 
-  public double getCurrent() {
-    return candle.getCurrent();
-  }
+  // public double getCurrent() {
+  //   return candle.getCurrent();
+  // }
 
-  public double getTemperature() {
-    return candle.getTemperature();
-  }
+  // public double getTemperature() {
+  //   return candle.getTemperature();
+  // }
 
-  public void configBrightness(double percent) {
-    candle.configBrightnessScalar(percent, 0);
-  }
+  // public void configBrightness(double percent) {
+  //   candle.configBrightnessScalar(percent, 0);
+  // }
 
-  public void configLos(boolean disableWhenLos) {
-    candle.configLOSBehavior(disableWhenLos, 0);
-  }
+  // public void configLos(boolean disableWhenLos) {
+  //   candle.configLOSBehavior(disableWhenLos, 0);
+  // }
 
-  public void configLedType(LEDStripType type) {
-    candle.configLEDType(type, 0);
-  }
+  // public void configLedType(LEDStripType type) {
+  //   candle.configLEDType(type, 0);
+  // }
 
-  public void configStatusLedBehavior(boolean offWhenActive) {
-    candle.configStatusLedState(offWhenActive, 0);
-  }
+  // public void configStatusLedBehavior(boolean offWhenActive) {
+  //   candle.configStatusLedState(offWhenActive, 0);
+  // }
 
   public void changeAnimation(AnimationTypes toChange) {
-    currentAnimation = toChange;
-
     switch (toChange) {
       default:
       case ColorFlow:
@@ -342,17 +216,16 @@ public class CANdleSubsystem extends SubsystemBase {
         candleChannel = 9;
         toAnimate = new RainbowAnimation(1, 0.7, LEDS_IN_STRIP, animDirection, 8);
         break;
-
       case SetAll:
         toAnimate = null;
         break;
     }
-   
-    // Log.infoF("LED Changed to %s ", currentAnimation.toString());
   }
 
   public void clearAllAnims() {
-    clearAllAnims = true;
+    for(int i = 0; i < 10; ++i) {
+      candle.clearAnimation(i);
+    }
   }
 
   /**
@@ -361,18 +234,5 @@ public class CANdleSubsystem extends SubsystemBase {
    */
   public void setAnimationSpeed(double speed){
     animateSpeed = speed;
-  }
-
-  // public void useLEDs(){
-  //   useLEDs = true;
-  // }
-
-  // public void stopUsingLEDs(){
-  //   useLEDs = false;
-  // }
-
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
   }
 }

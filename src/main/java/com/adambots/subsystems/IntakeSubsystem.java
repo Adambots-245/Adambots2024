@@ -56,13 +56,6 @@ public class IntakeSubsystem extends SubsystemBase {
   public double getIntakeSpeed(){
     return groundIntakeMotor.getVelocity()/512;
   }
-  public void setNote(boolean note){
-    isNote = note;
-  }
-
-  public boolean getNote(){
-    return isNote;
-  }
 
   @Override
   public void periodic() {

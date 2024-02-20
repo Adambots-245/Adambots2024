@@ -8,20 +8,20 @@ package com.adambots.utils;
 /** Add your docs here. */
 public abstract class BaseMotor {
 
-    public BaseMotor(){
-        
-    }
+    public BaseMotor(){}
 
-    public void set(double speed){System.out.println("WARNING: Functionality for this method has not been implemented.");}
+    public void set(double speed){System.err.println("WARNING: Functionality for this method has not been implemented.");}
 
-    public void setInverted(boolean inverted){System.out.println("WARNING: Functionality for this method has not been implemented.");}
+    public void setInverted(boolean inverted){System.err.println("WARNING: Functionality for this method has not been implemented.");}
 
-    public void setNeutralMode(boolean brake){System.out.println("WARNING: Functionality for this method has not been implemented.");}
+    public void setNeutralMode(boolean brake){System.err.println("WARNING: Functionality for this method has not been implemented.");}
 
-    public double getPosition(){System.out.println("WARNING: Functionality for this method has not been implemented.");return 0;}
+    public void setPosition(double rotations){System.err.println("WARNING: Functionality for this method has not been implemented.");}
 
-    public double getVelocity(){System.out.println("WARNING: Functionality for this method has not been implemented.");return 0;}
+    public double getPosition(){System.err.println("WARNING: Functionality for this method has not been implemented."); return 0;}
 
-    public double getAcceleration(){System.out.println("WARNING: Functionality for this method has not been implemented.");return 0;}
+    public double getVelocity(){System.err.println("WARNING: Functionality for this method has not been implemented."); return 0;}
+
+    public double getAcceleration(){System.err.println("WARNING: Functionality for this method has not been implemented."); return 0;}
 
 }

@@ -4,7 +4,9 @@
 
 package com.adambots.subsystems;
 
-import com.ctre.phoenix6.hardware.TalonFX;
+import com.adambots.sensors.PhotoEye;
+import com.adambots.utils.BaseMotor;
+import com.adambots.utils.Dash;
 
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Value;
@@ -12,76 +14,76 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class HangSubsystem extends SubsystemBase {
   
-  TalonFX leftHangMotor;
-  TalonFX rightHangMotor;
-  double leftHangMotorSpeed;
-  double rightHangMotorSpeed;
+  BaseMotor leftHangMotor;
+  BaseMotor rightHangMotor;
+  double leftHangMotorSpeed, rightHangMotorSpeed = 0;
   Relay leftRelay;
   Relay rightRelay;
-  boolean solenoidLock;
+  PhotoEye leftLimit;
+  PhotoEye rightLimit;
 
-  // Add Single Solenoid, will be attached to RelayPort, need to look at previous years code to know how to point to Relay port
-
-  public HangSubsystem(TalonFX leftHangMotor, TalonFX rightHangMotor, Relay leftRelay, Relay rightRelay) {
+  public HangSubsystem(BaseMotor leftHangMotor, BaseMotor rightHangMotor, Relay leftRelay, Relay rightRelay, PhotoEye leftLimit, PhotoEye rightLimit) {
     this.leftHangMotor = leftHangMotor;
     this.rightHangMotor = rightHangMotor;
     this.leftRelay = leftRelay;
     this.rightRelay = rightRelay;
+    this.leftLimit = leftLimit;
+    this.rightLimit = rightLimit;
+
+    leftHangMotor.setPosition(0);
+    rightHangMotor.setPosition(0);
+
+    leftHangMotor.setInverted(false);
     rightHangMotor.setInverted(true);
+
+    Dash.add("Left Hang Pos", () -> getLeftMotorPosition());
+    Dash.add("Right Hang Pos", () -> getRightMotorPosition());
   }
 
-  public void setHangMotorSpeed(double newHangMotorSpeed){
-    leftHangMotorSpeed = newHangMotorSpeed;
-    rightHangMotorSpeed = newHangMotorSpeed;
-  }
-
-  public void setLeftHangMotorSpeed(double newLeftHangMotorSpeed){
+  public void setLeftMotorSpeed(double newLeftHangMotorSpeed){
     leftHangMotorSpeed = newLeftHangMotorSpeed;
   }
 
-  public void setRightHangMotorSpeed(double newRightHangMotorSpeed){
+  public void setRightMotorSpeed(double newRightHangMotorSpeed){
     rightHangMotorSpeed = newRightHangMotorSpeed;
   }
 
-  public Value isLeftHangRetracted(){
-    return leftRelay.get();
+  public double getLeftMotorPosition() {
+    return leftHangMotor.getPosition();
   }
 
-  public Value isRightHangRetracted(){
-    return rightRelay.get();
+  public double getRightMotorPosition() {
+    return rightHangMotor.getPosition();
+  }
+
+  public Boolean getSolenoidsActive(){
+    return leftRelay.get() == Value.kOn && rightRelay.get() == Value.kOn;
   }
   
-  public void setRelay(boolean lock){
-      solenoidLock = lock;
-    }
-  
-
-  @Override
-  public void periodic() {
-    // if (leftHangMotorSpeed > 0){
-    //   setRelay(true);
-    // } else {
-    //   setRelay(false);
-    // }
-    // This method will be called once per scheduler run
-    leftHangMotor.set(leftHangMotorSpeed);
-    rightHangMotor.set(rightHangMotorSpeed);
-
-    if(isLeftHangRetracted() == Value.kOff){
-      leftHangMotor.setPosition(0);
-    }
-    if(isRightHangRetracted() == Value.kOff){
-      rightHangMotor.setPosition(0);
-    }
-
-    if(solenoidLock){
+  public void setSolenoids(Boolean extended){
+    if(extended){
       leftRelay.set(Value.kOn);
       rightRelay.set(Value.kOn);
-    }
-    else{
+    } else{
       leftRelay.set(Value.kOff);
       rightRelay.set(Value.kOff);
     }
-    
+  }
+
+  @Override
+  public void periodic() {
+    failSafes();
+
+    leftHangMotor.set(leftHangMotorSpeed);
+    rightHangMotor.set(rightHangMotorSpeed);
+  }
+
+  public void failSafes() {
+    if (leftLimit.isDetecting() && leftHangMotorSpeed < 0) {
+      leftHangMotorSpeed = 0;
+    }
+    if (rightLimit.isDetecting() && rightHangMotorSpeed < 0) {
+      rightHangMotorSpeed = 0;
+    }
   }
 }

@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package com.adambots.commands;
+package com.adambots.commands.armCommands;
 
 import com.adambots.Constants.ArmConstants;
 import com.adambots.subsystems.ArmSubsystem;
@@ -16,6 +16,7 @@ public class HumanStationCommand extends Command {
   private IntakeSubsystem intakeSubsystem;
 
   private int inc = 0;
+  private Boolean beginInc = false;
   
   public HumanStationCommand(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
     addRequirements(armSubsystem, intakeSubsystem);
@@ -28,6 +29,7 @@ public class HumanStationCommand extends Command {
   @Override
   public void initialize() {
     inc = 0;
+    beginInc = false;
     armSubsystem.setCurrentState(ArmConstants.humanState);
     intakeSubsystem.setGroundIntakeMotorSpeed(0.2);
   }
@@ -35,14 +37,15 @@ public class HumanStationCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (inc > 5
-    ) {
+    if (inc > 5) {
       intakeSubsystem.setGroundIntakeMotorSpeed(0);
     } else if (intakeSubsystem.isSecondPieceInRobot()) {
-      inc++;
+      beginInc = true;
     } else if (intakeSubsystem.isFirstPieceInRobot()) {
       intakeSubsystem.setGroundIntakeMotorSpeed(0.09);
     } 
+
+    if (beginInc) {inc++;}
   }
 
   // Called once the command ends or is interrupted.

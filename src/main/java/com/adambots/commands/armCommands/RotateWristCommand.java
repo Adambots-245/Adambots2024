@@ -2,22 +2,22 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package com.adambots.commands;
+package com.adambots.commands.armCommands;
 
 import com.adambots.subsystems.ArmSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class RotateShoulderCommand extends Command {
+public class RotateWristCommand extends Command {
+  /** Creates a new RotateWristCommand. */
   private ArmSubsystem armSubsystem;
-  private double shoulderIncrement;
-  private boolean manualAdjust;
-
-  public RotateShoulderCommand(ArmSubsystem armSubsystem, double shoulderIncrement, boolean manualAdjust) {
+  double wristIncrement;
+  boolean manualAdjust;
+  public RotateWristCommand(ArmSubsystem armSubsystem, double wristIncrement, boolean manualAdjust) {
     addRequirements(armSubsystem);
 
-    this.shoulderIncrement = shoulderIncrement;
     this.armSubsystem = armSubsystem;
+    this.wristIncrement = wristIncrement;
     this.manualAdjust = manualAdjust;
   }
 
@@ -28,7 +28,7 @@ public class RotateShoulderCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSubsystem.incrementShoulderAngle(shoulderIncrement);
+    armSubsystem.incrementWristAngle(wristIncrement);
   }
 
   // Called once the command ends or is interrupted.

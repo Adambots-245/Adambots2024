@@ -40,6 +40,11 @@ public class TalonFXMotor extends BaseMotor{
     }
 
     @Override
+    public void setPosition(double rotations){
+        motor.setPosition(rotations);
+    }
+
+    @Override
     public double getPosition(){
         return motor.getPosition().getValueAsDouble();
     }

@@ -10,8 +10,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 
 public class VisionHelpers {
     //private NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-    private VisionHelpers() {
-    }
+    private VisionHelpers() {}
     
     public static void blinkLight(String limelight) {
         LimelightHelpers.setLEDMode_ForceBlink(limelight);
