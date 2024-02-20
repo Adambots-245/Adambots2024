@@ -59,4 +59,8 @@ public class TalonFXMotor extends BaseMotor{
         return motor.getAcceleration().getValueAsDouble();
     }
 
+    @Override
+    public double getCurrentDraw(){
+        return motor.getTorqueCurrent().getValueAsDouble();
+    }
 }

@@ -57,4 +57,9 @@ public class NEOMotor extends BaseMotor{
         System.err.println("WARNING: Functionality for this method has not been implemented.");
         return 0;
     }
+
+    @Override
+    public double getCurrentDraw(){
+        return motor.getOutputCurrent();
+    }
 }

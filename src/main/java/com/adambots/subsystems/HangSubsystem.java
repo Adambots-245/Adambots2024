@@ -19,16 +19,16 @@ public class HangSubsystem extends SubsystemBase {
   double leftHangMotorSpeed, rightHangMotorSpeed = 0;
   Relay leftRelay;
   Relay rightRelay;
-  PhotoEye leftLimit;
-  PhotoEye rightLimit;
+  // PhotoEye leftLimit;
+  // PhotoEye rightLimit;
 
-  public HangSubsystem(BaseMotor leftHangMotor, BaseMotor rightHangMotor, Relay leftRelay, Relay rightRelay, PhotoEye leftLimit, PhotoEye rightLimit) {
+  public HangSubsystem(BaseMotor leftHangMotor, BaseMotor rightHangMotor, Relay leftRelay, Relay rightRelay) {
     this.leftHangMotor = leftHangMotor;
     this.rightHangMotor = rightHangMotor;
     this.leftRelay = leftRelay;
     this.rightRelay = rightRelay;
-    this.leftLimit = leftLimit;
-    this.rightLimit = rightLimit;
+    // this.leftLimit = leftLimit;
+    // this.rightLimit = rightLimit;
 
     leftHangMotor.setPosition(0);
     rightHangMotor.setPosition(0);
@@ -38,6 +38,9 @@ public class HangSubsystem extends SubsystemBase {
 
     Dash.add("Left Hang Pos", () -> getLeftMotorPosition());
     Dash.add("Right Hang Pos", () -> getRightMotorPosition());
+
+    Dash.add("Left Hang Current", () -> leftHangMotor.getCurrentDraw());
+    Dash.add("Right Hang Current", () -> rightHangMotor.getCurrentDraw());
   }
 
   public void setLeftMotorSpeed(double newLeftHangMotorSpeed){
@@ -56,12 +59,20 @@ public class HangSubsystem extends SubsystemBase {
     return rightHangMotor.getPosition();
   }
 
+  public double getLeftMotorCurrent() {
+    return leftHangMotor.getCurrentDraw();
+  }
+
+  public double getRightMotorCurrent() {
+    return rightHangMotor.getCurrentDraw();
+  }
+
   public Boolean getSolenoidsActive(){
     return leftRelay.get() == Value.kOn && rightRelay.get() == Value.kOn;
   }
   
-  public void setSolenoids(Boolean extended){
-    if(extended){
+  public void setSolenoids(Boolean active){
+    if(active){
       leftRelay.set(Value.kOn);
       rightRelay.set(Value.kOn);
     } else{
@@ -79,11 +90,11 @@ public class HangSubsystem extends SubsystemBase {
   }
 
   public void failSafes() {
-    if (leftLimit.isDetecting() && leftHangMotorSpeed < 0) {
-      leftHangMotorSpeed = 0;
-    }
-    if (rightLimit.isDetecting() && rightHangMotorSpeed < 0) {
-      rightHangMotorSpeed = 0;
-    }
+    // if (leftLimit.isDetecting() && leftHangMotorSpeed < 0) {
+    //   leftHangMotorSpeed = 0;
+    // }
+    // if (rightLimit.isDetecting() && rightHangMotorSpeed < 0) {
+    //   rightHangMotorSpeed = 0;
+    // }
   }
 }

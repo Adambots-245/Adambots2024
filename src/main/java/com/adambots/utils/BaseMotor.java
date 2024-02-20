@@ -24,4 +24,6 @@ public abstract class BaseMotor {
 
     public double getAcceleration(){System.err.println("WARNING: Functionality for this method has not been implemented."); return 0;}
 
+    public double getCurrentDraw(){System.err.println("WARNING: Functionality for this method has not been implemented."); return 0;}
+
 }

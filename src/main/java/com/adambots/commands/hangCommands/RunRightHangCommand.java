@@ -8,12 +8,11 @@ import com.adambots.subsystems.HangSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class RunHangCommand extends Command {
+public class RunRightHangCommand extends Command {
   private HangSubsystem hangSubsystem;
   private double speed;
-  private int inc = 0;
 
-  public RunHangCommand(HangSubsystem hangSubsystem, double speed) {
+  public RunRightHangCommand(HangSubsystem hangSubsystem, double speed) {
     addRequirements(hangSubsystem);
 
     this.hangSubsystem = hangSubsystem;
@@ -23,30 +22,17 @@ public class RunHangCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (speed > 0) {
-      hangSubsystem.setSolenoids(true);
-    }
-    inc = 0;
+    hangSubsystem.setRightMotorSpeed(speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    inc++;
-
-    if (inc == 20) {
-      hangSubsystem.setLeftMotorSpeed(speed);
-      hangSubsystem.setRightMotorSpeed(speed);
-    }
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    hangSubsystem.setLeftMotorSpeed(0);
     hangSubsystem.setRightMotorSpeed(0);
-
-    hangSubsystem.setSolenoids(false);
   }
 
   // Returns true when the command should end.

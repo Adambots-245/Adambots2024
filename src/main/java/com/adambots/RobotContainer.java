@@ -12,6 +12,8 @@ import com.adambots.commands.armCommands.RetractShooterCommand;
 import com.adambots.commands.armCommands.RotateShoulderCommand;
 import com.adambots.commands.armCommands.RotateWristCommand;
 import com.adambots.commands.hangCommands.RunHangCommand;
+import com.adambots.commands.hangCommands.RunLeftHangCommand;
+import com.adambots.commands.hangCommands.RunRightHangCommand;
 import com.adambots.commands.intakeCommands.IntakeWithAdjustCommand;
 import com.adambots.commands.visionCommands.AlignRotateCommand;
 import com.adambots.commands.visionCommands.PathPlannerAlign;
@@ -52,7 +54,7 @@ public class RobotContainer {
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.shooterWheel);
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.groundIntakeMotor, RobotMap.firstPieceInRobotEye, RobotMap.secondPieceInRobotEye);
   private final CANdleSubsystem ledSubsystem = new CANdleSubsystem(RobotMap.candleLEDs);
-  private final HangSubsystem hangSubsystem = new HangSubsystem(RobotMap.leftHangMotor, RobotMap.rightHangMotor, RobotMap.leftHangRelay, RobotMap.rightHangRelay, RobotMap.leftHangLimit, RobotMap.rightHangLimit);
+  private final HangSubsystem hangSubsystem = new HangSubsystem(RobotMap.leftHangMotor, RobotMap.rightHangMotor, RobotMap.leftHangRelay, RobotMap.rightHangRelay);
 
   //Creates a SmartDashboard element to allow drivers to select differnt autons
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -108,7 +110,7 @@ public class RobotContainer {
     // Buttons.XboxStartButton.onTrue(new AdjustNoteCommand(intakeSubsystem));
 
 
-    //XBox Button Bindings
+    //Xbox Button Bindings
     Buttons.XboxAButton.whileTrue(new IntakeWithAdjustCommand(armSubsystem, intakeSubsystem));
     Buttons.XboxAButton.onFalse(new InstantCommand(() -> VisionHelpers.offLight(VisionConstants.noteLimelite)));
 
@@ -119,15 +121,21 @@ public class RobotContainer {
     Buttons.XboxYButton.onTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem));
     Buttons.XboxYButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
 
-    // Buttons.XboxLeftBumper.whileTrue(new RunHangCommand(hangSubsystem, 0.1));
-    // Buttons.XboxRightBumper.whileTrue(new RunHangCommand(hangSubsystem, -0.1));
+    Buttons.XboxLeftBumper.whileTrue(new RunLeftHangCommand(hangSubsystem, -0.1));
+    Buttons.XboxRightBumper.whileTrue(new RunRightHangCommand(hangSubsystem, -0.1));
 
-    //XBox DPad Bindings
-    Buttons.XboxDPadN.whileTrue(new RotateShoulderCommand(armSubsystem,1, true));
-    Buttons.XboxDPadS.whileTrue(new RotateShoulderCommand(armSubsystem, -0.1, true));
+    Buttons.XboxLeftStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setSolenoids(true)));
+    Buttons.XboxRightStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setSolenoids(false)));
+
+    //Xbox DPad Bindings
+    Buttons.XboxDPadN.whileTrue(new RunHangCommand(hangSubsystem, 0.25));
+    Buttons.XboxDPadS.whileTrue(new RunHangCommand(hangSubsystem, -0.25));
+
+    // Buttons.XboxDPadN.whileTrue(new RotateShoulderCommand(armSubsystem,1, true));
+    // Buttons.XboxDPadS.whileTrue(new RotateShoulderCommand(armSubsystem, -0.1, true));
     
-    Buttons.XboxDPadE.whileTrue(new RotateWristCommand(armSubsystem, -0.5, true));
-    Buttons.XboxDPadW.whileTrue(new RotateWristCommand(armSubsystem, 0.5, true));
+    // Buttons.XboxDPadE.whileTrue(new RotateWristCommand(armSubsystem, -0.5, true));
+    // Buttons.XboxDPadW.whileTrue(new RotateWristCommand(armSubsystem, 0.5, true));
   }
 
 
