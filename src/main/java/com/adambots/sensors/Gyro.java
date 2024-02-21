@@ -56,17 +56,22 @@ public class Gyro {
     }
 
     /**
-     * Returns the approximated X, Y and rotation displacement of the robot since last reset
-     * @return Approximated Pose2d of the robot
+     * Returns the measured roll value of the gyroscope in degrees
+     * <p>
+     * Keep in mind roll and pitch will change depending on robot rotation
+     * @return Roll value of gyroscope in degrees
      */
-    // public Pose2d getDisplacementPose2D (double offsetDeg) {
-    //     return new Pose2d(gyro.getRotation2d(), gyro.getDisplacementY(), getContinuousYawRad());
-    // }
+    public double getRoll () {
+        return gyro.getRoll().getValueAsDouble();
+    }
 
     /**
-     * Resets the calculated X, Y displacement of the gyro
+     * Returns the measured pitch value of the gyroscope in degrees
+     * <p>
+     * Keep in mind roll and pitch will change depending on robot rotation
+     * @return Pitch value of gyroscope in degrees
      */
-    // public void resetDisplacement () {
-    //     gyro.resetDisplacement();
-    // }
+    public double getPitch () {
+        return gyro.getPitch().getValueAsDouble();
+    }
 }

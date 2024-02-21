@@ -4,6 +4,7 @@
 
 package com.adambots.subsystems;
 
+import com.adambots.Constants.HangConstants;
 import com.adambots.sensors.PhotoEye;
 import com.adambots.utils.BaseMotor;
 import com.adambots.utils.Dash;
@@ -30,17 +31,16 @@ public class HangSubsystem extends SubsystemBase {
     // this.leftLimit = leftLimit;
     // this.rightLimit = rightLimit;
 
-    leftHangMotor.setPosition(0);
-    rightHangMotor.setPosition(0);
-
     leftHangMotor.setInverted(false);
     rightHangMotor.setInverted(true);
 
+    leftHangMotor.setNeutralMode(true);
+    rightHangMotor.setNeutralMode(true);
+
+    resetEncoders();
+
     Dash.add("Left Hang Pos", () -> getLeftMotorPosition());
     Dash.add("Right Hang Pos", () -> getRightMotorPosition());
-
-    Dash.add("Left Hang Current", () -> leftHangMotor.getCurrentDraw());
-    Dash.add("Right Hang Current", () -> rightHangMotor.getCurrentDraw());
   }
 
   public void setLeftMotorSpeed(double newLeftHangMotorSpeed){
@@ -52,23 +52,20 @@ public class HangSubsystem extends SubsystemBase {
   }
 
   public double getLeftMotorPosition() {
-    return leftHangMotor.getPosition();
+    return Math.abs(leftHangMotor.getPosition()); //Return absolute value so motor inversion doesn't affect failsafes
   }
 
   public double getRightMotorPosition() {
-    return rightHangMotor.getPosition();
-  }
-
-  public double getLeftMotorCurrent() {
-    return leftHangMotor.getCurrentDraw();
-  }
-
-  public double getRightMotorCurrent() {
-    return rightHangMotor.getCurrentDraw();
+    return Math.abs(rightHangMotor.getPosition()); //Return absolute value so motor inversion doesn't affect failsafes
   }
 
   public Boolean getSolenoidsActive(){
     return leftRelay.get() == Value.kOn && rightRelay.get() == Value.kOn;
+  }
+
+  public void resetEncoders() {
+    leftHangMotor.setPosition(0);
+    rightHangMotor.setPosition(0);
   }
   
   public void setSolenoids(Boolean active){
@@ -96,5 +93,19 @@ public class HangSubsystem extends SubsystemBase {
     // if (rightLimit.isDetecting() && rightHangMotorSpeed < 0) {
     //   rightHangMotorSpeed = 0;
     // }
+
+    if (getLeftMotorPosition() < 0 && leftHangMotorSpeed < 0) {
+      leftHangMotorSpeed = 0;
+    }
+    if (getRightMotorPosition() < 0 && rightHangMotorSpeed < 0) {
+      rightHangMotorSpeed = 0;
+    }
+
+    if (getLeftMotorPosition() > HangConstants.maxExtension && leftHangMotorSpeed > 0) {
+      leftHangMotorSpeed = 0;
+    }
+    if (getRightMotorPosition() > HangConstants.maxExtension && rightHangMotorSpeed > 0) {
+      rightHangMotorSpeed = 0;
+    }
   }
 }

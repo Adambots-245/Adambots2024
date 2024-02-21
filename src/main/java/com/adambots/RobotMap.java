@@ -85,22 +85,22 @@ public class RobotMap {
     public static final CANdle candleLEDs = new CANdle(kCANdlePort);
 
     // Arm Devices
-    public static final BaseMotor shoulderMotor = new TalonFXMotor(shoulderMotorPort, Constants.canivore);
-    public static final BaseMotor wristMotor = new TalonFXMotor(wristMotorPort, Constants.canivore);
+    public static final BaseMotor shoulderMotor = new TalonFXMotor(shoulderMotorPort, true);
+    public static final BaseMotor wristMotor = new TalonFXMotor(wristMotorPort, true);
     public static final DutyCycleEncoder shoulderEncoder = new DutyCycleEncoder(shoulderEncoderPort);
     public static final DutyCycleEncoder wristEncoder = new DutyCycleEncoder(wristEncoderPort);
 
     // Shooter Devices
-    public static final BaseMotor shooterWheel = new TalonFXMotor(shooterWheelPort, Constants.canivore);
+    public static final BaseMotor shooterWheel = new TalonFXMotor(shooterWheelPort, true);
 
     // Intake Devices
-    public static final BaseMotor groundIntakeMotor = new TalonFXMotor(groundIntakeMotorPort, Constants.canivore);
+    public static final BaseMotor groundIntakeMotor = new TalonFXMotor(groundIntakeMotorPort, true);
     public static final PhotoEye secondPieceInRobotEye = new PhotoEye(secondPieceInRobotEyePort, false);
     public static final PhotoEye firstPieceInRobotEye = new PhotoEye(firstPieceInRobotEyePort, false);
 
     // Hang Devices
-    public static final TalonFXMotor leftHangMotor = new TalonFXMotor(leftHangMotorPort, Constants.canivore);
-    public static final TalonFXMotor rightHangMotor = new TalonFXMotor(rightHangMotorPort, Constants.canivore);
+    public static final TalonFXMotor leftHangMotor = new TalonFXMotor(leftHangMotorPort, false);
+    public static final TalonFXMotor rightHangMotor = new TalonFXMotor(rightHangMotorPort, false);
     public static final Relay leftHangRelay = new Relay(leftHangRelayPort);
     public static final Relay rightHangRelay = new Relay(rightHangRelayPort);
 //     public static final PhotoEye leftHangLimit = new PhotoEye(leftHangLimitPort, false);

@@ -61,8 +61,8 @@ public class SwerveModule {
 
     m_turningEncoder = new AbsoluteEncoder(turningEncoderChannel);
     
-    // Dash.add("Cancoder: " + m_position.name(), () -> m_absoluteEncoder.getAbsolutePositionDegrees());
-    Dash.add("Wheel Speed: " + m_position.name(), () -> m_driveEncoder.getVelocity()*ModuleConstants.kDriveEncoderVelocityConversionFactor);
+    // Dash.add("Cancoder: " + m_position.name(), () -> m_turningEncoder.getAbsolutePositionDegrees());
+    // Dash.add("Wheel Speed: " + m_position.name(), () -> m_driveEncoder.getVelocity()*ModuleConstants.kDriveEncoderVelocityConversionFactor);
 
     m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
     resetEncoders();

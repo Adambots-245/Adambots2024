@@ -4,6 +4,7 @@
 
 package com.adambots.utils;
 
+import com.adambots.Constants;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -12,12 +13,12 @@ public class TalonFXMotor extends BaseMotor{
 
     TalonFX motor;
 
-    public TalonFXMotor(int portNum){
-        motor = new TalonFX(portNum);
-    }
-
-    public TalonFXMotor(int portNum, String bus){
-        motor = new TalonFX(portNum, bus);
+    public TalonFXMotor(int portNum, Boolean isOnCANivore){
+        if (isOnCANivore) {
+            motor = new TalonFX(portNum, Constants.CANivoreBus);
+        } else {
+            motor = new TalonFX(portNum);
+        }
     }
 
     @Override
@@ -62,5 +63,14 @@ public class TalonFXMotor extends BaseMotor{
     @Override
     public double getCurrentDraw(){
         return motor.getTorqueCurrent().getValueAsDouble();
+    }
+
+
+    public boolean getForwardLimitSwitch() {
+        return motor.getForwardLimit().getValueAsDouble() == 1;
+    }
+
+    public boolean getReverseLimitSwitch() {
+        return motor.getReverseLimit().getValueAsDouble() == 1;
     }
 }

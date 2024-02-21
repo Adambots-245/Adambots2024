@@ -15,7 +15,7 @@ public final class Constants {
     public static Field2d field = new Field2d();    
     public static Field2d aprilTagfield = new Field2d();
 
-    public static final String canivore = "CANivore";
+    public static final String CANivoreBus = "CANivore";
 
     public static final class LEDConstants {
         public static final int LEDS_IN_STRIP = 200;
@@ -115,13 +115,19 @@ public final class Constants {
         public static final int kDpadNWAngle = 315;
     }
 
+    public static final class HangConstants{
+        public static final double maxExtension = 131;
+    }
+
     public static final class ArmConstants{
         // Shoulder Limits
+        public static final double maxShoulderSpeed = 0.1; //1.0
         public static final double shoulderLowerLimit = 115;
         public static final double shoulderDangerZoneThreshold = 160;
         public static final double shoulderUpperLimit = 203;
 
         // Wrist Limits
+        public static final double maxWristSpeed = 0.1; //0.3
         public static final double wristLowerLimit = 160;
         public static final double wristDangerZoneLowerLimit = 271.5;
         public static final double wristUpperLimit = 280;

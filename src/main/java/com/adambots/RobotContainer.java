@@ -11,6 +11,7 @@ import com.adambots.commands.armCommands.PrimeShooterCommand;
 import com.adambots.commands.armCommands.RetractShooterCommand;
 import com.adambots.commands.armCommands.RotateShoulderCommand;
 import com.adambots.commands.armCommands.RotateWristCommand;
+import com.adambots.commands.hangCommands.HangLevelCommand;
 import com.adambots.commands.hangCommands.RunHangCommand;
 import com.adambots.commands.hangCommands.RunLeftHangCommand;
 import com.adambots.commands.hangCommands.RunRightHangCommand;
@@ -90,11 +91,12 @@ public class RobotContainer {
     Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem));
 
     Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
-
     
+
     //Debugging and Testing
-    Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem).andThen(new PathPlannerAlign(drivetrainSubsystem)));
-    Buttons.JoystickButton4.onTrue(new InstantCommand(() -> drivetrainSubsystem.resetOdometry(new Pose2d())));
+    // Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem).andThen(new PathPlannerAlign(drivetrainSubsystem)));
+    // Buttons.JoystickButton4.onTrue(new InstantCommand(() -> drivetrainSubsystem.resetOdometry(new Pose2d())));
+
     // Buttons.JoystickButton5.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.noteLimelite));
     // Buttons.JoystickButton7.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.aprilLimelite));
     // Buttons.JoystickButton10.whileTrue(new AlignRotateCommand(drivetrainSubsystem, false, true, VisionConstants.noteLimelite));
@@ -110,7 +112,7 @@ public class RobotContainer {
     // Buttons.XboxStartButton.onTrue(new AdjustNoteCommand(intakeSubsystem));
 
 
-    //Xbox Button Bindings
+    //Xbox Button Bindings 
     Buttons.XboxAButton.whileTrue(new IntakeWithAdjustCommand(armSubsystem, intakeSubsystem));
     Buttons.XboxAButton.onFalse(new InstantCommand(() -> VisionHelpers.offLight(VisionConstants.noteLimelite)));
 
@@ -121,27 +123,30 @@ public class RobotContainer {
     Buttons.XboxYButton.onTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem));
     Buttons.XboxYButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
 
-    Buttons.XboxLeftBumper.whileTrue(new RunLeftHangCommand(hangSubsystem, -0.1));
-    Buttons.XboxRightBumper.whileTrue(new RunRightHangCommand(hangSubsystem, -0.1));
+    //Temporary Hang Commands
+    // Buttons.JoystickButton6.onTrue(new HangLevelCommand(hangSubsystem, RobotMap.gyro)); //TODO: Test carefully
+    Buttons.JoystickButton7.onTrue(new InstantCommand(() -> hangSubsystem.resetEncoders())); //Encoders should be reset where rods are within frame perim
 
-    Buttons.XboxLeftStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setSolenoids(true)));
-    Buttons.XboxRightStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setSolenoids(false)));
+    //THESE COMMANDS DO NOT AUTO ENGAGE SOLENOIDS - which is why they are negative, where the solenoid should be left unpowered
+    Buttons.XboxLeftBumper.whileTrue(new RunLeftHangCommand(hangSubsystem, -0.25)); //Run left winch in 
+    Buttons.XboxRightBumper.whileTrue(new RunRightHangCommand(hangSubsystem, -0.25)); //Run right winch in
+
+    //These commands do automatically engage solenoids if you are running the winches out (and leaves time for solenoids to engage)
+    Buttons.XboxBackButton.whileTrue(new RunHangCommand(hangSubsystem, 0.25)); //Drops robot down
+    Buttons.XboxStartButton.whileTrue(new RunHangCommand(hangSubsystem, -0.25)); //Lifts robot up (auto engages solenoids)
+
 
     //Xbox DPad Bindings
-    Buttons.XboxDPadN.whileTrue(new RunHangCommand(hangSubsystem, 0.25));
-    Buttons.XboxDPadS.whileTrue(new RunHangCommand(hangSubsystem, -0.25));
-
-    // Buttons.XboxDPadN.whileTrue(new RotateShoulderCommand(armSubsystem,1, true));
-    // Buttons.XboxDPadS.whileTrue(new RotateShoulderCommand(armSubsystem, -0.1, true));
+    Buttons.XboxDPadN.whileTrue(new RotateShoulderCommand(armSubsystem,1, true));
+    Buttons.XboxDPadS.whileTrue(new RotateShoulderCommand(armSubsystem, -0.1, true));
     
-    // Buttons.XboxDPadE.whileTrue(new RotateWristCommand(armSubsystem, -0.5, true));
-    // Buttons.XboxDPadW.whileTrue(new RotateWristCommand(armSubsystem, 0.5, true));
+    Buttons.XboxDPadE.whileTrue(new RotateWristCommand(armSubsystem, -0.5, true));
+    Buttons.XboxDPadW.whileTrue(new RotateWristCommand(armSubsystem, 0.5, true));
   }
 
 
   private void registerNamedCommands() {
     NamedCommands.registerCommand("TestCommand1", new PrintCommand("Test1!"));
-    NamedCommands.registerCommand("ResetGyro", new InstantCommand(() -> RobotMap.gyro.resetYaw()));
   }
 
   private void setupDashboard() {    
@@ -149,8 +154,7 @@ public class RobotContainer {
     // cANdleSubsystem.configBrightness(1);
     // cANdleSubsystem.clearAllAnims();
     // cANdleSubsystem.setColor(LEDConstants.yellow);
-    // cANdleSubsystem.changeAnimation(CANdleSubsystem.Animat
-    // ionTypes.Larson);
+    // cANdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.Larson);
 
     //Adds various data to the dashboard that is useful for driving and debugging
     SmartDashboard.putData("Auton Mode", autoChooser);
@@ -182,29 +186,19 @@ public class RobotContainer {
   }
 
   private void setupDefaultCommands() {
-    // drivetrainSubsystem.setDefaultCommand(
-    //     new RunCommand(
-    //         () -> drivetrainSubsystem.drive(
-    //             -Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond,
-    //             -Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond,
-    //             -Buttons.rotateSupplier.getAsDouble()*DriveConstants.kTeleopRotationalSpeed,
-    //             true),
-    //         drivetrainSubsystem));
+    drivetrainSubsystem.setDefaultCommand(
+        new RunCommand(
+            () -> drivetrainSubsystem.drive(
+                -Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond,
+                -Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond,
+                -Buttons.rotateSupplier.getAsDouble()*DriveConstants.kTeleopRotationalSpeed,
+                true),
+            drivetrainSubsystem));
     intakeSubsystem.setDefaultCommand(
       new RunCommand(
-        () -> intakeSubsystem.setGroundIntakeMotorSpeed(Buttons.deaden(Buttons.XboxController.getRightY(),GamepadConstants.kDeadZone) * 0.3), 
-        intakeSubsystem)
-    );
-    // hangSubsystem.setDefaultCommand(
-    //   new ParallelCommandGroup(
-    //     new RunCommand(
-    //     () -> hangSubsystem.setLeftHangMotorSpeed(Buttons.deaden(Buttons.primaryJoystick.getRightY(),GamepadConstants.kDeadZone) * 0.1), 
-    //     intakeSubsystem)
-    //     // new RunCommand(
-    //     // () -> hangSubsystem.setRightHangMotorSpeed(Buttons.deaden(Buttons.primaryJoystick.getLeftY(),GamepadConstants.kDeadZone) * 0.1), 
-    //     // intakeSubsystem)
-    //   )
-    // );
+        () -> intakeSubsystem.setGroundIntakeMotorSpeed(
+          Buttons.deaden(Buttons.XboxController.getRightY(),GamepadConstants.kDeadZone) * 0.3), 
+        intakeSubsystem));
   }
 
   /**

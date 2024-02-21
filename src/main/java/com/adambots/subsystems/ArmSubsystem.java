@@ -46,8 +46,8 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderMotor.setInverted(false);
     wristMotor.setInverted(false);
 
-    shoulderMotor.setNeutralMode(true);
-    wristMotor.setNeutralMode(true);
+    shoulderMotor.setNeutralMode(false);
+    wristMotor.setNeutralMode(false);
 
     shoulderPID.enableContinuousInput(0, 360);
     wristPID.enableContinuousInput(0, 360);
@@ -55,6 +55,8 @@ public class ArmSubsystem extends SubsystemBase {
     Dash.add("Shoulder Encoder", () -> getCurrentShoulderAngle());
     Dash.add("Wrist Encoder", () -> getCurrentWristAngle());
     Dash.add("wristSpeed", () ->  wristMotor.getVelocity());
+
+    Dash.add("Arm Fwd Lim", () -> shoulderMotor.getForwardLimit());
   }
 
   public void incrementShoulderAngle(double shoulderIncrement) {
@@ -92,7 +94,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     failSafes();
 
-    wristSpeed = MathUtil.clamp(wristSpeed, -0.3, 0.3);
+    shoulderSpeed = MathUtil.clamp(shoulderSpeed, -ArmConstants.maxShoulderSpeed, ArmConstants.maxShoulderSpeed);
+    wristSpeed = MathUtil.clamp(wristSpeed, -ArmConstants.maxWristSpeed, ArmConstants.maxWristSpeed);
 
     // shoulderMotor.set(shoulderSpeed);
     // wristMotor.set(wristSpeed);

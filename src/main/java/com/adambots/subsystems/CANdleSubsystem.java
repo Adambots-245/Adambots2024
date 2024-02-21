@@ -74,14 +74,11 @@ public class CANdleSubsystem extends SubsystemBase {
   private double vbatOutput = 0.0;
   private int candleChannel;
   private boolean animDirection = true;
-  private boolean setAnim;
+  private boolean setAnim = false;
   private double animateSpeed = 0.1;
 
   public CANdleSubsystem(CANdle candleDevice) {
     this.candle = candleDevice;
-
-    changeAnimation(AnimationTypes.SetAll);
-    setColor(LEDConstants.adambotsYellow); //Adambots Yellow
 
     CANdleConfiguration configAll = new CANdleConfiguration();
     configAll.statusLedOffWhenActive = true;
@@ -91,6 +88,10 @@ public class CANdleSubsystem extends SubsystemBase {
     configAll.vBatOutputMode = VBatOutputMode.Modulated;
 
     candleDevice.configAllSettings(configAll, 100);
+
+    clearAllAnims();
+    changeAnimation(AnimationTypes.SetAll);
+    setColor(LEDConstants.adambotsYellow); //Adambots Yellow
   }
 
   public void setColor(Color color) {

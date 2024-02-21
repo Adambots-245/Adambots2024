@@ -4,40 +4,36 @@
 
 package com.adambots.commands.hangCommands;
 
+import com.adambots.sensors.Gyro;
 import com.adambots.subsystems.HangSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class RunHangCommand extends Command {
+public class HangLevelCommand extends Command {
   private HangSubsystem hangSubsystem;
-  private double speed;
-  private int inc = 0;
+  private Gyro gyro;
+  private double speed = 0.25;
 
-  public RunHangCommand(HangSubsystem hangSubsystem, double speed) {
+  public HangLevelCommand(HangSubsystem hangSubsystem, Gyro gyro) {
     addRequirements(hangSubsystem);
 
     this.hangSubsystem = hangSubsystem;
-    this.speed = speed;
+    this.gyro = gyro;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (speed > 0) {
-      hangSubsystem.setSolenoids(true); //Engage solenoids if we are running in the direction they are needed.
-    }
-    inc = 0;
+    hangSubsystem.setSolenoids(false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    inc++;
+    double gyroFactor = gyro.getPitch()*0.07; //TODO: determing if this should be pitch or roll
 
-    if (inc >= 20) { //Wait for the solenoids to engage before moving
-      hangSubsystem.setLeftMotorSpeed(speed);
-      hangSubsystem.setRightMotorSpeed(speed);
-    }
+    hangSubsystem.setLeftMotorSpeed(speed+gyroFactor);
+    hangSubsystem.setRightMotorSpeed(speed-gyroFactor);
   }
 
   // Called once the command ends or is interrupted.
@@ -45,13 +41,12 @@ public class RunHangCommand extends Command {
   public void end(boolean interrupted) {
     hangSubsystem.setLeftMotorSpeed(0);
     hangSubsystem.setRightMotorSpeed(0);
-
-    hangSubsystem.setSolenoids(false);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    //Finish when one of the motors is fully retracted and the robot is level
+    return (hangSubsystem.getLeftMotorPosition() <= 0 || hangSubsystem.getRightMotorPosition() <= 0) && Math.abs(gyro.getRoll()) < 5;
   }
 }
