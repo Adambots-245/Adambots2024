@@ -132,8 +132,8 @@ public class RobotContainer {
     Buttons.XboxRightBumper.whileTrue(new RunRightHangCommand(hangSubsystem, -0.25)); //Run right winch in
 
     //These commands do automatically engage solenoids if you are running the winches out (and leaves time for solenoids to engage)
-    Buttons.XboxBackButton.whileTrue(new RunHangCommand(hangSubsystem, 0.25)); //Drops robot down
-    Buttons.XboxStartButton.whileTrue(new RunHangCommand(hangSubsystem, -0.25)); //Lifts robot up (auto engages solenoids)
+    Buttons.XboxBackButton.whileTrue(new RunHangCommand(hangSubsystem, 0.25)); //Drops robot down (auto engages solenoids)
+    Buttons.XboxStartButton.whileTrue(new RunHangCommand(hangSubsystem, -0.25)); //Lifts robot up
 
 
     //Xbox DPad Bindings
