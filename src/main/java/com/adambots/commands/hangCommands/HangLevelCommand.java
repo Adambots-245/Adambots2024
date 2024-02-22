@@ -7,12 +7,13 @@ package com.adambots.commands.hangCommands;
 import com.adambots.sensors.Gyro;
 import com.adambots.subsystems.HangSubsystem;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class HangLevelCommand extends Command {
   private HangSubsystem hangSubsystem;
   private Gyro gyro;
-  private double speed = 0.25;
+  private double speed = -0.25;
 
   public HangLevelCommand(HangSubsystem hangSubsystem, Gyro gyro) {
     addRequirements(hangSubsystem);
@@ -30,10 +31,10 @@ public class HangLevelCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double gyroFactor = gyro.getPitch()*0.07; //TODO: determing if this should be pitch or roll
+    double gyroFactor = gyro.getPitch()*0.07; //TODO: determing if this should be pitch or roll, and positive or negative
 
-    hangSubsystem.setLeftMotorSpeed(speed+gyroFactor);
-    hangSubsystem.setRightMotorSpeed(speed-gyroFactor);
+    hangSubsystem.setLeftMotorSpeed(MathUtil.clamp(speed+gyroFactor, -1, 0));
+    hangSubsystem.setRightMotorSpeed(MathUtil.clamp(speed-gyroFactor, -1, 0));
   }
 
   // Called once the command ends or is interrupted.
