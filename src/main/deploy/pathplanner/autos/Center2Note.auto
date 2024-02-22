@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.82,
-      "y": 6.74
+      "x": 1.3842846515935527,
+      "y": 5.53
     },
-    "rotation": 51.5
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -46,7 +46,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Basic2Path"
+                        "pathName": "CenterPickup1"
                       }
                     }
                   ]
