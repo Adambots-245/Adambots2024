@@ -121,7 +121,8 @@ public final class Constants {
 
     public static final class ArmConstants{
         // Shoulder Limits
-        public static final double maxShoulderSpeed = 1; //1.0
+        public static final double maxShoulderUpSpeed = 1; //1.0
+        public static final double maxShoulderDownSpeed = 0.5; //0.5
         public static final double shoulderLowerLimit = 115;
         public static final double shoulderDangerZoneThreshold = 153; //153 
         public static final double shoulderUpperLimit = 203;
@@ -136,26 +137,30 @@ public final class Constants {
         public static final double shoulderOffset = 0;
         public static final double wristOffset = 0;
         // Floor Pickup
-        public static final double floorWristAngle = 313 % 360;
-        public static final double floorShoulderAngle = 121.5 % 360;
+        public static final double floorWristAngle = 313;
+        public static final double floorShoulderAngle = 121.5;
         // Amp Scoring
-        public static final double ampWristAngle = (floorWristAngle - 24.5) % 360; //237.8
-        public static final double ampShoulderAngle = (floorShoulderAngle + 62.8) % 360; //181.6
+        public static final double ampWristAngle = 288.5;
+        public static final double ampShoulderAngle = 184.3;
         // Human Player Pickup
-        public static final double humanWristAngle = 310 % 360;
-        public static final double humanShoulderAngle = 180.3 % 360;
+        public static final double humanWristAngle = 310;
+        public static final double humanShoulderAngle = 180.3;
         // trap scoring
-        public static final double trapWristAngle = (floorWristAngle + 60) % 360;
-        public static final double trapShoulderAngle = (floorShoulderAngle + 66) % 360;
+        public static final double trapWristAngle = 373;
+        public static final double trapShoulderAngle = 187.5;
         // default
-        public static final double defaultWristAngle = (floorWristAngle - 110) % 360;
-        public static final double defaultShoulderAngle = (floorShoulderAngle + 41.8) % 360;
+        public static final double defaultWristAngle = 203;
+        public static final double defaultShoulderAngle = 163.3;
         // autonomous starting/speaker
-        public static final double speakerWristAngle = 243 % 360; //210.7
-        public static final double speakerShoulderAngle = (floorShoulderAngle + 84.9) % 360; //199.5
+        public static final double speakerWristAngle = 243;
+        public static final double speakerShoulderAngle = 206.4;
 
-        public static final double floorShootWristAngle = 322;
-        public static final double floorShootShoulderAngle = 125.7; 
+        // Center 2 note floor shoot
+        public static final double centerFloorShootWristAngle = 322;
+        public static final double centerfloorShootShoulderAngle = 125.7; 
+        // Top 2 note floor shoot
+        public static final double topFloorShootWristAngle = 325;
+        public static final double topfloorShootShoulderAngle = 125.7; 
 
         public static class State {
             private double wristAngle;
@@ -187,6 +192,7 @@ public final class Constants {
         public final static State trapState = new State(trapWristAngle, trapShoulderAngle, "trap");
         public final static State defaultState = new State(defaultWristAngle, defaultShoulderAngle, "default");
         public final static State speakerState = new State(speakerWristAngle, speakerShoulderAngle, "speaker");
-        public final static State floorShootState = new State(floorShootWristAngle, floorShootShoulderAngle, "floorShoot");
+        public final static State centerFloorShootState = new State(centerFloorShootWristAngle, centerfloorShootShoulderAngle, "centerFloorShoot");
+        public final static State topFloorShootState = new State(topFloorShootWristAngle, topfloorShootShoulderAngle, "topFloorShoot");
     }
 }

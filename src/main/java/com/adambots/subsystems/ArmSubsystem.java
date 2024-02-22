@@ -42,8 +42,6 @@ public class ArmSubsystem extends SubsystemBase {
 
     targetShoulderAngle = getCurrentShoulderAngle();
     targetWristAngle = getCurrentWristAngle();
-    // targetWristAngle = 180;
-
 
     shoulderMotor.setInverted(false);
     wristMotor.setInverted(false);
@@ -56,9 +54,13 @@ public class ArmSubsystem extends SubsystemBase {
 
     Dash.add("Shoulder Encoder", () -> getCurrentShoulderAngle());
     Dash.add("Wrist Encoder", () -> getCurrentWristAngle());
-    Dash.add("wristSpeed", () ->  wristMotor.getVelocity());
+    // Dash.add("wristSpeed", () ->  wristMotor.getVelocity());
 
-    Dash.add("Arm Fwd Lim", () -> shoulderMotor.getForwardLimitSwitch());
+    Dash.add("Shld Fwd Lim", () -> shoulderMotor.getForwardLimitSwitch());
+    Dash.add("Shld Rev Lim", () -> shoulderMotor.getReverseLimitSwitch());
+
+    Dash.add("Wrst Fwd Lim", () -> wristMotor.getForwardLimitSwitch());
+    Dash.add("Wrst Rev Lim", () -> wristMotor.getReverseLimitSwitch());
   }
 
   public void incrementShoulderAngle(double shoulderIncrement) {
@@ -96,7 +98,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     failSafes();
 
-    shoulderSpeed = MathUtil.clamp(shoulderSpeed, -0.5, ArmConstants.maxShoulderSpeed);
+    shoulderSpeed = MathUtil.clamp(shoulderSpeed, -ArmConstants.maxShoulderDownSpeed, ArmConstants.maxShoulderUpSpeed);
     wristSpeed = MathUtil.clamp(wristSpeed, -ArmConstants.maxWristSpeed, ArmConstants.maxWristSpeed);
 
     shoulderMotor.set(shoulderSpeed);

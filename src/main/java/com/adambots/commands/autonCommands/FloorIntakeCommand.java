@@ -4,30 +4,32 @@
 
 package com.adambots.commands.autonCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
-
 import com.adambots.Constants.ArmConstants;
-import com.adambots.Constants.VisionConstants;
+import com.adambots.Constants.ArmConstants.State;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
-import com.adambots.utils.VisionHelpers;
+
+import edu.wpi.first.wpilibj2.command.Command;
 
 
-public class FloorIntakeAndShootCommand extends Command {
+public class FloorIntakeCommand extends Command {
   /** Creates a new IntakeWithAdjustCommand. */
   ArmSubsystem armSubsystem;
   IntakeSubsystem intakeSubsystem;
   ShooterSubsystem shooterSubsystem;
 
-  private String state = "initial";
+  State shootState;
 
-  public FloorIntakeAndShootCommand(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
+  // private String state = "initial";
+
+  public FloorIntakeCommand(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, State shootState) {
     addRequirements(armSubsystem, intakeSubsystem, shooterSubsystem);
 
     this.armSubsystem = armSubsystem;
     this.intakeSubsystem = intakeSubsystem;
     this.shooterSubsystem = shooterSubsystem;
+    this.shootState = shootState;
   }
 
   // Called when the command is initially scheduled.
@@ -52,10 +54,9 @@ public class FloorIntakeAndShootCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    armSubsystem.setCurrentState(ArmConstants.floorShootState);
-
     intakeSubsystem.setGroundIntakeMotorSpeed(0);
-    VisionHelpers.blinkLight(VisionConstants.noteLimelite);
+    armSubsystem.setCurrentState(shootState);
+
     shooterSubsystem.setWheelSpeed(1);
   }
 

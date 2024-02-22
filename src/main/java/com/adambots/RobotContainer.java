@@ -1,5 +1,6 @@
 package com.adambots;
 
+import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.GamepadConstants;
 import com.adambots.Constants.VisionConstants;
@@ -11,15 +12,12 @@ import com.adambots.commands.armCommands.PrimeShooterCommand;
 import com.adambots.commands.armCommands.RetractShooterCommand;
 import com.adambots.commands.armCommands.RotateShoulderCommand;
 import com.adambots.commands.armCommands.RotateWristCommand;
-import com.adambots.commands.autonCommands.FloorIntakeAndShootCommand;
-import com.adambots.commands.intakeCommands.IntakeWithAdjustCommand;
-import com.adambots.commands.hangCommands.HangLevelCommand;
+import com.adambots.commands.autonCommands.FloorIntakeCommand;
 import com.adambots.commands.hangCommands.RunHangCommand;
 import com.adambots.commands.hangCommands.RunLeftHangCommand;
 import com.adambots.commands.hangCommands.RunRightHangCommand;
 import com.adambots.commands.intakeCommands.FeedShooterCommand;
-import com.adambots.commands.visionCommands.AlignRotateCommand;
-import com.adambots.commands.visionCommands.PathPlannerAlign;
+import com.adambots.commands.intakeCommands.IntakeWithAdjustCommand;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
@@ -31,7 +29,6 @@ import com.adambots.utils.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -39,7 +36,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
 /**
@@ -66,8 +62,6 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    DriverStation.silenceJoystickConnectionWarning(true);
-
     // Configure commands to run periodically during robot operation
     setupDefaultCommands();
 
@@ -129,7 +123,9 @@ public class RobotContainer {
     // Buttons.JoystickButton6.onTrue(new HangLevelCommand(hangSubsystem, RobotMap.gyro)); //TODO: Test carefully
     Buttons.JoystickButton7.onTrue(new InstantCommand(() -> hangSubsystem.resetEncoders())); //Encoders should be reset where rods are within frame perim
     Buttons.XboxLeftStickButton.onTrue(new InstantCommand(() -> shooterSubsystem.setWheelSpeed(1)));
-    // Buttons.XboxLeftStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setSolenoids(false)));
+    Buttons.XboxRightStickButton.onTrue(new InstantCommand(() -> shooterSubsystem.setWheelSpeed(0)));
+    // Buttons.XboxLeftStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setSolenoids(true)));
+    // Buttons.XboxRightStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setSolenoids(false)));
 
 
     //THESE COMMANDS DO NOT AUTO ENGAGE SOLENOIDS - which is why they are negative, where the solenoid should be left unpowered
@@ -151,19 +147,15 @@ public class RobotContainer {
 
 
   private void registerNamedCommands() {
-    NamedCommands.registerCommand("TestCommand1", new PrintCommand("Test1!"));
     NamedCommands.registerCommand("PrimeShooterCommand", new PrimeShooterCommand(armSubsystem, shooterSubsystem));
     NamedCommands.registerCommand("FeedShooterCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem));
     NamedCommands.registerCommand("IntakeWithAdjustCommand", new IntakeWithAdjustCommand(armSubsystem, intakeSubsystem));
-    NamedCommands.registerCommand("FloorIntakeAndShootCommand", new FloorIntakeAndShootCommand(armSubsystem, intakeSubsystem, shooterSubsystem));
+    NamedCommands.registerCommand("CenterFloorIntakeCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.centerFloorShootState));
+    NamedCommands.registerCommand("TopFloorIntakeCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.topFloorShootState));
   }
 
   private void setupDashboard() {    
     autoChooser = AutoBuilder.buildAutoChooser();
-    // cANdleSubsystem.configBrightness(1);
-    // cANdleSubsystem.clearAllAnims();
-    // cANdleSubsystem.setColor(LEDConstants.yellow);
-    // cANdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.Larson);
 
     //Adds various data to the dashboard that is useful for driving and debugging
     SmartDashboard.putData("Auton Mode", autoChooser);
@@ -181,8 +173,7 @@ public class RobotContainer {
     // Dash.add("pitch", () -> RobotMap.GyroSensor.getPitch());
     // Dash.add("roll", () -> RobotMap.GyroSensor.getRoll());
 
-    Dash.add("IntakeSpeed", () -> intakeSubsystem.getIntakeSpeed());
-
+    // Dash.add("IntakeSpeed", () -> intakeSubsystem.getIntakeSpeed());
 
     Dash.add("ClassName", VisionHelpers.getClassName(VisionConstants.noteLimelite));
     // Dash.add("XLocation", () -> VisionHelpers.getXLocation());

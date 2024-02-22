@@ -5,7 +5,6 @@
 package com.adambots.subsystems;
 
 import com.adambots.Constants.HangConstants;
-import com.adambots.sensors.PhotoEye;
 import com.adambots.utils.BaseMotor;
 import com.adambots.utils.Dash;
 

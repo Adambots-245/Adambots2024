@@ -5,25 +5,21 @@
 package com.adambots.subsystems;
 
 import java.util.HashMap;
-import java.util.Optional;
 
 import com.adambots.Constants;
-import com.adambots.RobotMap;
 import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.DriveConstants;
-import com.adambots.Constants.VisionConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
+import com.adambots.RobotMap;
 import com.adambots.sensors.Gyro;
 import com.adambots.utils.ModuleMap;
 import com.adambots.utils.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -72,6 +68,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // PPHolonomicDriveController.setRotationTargetOverride(this::getRotationTargetAprilOverride);
   }
 
+  /*
   public Optional<Rotation2d> getRotationTargetNoteOverride(){
     if(VisionHelpers.isDetected(VisionConstants.noteLimelite)) {
       // Return an optional containing the rotation override (this should be a field relative rotation)
@@ -91,6 +88,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
       return Optional.empty();
     }
   }
+   */
 
   @Override
   public void periodic() {
