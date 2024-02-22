@@ -68,7 +68,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         this // Reference to this subsystem to set requirements
     );
 
-    PPHolonomicDriveController.setRotationTargetOverride(this::getRotationTargetNoteOverride);
+    // PPHolonomicDriveController.setRotationTargetOverride(this::getRotationTargetNoteOverride);
     // PPHolonomicDriveController.setRotationTargetOverride(this::getRotationTargetAprilOverride);
   }
 

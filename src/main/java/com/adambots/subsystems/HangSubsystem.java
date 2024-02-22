@@ -23,7 +23,7 @@ public class HangSubsystem extends SubsystemBase {
   // PhotoEye leftLimit;
   // PhotoEye rightLimit;
 
-  public HangSubsystem(BaseMotor leftHangMotor, BaseMotor rightHangMotor, Relay leftRelay, Relay rightRelay) {
+  public HangSubsystem(BaseMotor leftHangMotor, BaseMotor rightHangMotor, Relay rightRelay, Relay leftRelay) {
     this.leftHangMotor = leftHangMotor;
     this.rightHangMotor = rightHangMotor;
     this.leftRelay = leftRelay;
@@ -73,6 +73,7 @@ public class HangSubsystem extends SubsystemBase {
       leftRelay.set(Value.kOn);
       rightRelay.set(Value.kOn);
     } else{
+
       leftRelay.set(Value.kOff);
       rightRelay.set(Value.kOff);
     }

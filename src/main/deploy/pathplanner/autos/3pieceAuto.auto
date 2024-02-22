@@ -10,30 +10,6 @@
           "data": {
             "pathName": "pickup1"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "TestCommand1"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "return1"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "pickup2"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "return2"
-          }
         }
       ]
     }

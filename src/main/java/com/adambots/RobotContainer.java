@@ -11,11 +11,13 @@ import com.adambots.commands.armCommands.PrimeShooterCommand;
 import com.adambots.commands.armCommands.RetractShooterCommand;
 import com.adambots.commands.armCommands.RotateShoulderCommand;
 import com.adambots.commands.armCommands.RotateWristCommand;
+import com.adambots.commands.autonCommands.FloorIntakeAndShootCommand;
+import com.adambots.commands.intakeCommands.IntakeWithAdjustCommand;
 import com.adambots.commands.hangCommands.HangLevelCommand;
 import com.adambots.commands.hangCommands.RunHangCommand;
 import com.adambots.commands.hangCommands.RunLeftHangCommand;
 import com.adambots.commands.hangCommands.RunRightHangCommand;
-import com.adambots.commands.intakeCommands.IntakeWithAdjustCommand;
+import com.adambots.commands.intakeCommands.FeedShooterCommand;
 import com.adambots.commands.visionCommands.AlignRotateCommand;
 import com.adambots.commands.visionCommands.PathPlannerAlign;
 import com.adambots.subsystems.ArmSubsystem;
@@ -126,6 +128,9 @@ public class RobotContainer {
     //Temporary Hang Commands
     // Buttons.JoystickButton6.onTrue(new HangLevelCommand(hangSubsystem, RobotMap.gyro)); //TODO: Test carefully
     Buttons.JoystickButton7.onTrue(new InstantCommand(() -> hangSubsystem.resetEncoders())); //Encoders should be reset where rods are within frame perim
+    Buttons.XboxLeftStickButton.onTrue(new InstantCommand(() -> shooterSubsystem.setWheelSpeed(1)));
+    // Buttons.XboxLeftStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setSolenoids(false)));
+
 
     //THESE COMMANDS DO NOT AUTO ENGAGE SOLENOIDS - which is why they are negative, where the solenoid should be left unpowered
     Buttons.XboxLeftBumper.whileTrue(new RunLeftHangCommand(hangSubsystem, -0.25)); //Run left winch in 
@@ -138,7 +143,7 @@ public class RobotContainer {
 
     //Xbox DPad Bindings
     Buttons.XboxDPadN.whileTrue(new RotateShoulderCommand(armSubsystem,1, true));
-    Buttons.XboxDPadS.whileTrue(new RotateShoulderCommand(armSubsystem, -0.1, true));
+    Buttons.XboxDPadS.whileTrue(new RotateShoulderCommand(armSubsystem, -1, true));
     
     Buttons.XboxDPadE.whileTrue(new RotateWristCommand(armSubsystem, -0.5, true));
     Buttons.XboxDPadW.whileTrue(new RotateWristCommand(armSubsystem, 0.5, true));
@@ -147,6 +152,10 @@ public class RobotContainer {
 
   private void registerNamedCommands() {
     NamedCommands.registerCommand("TestCommand1", new PrintCommand("Test1!"));
+    NamedCommands.registerCommand("PrimeShooterCommand", new PrimeShooterCommand(armSubsystem, shooterSubsystem));
+    NamedCommands.registerCommand("FeedShooterCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem));
+    NamedCommands.registerCommand("IntakeWithAdjustCommand", new IntakeWithAdjustCommand(armSubsystem, intakeSubsystem));
+    NamedCommands.registerCommand("FloorIntakeAndShootCommand", new FloorIntakeAndShootCommand(armSubsystem, intakeSubsystem, shooterSubsystem));
   }
 
   private void setupDashboard() {    
@@ -168,7 +177,7 @@ public class RobotContainer {
 
     Dash.add("odom x", () -> drivetrainSubsystem.getPose().getX());
     Dash.add("odom y", () -> drivetrainSubsystem.getPose().getY());
-    // Dash.add("yaw", () -> RobotMap.gyro.getAngle());
+    Dash.add("yaw", () -> RobotMap.gyro.getContinuousYawDeg());
     // Dash.add("pitch", () -> RobotMap.GyroSensor.getPitch());
     // Dash.add("roll", () -> RobotMap.GyroSensor.getRoll());
 
@@ -197,7 +206,7 @@ public class RobotContainer {
     intakeSubsystem.setDefaultCommand(
       new RunCommand(
         () -> intakeSubsystem.setGroundIntakeMotorSpeed(
-          Buttons.deaden(Buttons.XboxController.getRightY(),GamepadConstants.kDeadZone) * 0.3), 
+          Buttons.deaden(Buttons.XboxController.getRightY(),GamepadConstants.kDeadZone) * 0.12), 
         intakeSubsystem));
   }
 

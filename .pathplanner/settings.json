@@ -1,10 +1,11 @@
 {
-  "robotWidth": 0.61,
-  "robotLength": 0.61,
+  "robotWidth": 0.91,
+  "robotLength": 0.91,
   "holonomicMode": true,
   "pathFolders": [
     "3 Piece Auto",
-    "3 Piece Close Auto"
+    "3 Piece Close Auto",
+    "New Folder"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,

@@ -65,11 +65,12 @@ public class TalonFXMotor extends BaseMotor{
         return motor.getTorqueCurrent().getValueAsDouble();
     }
 
-
+    @Override
     public boolean getForwardLimitSwitch() {
         return motor.getForwardLimit().getValueAsDouble() == 1;
     }
 
+    @Override
     public boolean getReverseLimitSwitch() {
         return motor.getReverseLimit().getValueAsDouble() == 1;
     }

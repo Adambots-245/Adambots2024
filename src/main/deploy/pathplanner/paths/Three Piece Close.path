@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5053519119246896,
-        "y": 6.454465827910569
+        "x": 0.3185985259274356,
+        "y": 6.347273407813577
       },
       "isLocked": false,
       "linkedName": null
@@ -129,6 +129,16 @@
     {
       "name": "Third Piece",
       "waypointRelativePos": 4.95,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    },
+    {
+      "name": "Preload Piece",
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "parallel",
         "data": {

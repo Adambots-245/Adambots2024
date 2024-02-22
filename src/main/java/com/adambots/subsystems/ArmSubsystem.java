@@ -20,8 +20,8 @@ public class ArmSubsystem extends SubsystemBase {
   BaseMotor wristMotor;
   DutyCycleEncoder shoulderEncoder;
   DutyCycleEncoder wristEncoder;
-  PIDController shoulderPID = new PIDController(0.013, 0.000055, 0.00027);
-  PIDController wristPID = new PIDController(0.013, 0, 0.00015);
+  PIDController shoulderPID = new PIDController(0.013, 0.000055, 0.001); //.00005
+  PIDController wristPID = new PIDController(0.009, 0, 0.00036);
 
   double shoulderLowerLimit = ArmConstants.shoulderLowerLimit;
   double shoulderUpperLimit = ArmConstants.shoulderUpperLimit;
@@ -42,12 +42,14 @@ public class ArmSubsystem extends SubsystemBase {
 
     targetShoulderAngle = getCurrentShoulderAngle();
     targetWristAngle = getCurrentWristAngle();
+    // targetWristAngle = 180;
+
 
     shoulderMotor.setInverted(false);
     wristMotor.setInverted(false);
 
-    shoulderMotor.setNeutralMode(false);
-    wristMotor.setNeutralMode(false);
+    shoulderMotor.setNeutralMode(true);
+    wristMotor.setNeutralMode(true);
 
     shoulderPID.enableContinuousInput(0, 360);
     wristPID.enableContinuousInput(0, 360);
@@ -56,7 +58,7 @@ public class ArmSubsystem extends SubsystemBase {
     Dash.add("Wrist Encoder", () -> getCurrentWristAngle());
     Dash.add("wristSpeed", () ->  wristMotor.getVelocity());
 
-    Dash.add("Arm Fwd Lim", () -> shoulderMotor.getForwardLimit());
+    Dash.add("Arm Fwd Lim", () -> shoulderMotor.getForwardLimitSwitch());
   }
 
   public void incrementShoulderAngle(double shoulderIncrement) {
@@ -94,13 +96,13 @@ public class ArmSubsystem extends SubsystemBase {
 
     failSafes();
 
-    shoulderSpeed = MathUtil.clamp(shoulderSpeed, -ArmConstants.maxShoulderSpeed, ArmConstants.maxShoulderSpeed);
+    shoulderSpeed = MathUtil.clamp(shoulderSpeed, -0.5, ArmConstants.maxShoulderSpeed);
     wristSpeed = MathUtil.clamp(wristSpeed, -ArmConstants.maxWristSpeed, ArmConstants.maxWristSpeed);
 
-    // shoulderMotor.set(shoulderSpeed);
-    // wristMotor.set(wristSpeed);
-    shoulderMotor.set(0);
-    wristMotor.set(0);
+    shoulderMotor.set(shoulderSpeed);
+    wristMotor.set(wristSpeed);
+    // shoulderMotor.set(0);
+    // wristMotor.set(0);
   }
 
   private void failSafes() {

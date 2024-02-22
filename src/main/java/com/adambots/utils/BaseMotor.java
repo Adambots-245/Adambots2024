@@ -26,8 +26,8 @@ public abstract class BaseMotor {
 
     public double getCurrentDraw(){System.err.println("WARNING: Functionality for this method has not been implemented."); return 0;}
 
-    public Boolean getForwardLimit(){System.err.println("WARNING: Functionality for this method has not been implemented."); return false;}
+    public boolean getForwardLimitSwitch(){System.err.println("WARNING: Functionality for this method has not been implemented."); return false;}
     
-    public Boolean getReverseLimit(){System.err.println("WARNING: Functionality for this method has not been implemented."); return false;}
+    public boolean getReverseLimitSwitch(){System.err.println("WARNING: Functionality for this method has not been implemented."); return false;}
 
 }

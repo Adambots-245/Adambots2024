@@ -99,8 +99,8 @@ public class RobotMap {
     public static final PhotoEye firstPieceInRobotEye = new PhotoEye(firstPieceInRobotEyePort, false);
 
     // Hang Devices
-    public static final TalonFXMotor leftHangMotor = new TalonFXMotor(leftHangMotorPort, false);
-    public static final TalonFXMotor rightHangMotor = new TalonFXMotor(rightHangMotorPort, false);
+    public static final BaseMotor leftHangMotor = new TalonFXMotor(leftHangMotorPort, false);
+    public static final BaseMotor rightHangMotor = new TalonFXMotor(rightHangMotorPort, false);
     public static final Relay leftHangRelay = new Relay(leftHangRelayPort);
     public static final Relay rightHangRelay = new Relay(rightHangRelayPort);
 //     public static final PhotoEye leftHangLimit = new PhotoEye(leftHangLimitPort, false);
