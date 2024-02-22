@@ -3,6 +3,7 @@ package com.adambots;
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.GamepadConstants;
+import com.adambots.Constants.ShooterConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.Gamepad.Buttons;
 import com.adambots.commands.AdaptiveScoreCommand;
@@ -121,6 +122,7 @@ public class RobotContainer {
 
     //Temporary Hang Commands
     // Buttons.JoystickButton6.onTrue(new HangLevelCommand(hangSubsystem, RobotMap.gyro)); //TODO: Test carefully
+    Buttons.JoystickButton5.onTrue(new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.speakerState))); //Encoders should be reset where rods are within frame perim
     Buttons.JoystickButton7.onTrue(new InstantCommand(() -> hangSubsystem.resetEncoders())); //Encoders should be reset where rods are within frame perim
     Buttons.XboxLeftStickButton.onTrue(new InstantCommand(() -> shooterSubsystem.setWheelSpeed(1)));
     Buttons.XboxRightStickButton.onTrue(new InstantCommand(() -> shooterSubsystem.setWheelSpeed(0)));
@@ -148,7 +150,8 @@ public class RobotContainer {
 
   private void registerNamedCommands() {
     NamedCommands.registerCommand("PrimeShooterCommand", new PrimeShooterCommand(armSubsystem, shooterSubsystem));
-    NamedCommands.registerCommand("FeedShooterCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem));
+    NamedCommands.registerCommand("FeedShooterCloseCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem, ShooterConstants.lowSpeed));
+    NamedCommands.registerCommand("FeedShooterFarCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem, ShooterConstants.highSpeed));
     NamedCommands.registerCommand("IntakeWithAdjustCommand", new IntakeWithAdjustCommand(armSubsystem, intakeSubsystem));
     NamedCommands.registerCommand("CenterFloorIntakeCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.centerFloorShootState));
     NamedCommands.registerCommand("TopFloorIntakeCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.topFloorShootState));

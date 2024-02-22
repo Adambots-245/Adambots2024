@@ -20,7 +20,13 @@
         {
           "type": "named",
           "data": {
-            "name": "FeedShooterCommand"
+            "name": "FeedShooterCloseCommand"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.15
           }
         },
         {
@@ -40,7 +46,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.75
+                        "waitTime": 0.75
                       }
                     },
                     {
@@ -56,15 +62,9 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "FeedShooterCommand"
+            "name": "FeedShooterFarCommand"
           }
         }
       ]

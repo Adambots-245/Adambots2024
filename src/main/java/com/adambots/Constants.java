@@ -119,18 +119,25 @@ public final class Constants {
         public static final double maxExtension = 131;
     }
 
+    public static final class ShooterConstants{
+        public static final double lowSpeed = 60;
+        public static final double highSpeed = 87;
+    }
+
     public static final class ArmConstants{
         // Shoulder Limits
-        public static final double maxShoulderUpSpeed = 1; //1.0
-        public static final double maxShoulderDownSpeed = 0.5; //0.5
+        public static final double maxShoulderUpSpeed = 0.4; //1.0
+        public static final double maxShoulderDownSpeed = 0.4; //0.5
+        public static final double maxShoulderDownSpeedNitro = 0.85;
         public static final double shoulderLowerLimit = 115;
-        public static final double shoulderDangerZoneThreshold = 153; //153 
+        public static final double shoulderDangerZoneThreshold = 155; //153 
         public static final double shoulderUpperLimit = 203;
 
         // Wrist Limits
         public static final double maxWristSpeed = 0.3; //0.3
         public static final double wristLowerLimit = 160;
-        public static final double wristDangerZoneLowerLimit = 300;
+        public static final double wristDangerZoneLowerLimit = 307;
+        public static final double wristShoulderStopLimit = 263;
         public static final double wristUpperLimit = 338;
 
         // Arm Angle Offset
@@ -149,8 +156,8 @@ public final class Constants {
         public static final double trapWristAngle = 373;
         public static final double trapShoulderAngle = 187.5;
         // default
-        public static final double defaultWristAngle = 203;
-        public static final double defaultShoulderAngle = 163.3;
+        public static final double defaultWristAngle = 197;
+        public static final double defaultShoulderAngle = 160.5;
         // autonomous starting/speaker
         public static final double speakerWristAngle = 243;
         public static final double speakerShoulderAngle = 206.4;
