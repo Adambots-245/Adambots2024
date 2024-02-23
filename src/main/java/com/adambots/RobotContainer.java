@@ -37,6 +37,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
 /**
@@ -150,11 +151,14 @@ public class RobotContainer {
 
   private void registerNamedCommands() {
     NamedCommands.registerCommand("PrimeShooterCommand", new PrimeShooterCommand(armSubsystem, shooterSubsystem));
+
     NamedCommands.registerCommand("FeedShooterCloseCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem, ShooterConstants.lowSpeed));
     NamedCommands.registerCommand("FeedShooterFarCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem, ShooterConstants.highSpeed));
-    NamedCommands.registerCommand("IntakeWithAdjustCommand", new IntakeWithAdjustCommand(armSubsystem, intakeSubsystem));
+
     NamedCommands.registerCommand("CenterFloorIntakeCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.centerFloorShootState));
     NamedCommands.registerCommand("TopFloorIntakeCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.topFloorShootState));
+
+    NamedCommands.registerCommand("PrintCommand",new PrintCommand("Path Following Finished"));
   }
 
   private void setupDashboard() {    
