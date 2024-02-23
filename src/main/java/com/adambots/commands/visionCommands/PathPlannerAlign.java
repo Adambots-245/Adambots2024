@@ -3,6 +3,7 @@ import java.util.List;
 
 import com.adambots.Constants.VisionConstants;
 import com.adambots.subsystems.DrivetrainSubsystem;
+import com.adambots.utils.Dash;
 import com.adambots.utils.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.GoalEndState;
@@ -23,6 +24,7 @@ public class PathPlannerAlign extends Command {
   public PathPlannerAlign(DrivetrainSubsystem driveTrainSubsystem) {
     addRequirements(driveTrainSubsystem);
     this.driveTrainSubsystem = driveTrainSubsystem;
+    Dash.add("April Tag ID", () -> VisionHelpers.getAprilTagID());
   }
 
   @Override
@@ -34,7 +36,7 @@ public class PathPlannerAlign extends Command {
     Pose2d startPos = new Pose2d(currentPos.getTranslation(), currentPos.getRotation());
     // Adds distance from the current robot pose, to align to the desired target pos
     targetPos = VisionConstants.aprilTagRedPose2d;
-    Pose2d endPos = new Pose2d(currentPos.getTranslation().plus(new Translation2d(currentAprilPos.getTranslation().getX()-targetPos.getTranslation().getX(), currentAprilPos.getTranslation().getY() - targetPos.getTranslation().getY())), new Rotation2d());
+    Pose2d endPos = new Pose2d(currentPos.getTranslation().getX(), currentAprilPos.getTranslation().getY(), new Rotation2d());
     if (VisionHelpers.getAprilTagID() == 4){
       targetPos = VisionConstants.aprilTagRedPose2d;
       endPos = new Pose2d(currentPos.getTranslation().plus(new Translation2d(currentAprilPos.getTranslation().getX()-targetPos.getTranslation().getX(), currentAprilPos.getTranslation().getY() - targetPos.getTranslation().getY())), new Rotation2d());

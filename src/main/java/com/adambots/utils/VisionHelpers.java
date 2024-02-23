@@ -6,6 +6,7 @@ import com.adambots.utils.LimelightHelpers.LimelightTarget_Detector;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 
 public class VisionHelpers {
@@ -29,7 +30,9 @@ public class VisionHelpers {
     }
 
     public static int getAprilTagID() {
-        return (int) LimelightHelpers.getFiducialID(VisionConstants.aprilLimelite);
+        // return (int) LimelightHelpers.getFiducialID(VisionConstants.aprilLimelite);
+        return (int) NetworkTableInstance.getDefault().getTable(VisionConstants.aprilLimelite).getEntry("tid").getDouble(0);
+        // return null;
     }
 
     public static Pose2d getAprilTagBotPose2d() {
@@ -168,9 +171,5 @@ public class VisionHelpers {
 
     public static boolean isDetected(String limelight) {
         return LimelightHelpers.getTV(limelight);
-    }
-
-    public static double getDetectedResult(String limelight) {
-        return LimelightHelpers.getFiducialID(limelight);
     }
 }

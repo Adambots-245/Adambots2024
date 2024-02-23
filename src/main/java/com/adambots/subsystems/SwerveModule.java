@@ -113,6 +113,11 @@ public class SwerveModule {
     m_turningMotor.set(turnOutput);
   }
 
+  public void stopMotors() {
+    m_driveMotor.set(0);
+    m_turningMotor.set(0);
+  }
+
   /** Zeroes the SwerveModule drive encoders. */
   public void resetEncoders() {
     m_driveEncoder.setPosition(0);

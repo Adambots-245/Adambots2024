@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7059762690953959,
-      "y": 6.699372255887369
+      "x": 0.7159600556714989,
+      "y": 4.398375411623188
     },
-    "rotation": 60.0
+    "rotation": -60.0
   },
   "command": {
     "type": "sequential",
@@ -52,7 +52,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "TopPickup1"
+                        "pathName": "BottomPickup1"
                       }
                     },
                     {

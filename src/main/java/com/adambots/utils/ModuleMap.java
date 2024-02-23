@@ -80,4 +80,10 @@ public class ModuleMap {
     }
     return arr;
   }
+
+  public static void stopModules(HashMap<ModulePosition, SwerveModule> swerveModules) {
+    for (ModulePosition i : swerveModules.keySet()) {
+      swerveModules.get(i).stopMotors();
+    }
+  }
 }

@@ -17,11 +17,11 @@ public class AlignRotateCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
   private ArmSubsystem armSubsystem;
   private CANdleSubsystem caNdleSubsystem;
-  private final PIDController noteTurningPIDController = new PIDController(AutoConstants.kPThetaController, 0, AutoConstants.kDThetaController);
+  private final PIDController noteTurningPIDController = new PIDController(VisionConstants.kPThetaController, 0, VisionConstants.kDThetaController);
   // private final PIDController aprilTurningPIDController = new PIDController(0.08, 0, 0.03);
   private int alignedCount;
   private int notDetectedCount;
-  private final double filterSens = 0.1;
+  private final double filterSens = 0.70;
   private double oldRotate;
   private double newRotate;
   private double drive_output;
@@ -61,10 +61,14 @@ public class AlignRotateCommand extends Command {
     if (limelight == VisionConstants.noteLimelite){
       drive_output = noteTurningPIDController.calculate((double)(Math.round((Math.abs(Math.toRadians(newRotate)) / 100d))) / 100d, 0);
     } else{
-      drive_output = noteTurningPIDController.calculate((double)(Math.round((Math.abs(Math.toRadians(newRotate)) / 100d))) / 100d, 0);
+      // drive_output = noteTurningPIDController.calculate((double)(Math.round((Math.abs(Math.toRadians(newRotate)) / 100d))) / 100d, 0);
+            drive_output = noteTurningPIDController.calculate((double)(Math.abs(Math.toRadians(newRotate))), 0);
     }
+
+    // System.out.println(drive_output);
     //Checks to see if we have an object detected
-    if (VisionHelpers.isDetected(limelight) && armSubsystem.getCurrentStateName() == ArmConstants.floorState.getStateName()){
+    // if (VisionHelpers.isDetected(limelight) && armSubsystem.getCurrentStateName() == ArmConstants.floorState.getStateName()){
+    if (VisionHelpers.isDetected(limelight)){
       //Aligns differntly if it is field orientated or not
       if (fieldOrientated == true){
           //Moves left or right depending on the angle

@@ -41,6 +41,9 @@ public final class Constants {
 
         public static final double kpVertPID = 0.1;
         public static final double kdVertPID = 0.02;
+
+        public static final double kPThetaController = 3; 
+        public static final double kDThetaController = 0.01;
     }
 
     public static final class DriveConstants {
@@ -92,8 +95,8 @@ public final class Constants {
 
     public static final class AutoConstants {
         // PD values for auton X, Y translational movement
-        public static final double kPTranslationController = 12; 
-        public static final double kDTranslationController = 0.1;
+        public static final double kPTranslationController = 11; 
+        public static final double kDTranslationController = 0.11;
 
         // PD values for auton rotational movement
         public static final double kPThetaController = 1.7; 
@@ -120,7 +123,7 @@ public final class Constants {
     }
 
     public static final class ShooterConstants{
-        public static final double lowSpeed = 60;
+        public static final double lowSpeed = 37;
         public static final double highSpeed = 87;
     }
 
@@ -128,7 +131,7 @@ public final class Constants {
         // Shoulder Limits
         public static final double maxShoulderUpSpeed = 0.4; //1.0
         public static final double maxShoulderDownSpeed = 0.4; //0.5
-        public static final double maxShoulderDownSpeedNitro = 0.85;
+        public static final double maxShoulderDownSpeedNitro = 0.95;
         public static final double shoulderLowerLimit = 115;
         public static final double shoulderDangerZoneThreshold = 155; //153 
         public static final double shoulderUpperLimit = 203;
@@ -166,7 +169,7 @@ public final class Constants {
         public static final double centerFloorShootWristAngle = 322;
         public static final double centerfloorShootShoulderAngle = 125.7; 
         // Top 2 note floor shoot
-        public static final double topFloorShootWristAngle = 323.8;
+        public static final double topFloorShootWristAngle = 322.8;
         public static final double topfloorShootShoulderAngle = 125.7; 
 
         public static class State {

@@ -52,7 +52,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             new PIDConstants(AutoConstants.kPThetaController, 0, AutoConstants.kDThetaController),
             DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
             DriveConstants.kDrivebaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
-            new ReplanningConfig(true, false) // Default path replanning config. See the API for the options here
+            new ReplanningConfig(false, false) // Default path replanning config. See the API for the options here
         ), 
         () -> { //Flips path if on the red side of the field - ENSURE FIELD SIDE IS CORRECTLY SET IN DRIVERSTATION BEFORE TESTING AUTON
               var alliance = DriverStation.getAlliance();
@@ -168,6 +168,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * Stops the drivetrain
    */
   public void stop() {
-    setChassisSpeeds(new ChassisSpeeds(0, 0, 0));
+    ModuleMap.stopModules(swerveModules);
   }
 }
