@@ -35,10 +35,10 @@ public class FloorIntakeCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (!intakeSubsystem.isSecondPieceInRobot()) {
+    // if (!intakeSubsystem.isSecondPieceInRobot()) {
       armSubsystem.setCurrentState(ArmConstants.floorState);
       intakeSubsystem.setGroundIntakeMotorSpeed(0.17);
-    }
+    // }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

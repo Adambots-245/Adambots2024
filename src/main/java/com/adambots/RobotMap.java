@@ -63,8 +63,8 @@ public class RobotMap {
 
     // Intake Ports
     public static final int groundIntakeMotorPort = 6;
-    public static final int secondPieceInRobotEyePort = 6;
-    public static final int firstPieceInRobotEyePort = 8;
+    public static final int secondPieceInRobotEyePort = 8;
+    public static final int firstPieceInRobotEyePort = 6;
 
     // Hang Ports
     public static final int leftHangMotorPort = 10;
