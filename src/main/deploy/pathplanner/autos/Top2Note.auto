@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.82,
-      "y": 6.74
+      "x": 0.7059762690953959,
+      "y": 6.699372255887369
     },
-    "rotation": 51.5
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -24,41 +24,27 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "wait",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "TopFloorIntakeCommand"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.75
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "TopPickup1"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
+            "waitTime": 1.15
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TopPickup1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PrintCommand"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 1.5
           }
         },
         {
