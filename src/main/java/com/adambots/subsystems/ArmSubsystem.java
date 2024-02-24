@@ -34,7 +34,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   String currentStateName = "default";
 
-  boolean override = false;
+  boolean failsafeOverride = false;
 
   public ArmSubsystem(BaseMotor shoulderMotor, BaseMotor wristMotor, DutyCycleEncoder shoulderEncoder, DutyCycleEncoder wristEncoder) {
     this.shoulderMotor = shoulderMotor;
@@ -57,8 +57,7 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderPID.setIntegratorRange(-0.025, 0.025);
     wristPID.setIntegratorRange(-0.02, 0.02);
 
-    shoulderPID.setTolerance(1);
-    wristPID.setTolerance(1);
+    setPidTolerence(1);
 
     Dash.add("Shoulder Encoder", () -> getCurrentShoulderAngle());
     Dash.add("Wrist Encoder", () -> getCurrentWristAngle());
@@ -72,14 +71,19 @@ public class ArmSubsystem extends SubsystemBase {
     Dash.add("Wrst Rev Lim", () -> wristMotor.getReverseLimitSwitch());
   }
 
+  private void setPidTolerence(double degreesOfTolerence) {
+    shoulderPID.setTolerance(degreesOfTolerence);
+    wristPID.setTolerance(degreesOfTolerence);
+  }
+
   public void incrementShoulderAngle(double shoulderIncrement) {
     targetShoulderAngle += shoulderIncrement;
-    override = false;
+    failsafeOverride = false;
   }
 
   public void incrementWristAngle(double wristIncrement) {
     targetWristAngle += wristIncrement;
-    override = false;
+    failsafeOverride = false;
   }
 
   public double getCurrentWristAngle(){
@@ -91,11 +95,24 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setCurrentState(State newState) {
-    override = ((currentStateName.equals("speaker") && newState.getStateName().equals("floor")) || newState.getStateName().equals("hang"));
+    //Enable override if we are moving directly from speaker to floor states (auton) or if we are targeting the hang state
+    failsafeOverride = ((currentStateName.equals("speaker") && newState.getStateName().equals("floor")) || newState.getStateName().equals("hang"));
 
+    //
     currentStateName = newState.getStateName();
     targetShoulderAngle = newState.getShoulderAngle();
     targetWristAngle = newState.getWristAngle();
+
+    //Dynamically change pid tolerences depending on the arm state
+    if (currentStateName.equals("speaker")) {
+      setPidTolerence(1);
+    } else if (currentStateName.equals("floor")) {
+      setPidTolerence(0);
+    } else if (currentStateName.equals("amp")) {
+      setPidTolerence(2);
+    } else {
+      setPidTolerence(1);
+    }
 
     wristPID.reset();
     shoulderPID.reset();
@@ -114,7 +131,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     failSafes();
 
-    if(override){
+    if(failsafeOverride){
      shoulderSpeed = MathUtil.clamp(shoulderSpeed, -ArmConstants.maxShoulderDownSpeedNitro, ArmConstants.maxShoulderUpSpeed);
     }else{
       shoulderSpeed = MathUtil.clamp(shoulderSpeed, -ArmConstants.maxShoulderDownSpeed, ArmConstants.maxShoulderUpSpeed);
@@ -129,13 +146,13 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   private void failSafes() {
-    if(getCurrentShoulderAngle() < ArmConstants.shoulderDangerZoneThreshold && !override){
+    if(getCurrentShoulderAngle() < ArmConstants.shoulderDangerZoneThreshold && !failsafeOverride){
       wristLowerLimit = ArmConstants.wristDangerZoneLowerLimit;
     }else{
       wristLowerLimit = ArmConstants.wristLowerLimit;
     }
 
-    if(!override && getCurrentShoulderAngle() < ArmConstants.shoulderDangerZoneThreshold && getCurrentWristAngle() < ArmConstants.wristShoulderStopLimit && shoulderSpeed < 0){
+    if(!failsafeOverride && getCurrentShoulderAngle() < ArmConstants.shoulderDangerZoneThreshold && getCurrentWristAngle() < ArmConstants.wristShoulderStopLimit && shoulderSpeed < 0){
       shoulderSpeed = 0;
     }
 
