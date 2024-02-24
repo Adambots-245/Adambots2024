@@ -39,7 +39,7 @@ public class PathPlannerAlign extends Command {
     Pose2d endPos = new Pose2d(currentPos.getTranslation().getX(), currentAprilPos.getTranslation().getY(), new Rotation2d());
     if (VisionHelpers.getAprilTagID() == 4){
       targetPos = VisionConstants.aprilTagRedPose2d;
-      endPos = new Pose2d(currentPos.getTranslation().plus(new Translation2d(currentAprilPos.getTranslation().getX()-targetPos.getTranslation().getX(), currentAprilPos.getTranslation().getY() - targetPos.getTranslation().getY())), new Rotation2d());
+      endPos = new Pose2d(currentPos.getTranslation().plus(new Translation2d(-(currentAprilPos.getTranslation().getX()-targetPos.getTranslation().getX()), -(currentAprilPos.getTranslation().getY() - targetPos.getTranslation().getY()))), new Rotation2d());
     }
     // Creates a path to follow
     List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos, endPos);

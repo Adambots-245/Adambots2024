@@ -42,8 +42,11 @@ public final class Constants {
         public static final double kpVertPID = 0.1;
         public static final double kdVertPID = 0.02;
 
-        public static final double kPThetaController = 3; 
-        public static final double kDThetaController = 0.01;
+        public static final double kPAprilThetaController = 3; 
+        public static final double kDAprilThetaController = 0.01;
+
+        public static final double kPNoteThetaController = 3; 
+        public static final double kDNoteThetaController = 0.01;
     }
 
     public static final class DriveConstants {
