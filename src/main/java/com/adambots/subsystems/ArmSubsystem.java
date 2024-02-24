@@ -57,6 +57,9 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderPID.setIntegratorRange(-0.025, 0.025);
     wristPID.setIntegratorRange(-0.02, 0.02);
 
+    shoulderPID.setTolerance(1);
+    wristPID.setTolerance(1);
+
     Dash.add("Shoulder Encoder", () -> getCurrentShoulderAngle());
     Dash.add("Wrist Encoder", () -> getCurrentWristAngle());
     Dash.add("wristSpeed", () ->  wristSpeed);
@@ -104,7 +107,6 @@ public class ArmSubsystem extends SubsystemBase {
   
   @Override
   public void periodic() {
-
     if (DriverStation.isEnabled()) {shoulderSpeed = shoulderPID.calculate(getCurrentShoulderAngle(), targetShoulderAngle);}
     else {shoulderSpeed = 0;}
     if (DriverStation.isEnabled()) {wristSpeed = wristPID.calculate(getCurrentWristAngle(), targetWristAngle);}
