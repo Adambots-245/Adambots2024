@@ -4,35 +4,50 @@
 
 package com.adambots.subsystems;
 
+import com.adambots.Constants.ShooterConstants;
 import com.adambots.utils.BaseMotor;
 import com.adambots.utils.Dash;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
   
-  BaseMotor shooterWheel;
+  private BaseMotor shooterMotor;
+  private double shooterSpeed;
+  private PIDController pid = new PIDController(0.0, 0.007, 0.0);
   
+  private double targetWheelSpeed = 0;
 
-  double wheelSpeed = 0;
   public ShooterSubsystem(BaseMotor shooterWheel) {
-    this.shooterWheel = shooterWheel;
+    this.shooterMotor = shooterWheel;
     shooterWheel.setInverted(true);
 
     Dash.add("Shooter Velocity", () -> getShooterVelocity());
+    Dash.add("Shooter Command", () -> shooterSpeed);
+    Dash.add("Shooter Target", () -> targetWheelSpeed);
   }
 
-  public void setWheelSpeed(double newWheelSpeed){
-    wheelSpeed = newWheelSpeed; 
+  public void setTargetWheelSpeed(double newWheelSpeed){
+    targetWheelSpeed = newWheelSpeed; 
+    pid.reset();
   }
 
   public double getShooterVelocity() {
-    return shooterWheel.getVelocity();
+    return shooterMotor.getVelocity();
   }
-
 
   @Override
   public void periodic() {
-    shooterWheel.set(wheelSpeed);
+    if (targetWheelSpeed > 0) {
+      shooterSpeed = pid.calculate(getShooterVelocity(), targetWheelSpeed) + targetWheelSpeed/ShooterConstants.highSpeed;
+    } else {
+      shooterSpeed = 0;
+    }
+
+    MathUtil.clamp(shooterSpeed, 0, 1);
+
+    shooterMotor.set(shooterSpeed);
   }
 }

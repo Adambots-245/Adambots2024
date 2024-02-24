@@ -6,6 +6,7 @@ package com.adambots.commands.autonCommands;
 
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.ArmConstants.State;
+import com.adambots.Constants.ShooterConstants;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
@@ -57,7 +58,7 @@ public class FloorIntakeCommand extends Command {
     intakeSubsystem.setGroundIntakeMotorSpeed(0);
     armSubsystem.setCurrentState(shootState);
 
-    shooterSubsystem.setWheelSpeed(1);
+    shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed);
   }
 
   // Returns true when the command should end.

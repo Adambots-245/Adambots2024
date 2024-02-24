@@ -5,6 +5,7 @@
 package com.adambots.commands.armCommands;
 
 import com.adambots.Constants.ArmConstants;
+import com.adambots.Constants.ShooterConstants;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
 
@@ -26,7 +27,7 @@ public class PrimeShooterCommand extends Command {
   @Override
   public void initialize() {
     armSubsystem.setCurrentState(ArmConstants.speakerState);
-    shooterSubsystem.setWheelSpeed(1);
+    shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

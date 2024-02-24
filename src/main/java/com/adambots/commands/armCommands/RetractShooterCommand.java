@@ -26,7 +26,7 @@ public class RetractShooterCommand extends Command {
   @Override
   public void initialize() {
     armSubsystem.setCurrentState(ArmConstants.defaultState);
-    shooterSubsystem.setWheelSpeed(0);
+    shooterSubsystem.setTargetWheelSpeed(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

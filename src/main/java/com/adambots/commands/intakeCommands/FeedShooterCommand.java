@@ -43,7 +43,7 @@ public class FeedShooterCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     intakeSubsystem.setGroundIntakeMotorSpeed(0);
-    shooterSubsystem.setWheelSpeed(0);
+    shooterSubsystem.setTargetWheelSpeed(0);
   }
 
   // Returns true when the command should end.

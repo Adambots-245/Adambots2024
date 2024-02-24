@@ -45,7 +45,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+// import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /**
@@ -105,10 +105,10 @@ public class RobotContainer {
 
     // Buttons.JoystickButton5.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.noteLimelite));
     Buttons.JoystickButton7.whileTrue(new AlignRotateDriveCommand(drivetrainSubsystem, ledSubsystem, true, VisionConstants.aprilLimelite));
-    Buttons.JoystickButton6.whileTrue(new AprilAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 5, 5));
-    Buttons.JoystickButton8.whileTrue(new NoteAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 5, 5));
+    Buttons.JoystickButton6.onTrue(new AprilAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 5, 5));
+    Buttons.JoystickButton8.onTrue(new NoteAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 5, 5));
 
-    Buttons.JoystickButton2.onTrue(new SequentialCommandGroup(new PathPlannerAlign(drivetrainSubsystem), new PathPlannerAlign(drivetrainSubsystem)));
+    // Buttons.JoystickButton2.onTrue(new SequentialCommandGroup(new PathPlannerAlign(drivetrainSubsystem), new PathPlannerAlign(drivetrainSubsystem)));
 
     // Buttons.XboxDPadE.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
     // Buttons.XboxXButton.onTruef(new ChangeArmStateCommand(armSubsystem, ArmConstants.trapState));
@@ -126,11 +126,11 @@ public class RobotContainer {
     Buttons.XboxYButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
 
     //Temporary Hang Commands
-    Buttons.JoystickButton11.whileTrue(new HangLevelCommand(hangSubsystem, RobotMap.gyro)); //TODO: Test carefully
+    Buttons.JoystickButton4.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro)); //TODO: Test carefully
     Buttons.JoystickButton5.onTrue(new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.speakerState))); //Encoders should be reset where rods are within frame perim
     Buttons.JoystickButton9.onTrue(new InstantCommand(() -> hangSubsystem.resetEncoders())); //Encoders should be reset where rods are within frame perim
-    Buttons.XboxLeftStickButton.onTrue(new InstantCommand(() -> shooterSubsystem.setWheelSpeed(1)));
-    Buttons.XboxRightStickButton.onTrue(new InstantCommand(() -> shooterSubsystem.setWheelSpeed(0)));
+    Buttons.XboxLeftStickButton.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(1)));
+    Buttons.XboxRightStickButton.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(0)));
     // Buttons.XboxLeftStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setSolenoids(true)));
     // Buttons.XboxRightStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setSolenoids(false)));
 
@@ -141,7 +141,7 @@ public class RobotContainer {
     Buttons.XboxRightBumper.whileTrue(new RunRightHangCommand(hangSubsystem, -0.25)); //Run right winch in
 
     //These commands do automatically engage solenoids if you are running the winches out (and leaves time for solenoids to engage)
-    Buttons.XboxBackButton.whileTrue(new RunHangCommand(hangSubsystem, 0.25)); //Drops robot down (auto engages solenoids)
+    Buttons.XboxBackButton.whileTrue(new RunHangCommand(hangSubsystem, 1)); //Drops robot down (auto engages solenoids)
     Buttons.XboxStartButton.whileTrue(new RunHangCommand(hangSubsystem, -0.25)); //Lifts robot up
 
 

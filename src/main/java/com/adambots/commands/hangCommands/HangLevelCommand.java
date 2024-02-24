@@ -4,7 +4,10 @@
 
 package com.adambots.commands.hangCommands;
 
+import com.adambots.Constants.ArmConstants;
+import com.adambots.Constants.HangConstants;
 import com.adambots.sensors.Gyro;
+import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.HangSubsystem;
 
 import edu.wpi.first.math.MathUtil;
@@ -12,12 +15,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class HangLevelCommand extends Command {
   private HangSubsystem hangSubsystem;
+  private ArmSubsystem armSubsystem;
   private Gyro gyro;
-  private double speed = -0.17;
+  private double speed = -0.5;
 
-  public HangLevelCommand(HangSubsystem hangSubsystem, Gyro gyro) {
-    addRequirements(hangSubsystem);
-
+  public HangLevelCommand(HangSubsystem hangSubsystem, ArmSubsystem armSubsystem, Gyro gyro) {
+    addRequirements(hangSubsystem, armSubsystem);
+    this.armSubsystem = armSubsystem;
     this.hangSubsystem = hangSubsystem;
     this.gyro = gyro;
   }
@@ -25,16 +29,17 @@ public class HangLevelCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    armSubsystem.setCurrentState(ArmConstants.hangState);
     hangSubsystem.setSolenoids(false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double gyroFactor = gyro.getRoll()*0.005; //TODO: determing if this should be pitch or roll, and positive or negative
+    double gyroFactor = gyro.getRoll()*0.02; 
 
-    hangSubsystem.setLeftMotorSpeed(MathUtil.clamp(speed+gyroFactor, -0.2, 0));
-    hangSubsystem.setRightMotorSpeed(MathUtil.clamp(speed-gyroFactor, -0.2, 0));
+    hangSubsystem.setLeftMotorSpeed(MathUtil.clamp(speed+gyroFactor, -1, 0));
+    hangSubsystem.setRightMotorSpeed(MathUtil.clamp(speed-gyroFactor, -1, 0));
   }
 
   // Called once the command ends or is interrupted.
@@ -48,6 +53,6 @@ public class HangLevelCommand extends Command {
   @Override
   public boolean isFinished() {
     //Finish when one of the motors is fully retracted and the robot is level
-    return (hangSubsystem.getLeftMotorPosition() <= 0 || hangSubsystem.getRightMotorPosition() <= 0) && Math.abs(gyro.getRoll()) < 5;
+    return (hangSubsystem.getLeftMotorPosition() <= HangConstants.lowExtension || hangSubsystem.getRightMotorPosition() <= HangConstants.lowExtension) && Math.abs(gyro.getRoll()) < 5;
   }
 }

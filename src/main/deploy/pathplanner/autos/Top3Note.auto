@@ -70,7 +70,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AlignCommand"
+            "name": "AprilAlignCommand"
           }
         },
         {
@@ -114,7 +114,7 @@
         {
           "type": "named",
           "data": {
-            "name": "RotateToAprilCommand"
+            "name": "AprilAlignCommand"
           }
         },
         {

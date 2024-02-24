@@ -14,11 +14,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class HangSubsystem extends SubsystemBase {
   
-  BaseMotor leftHangMotor;
-  BaseMotor rightHangMotor;
-  double leftHangMotorSpeed, rightHangMotorSpeed = 0;
-  Relay leftRelay;
-  Relay rightRelay;
+  private BaseMotor leftHangMotor;
+  private BaseMotor rightHangMotor;
+  private double leftHangMotorSpeed, rightHangMotorSpeed = 0;
+  private Relay leftRelay;
+  private Relay rightRelay;
+  
   // PhotoEye leftLimit;
   // PhotoEye rightLimit;
 
@@ -30,8 +31,8 @@ public class HangSubsystem extends SubsystemBase {
     // this.leftLimit = leftLimit;
     // this.rightLimit = rightLimit;
 
-    leftHangMotor.setInverted(false);
-    rightHangMotor.setInverted(true);
+    leftHangMotor.setInverted(true);
+    rightHangMotor.setInverted(false);
 
     leftHangMotor.setNeutralMode(true);
     rightHangMotor.setNeutralMode(true);

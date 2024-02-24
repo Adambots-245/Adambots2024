@@ -44,7 +44,11 @@ public class AprilAlignRotateCommand extends Command {
     drive_output = turningPIDController.calculate((double)(Math.abs(Math.toRadians(rotate))), 0);
     
     if (VisionHelpers.isDetected(VisionConstants.aprilLimelite) && VisionHelpers.getAprilTagID() == 4){
+      if (rotate > 0){
         driveTrainSubsystem.drive(0, 0, drive_output, true);
+      } else {
+        driveTrainSubsystem.drive(0, 0, -drive_output, true);
+      }   
     }
       
     //Checks to see if the filtered angle is within the aligned bounds

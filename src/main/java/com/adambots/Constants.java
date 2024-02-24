@@ -122,12 +122,13 @@ public final class Constants {
     }
 
     public static final class HangConstants{
-        public static final double maxExtension = 131;
+        public static final double maxExtension = 150;
+        public static final double lowExtension = 0;
     }
 
     public static final class ShooterConstants{
         public static final double lowSpeed = 37;
-        public static final double highSpeed = 87;
+        public static final double highSpeed = 90;
     }
 
     public static final class ArmConstants{
@@ -175,6 +176,9 @@ public final class Constants {
         public static final double topFloorShootWristAngle = 324.8;
         public static final double topfloorShootShoulderAngle = 125.7; 
 
+        public static final double hangWristAngle = 186;
+        public static final double hangShoulderAngle = 142; 
+
         public static class State {
             private double wristAngle;
             private double shoulderAngle;
@@ -207,5 +211,6 @@ public final class Constants {
         public final static State speakerState = new State(speakerWristAngle, speakerShoulderAngle, "speaker");
         public final static State centerFloorShootState = new State(centerFloorShootWristAngle, centerfloorShootShoulderAngle, "centerFloorShoot");
         public final static State topFloorShootState = new State(topFloorShootWristAngle, topfloorShootShoulderAngle, "topFloorShoot");
+        public final static State hangState = new State(hangWristAngle, hangShoulderAngle, "hang");
     }
 }

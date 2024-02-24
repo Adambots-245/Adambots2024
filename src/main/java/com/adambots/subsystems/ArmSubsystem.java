@@ -88,7 +88,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setCurrentState(State newState) {
-    override = (currentStateName.equals("speaker") && newState.getStateName().equals("floor"));
+    override = ((currentStateName.equals("speaker") && newState.getStateName().equals("floor")) || newState.getStateName().equals("hang"));
 
     currentStateName = newState.getStateName();
     targetShoulderAngle = newState.getShoulderAngle();
@@ -127,7 +127,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   private void failSafes() {
-    if(getCurrentShoulderAngle() < ArmConstants.shoulderDangerZoneThreshold){
+    if(getCurrentShoulderAngle() < ArmConstants.shoulderDangerZoneThreshold && !override){
       wristLowerLimit = ArmConstants.wristDangerZoneLowerLimit;
     }else{
       wristLowerLimit = ArmConstants.wristLowerLimit;

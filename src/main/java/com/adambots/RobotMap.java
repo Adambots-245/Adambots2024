@@ -67,8 +67,8 @@ public class RobotMap {
     public static final int firstPieceInRobotEyePort = 6;
 
     // Hang Ports
-    public static final int leftHangMotorPort = 10;
-    public static final int rightHangMotorPort = 14;
+    public static final int leftHangMotorPort = 14;
+    public static final int rightHangMotorPort = 10;
     public static final int leftHangRelayPort = 1;
     public static final int rightHangRelayPort = 0;
 //     public static final int leftHangLimitPort = -1; //TODO: Assign
