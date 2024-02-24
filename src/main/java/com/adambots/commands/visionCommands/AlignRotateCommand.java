@@ -21,13 +21,14 @@ public class AlignRotateCommand extends Command {
   // private final PIDController aprilTurningPIDController = new PIDController(0.08, 0, 0.03);
   private int alignedCount;
   private int notDetectedCount;
-  private final double filterSens = 0.70;
+  private final double filterSens = 1;
   private double oldRotate;
   private double newRotate;
   private double drive_output;
   private boolean fieldOrientated;
   private boolean continuous;
   private String limelight;
+  
 
   public AlignRotateCommand(DrivetrainSubsystem driveTrainSubsystem, ArmSubsystem armSubsystem, CANdleSubsystem caNdleSubsystem, boolean fieldOrientated, boolean continuous, String limelight) {
     addRequirements(driveTrainSubsystem);

@@ -5,10 +5,12 @@
 package com.adambots.subsystems;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 import com.adambots.Constants;
 import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.DriveConstants;
+import com.adambots.Constants.VisionConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
 import com.adambots.RobotMap;
 import com.adambots.sensors.Gyro;
@@ -20,6 +22,7 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -68,11 +71,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // PPHolonomicDriveController.setRotationTargetOverride(this::getRotationTargetAprilOverride);
   }
 
-  /*
+  
   public Optional<Rotation2d> getRotationTargetNoteOverride(){
     if(VisionHelpers.isDetected(VisionConstants.noteLimelite)) {
       // Return an optional containing the rotation override (this should be a field relative rotation)
-      return Optional.of(new Rotation2d(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite)));
+      if (Math.toRadians(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite)) > 0){
+        return Optional.of(new Rotation2d(Math.toRadians(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite))));
+      } else {
+        return Optional.of(new Rotation2d(360 + Math.toRadians(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite))));
+      }
     } else {
       // return an empty optional when we don't want to override the path's rotation
       return Optional.empty();
@@ -82,13 +89,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public Optional<Rotation2d> getRotationTargetAprilOverride(){
     if(VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
       // Return an optional containing the rotation override (this should be a field relative rotation)
-      return Optional.of(new Rotation2d(VisionHelpers.getHorizAngle(VisionConstants.aprilLimelite)));
+      return Optional.of(new Rotation2d(Math.toRadians(VisionHelpers.getHorizAngle(VisionConstants.aprilLimelite))));
     } else {
       // return an empty optional when we don't want to override the path's rotation
       return Optional.empty();
     }
   }
-   */
+   
 
   @Override
   public void periodic() {

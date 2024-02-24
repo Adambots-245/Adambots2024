@@ -42,8 +42,8 @@ public final class Constants {
         public static final double kpVertPID = 0.1;
         public static final double kdVertPID = 0.02;
 
-        public static final double kPThetaController = 3; 
-        public static final double kDThetaController = 0.01;
+        public static final double kPThetaController = 5; 
+        public static final double kDThetaController = 0.12;
     }
 
     public static final class DriveConstants {
@@ -169,7 +169,7 @@ public final class Constants {
         public static final double centerFloorShootWristAngle = 322;
         public static final double centerfloorShootShoulderAngle = 125.7; 
         // Top 2 note floor shoot
-        public static final double topFloorShootWristAngle = 322.8;
+        public static final double topFloorShootWristAngle = 324.8;
         public static final double topfloorShootShoulderAngle = 125.7; 
 
         public static class State {

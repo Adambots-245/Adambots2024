@@ -5,7 +5,7 @@
       "x": 0.7059762690953959,
       "y": 6.699372255887369
     },
-    "rotation": -60.0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -53,6 +53,50 @@
                       "type": "path",
                       "data": {
                         "pathName": "TopPickup1"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "StopCommand"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AlignCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FeedShooterFarCommand"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "TopFloorIntakeCommand"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "TopPickup2"
                       }
                     },
                     {

@@ -160,7 +160,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("FeedShooterCloseCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem, ShooterConstants.lowSpeed));
     NamedCommands.registerCommand("FeedShooterFarCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem, ShooterConstants.highSpeed));
     
-    NamedCommands.registerCommand("AlignCommand", new ParallelDeadlineGroup(new WaitCommand(2), new AlignRotateCommand(drivetrainSubsystem, armSubsystem, ledSubsystem, true, true, VisionConstants.aprilLimelite)));
+    NamedCommands.registerCommand("AlignCommand", new ParallelDeadlineGroup(new WaitCommand(1), new AlignRotateCommand(drivetrainSubsystem, armSubsystem, ledSubsystem, true, true, VisionConstants.aprilLimelite)));
     
     NamedCommands.registerCommand("CenterFloorIntakeCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.centerFloorShootState));
     NamedCommands.registerCommand("TopFloorIntakeCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.topFloorShootState));
