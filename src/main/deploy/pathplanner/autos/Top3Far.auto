@@ -5,7 +5,7 @@
       "x": 0.7059762690953959,
       "y": 6.699372255887369
     },
-    "rotation": -60.0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -77,6 +77,18 @@
           "type": "named",
           "data": {
             "name": "FeedShooterFarCommand"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TopFar2"
           }
         }
       ]

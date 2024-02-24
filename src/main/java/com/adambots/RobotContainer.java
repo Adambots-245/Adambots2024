@@ -15,6 +15,7 @@ import com.adambots.commands.armCommands.RotateShoulderCommand;
 import com.adambots.commands.armCommands.RotateWristCommand;
 import com.adambots.commands.autonCommands.FloorIntakeCommand;
 import com.adambots.commands.driveCommands.StopCommand;
+import com.adambots.commands.hangCommands.HangLevelCommand;
 import com.adambots.commands.hangCommands.RunHangCommand;
 import com.adambots.commands.hangCommands.RunLeftHangCommand;
 import com.adambots.commands.hangCommands.RunRightHangCommand;
@@ -41,7 +42,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -110,8 +110,6 @@ public class RobotContainer {
 
     Buttons.JoystickButton2.onTrue(new SequentialCommandGroup(new PathPlannerAlign(drivetrainSubsystem), new PathPlannerAlign(drivetrainSubsystem)));
 
-    // Buttons.JoystickButton10.whileTrue(new AlignRotateCommand(drivetrainSubsystem, false, true, VisionConstants.noteLimelite));
-
     // Buttons.XboxDPadE.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
     // Buttons.XboxXButton.onTruef(new ChangeArmStateCommand(armSubsystem, ArmConstants.trapState));
 
@@ -128,13 +126,14 @@ public class RobotContainer {
     Buttons.XboxYButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
 
     //Temporary Hang Commands
-    // Buttons.JoystickButton6.onTrue(new HangLevelCommand(hangSubsystem, RobotMap.gyro)); //TODO: Test carefully
+    Buttons.JoystickButton11.onTrue(new HangLevelCommand(hangSubsystem, RobotMap.gyro)); //TODO: Test carefully
     Buttons.JoystickButton5.onTrue(new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.speakerState))); //Encoders should be reset where rods are within frame perim
-    // Buttons.JoystickButton7.onTrue(new InstantCommand(() -> hangSubsystem.resetEncoders())); //Encoders should be reset where rods are within frame perim
+    Buttons.JoystickButton9.onTrue(new InstantCommand(() -> hangSubsystem.resetEncoders())); //Encoders should be reset where rods are within frame perim
     Buttons.XboxLeftStickButton.onTrue(new InstantCommand(() -> shooterSubsystem.setWheelSpeed(1)));
     Buttons.XboxRightStickButton.onTrue(new InstantCommand(() -> shooterSubsystem.setWheelSpeed(0)));
     // Buttons.XboxLeftStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setSolenoids(true)));
     // Buttons.XboxRightStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setSolenoids(false)));
+
 
 
     //THESE COMMANDS DO NOT AUTO ENGAGE SOLENOIDS - which is why they are negative, where the solenoid should be left unpowered
@@ -187,8 +186,8 @@ public class RobotContainer {
     Dash.add("odom x", () -> drivetrainSubsystem.getPose().getX());
     Dash.add("odom y", () -> drivetrainSubsystem.getPose().getY());
     Dash.add("yaw", () -> RobotMap.gyro.getContinuousYawDeg());
-    // Dash.add("pitch", () -> RobotMap.GyroSensor.getPitch());
-    // Dash.add("roll", () -> RobotMap.GyroSensor.getRoll());
+    Dash.add("pitch", () -> RobotMap.gyro.getPitch());
+    Dash.add("roll", () -> RobotMap.gyro.getRoll());
 
     // Dash.add("IntakeSpeed", () -> intakeSubsystem.getIntakeSpeed());
 

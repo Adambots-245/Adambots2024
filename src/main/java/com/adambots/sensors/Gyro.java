@@ -61,8 +61,9 @@ public class Gyro {
      * Keep in mind roll and pitch will change depending on robot rotation
      * @return Roll value of gyroscope in degrees
      */
-    public double getRoll () {
+    public double getPitch () {
         return gyro.getRoll().getValueAsDouble();
+        // Pitch and roll values are switched for pigeon
     }
 
     /**
@@ -71,7 +72,9 @@ public class Gyro {
      * Keep in mind roll and pitch will change depending on robot rotation
      * @return Pitch value of gyroscope in degrees
      */
-    public double getPitch () {
+    public double getRoll () {
         return gyro.getPitch().getValueAsDouble();
+        // Pitch and roll values are switched for pigeon
+
     }
 }

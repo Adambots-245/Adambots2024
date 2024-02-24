@@ -12,9 +12,19 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class VisionHelpers {
     //private NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     private VisionHelpers() {}
+
+    private static boolean targetApril = false;
     
     public static void blinkLight(String limelight) {
         LimelightHelpers.setLEDMode_ForceBlink(limelight);
+    }
+
+    public static void setApril(boolean value){
+        targetApril = value;
+    }
+
+    public static boolean getApril(){
+        return targetApril;
     }
 
     public static void offLight(String limelight) {
