@@ -109,8 +109,12 @@ public class ArmSubsystem extends SubsystemBase {
     } else if (currentStateName.equals("floor")) {
       setPidTolerence(0);
     } else if (currentStateName.equals("amp")) {
+      setPidTolerence(3);
+    } else if (currentStateName.equals("human")) {
       setPidTolerence(2);
-    } else {
+    } else if (currentStateName.equals("default")) {
+      setPidTolerence(5);
+    }else {
       setPidTolerence(1);
     }
 

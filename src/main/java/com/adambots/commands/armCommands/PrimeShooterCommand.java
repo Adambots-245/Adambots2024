@@ -27,7 +27,7 @@ public class PrimeShooterCommand extends Command {
   @Override
   public void initialize() {
     armSubsystem.setCurrentState(ArmConstants.speakerState);
-    shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed);
+    shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -32,7 +32,7 @@ public class AdaptiveScoreCommand extends Command {
   @Override
   public void initialize() {
     if (armSubsystem.getCurrentStateName() == "speaker") {
-      new FeedShooterCommand(intakeSubsystem, shooterSubsystem, 60).schedule();
+      new FeedShooterCommand(intakeSubsystem, shooterSubsystem).schedule();
     } else if (armSubsystem.getCurrentStateName() == "amp") {
       ampScoreCommand = new AmpScoreCommand(intakeSubsystem);
       ampScoreCommand.schedule();

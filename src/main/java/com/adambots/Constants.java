@@ -128,7 +128,9 @@ public final class Constants {
 
     public static final class ShooterConstants{
         public static final double lowSpeed = 37;
+        public static final double mediumSpeed = 65;
         public static final double highSpeed = 83;
+        public static final double maxSpeed = 94;
     }
 
     public static final class ArmConstants{
@@ -154,7 +156,7 @@ public final class Constants {
         public static final double floorWristAngle = 313;
         public static final double floorShoulderAngle = 121.5;
         // Amp Scoring
-        public static final double ampWristAngle = 288.5;
+        public static final double ampWristAngle = 287;
         public static final double ampShoulderAngle = 184.3;
         // Human Player Pickup
         public static final double humanWristAngle = 310;
