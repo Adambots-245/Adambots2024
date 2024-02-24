@@ -16,7 +16,7 @@ public class ShooterSubsystem extends SubsystemBase {
   
   private BaseMotor shooterMotor;
   private double shooterSpeed;
-  private PIDController pid = new PIDController(0.0, 0.007, 0.0);
+  private PIDController pid = new PIDController(0.0, 0.008, 0.0);
   
   private double targetWheelSpeed = 0;
 
@@ -38,6 +38,10 @@ public class ShooterSubsystem extends SubsystemBase {
     return shooterMotor.getVelocity();
   }
 
+  public boolean isAtTargetSpeed() {
+    return Math.abs(targetWheelSpeed - getShooterVelocity()) < 4;
+  }
+
   @Override
   public void periodic() {
     if (targetWheelSpeed > 0) {
@@ -46,7 +50,7 @@ public class ShooterSubsystem extends SubsystemBase {
       shooterSpeed = 0;
     }
 
-    MathUtil.clamp(shooterSpeed, 0, 1);
+    shooterSpeed = MathUtil.clamp(shooterSpeed, 0, 1);
 
     shooterMotor.set(shooterSpeed);
   }
