@@ -48,6 +48,7 @@ public class HangSubsystem extends SubsystemBase {
 
   public void setRightMotorSpeed(double newRightHangMotorSpeed){
     rightHangMotorSpeed = newRightHangMotorSpeed;
+    
   }
 
   public double getLeftMotorPosition() {

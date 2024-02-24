@@ -15,6 +15,7 @@ import com.adambots.commands.armCommands.RotateShoulderCommand;
 import com.adambots.commands.armCommands.RotateWristCommand;
 import com.adambots.commands.autonCommands.FloorIntakeCommand;
 import com.adambots.commands.driveCommands.StopCommand;
+import com.adambots.commands.hangCommands.HangLevelCommand;
 import com.adambots.commands.hangCommands.RunHangCommand;
 import com.adambots.commands.hangCommands.RunLeftHangCommand;
 import com.adambots.commands.hangCommands.RunRightHangCommand;
@@ -22,6 +23,7 @@ import com.adambots.commands.intakeCommands.FeedShooterCommand;
 import com.adambots.commands.intakeCommands.IntakeWithAdjustCommand;
 import com.adambots.commands.visionCommands.AlignRotateCommand;
 import com.adambots.commands.visionCommands.PathPlannerAlign;
+import com.adambots.commands.visionCommands.RotateToAprilCommand;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
@@ -102,6 +104,7 @@ public class RobotContainer {
 
     // Buttons.JoystickButton5.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.noteLimelite));
     Buttons.JoystickButton7.whileTrue(new AlignRotateCommand(drivetrainSubsystem, armSubsystem, ledSubsystem, true, true, VisionConstants.aprilLimelite));
+    Buttons.JoystickButton6.onTrue(new RotateToAprilCommand(drivetrainSubsystem, VisionConstants.aprilLimelite));
     // Buttons.JoystickButton10.whileTrue(new AlignRotateCommand(drivetrainSubsystem, false, true, VisionConstants.noteLimelite));
 
     // Buttons.XboxDPadE.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
@@ -127,13 +130,14 @@ public class RobotContainer {
     Buttons.XboxYButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
 
     //Temporary Hang Commands
-    // Buttons.JoystickButton6.onTrue(new HangLevelCommand(hangSubsystem, RobotMap.gyro)); //TODO: Test carefully
+    Buttons.JoystickButton11.onTrue(new HangLevelCommand(hangSubsystem, RobotMap.gyro)); //TODO: Test carefully
     Buttons.JoystickButton5.onTrue(new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.speakerState))); //Encoders should be reset where rods are within frame perim
-    // Buttons.JoystickButton7.onTrue(new InstantCommand(() -> hangSubsystem.resetEncoders())); //Encoders should be reset where rods are within frame perim
+    Buttons.JoystickButton9.onTrue(new InstantCommand(() -> hangSubsystem.resetEncoders())); //Encoders should be reset where rods are within frame perim
     Buttons.XboxLeftStickButton.onTrue(new InstantCommand(() -> shooterSubsystem.setWheelSpeed(1)));
     Buttons.XboxRightStickButton.onTrue(new InstantCommand(() -> shooterSubsystem.setWheelSpeed(0)));
     // Buttons.XboxLeftStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setSolenoids(true)));
     // Buttons.XboxRightStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setSolenoids(false)));
+
 
 
     //THESE COMMANDS DO NOT AUTO ENGAGE SOLENOIDS - which is why they are negative, where the solenoid should be left unpowered
@@ -160,7 +164,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("FeedShooterCloseCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem, ShooterConstants.lowSpeed));
     NamedCommands.registerCommand("FeedShooterFarCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem, ShooterConstants.highSpeed));
     
-    NamedCommands.registerCommand("AlignCommand", new ParallelDeadlineGroup(new WaitCommand(1), new AlignRotateCommand(drivetrainSubsystem, armSubsystem, ledSubsystem, true, true, VisionConstants.aprilLimelite)));
+    NamedCommands.registerCommand("RotateToAprilCommand", new RotateToAprilCommand(drivetrainSubsystem, VisionConstants.aprilLimelite));
     
     NamedCommands.registerCommand("CenterFloorIntakeCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.centerFloorShootState));
     NamedCommands.registerCommand("TopFloorIntakeCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.topFloorShootState));
@@ -185,8 +189,8 @@ public class RobotContainer {
     Dash.add("odom x", () -> drivetrainSubsystem.getPose().getX());
     Dash.add("odom y", () -> drivetrainSubsystem.getPose().getY());
     Dash.add("yaw", () -> RobotMap.gyro.getContinuousYawDeg());
-    // Dash.add("pitch", () -> RobotMap.GyroSensor.getPitch());
-    // Dash.add("roll", () -> RobotMap.GyroSensor.getRoll());
+    Dash.add("pitch", () -> RobotMap.gyro.getPitch());
+    Dash.add("roll", () -> RobotMap.gyro.getRoll());
 
     // Dash.add("IntakeSpeed", () -> intakeSubsystem.getIntakeSpeed());
 

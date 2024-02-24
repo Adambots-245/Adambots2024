@@ -80,47 +80,15 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "wait",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "TopFloorIntakeCommand"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "TopPickup2"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "StopCommand"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
+            "waitTime": 1.0
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "RotateToAprilCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "FeedShooterFarCommand"
+            "pathName": "TopFar2"
           }
         }
       ]
