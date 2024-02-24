@@ -21,9 +21,10 @@ import com.adambots.commands.hangCommands.RunLeftHangCommand;
 import com.adambots.commands.hangCommands.RunRightHangCommand;
 import com.adambots.commands.intakeCommands.FeedShooterCommand;
 import com.adambots.commands.intakeCommands.IntakeWithAdjustCommand;
-import com.adambots.commands.visionCommands.AlignRotateCommand;
+import com.adambots.commands.visionCommands.AlignRotateDriveCommand;
+import com.adambots.commands.visionCommands.AprilAlignRotateCommand;
+import com.adambots.commands.visionCommands.NoteAlignRotateCommand;
 import com.adambots.commands.visionCommands.PathPlannerAlign;
-import com.adambots.commands.visionCommands.RotateToAprilCommand;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
@@ -35,16 +36,16 @@ import com.adambots.utils.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /**
@@ -103,19 +104,14 @@ public class RobotContainer {
     // Buttons.JoystickButton4.onTrue(new InstantCommand(() -> drivetrainSubsystem.resetOdometry(new Pose2d())));
 
     // Buttons.JoystickButton5.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.noteLimelite));
-    Buttons.JoystickButton7.whileTrue(new AlignRotateCommand(drivetrainSubsystem, armSubsystem, ledSubsystem, true, true, VisionConstants.aprilLimelite));
-    Buttons.JoystickButton6.onTrue(new RotateToAprilCommand(drivetrainSubsystem, VisionConstants.aprilLimelite));
-    // Buttons.JoystickButton10.whileTrue(new AlignRotateCommand(drivetrainSubsystem, false, true, VisionConstants.noteLimelite));
+    Buttons.JoystickButton7.whileTrue(new AlignRotateDriveCommand(drivetrainSubsystem, ledSubsystem, true, VisionConstants.aprilLimelite));
+    Buttons.JoystickButton6.whileTrue(new AprilAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 5, 5));
+    Buttons.JoystickButton8.whileTrue(new NoteAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 5, 5));
+
+    Buttons.JoystickButton2.onTrue(new SequentialCommandGroup(new PathPlannerAlign(drivetrainSubsystem), new PathPlannerAlign(drivetrainSubsystem)));
 
     // Buttons.XboxDPadE.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
     // Buttons.XboxXButton.onTruef(new ChangeArmStateCommand(armSubsystem, ArmConstants.trapState));
-
-    // Buttons.JoystickButton2.onTrue(new SequentialCommandGroup(new PathPlannerAlign(drivetrainSubsystem, VisionConstants.aprilTagPose2d), new PathPlannerAlign(drivetrainSubsystem, VisionConstants.aprilTagPose2d)));
-    // Buttons.JoystickButton6.onTrue(new PickupGamepieceStrafeCommand(drivetrainSubsystem));
-    // Buttons.JoystickButton7.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.aprilLimelite));
-    // Buttons.JoystickButton5.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.noteLimelite));
-    // Buttons.JoystickButton10.whileTrue(new AlignRotateCommand(drivetrainSubsystem, false, true, VisionConstants.noteLimelite));
-    // Buttons.XboxStartButton.onTrue(new AdjustNoteCommand(intakeSubsystem));
 
 
     //Xbox Button Bindings 
@@ -164,8 +160,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("FeedShooterCloseCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem, ShooterConstants.lowSpeed));
     NamedCommands.registerCommand("FeedShooterFarCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem, ShooterConstants.highSpeed));
     
-    NamedCommands.registerCommand("RotateToAprilCommand", new RotateToAprilCommand(drivetrainSubsystem, VisionConstants.aprilLimelite));
-    
+    NamedCommands.registerCommand("AprilAlignCommand", new ParallelRaceGroup(new WaitCommand(1), new AprilAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 5, 5)));
+    NamedCommands.registerCommand("NoteAlignCommand", new ParallelRaceGroup(new WaitCommand(1), new NoteAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 5, 5)));
+
     NamedCommands.registerCommand("CenterFloorIntakeCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.centerFloorShootState));
     NamedCommands.registerCommand("TopFloorIntakeCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.topFloorShootState));
 

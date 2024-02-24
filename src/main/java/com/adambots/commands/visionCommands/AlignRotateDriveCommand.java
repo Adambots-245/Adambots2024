@@ -1,11 +1,8 @@
 package com.adambots.commands.visionCommands;
-import com.adambots.Constants.ArmConstants;
-import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.Gamepad.Buttons;
-import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.VisionHelpers;
@@ -13,40 +10,27 @@ import com.adambots.utils.VisionHelpers;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class AlignRotateCommand extends Command {
+public class AlignRotateDriveCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
-  private ArmSubsystem armSubsystem;
   private CANdleSubsystem caNdleSubsystem;
-  private final PIDController noteTurningPIDController = new PIDController(VisionConstants.kPThetaController, 0, VisionConstants.kDThetaController);
-  // private final PIDController aprilTurningPIDController = new PIDController(0.08, 0, 0.03);
-  private int alignedCount;
-  private int notDetectedCount;
-  private final double filterSens = 1;
-  private double oldRotate;
-  private double newRotate;
+  private final PIDController noteTurningPIDController = new PIDController(VisionConstants.kPNoteThetaController, 0, VisionConstants.kDNoteThetaController);
+  private final PIDController aprilTurningPIDController = new PIDController(VisionConstants.kPAprilThetaController, 0, VisionConstants.kDAprilThetaController);
   private double drive_output;
   private boolean fieldOrientated;
-  private boolean continuous;
   private String limelight;
   
 
-  public AlignRotateCommand(DrivetrainSubsystem driveTrainSubsystem, ArmSubsystem armSubsystem, CANdleSubsystem caNdleSubsystem, boolean fieldOrientated, boolean continuous, String limelight) {
+  public AlignRotateDriveCommand(DrivetrainSubsystem driveTrainSubsystem, CANdleSubsystem caNdleSubsystem, boolean fieldOrientated, String limelight) {
     addRequirements(driveTrainSubsystem);
     this.driveTrainSubsystem = driveTrainSubsystem;
     this.caNdleSubsystem = caNdleSubsystem;
-    this.armSubsystem = armSubsystem;
     this.fieldOrientated = fieldOrientated;
-    this.continuous = continuous;
     this.limelight = limelight;
   }
 
   @Override
   public void initialize() {
-    oldRotate = VisionHelpers.getHorizAngle(limelight);
-    alignedCount = 0;
-    notDetectedCount = 0;
     drive_output = 0;
-    newRotate = VisionHelpers.getHorizAngle(limelight);
     caNdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.SetAll);
     caNdleSubsystem.setColor(LEDConstants.yellow);
   }
@@ -54,33 +38,28 @@ public class AlignRotateCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //Filter to stop large changes in data while runing, to make the PID work better
-    newRotate = filterSens*VisionHelpers.getHorizAngle(limelight) + (1-filterSens)*oldRotate;
-    oldRotate = newRotate;
+    double rotate = VisionHelpers.getHorizAngle(limelight);
 
     // Calculates the drive rotation
     if (limelight == VisionConstants.noteLimelite){
-      drive_output = noteTurningPIDController.calculate((double)(Math.round((Math.abs(Math.toRadians(newRotate)) / 100d))) / 100d, 0);
+      drive_output = noteTurningPIDController.calculate((double)(Math.abs(Math.toRadians(rotate))), 0);
     } else{
-      // drive_output = noteTurningPIDController.calculate((double)(Math.round((Math.abs(Math.toRadians(newRotate)) / 100d))) / 100d, 0);
-            drive_output = noteTurningPIDController.calculate((double)(Math.abs(Math.toRadians(newRotate))), 0);
+      drive_output = aprilTurningPIDController.calculate((double)(Math.abs(Math.toRadians(rotate))), 0);
     }
 
-    // System.out.println(drive_output);
     //Checks to see if we have an object detected
-    // if (VisionHelpers.isDetected(limelight) && armSubsystem.getCurrentStateName() == ArmConstants.floorState.getStateName()){
     if (VisionHelpers.isDetected(limelight)){
       //Aligns differntly if it is field orientated or not
       if (fieldOrientated == true){
           //Moves left or right depending on the angle
-          if (newRotate > 0){
+          if (rotate > 0){
             driveTrainSubsystem.drive(-Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond, -Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond , drive_output, true);
           } else {
             driveTrainSubsystem.drive(-Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond, -Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond , -drive_output, true);
           }   
       } else {
           //Moves left or right depending on the angle
-          if (newRotate > 0){
+          if (rotate > 0){
             driveTrainSubsystem.drive(-Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond, -Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond , drive_output, false);
           } else {
             driveTrainSubsystem.drive(-Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond, -Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond , -drive_output, false);
@@ -92,34 +71,24 @@ public class AlignRotateCommand extends Command {
     }
     //Checks to see if the filtered angle is within the aligned bounds
     //Checks to see if the robot is at that position for more than just a single moment
-    if((newRotate>-5&&newRotate<5)&&VisionHelpers.isDetected(limelight)){
-      alignedCount++;
+    if((Math.abs(rotate)<5)&&VisionHelpers.isDetected(limelight)){
       caNdleSubsystem.setColor(LEDConstants.blue);
     } else {
       caNdleSubsystem.setColor(LEDConstants.yellow);
-    }
-    //If the robot is not detecting a piece for a while, it adds to this counter
-    if (VisionHelpers.isDetected(limelight) == false) {
-      notDetectedCount++;
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      driveTrainSubsystem.stop();
-      caNdleSubsystem.clearAllAnims();
-      caNdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.Larson);
+    driveTrainSubsystem.stop();
+    caNdleSubsystem.clearAllAnims();
+    caNdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.Larson);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //If the robot is aligned for some time, or the robot is not detecting a piece the command ends
-    if (continuous == false){
-      return alignedCount >= 10 || notDetectedCount >= 50;
-    } else {
-      return false;
-    }
+    return false;
   }
 }

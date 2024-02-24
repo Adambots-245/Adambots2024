@@ -1,7 +1,6 @@
 package com.adambots.commands.autonCommands;
 
-// import com.adambots.Constants.VisionConstants;
-import com.adambots.commands.visionCommands.AlignNoteVertCommand;
+import com.adambots.commands.visionCommands.old.AlignNoteVertCommand;
 // import com.adambots.commands.visionCommands.AlignRotateCommand;
 import com.adambots.subsystems.DrivetrainSubsystem;
 
