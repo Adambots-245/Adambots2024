@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class HangLevelCommand extends Command {
   private HangSubsystem hangSubsystem;
   private Gyro gyro;
-  private double speed = -0.1;
+  private double speed = -0.17;
 
   public HangLevelCommand(HangSubsystem hangSubsystem, Gyro gyro) {
     addRequirements(hangSubsystem);
@@ -33,8 +33,8 @@ public class HangLevelCommand extends Command {
   public void execute() {
     double gyroFactor = gyro.getRoll()*0.005; //TODO: determing if this should be pitch or roll, and positive or negative
 
-    hangSubsystem.setLeftMotorSpeed(MathUtil.clamp(speed+gyroFactor, -1, 0));
-    hangSubsystem.setRightMotorSpeed(MathUtil.clamp(speed-gyroFactor, -1, 0));
+    hangSubsystem.setLeftMotorSpeed(MathUtil.clamp(speed+gyroFactor, -0.2, 0));
+    hangSubsystem.setRightMotorSpeed(MathUtil.clamp(speed-gyroFactor, -0.2, 0));
   }
 
   // Called once the command ends or is interrupted.
