@@ -3,7 +3,6 @@ package com.adambots;
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.GamepadConstants;
-import com.adambots.Constants.ShooterConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.Gamepad.Buttons;
 import com.adambots.commands.AdaptiveScoreCommand;
@@ -106,12 +105,10 @@ public class RobotContainer {
     Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem));
     // Buttons.JoystickButton4.onTrue(new InstantCommand(() -> drivetrainSubsystem.resetOdometry(new Pose2d())));
 
-    // Buttons.JoystickButton5.whileTrue(new AlignRotateCommand(drivetrainSubsystem, true, true, VisionConstants.noteLimelite));
     Buttons.JoystickButton7.whileTrue(new AlignRotateDriveCommand(drivetrainSubsystem, ledSubsystem, true, VisionConstants.aprilLimelite));
-    // Buttons.JoystickButton9.whileTrue(new AlignRotateDriveCommand(drivetrainSubsystem, ledSubsystem, true, VisionConstants.noteLimelite));
     Buttons.JoystickButton6.whileTrue(new AlignRotateDriveCommand(drivetrainSubsystem, ledSubsystem, false, VisionConstants.noteLimelite));
     Buttons.JoystickButton5.whileTrue(new AngleRotateCommand(drivetrainSubsystem, 90, RobotMap.gyro));
-    Buttons.JoystickButton8.whileTrue(new SpinFastCommand(drivetrainSubsystem)); //Encoders should be reset where rods are within frame perim
+    Buttons.JoystickButton8.whileTrue(new SpinFastCommand(drivetrainSubsystem)); //TODO: align and drive towards it
 
     // Buttons.JoystickButton6.onTrue(new AprilAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 5, 5));
     // Buttons.JoystickButton8.onTrue(new NoteAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 5, 5));
