@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.496814123442796,
-        "y": 6.8039960330990565
+        "x": 6.94,
+        "y": 7.21
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0312624898756004,
-        "y": 6.552189063336395
+        "x": 6.078884289180846,
+        "y": 6.861369417831561
       },
       "isLocked": false,
-      "linkedName": "TopPickup1"
+      "linkedName": "TopFar2"
     },
     {
       "anchor": {
-        "x": 1.7623632139606122,
-        "y": 5.683431921802801
+        "x": 2.29,
+        "y": 6.768863523461712
       },
       "prevControl": {
-        "x": 1.6404211565285334,
-        "y": 5.97304430820399
-      },
-      "nextControl": {
-        "x": 1.835795014542304,
-        "y": 5.509031395421282
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.54,
-        "y": 5.545747295712128
-      },
-      "prevControl": {
-        "x": 2.1570557673232185,
-        "y": 5.499880587707164
+        "x": 3.6091257309761424,
+        "y": 6.940474383088567
       },
       "nextControl": null,
       "isLocked": false,
@@ -55,7 +39,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 30.69972255081446,
     "rotateFast": false
   },
   "reversed": false,
@@ -64,5 +48,5 @@
     "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

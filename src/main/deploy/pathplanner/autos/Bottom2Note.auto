@@ -20,13 +20,13 @@
         {
           "type": "named",
           "data": {
-            "name": "PrimeShooterCommand"
+            "name": "PrimeShooterCloseCommand"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "FeedShooterCloseCommand"
+            "name": "FeedShooterCommand"
           }
         },
         {
@@ -42,7 +42,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "TopFloorIntakeCommand"
+                  "name": "BottomFloorIntakeAndShootCommand"
                 }
               },
               {
@@ -68,15 +68,33 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "AprilAlignCommand"
+            "pathName": "BottomReturn1"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "FeedShooterFarCommand"
+            "name": "StopCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TopShootSpeakerCommand"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FeedShooterCommand"
           }
         }
       ]

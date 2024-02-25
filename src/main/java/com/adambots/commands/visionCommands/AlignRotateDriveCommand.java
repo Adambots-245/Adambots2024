@@ -43,31 +43,21 @@ public class AlignRotateDriveCommand extends Command {
 
     // Calculates the drive rotation
     if (limelight == VisionConstants.noteLimelite){
-      drive_output = noteTurningPIDController.calculate(Math.abs(Math.toRadians(rotate)), 0);
+      drive_output = noteTurningPIDController.calculate(Math.toRadians(rotate), 0);
     } else{
-      drive_output = aprilTurningPIDController.calculate(Math.abs(Math.toRadians(rotate)), 0);
+      drive_output = aprilTurningPIDController.calculate(Math.toRadians(rotate), 0);
     }
 
     //Checks to see if we have an object detected
     if (VisionHelpers.isDetected(limelight)){
       //Aligns differntly if it is field orientated or not
       if (fieldOrientated == true){
-          //Moves left or right depending on the angle
-          if (rotate > 0){
-            driveTrainSubsystem.drive(-Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond, -Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond , drive_output, true);
-          } else {
-            driveTrainSubsystem.drive(-Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond, -Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond , -drive_output, true);
-          }   
+        driveTrainSubsystem.drive(Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond, Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond , drive_output, true);  
       } else {
-          //Moves left or right depending on the angle
-          if (rotate > 0){
-            driveTrainSubsystem.drive(-Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond, -Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond , drive_output, false);
-          } else {
-            driveTrainSubsystem.drive(-Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond, -Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond , -drive_output, false);
-          }  
+        driveTrainSubsystem.drive(1, Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond , drive_output, false);
       }
     } else {
-      driveTrainSubsystem.drive(-Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond, -Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond , -Buttons.rotateSupplier.getAsDouble()*DriveConstants.kTeleopRotationalSpeed, true);
+      driveTrainSubsystem.drive(Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond, Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond , Buttons.rotateSupplier.getAsDouble()*DriveConstants.kTeleopRotationalSpeed, true);
     }
     //Checks to see if the filtered angle is within the aligned bounds
     //Checks to see if the robot is at that position for more than just a single moment

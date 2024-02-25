@@ -25,6 +25,7 @@ import com.adambots.commands.intakeCommands.FeedShooterCommand;
 import com.adambots.commands.intakeCommands.IntakeWithAdjustCommand;
 import com.adambots.commands.visionCommands.AlignRotateDriveCommand;
 import com.adambots.commands.visionCommands.AprilAlignRotateCommand;
+import com.adambots.commands.visionCommands.DriveToNoteCommand;
 import com.adambots.commands.visionCommands.NoteAlignRotateCommand;
 import com.adambots.commands.visionCommands.PathPlannerAlign;
 import com.adambots.subsystems.ArmSubsystem;
@@ -129,12 +130,12 @@ public class RobotContainer {
 
     Buttons.XboxXButton.whileTrue(new AmpCommand(armSubsystem)); //TODO: Maybe add a slowintake
 
-    Buttons.XboxYButton.onTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem));
+    Buttons.XboxYButton.onTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, ShooterConstants.highSpeed));
     Buttons.XboxYButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
 
     //Temporary Hang Commands
-    Buttons.JoystickButton4.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro)); //TODO: Test carefully
-    // Buttons.JoystickButton5.onTrue(new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.speakerState))); //Encoders should be reset where rods are within frame perim
+    Buttons.JoystickButton4.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro));
+    Buttons.JoystickButton10.onTrue(new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.speakerState))); //Encoders should be reset where rods are within frame perim
     Buttons.JoystickButton9.onTrue(new InstantCommand(() -> hangSubsystem.resetEncoders())); //Encoders should be reset where rods are within frame perim
     Buttons.XboxLeftStickButton.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(1)));
     Buttons.XboxRightStickButton.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(0)));
@@ -162,16 +163,23 @@ public class RobotContainer {
 
 
   private void registerNamedCommands() {
-    NamedCommands.registerCommand("PrimeShooterCommand", new PrimeShooterCommand(armSubsystem, shooterSubsystem));
+    NamedCommands.registerCommand("PrimeShooterCloseCommand", new PrimeShooterCommand(armSubsystem, shooterSubsystem, ShooterConstants.lowSpeed));
+    NamedCommands.registerCommand("PrimeShooterFarCommand", new PrimeShooterCommand(armSubsystem, shooterSubsystem, ShooterConstants.highSpeed));
 
-    NamedCommands.registerCommand("FeedShooterCloseCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem));
-    NamedCommands.registerCommand("FeedShooterFarCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem));
+    NamedCommands.registerCommand("FeedShooterCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem));
     
-    NamedCommands.registerCommand("AprilAlignCommand", new ParallelRaceGroup(new WaitCommand(1), new AprilAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 5, 5)));
-    NamedCommands.registerCommand("NoteAlignCommand", new ParallelRaceGroup(new WaitCommand(1), new NoteAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 5, 5)));
+    NamedCommands.registerCommand("AprilAlignCommand", new ParallelRaceGroup(new WaitCommand(1), new AprilAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 3, 5)));
+    NamedCommands.registerCommand("NoteAlignCommand", new ParallelRaceGroup(new WaitCommand(1), new NoteAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 3, 5)));
+    NamedCommands.registerCommand("DriveToNoteCommand", new ParallelRaceGroup(new WaitCommand(3), new DriveToNoteCommand(drivetrainSubsystem, ledSubsystem)));
 
-    NamedCommands.registerCommand("CenterFloorIntakeCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.centerFloorShootState));
-    NamedCommands.registerCommand("TopFloorIntakeCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.topFloorShootState));
+
+    NamedCommands.registerCommand("CenterFloorIntakeAndShootCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.centerFloorShootState));
+    NamedCommands.registerCommand("TopFloorIntakeAndShootCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.topFloorShootState));
+    NamedCommands.registerCommand("BottomFloorIntakeAndShootCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.defaultState));
+    NamedCommands.registerCommand("TopFloorIntakeCloseCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.defaultState));
+    NamedCommands.registerCommand("TopShootSpeakerCommand", new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.speakerState)));
+
+
 
     NamedCommands.registerCommand("PrintCommand",new PrintCommand("Path Following Finished"));
     NamedCommands.registerCommand("StopCommand",new StopCommand(drivetrainSubsystem));
@@ -212,9 +220,9 @@ public class RobotContainer {
     drivetrainSubsystem.setDefaultCommand(
         new RunCommand(
             () -> drivetrainSubsystem.drive(
-                -Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond,
-                -Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond,
-                -Buttons.rotateSupplier.getAsDouble()*DriveConstants.kTeleopRotationalSpeed,
+                Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond,
+                Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond,
+                Buttons.rotateSupplier.getAsDouble()*DriveConstants.kTeleopRotationalSpeed,
                 true),
             drivetrainSubsystem));
     intakeSubsystem.setDefaultCommand(

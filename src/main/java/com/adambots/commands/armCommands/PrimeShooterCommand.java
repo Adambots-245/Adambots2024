@@ -15,19 +15,21 @@ public class PrimeShooterCommand extends Command {
   /** Creates a new FeedShooterCommand. */
   private ArmSubsystem armSubsystem;
   private ShooterSubsystem shooterSubsystem;
+  private double shooterSpeed;
   
-  public PrimeShooterCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem) {
+  public PrimeShooterCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, double shooterSpeed) {
     addRequirements(armSubsystem, shooterSubsystem);
     
     this.armSubsystem = armSubsystem;
     this.shooterSubsystem = shooterSubsystem;
+    this.shooterSpeed = shooterSpeed;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     armSubsystem.setCurrentState(ArmConstants.speakerState);
-    shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed);
+    shooterSubsystem.setTargetWheelSpeed(shooterSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
