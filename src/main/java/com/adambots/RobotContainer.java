@@ -3,6 +3,7 @@ package com.adambots;
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.GamepadConstants;
+import com.adambots.Constants.ShooterConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.Gamepad.Buttons;
 import com.adambots.commands.AdaptiveScoreCommand;
