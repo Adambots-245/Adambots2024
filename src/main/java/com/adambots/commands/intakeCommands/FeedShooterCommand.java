@@ -13,15 +13,13 @@ public class FeedShooterCommand extends Command {
   /** Creates a new FeedShooterCommand. */
   private IntakeSubsystem intakeSubsystem;
   private ShooterSubsystem shooterSubsystem;
-  private double shooterSpeedThreshold;
   private int inc = 0;
   
-  public FeedShooterCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, double shooterSpeedThreshold) {
+  public FeedShooterCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
     addRequirements(intakeSubsystem, shooterSubsystem);
 
     this.intakeSubsystem = intakeSubsystem;
     this.shooterSubsystem = shooterSubsystem;
-    this.shooterSpeedThreshold = shooterSpeedThreshold;
   }
 
   // Called when the command is initially scheduled.
@@ -33,7 +31,7 @@ public class FeedShooterCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (shooterSubsystem.getShooterVelocity() >= shooterSpeedThreshold) {
+    if (shooterSubsystem.isAtTargetSpeed()) {
       intakeSubsystem.setGroundIntakeMotorSpeed(0.3);
       inc++;
     }
@@ -43,7 +41,7 @@ public class FeedShooterCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     intakeSubsystem.setGroundIntakeMotorSpeed(0);
-    shooterSubsystem.setTargetWheelSpeed(0);
+    shooterSubsystem.setTargetWheelSpeed(0.4);
   }
 
   // Returns true when the command should end.

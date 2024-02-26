@@ -38,18 +38,17 @@ public class FloorIntakeCommand extends Command {
   public void initialize() {
     // if (!intakeSubsystem.isSecondPieceInRobot()) {
       armSubsystem.setCurrentState(ArmConstants.floorState);
-      intakeSubsystem.setGroundIntakeMotorSpeed(0.17);
+      intakeSubsystem.setGroundIntakeMotorSpeed(0.25);
     // }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if (state == "initial" && intakeSubsystem.isFirstPieceInRobot()) {
-    //   intakeSubsystem.setGroundIntakeMotorSpeed(0.18);
-    //   armSubsystem.incrementWristAngle(30);
-    //   state = "touchNote"; //keep this line, prevents above code from running repeatedly
-    // }
+    if (intakeSubsystem.isFirstPieceInRobot()) {
+      intakeSubsystem.setGroundIntakeMotorSpeed(0.15);
+      armSubsystem.setCurrentState(shootState);
+    }
   }
 
   // Called once the command ends or is interrupted.

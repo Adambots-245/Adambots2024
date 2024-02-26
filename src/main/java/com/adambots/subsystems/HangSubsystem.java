@@ -19,17 +19,12 @@ public class HangSubsystem extends SubsystemBase {
   private double leftHangMotorSpeed, rightHangMotorSpeed = 0;
   private Relay leftRelay;
   private Relay rightRelay;
-  
-  // PhotoEye leftLimit;
-  // PhotoEye rightLimit;
 
   public HangSubsystem(BaseMotor leftHangMotor, BaseMotor rightHangMotor, Relay rightRelay, Relay leftRelay) {
     this.leftHangMotor = leftHangMotor;
     this.rightHangMotor = rightHangMotor;
     this.leftRelay = leftRelay;
     this.rightRelay = rightRelay;
-    // this.leftLimit = leftLimit;
-    // this.rightLimit = rightLimit;
 
     leftHangMotor.setInverted(true);
     rightHangMotor.setInverted(false);
@@ -60,10 +55,6 @@ public class HangSubsystem extends SubsystemBase {
     return Math.abs(rightHangMotor.getPosition()); //Return absolute value so motor inversion doesn't affect failsafes
   }
 
-  public Boolean getSolenoidsActive(){
-    return leftRelay.get() == Value.kOn && rightRelay.get() == Value.kOn;
-  }
-
   public void resetEncoders() {
     leftHangMotor.setPosition(0);
     rightHangMotor.setPosition(0);
@@ -74,7 +65,6 @@ public class HangSubsystem extends SubsystemBase {
       leftRelay.set(Value.kOn);
       rightRelay.set(Value.kOn);
     } else{
-
       leftRelay.set(Value.kOff);
       rightRelay.set(Value.kOff);
     }
@@ -89,13 +79,6 @@ public class HangSubsystem extends SubsystemBase {
   }
 
   public void failSafes() {
-    // if (leftLimit.isDetecting() && leftHangMotorSpeed < 0) {
-    //   leftHangMotorSpeed = 0;
-    // }
-    // if (rightLimit.isDetecting() && rightHangMotorSpeed < 0) {
-    //   rightHangMotorSpeed = 0;
-    // }
-
     if (getLeftMotorPosition() < 0 && leftHangMotorSpeed < 0) {
       leftHangMotorSpeed = 0;
     }

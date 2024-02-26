@@ -4,7 +4,6 @@
 
 package com.adambots.commands;
 
-import com.adambots.Constants.ShooterConstants;
 import com.adambots.commands.intakeCommands.AmpScoreCommand;
 import com.adambots.commands.intakeCommands.FeedShooterCommand;
 import com.adambots.subsystems.ArmSubsystem;
@@ -32,7 +31,7 @@ public class AdaptiveScoreCommand extends Command {
   @Override
   public void initialize() {
     if (armSubsystem.getCurrentStateName() == "speaker") {
-      new FeedShooterCommand(intakeSubsystem, shooterSubsystem, 60).schedule();
+      new FeedShooterCommand(intakeSubsystem, shooterSubsystem).schedule();
     } else if (armSubsystem.getCurrentStateName() == "amp") {
       ampScoreCommand = new AmpScoreCommand(intakeSubsystem);
       ampScoreCommand.schedule();
@@ -47,7 +46,7 @@ public class AdaptiveScoreCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (armSubsystem.getCurrentStateName() == "amp") {
+    if (ampScoreCommand != null) {
       ampScoreCommand.cancel();
     }
   }

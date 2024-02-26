@@ -14,19 +14,19 @@
         {
           "type": "named",
           "data": {
-            "name": "PrimeShooterCommand"
+            "name": "PrimeShooterCloseCommand"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "FeedShooterCloseCommand"
+            "name": "FeedShooterCommand"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.15
+            "waitTime": 0.2
           }
         },
         {
@@ -36,7 +36,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "CenterFloorIntakeCommand"
+                  "name": "CenterFloorIntakeAndShootCommand"
                 }
               },
               {
@@ -64,7 +64,7 @@
         {
           "type": "named",
           "data": {
-            "name": "FeedShooterFarCommand"
+            "name": "FeedShooterCommand"
           }
         }
       ]

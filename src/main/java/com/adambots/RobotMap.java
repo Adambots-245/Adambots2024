@@ -73,8 +73,6 @@ public class RobotMap {
     public static final int rightHangMotorPort = 10;
     public static final int leftHangRelayPort = 1;
     public static final int rightHangRelayPort = 0;
-//     public static final int leftHangLimitPort = -1; //TODO: Assign
-//     public static final int rightHangLimitPort = -1;
     
     // Operator Interface Ports (Joystick and XBoxControllers)
     public static final int kJoystickControllerPort = 0;

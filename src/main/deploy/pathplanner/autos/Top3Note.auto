@@ -12,21 +12,15 @@
     "data": {
       "commands": [
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 0.2
+            "name": "PrimeShooterCloseCommand"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "PrimeShooterCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "FeedShooterCloseCommand"
+            "name": "FeedShooterCommand"
           }
         },
         {
@@ -42,7 +36,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "TopFloorIntakeCommand"
+                  "name": "TopFloorIntakeAndShootCommand"
                 }
               },
               {
@@ -76,7 +70,7 @@
         {
           "type": "named",
           "data": {
-            "name": "FeedShooterFarCommand"
+            "name": "FeedShooterCommand"
           }
         },
         {
@@ -86,7 +80,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "TopFloorIntakeCommand"
+                  "name": "TopFloorIntakeAndShootCommand"
                 }
               },
               {
@@ -120,7 +114,7 @@
         {
           "type": "named",
           "data": {
-            "name": "FeedShooterFarCommand"
+            "name": "FeedShooterCommand"
           }
         }
       ]
