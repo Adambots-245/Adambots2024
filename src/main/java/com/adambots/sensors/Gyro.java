@@ -14,7 +14,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 /**
  * Generic gyro sensor to hide actual implementation and ensure uniform values across subsystems
  */
-public class Gyro {
+public class Gyro implements BaseGyro {
     private Pigeon2 gyro;
     
     public Gyro (int CANport){
@@ -27,6 +27,7 @@ public class Gyro {
      * Ensure CCW is a positive value change
      * @return Continous value of gyroscope in degrees
      */
+    @Override
     public double getContinuousYawDeg () {
         return -gyro.getAngle(); //COUNTERCLOCKWISE NEEDS TO BE POSITIVE
     }
@@ -37,6 +38,7 @@ public class Gyro {
      * Ensure CCW is a positive value change
      * @return Continous value of gyroscope in radians
      */
+    @Override
     public Rotation2d getContinuousYawRad () {
         return new Rotation2d(Math.toRadians(getContinuousYawDeg()));
     }
@@ -44,6 +46,7 @@ public class Gyro {
     /**
      * Zeros gyroscope yaw
      */
+    @Override
     public void resetYaw () {
         gyro.reset();
     }
@@ -51,6 +54,7 @@ public class Gyro {
     /**
      * Resets the yaw of the gyroscope to the specified value in degrees
      */
+    @Override
     public void resetYawToAngle (double offsetDeg) {
         gyro.setYaw(offsetDeg);
     }
@@ -61,6 +65,7 @@ public class Gyro {
      * Keep in mind roll and pitch will change depending on robot rotation
      * @return Roll value of gyroscope in degrees
      */
+    @Override
     public double getPitch () {
         return gyro.getRoll().getValueAsDouble();
         // Pitch and roll values are switched for pigeon
@@ -72,6 +77,7 @@ public class Gyro {
      * Keep in mind roll and pitch will change depending on robot rotation
      * @return Pitch value of gyroscope in degrees
      */
+    @Override
     public double getRoll () {
         return gyro.getPitch().getValueAsDouble();
         // Pitch and roll values are switched for pigeon

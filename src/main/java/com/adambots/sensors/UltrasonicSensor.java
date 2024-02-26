@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 /**
  * Generic UltrasonicSensor sensor to hide actual implementation and perform range finding
  */
-public class UltrasonicSensor {
+public class UltrasonicSensor implements BaseUltrasonicSensor {
     // The handle to access the sensor
     private final AnalogInput rangefinder;
     
@@ -32,17 +32,20 @@ public class UltrasonicSensor {
     }
     
     /** Returns the distance measured in inches.  */
+    @Override
     public double getInches(){
         return getCentimeters() / 2.54;
     }
     
     /** Returns the distance measured in inches.  */
+    @Override
     public double getCentimeters(){
         double volts = rangefinder.getAverageVoltage();
         return (double) (volts * SCALING_FACTOR);
     }
     
     /** Returns the distance measured in feet.  */
+    @Override
     public double getFeet(){
         return getInches() / 12.0;
     }

@@ -4,8 +4,8 @@
 
 package com.adambots.subsystems;
 
-import com.adambots.sensors.PhotoEye;
-import com.adambots.utils.BaseMotor;
+import com.adambots.actuators.BaseMotor;
+import com.adambots.sensors.BasePhotoEye;
 import com.adambots.utils.Dash;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -13,15 +13,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class IntakeSubsystem extends SubsystemBase {
 
   BaseMotor groundIntakeMotor;
-  PhotoEye firstPieceInRobotEye;
-  PhotoEye secondPieceInRobotEye;
-  PhotoEye initEye;
+  BasePhotoEye firstPieceInRobotEye;
+  BasePhotoEye secondPieceInRobotEye;
+  BasePhotoEye initEye;
   double groundIntakeMotorSpeed = 0;
   boolean isIntaking = false;
   boolean isNote = false;
   boolean slowSpeed = false;
 
-  public IntakeSubsystem(BaseMotor groundIntakeMotor, PhotoEye firstPieceInRobotEye, PhotoEye secondPieceInRobotEye){
+  public IntakeSubsystem(BaseMotor groundIntakeMotor, BasePhotoEye firstPieceInRobotEye, BasePhotoEye secondPieceInRobotEye){
     this.groundIntakeMotor = groundIntakeMotor;
     this.secondPieceInRobotEye = secondPieceInRobotEye;
     this.firstPieceInRobotEye = firstPieceInRobotEye;

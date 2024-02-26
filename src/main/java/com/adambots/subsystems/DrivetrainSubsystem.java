@@ -13,9 +13,9 @@ import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
 import com.adambots.RobotMap;
-import com.adambots.sensors.Gyro;
+import com.adambots.sensors.BaseGyro;
 import com.adambots.utils.ModuleMap;
-import com.adambots.utils.VisionHelpers;
+import com.adambots.vision.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -32,14 +32,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DrivetrainSubsystem extends SubsystemBase {
   // The gyro sensor
-  private final Gyro m_gyro;
+  private final BaseGyro m_gyro;
 
   // Odometry class for tracking robot pose
   private SwerveDriveOdometry m_odometry;
 
   HashMap<ModulePosition, SwerveModule> swerveModules;
 
-  public DrivetrainSubsystem(HashMap<ModulePosition, SwerveModule> modules, Gyro gyro) {
+  public DrivetrainSubsystem(HashMap<ModulePosition, SwerveModule> modules, BaseGyro gyro) {
     this.swerveModules = modules;
     m_gyro = gyro;
 

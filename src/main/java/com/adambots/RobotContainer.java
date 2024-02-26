@@ -5,7 +5,6 @@ import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.GamepadConstants;
 import com.adambots.Constants.ShooterConstants;
 import com.adambots.Constants.VisionConstants;
-import com.adambots.Gamepad.Buttons;
 import com.adambots.commands.AdaptiveScoreCommand;
 import com.adambots.commands.armCommands.AmpCommand;
 import com.adambots.commands.armCommands.HumanStationCommand;
@@ -31,8 +30,9 @@ import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.subsystems.HangSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
+import com.adambots.utils.Buttons;
 import com.adambots.utils.Dash;
-import com.adambots.utils.VisionHelpers;
+import com.adambots.vision.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 

@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 /**
  * Generic PhotoEye sensor to hide actual implementation
  */
-public class PhotoEye {
+public class PhotoEye implements BasePhotoEye {
     private DigitalInput photoEye;
     private Boolean inverted;
 
@@ -38,6 +38,7 @@ public class PhotoEye {
      *
      * @return Whether or not the PhotoEye is detecting something
      */
+    @Override
     public boolean isDetecting(){
         if (inverted) return !photoEye.get();
         return photoEye.get(); 

@@ -7,7 +7,8 @@ package com.adambots.subsystems;
 import com.adambots.Constants.DriveConstants.ModulePosition;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.ModuleConstants;
-import com.adambots.sensors.AbsoluteEncoder;
+import com.adambots.sensors.BaseAbsoluteEncoder;
+import com.adambots.sensors.CANCoder;
 import com.adambots.utils.Dash;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -25,7 +26,7 @@ public class SwerveModule {
   private final CANSparkMax m_turningMotor;
 
   private final RelativeEncoder m_driveEncoder;
-  private final AbsoluteEncoder m_turningEncoder;
+  private final BaseAbsoluteEncoder m_turningEncoder;
 
   private final PIDController m_turningPIDController =
       new PIDController(ModuleConstants.kPModuleTurningController, 0, ModuleConstants.kDModuleTurningController);
@@ -59,7 +60,7 @@ public class SwerveModule {
     m_turningMotor.enableVoltageCompensation(12.6);
     m_turningMotor.setInverted(true);
 
-    m_turningEncoder = new AbsoluteEncoder(turningEncoderChannel);
+    m_turningEncoder = new CANCoder(turningEncoderChannel);
     
     // Dash.add("Cancoder: " + m_position.name(), () -> m_turningEncoder.getAbsolutePositionDegrees());
     // Dash.add("Wheel Speed: " + m_position.name(), () -> m_driveEncoder.getVelocity()*ModuleConstants.kDriveEncoderVelocityConversionFactor);

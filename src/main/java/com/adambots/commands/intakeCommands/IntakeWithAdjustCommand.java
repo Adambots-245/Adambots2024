@@ -10,7 +10,7 @@ import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
-import com.adambots.utils.VisionHelpers;
+import com.adambots.vision.VisionHelpers;
 
 
 public class IntakeWithAdjustCommand extends Command {

@@ -4,7 +4,7 @@ import java.util.List;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.Dash;
-import com.adambots.utils.VisionHelpers;
+import com.adambots.vision.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.PathConstraints;

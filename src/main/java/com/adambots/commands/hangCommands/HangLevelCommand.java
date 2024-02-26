@@ -6,7 +6,7 @@ package com.adambots.commands.hangCommands;
 
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.HangConstants;
-import com.adambots.sensors.Gyro;
+import com.adambots.sensors.BaseGyro;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.HangSubsystem;
 
@@ -16,10 +16,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class HangLevelCommand extends Command {
   private HangSubsystem hangSubsystem;
   private ArmSubsystem armSubsystem;
-  private Gyro gyro;
+  private BaseGyro gyro;
   private double speed = -0.5;
 
-  public HangLevelCommand(HangSubsystem hangSubsystem, ArmSubsystem armSubsystem, Gyro gyro) {
+  public HangLevelCommand(HangSubsystem hangSubsystem, ArmSubsystem armSubsystem, BaseGyro gyro) {
     addRequirements(hangSubsystem, armSubsystem);
     this.armSubsystem = armSubsystem;
     this.hangSubsystem = hangSubsystem;

@@ -1,4 +1,4 @@
-package com.adambots.utils;
+package com.adambots.vision;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;

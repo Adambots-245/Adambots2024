@@ -12,11 +12,13 @@ import java.util.Map;
 
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
+import com.adambots.actuators.BaseMotor;
+import com.adambots.actuators.TalonFXMotor;
+import com.adambots.sensors.BaseGyro;
+import com.adambots.sensors.BasePhotoEye;
 import com.adambots.sensors.Gyro;
 import com.adambots.sensors.PhotoEye;
 import com.adambots.subsystems.SwerveModule;
-import com.adambots.utils.BaseMotor;
-import com.adambots.utils.TalonFXMotor;
 import com.ctre.phoenix.led.CANdle;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -81,7 +83,7 @@ public class RobotMap {
 
     //Robot Devices
     public static final PowerDistribution PDM = new PowerDistribution(kPDMPort, ModuleType.kRev);
-    public static final Gyro gyro = new Gyro(kGyroPort);
+    public static final BaseGyro gyro = new Gyro(kGyroPort);
     public static final CANdle candleLEDs = new CANdle(kCANdlePort);
 
     // Arm Devices
@@ -95,8 +97,8 @@ public class RobotMap {
 
     // Intake Devices
     public static final BaseMotor groundIntakeMotor = new TalonFXMotor(groundIntakeMotorPort, true);
-    public static final PhotoEye secondPieceInRobotEye = new PhotoEye(secondPieceInRobotEyePort, false);
-    public static final PhotoEye firstPieceInRobotEye = new PhotoEye(firstPieceInRobotEyePort, false);
+    public static final BasePhotoEye secondPieceInRobotEye = new PhotoEye(secondPieceInRobotEyePort, false);
+    public static final BasePhotoEye firstPieceInRobotEye = new PhotoEye(firstPieceInRobotEyePort, false);
 
     // Hang Devices
     public static final BaseMotor leftHangMotor = new TalonFXMotor(leftHangMotorPort, false);

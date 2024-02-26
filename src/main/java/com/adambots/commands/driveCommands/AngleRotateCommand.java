@@ -4,12 +4,12 @@ import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
-import com.adambots.Gamepad.Buttons;
-import com.adambots.sensors.Gyro;
+import com.adambots.sensors.BaseGyro;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
-import com.adambots.utils.VisionHelpers;
+import com.adambots.utils.Buttons;
+import com.adambots.vision.VisionHelpers;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class AngleRotateCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
   private CANdleSubsystem caNdleSubsystem;
-  private Gyro gyro;
+  private BaseGyro gyro;
   private final PIDController angleTurningPIDController = new PIDController(AutoConstants.kPThetaController, 0, AutoConstants.kDThetaController);
   private final double filterSens = 0.1;
   private double oldRotate;
@@ -26,7 +26,7 @@ public class AngleRotateCommand extends Command {
   private boolean continuous;
   private String limelight;
 
-  public AngleRotateCommand(DrivetrainSubsystem driveTrainSubsystem, CANdleSubsystem caNdleSubsystem, Gyro gyro) {
+  public AngleRotateCommand(DrivetrainSubsystem driveTrainSubsystem, CANdleSubsystem caNdleSubsystem, BaseGyro gyro) {
     addRequirements(driveTrainSubsystem);
     this.driveTrainSubsystem = driveTrainSubsystem;
     this.caNdleSubsystem = caNdleSubsystem;

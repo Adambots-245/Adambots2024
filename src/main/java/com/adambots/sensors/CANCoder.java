@@ -15,10 +15,10 @@ import edu.wpi.first.math.util.Units;
 /**
  * Generic Absolute Encoder sensor to hide actual implementation and ensure uniform values across subsystems
  */
-public class AbsoluteEncoder {
+public class CANCoder implements BaseAbsoluteEncoder {
     private CANcoder encoder;
     
-    public AbsoluteEncoder (int port){
+    public CANCoder (int port){
         this.encoder = new CANcoder(port); //Defining the encoder using the port passed in
     }
 
@@ -26,6 +26,7 @@ public class AbsoluteEncoder {
      * Returns the discrete (does not continue past 360) value of the encoder in degrees
      * @return Discrete value of encoder in degrees
      */
+    @Override
     public double getAbsolutePositionDegrees () {
         return encoder.getAbsolutePosition().getValueAsDouble()*360;
     }
@@ -34,6 +35,7 @@ public class AbsoluteEncoder {
      * Returns the discrete (does not continue past 2pi) value of the encoder in radians
      * @return Discrete value of encoder in radians
      */
+    @Override
     public double getAbsolutePositionRadians () {
         return Units.degreesToRadians(getAbsolutePositionDegrees());
     }
@@ -42,6 +44,7 @@ public class AbsoluteEncoder {
      * Returns the discrete (does not continue past 2pi) value of the encoder in radians
      * @return Discrete value of encoder in radians
      */
+    @Override
     public Rotation2d getAbsolutePositionRotation2D () {
         return new Rotation2d(Units.degreesToRadians(getAbsolutePositionDegrees()));
     }

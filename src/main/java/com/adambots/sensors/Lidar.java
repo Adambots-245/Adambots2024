@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 /**
  * Generic lidar sensor to hide actual implementation
  */
-public class Lidar {
+public class Lidar implements BaseLidar {
     private Counter counter;
     private DigitalInput _source = null;
 	
@@ -35,6 +35,7 @@ public class Lidar {
 	 * 
 	 * @return Distance in cm
 	 */
+	@Override
 	public double getDistCm() {
 		double cm;
 
@@ -49,6 +50,7 @@ public class Lidar {
      * 
 	 * @return Distance in inches
 	 */
+	@Override
 	public double getDistInches() {
 		return getDistCm() / 2.54;
     }
