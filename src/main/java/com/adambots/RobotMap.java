@@ -14,10 +14,12 @@ import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
 import com.adambots.actuators.BaseMotor;
 import com.adambots.actuators.TalonFXMotor;
+import com.adambots.sensors.BaseAbsoluteEncoder;
 import com.adambots.sensors.BaseGyro;
 import com.adambots.sensors.BasePhotoEye;
 import com.adambots.sensors.Gyro;
 import com.adambots.sensors.PhotoEye;
+import com.adambots.sensors.ThroughBoreEncoder;
 import com.adambots.subsystems.SwerveModule;
 import com.ctre.phoenix.led.CANdle;
 
@@ -87,8 +89,8 @@ public class RobotMap {
     // Arm Devices
     public static final BaseMotor shoulderMotor = new TalonFXMotor(shoulderMotorPort, true);
     public static final BaseMotor wristMotor = new TalonFXMotor(wristMotorPort, true);
-    public static final DutyCycleEncoder shoulderEncoder = new DutyCycleEncoder(shoulderEncoderPort);
-    public static final DutyCycleEncoder wristEncoder = new DutyCycleEncoder(wristEncoderPort);
+    public static final BaseAbsoluteEncoder shoulderEncoder = new ThroughBoreEncoder(shoulderEncoderPort);
+    public static final BaseAbsoluteEncoder wristEncoder = new ThroughBoreEncoder(wristEncoderPort);
 
     // Shooter Devices
     public static final BaseMotor shooterWheel = new TalonFXMotor(shooterWheelPort, true);

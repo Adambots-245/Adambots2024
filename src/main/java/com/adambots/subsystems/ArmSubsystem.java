@@ -7,19 +7,19 @@ package com.adambots.subsystems;
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.ArmConstants.State;
 import com.adambots.actuators.BaseMotor;
+import com.adambots.sensors.BaseAbsoluteEncoder;
 import com.adambots.utils.Dash;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase {
   BaseMotor shoulderMotor;
   BaseMotor wristMotor;
-  DutyCycleEncoder shoulderEncoder;
-  DutyCycleEncoder wristEncoder;
+  BaseAbsoluteEncoder shoulderEncoder;
+  BaseAbsoluteEncoder wristEncoder;
   PIDController shoulderPID = new PIDController(0.018, 0.008, 0.002); //.00005
   PIDController wristPID = new PIDController(0.007, 0.009, 0.0006);
 
@@ -36,7 +36,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   boolean failsafeOverride = false;
 
-  public ArmSubsystem(BaseMotor shoulderMotor, BaseMotor wristMotor, DutyCycleEncoder shoulderEncoder, DutyCycleEncoder wristEncoder) {
+  public ArmSubsystem(BaseMotor shoulderMotor, BaseMotor wristMotor, BaseAbsoluteEncoder shoulderEncoder, BaseAbsoluteEncoder wristEncoder) {
     this.shoulderMotor = shoulderMotor;
     this.wristMotor = wristMotor;
     this.shoulderEncoder = shoulderEncoder;
@@ -87,11 +87,11 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public double getCurrentWristAngle(){
-    return wristEncoder.getAbsolutePosition() * 360;
+    return wristEncoder.getAbsolutePositionDegrees();
   }
 
   public double getCurrentShoulderAngle(){
-    return shoulderEncoder.getAbsolutePosition() * 360;
+    return shoulderEncoder.getAbsolutePositionDegrees();
   }
 
   public void setCurrentState(State newState) {
