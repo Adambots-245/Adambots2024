@@ -18,12 +18,13 @@ public final class Constants {
     public static final String CANivoreBus = "CANivore";
 
     public static final class LEDConstants {
-        public static final int LEDS_IN_STRIP = 200;
+        public static final int LEDS_IN_STRIP = 54;
 
         public static final Color adambotsYellow = new Color(255, 216, 0);
         public static final Color yellow = new Color(255, 150, 0);
         public static final Color blue = new Color(0, 0, 255);
         public static final Color orange = new Color(255, 90, 5);
+        public static final Color green = new Color(0, 255, 0);
     }
 
     public static final class VisionConstants {
@@ -182,7 +183,7 @@ public final class Constants {
         public static final double centerfloorShootShoulderAngle = 125.7; 
      
         // Top 2 note floor shoot
-        public static final double topFloorShootWristAngle = 319.7;
+        public static final double topFloorShootWristAngle = 320.7;
         public static final double topfloorShootShoulderAngle = 125.7; 
 
         public static final double hangWristAngle = 186;

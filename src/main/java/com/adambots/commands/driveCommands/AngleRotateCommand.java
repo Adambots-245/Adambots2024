@@ -21,6 +21,7 @@ public class AngleRotateCommand extends Command {
     addRequirements(driveTrainSubsystem);
 
     angleTurningPIDController.enableContinuousInput(-Math.PI, Math.PI);
+    angleTurningPIDController.disableContinuousInput();
 
     this.driveTrainSubsystem = driveTrainSubsystem;
     this.targetAngle = targetAngle;

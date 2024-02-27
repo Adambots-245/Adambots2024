@@ -62,6 +62,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "BottomReturn1"
@@ -89,6 +95,12 @@
           "type": "named",
           "data": {
             "name": "FeedShooterCommand"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BottomExit2"
           }
         }
       ]

@@ -34,11 +34,12 @@ public class CANdleSubsystem extends SubsystemBase {
   private Animation toAnimate = null;
   
   @Override
-  public void periodic() {    
+  public void periodic() {      
     if (candle == null) {
       return;
     }
 
+  
     if (toAnimate == null) {   
       if(!setAnim) {
         /* Only setLEDs once, because every set will transmit a frame */
@@ -83,15 +84,16 @@ public class CANdleSubsystem extends SubsystemBase {
     CANdleConfiguration configAll = new CANdleConfiguration();
     configAll.statusLedOffWhenActive = true;
     configAll.disableWhenLOS = true;
-    configAll.stripType = LEDStripType.GRB; // the BTF-Lighting LED strip uses GRB format
-    configAll.brightnessScalar = 1;
+    configAll.stripType = LEDStripType.RGB; // the BTF-Lighting LED strip uses GRB format
+    configAll.brightnessScalar = 1000;
     configAll.vBatOutputMode = VBatOutputMode.Modulated;
 
     candleDevice.configAllSettings(configAll, 100);
 
     clearAllAnims();
     changeAnimation(AnimationTypes.SetAll);
-    setColor(LEDConstants.adambotsYellow); //Adambots Yellow
+    configBrightness(100);
+    // setColor(LEDConstants.adambotsYellow); //Adambots Yellow
   }
 
   public void setColor(Color color) {
@@ -137,6 +139,11 @@ public class CANdleSubsystem extends SubsystemBase {
     candle.setLEDs(r, g, b, 0, startIdx, numOfLEDs);
   }
 
+  public void setStrobe(Color color) {
+    candleChannel = 6;
+    toAnimate = new StrobeAnimation((int) color.red, (int) color.green, (int) color.blue, 1, 1, LEDS_IN_STRIP, 8);
+  }
+
   // public void setmodulateVBatOutput(double dutyCycle) {
   //   this.vbatOutput = dutyCycle;
   // }
@@ -158,9 +165,9 @@ public class CANdleSubsystem extends SubsystemBase {
   //   return candle.getTemperature();
   // }
 
-  // public void configBrightness(double percent) {
-  //   candle.configBrightnessScalar(percent, 0);
-  // }
+  public void configBrightness(double percent) {
+    candle.configBrightnessScalar(percent, 0);
+  }
 
   // public void configLos(boolean disableWhenLos) {
   //   candle.configLOSBehavior(disableWhenLos, 0);
@@ -203,7 +210,7 @@ public class CANdleSubsystem extends SubsystemBase {
         break;
       case Strobe:
         candleChannel = 6;
-        toAnimate = new StrobeAnimation(255, 255, 255, 1, 1, LEDS_IN_STRIP, 8);
+        toAnimate = new StrobeAnimation(0, 0, 255, 1, 1, LEDS_IN_STRIP, 8);
         break;
       case Twinkle:
         candleChannel = 7;

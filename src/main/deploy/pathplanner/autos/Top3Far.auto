@@ -74,7 +74,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "TopFloorIntakeAndShootCommand"
+                  "name": "TopFloorIntakeCloseCommand"
                 }
               },
               {
@@ -109,6 +109,12 @@
           "type": "named",
           "data": {
             "name": "AprilAlignCommand"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
           }
         },
         {

@@ -115,6 +115,9 @@ public class RobotContainer {
      * Manual Adjusts
      */
 
+    // ledSubsystem.setColor(LEDConstants.green); 
+    ledSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.Larson);
+
     Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem));
 
     Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
@@ -123,6 +126,8 @@ public class RobotContainer {
     Buttons.JoystickButton6.whileTrue(new AlignRotateDriveCommand(drivetrainSubsystem, ledSubsystem, false, VisionConstants.noteLimelite));
     Buttons.JoystickButton5.whileTrue(new AngleRotateCommand(drivetrainSubsystem, 90, RobotMap.gyro));
     Buttons.JoystickButton8.whileTrue(new SpinFastCommand(drivetrainSubsystem));
+
+    Buttons.JoystickButton4.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro)); //Hang on the chain
 
 
     //Xbox Button Bindings 
@@ -142,7 +147,7 @@ public class RobotContainer {
 
     //These commands do automatically engage solenoids if you are running the winches out (and leaves time for solenoids to engage)
     Buttons.XboxBackButton.whileTrue(new RunHangCommand(hangSubsystem, 1)); //Raises bendy rods up
-    Buttons.XboxStartButton.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro)); //Hang on the chain
+    Buttons.XboxBackButton.whileTrue(new RunHangCommand(hangSubsystem, -0.25)); //Brings bendy rods down
 
 
     //Xbox DPad Bindings

@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 2.29,
-        "y": 6.768863523461712
+        "x": 1.3401303606158823,
+        "y": 6.307602226747184
       },
       "prevControl": {
-        "x": 3.6091257309761424,
-        "y": 6.940474383088567
+        "x": 2.659262771129703,
+        "y": 6.479161734782171
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +30,25 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.85,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "TopShootSpeakerCommand"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -39,7 +57,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 30.69972255081446,
+    "rotation": 28.539985187960045,
     "rotateFast": false
   },
   "reversed": false,
