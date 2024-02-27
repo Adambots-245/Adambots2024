@@ -1,13 +1,9 @@
 package com.adambots.commands.driveCommands;
-import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.sensors.BaseGyro;
-import com.adambots.subsystems.ArmSubsystem;
-import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.Buttons;
-import com.adambots.vision.VisionHelpers;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -15,16 +11,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class AngleRotateCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
-  private CANdleSubsystem caNdleSubsystem;
+  // private CANdleSubsystem caNdleSubsystem;
   private BaseGyro gyro;
-  private final PIDController angleTurningPIDController = new PIDController(AutoConstants.kPThetaController, 0, AutoConstants.kDThetaController);
-  private final double filterSens = 0.1;
-  private double oldRotate;
-  private double newRotate;
+  private final PIDController angleTurningPIDController = new PIDController(VisionConstants.kPAprilThetaController, 0, VisionConstants.kDAprilThetaController);
   private double drive_output;
   private double targetAngle;
 
-  public AngleRotateCommand(DrivetrainSubsystem driveTrainSubsystem, CANdleSubsystem caNdleSubsystem, BaseGyro gyro) {
+  public AngleRotateCommand(DrivetrainSubsystem driveTrainSubsystem, double targetAngle, BaseGyro gyro) {
     addRequirements(driveTrainSubsystem);
 
     angleTurningPIDController.enableContinuousInput(-Math.PI, Math.PI);

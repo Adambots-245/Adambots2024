@@ -3,7 +3,7 @@ import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
-import com.adambots.utils.VisionHelpers;
+import com.adambots.vision.VisionHelpers;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
