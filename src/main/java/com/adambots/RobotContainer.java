@@ -27,7 +27,6 @@ import com.adambots.commands.visionCommands.AlignRotateDriveCommand;
 import com.adambots.commands.visionCommands.AprilAlignRotateCommand;
 import com.adambots.commands.visionCommands.DriveToNoteCommand;
 import com.adambots.commands.visionCommands.NoteAlignRotateCommand;
-import com.adambots.commands.visionCommands.PathPlannerAlign;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
@@ -48,7 +47,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-// import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /**
@@ -97,27 +95,34 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //JOYSTICK BINDINGS SHOULD BE IN NUMERICAL ORDER TO PREVENT DOUBLE BINDINGS
+
+    /* Primary bindings:
+     * Adaptive Score
+     * Reset Yaw (Should be a side button, shouldnt be needed for comp)
+     * AlignRotateDriveCommand (to apriltag and note) - Should we make adaptive depending on arm state?
+     * AngleRotateCommand (To human player station)
+     * SpinFastCommand (for defense)
+     * 
+     * Secondary Bindings:
+     * Intake
+     * Human station
+     * Amp
+     * Prime Shooter
+     * 
+     * Hang level
+     * Drop from hang
+     * 
+     * Manual Adjusts
+     */
+
     Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem));
 
     Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
     
-
-    //Debugging and Testing
-    Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem));
-    // Buttons.JoystickButton4.onTrue(new InstantCommand(() -> drivetrainSubsystem.resetOdometry(new Pose2d())));
-
     Buttons.JoystickButton7.whileTrue(new AlignRotateDriveCommand(drivetrainSubsystem, ledSubsystem, true, VisionConstants.aprilLimelite));
     Buttons.JoystickButton6.whileTrue(new AlignRotateDriveCommand(drivetrainSubsystem, ledSubsystem, false, VisionConstants.noteLimelite));
     Buttons.JoystickButton5.whileTrue(new AngleRotateCommand(drivetrainSubsystem, 90, RobotMap.gyro));
-    Buttons.JoystickButton8.whileTrue(new SpinFastCommand(drivetrainSubsystem)); //TODO: align and drive towards it
-
-    // Buttons.JoystickButton6.onTrue(new AprilAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 5, 5));
-    // Buttons.JoystickButton8.onTrue(new NoteAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 5, 5));
-
-    // Buttons.JoystickButton2.onTrue(new SequentialCommandGroup(new PathPlannerAlign(drivetrai\nSubsystem), new PathPlannerAlign(drivetrainSubsystem)));
-
-    // Buttons.XboxDPadE.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
-    // Buttons.XboxXButton.onTruef(new ChangeArmStateCommand(armSubsystem, ArmConstants.trapState));
+    Buttons.JoystickButton8.whileTrue(new SpinFastCommand(drivetrainSubsystem));
 
 
     //Xbox Button Bindings 
@@ -126,29 +131,18 @@ public class RobotContainer {
 
     Buttons.XboxBButton.whileTrue(new HumanStationCommand(armSubsystem, intakeSubsystem));
 
-    Buttons.XboxXButton.whileTrue(new AmpCommand(armSubsystem)); //TODO: Maybe add a slowintake
+    Buttons.XboxXButton.whileTrue(new AmpCommand(armSubsystem));
 
     Buttons.XboxYButton.onTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, ShooterConstants.highSpeed));
     Buttons.XboxYButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
-
-    //Temporary Hang Commands
-    Buttons.JoystickButton4.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro));
-    Buttons.JoystickButton10.onTrue(new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.speakerState))); //Encoders should be reset where rods are within frame perim
-    Buttons.JoystickButton9.onTrue(new InstantCommand(() -> hangSubsystem.resetEncoders())); //Encoders should be reset where rods are within frame perim
-    Buttons.XboxLeftStickButton.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(1)));
-    Buttons.XboxRightStickButton.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(0)));
-    // Buttons.XboxLeftStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setSolenoids(true)));
-    // Buttons.XboxRightStickButton.onTrue(new InstantCommand(() -> hangSubsystem.setSolenoids(false)));
-
-
 
     //THESE COMMANDS DO NOT AUTO ENGAGE SOLENOIDS - which is why they are negative, where the solenoid should be left unpowered
     Buttons.XboxLeftBumper.whileTrue(new RunLeftHangCommand(hangSubsystem, -0.25)); //Run left winch in 
     Buttons.XboxRightBumper.whileTrue(new RunRightHangCommand(hangSubsystem, -0.25)); //Run right winch in
 
     //These commands do automatically engage solenoids if you are running the winches out (and leaves time for solenoids to engage)
-    Buttons.XboxBackButton.whileTrue(new RunHangCommand(hangSubsystem, 1)); //Drops robot down (auto engages solenoids)
-    Buttons.XboxStartButton.whileTrue(new RunHangCommand(hangSubsystem, -0.25)); //Lifts robot up
+    Buttons.XboxBackButton.whileTrue(new RunHangCommand(hangSubsystem, 1)); //Raises bendy rods up
+    Buttons.XboxStartButton.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro)); //Hang on the chain
 
 
     //Xbox DPad Bindings
@@ -157,6 +151,21 @@ public class RobotContainer {
     
     Buttons.XboxDPadE.whileTrue(new RotateWristCommand(armSubsystem, -0.5, true));
     Buttons.XboxDPadW.whileTrue(new RotateWristCommand(armSubsystem, 0.5, true));
+
+
+    //NOT NEEDED FOR COMP
+    Buttons.JoystickButton10.onTrue(new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.speakerState))); //Encoders should be reset where rods are within frame perim
+    Buttons.JoystickButton9.onTrue(new InstantCommand(() -> hangSubsystem.resetEncoders())); //Encoders should be reset where rods are within frame perim
+
+    // Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem));
+
+    // Buttons.JoystickButton6.onTrue(new AprilAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 5, 5));
+    // Buttons.JoystickButton8.onTrue(new NoteAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 5, 5));
+
+    // Buttons.JoystickButton2.onTrue(new SequentialCommandGroup(new PathPlannerAlign(drivetrai\nSubsystem), new PathPlannerAlign(drivetrainSubsystem)));
+
+    // Buttons.XboxDPadE.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
+    // Buttons.XboxXButton.onTruef(new ChangeArmStateCommand(armSubsystem, ArmConstants.trapState));
   }
 
 
@@ -176,8 +185,6 @@ public class RobotContainer {
     NamedCommands.registerCommand("BottomFloorIntakeAndShootCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.defaultState));
     NamedCommands.registerCommand("TopFloorIntakeCloseCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.defaultState));
     NamedCommands.registerCommand("TopShootSpeakerCommand", new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.speakerState)));
-
-
 
     NamedCommands.registerCommand("PrintCommand",new PrintCommand("Path Following Finished"));
     NamedCommands.registerCommand("StopCommand",new StopCommand(drivetrainSubsystem));
