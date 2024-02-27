@@ -33,7 +33,8 @@ public class AlignRotateDriveCommand extends Command {
   public void initialize() {
     drive_output = 0;
     caNdleSubsystem.clearAllAnims();
-    caNdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.Strobe);
+    caNdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.SetAll);
+    caNdleSubsystem.setColor(LEDConstants.yellow);
     // caNdleSubsystem.setStrobe(LEDConstants.yellow);
   }
 
@@ -45,7 +46,7 @@ public class AlignRotateDriveCommand extends Command {
     // Calculates the drive rotation
     if (limelight == VisionConstants.noteLimelite){
       drive_output = noteTurningPIDController.calculate(Math.toRadians(rotate), 0);
-    } else if (limelight == VisionConstants.aprilLimelite && VisionHelpers.getAprilTagID() == 4){
+    } else if (limelight == VisionConstants.aprilLimelite && (VisionHelpers.getAprilTagID() == 4 || VisionHelpers.getAprilTagID() == 7)){
       drive_output = aprilTurningPIDController.calculate(Math.toRadians(rotate), 0);
     } else {
       drive_output = 0;
@@ -64,10 +65,10 @@ public class AlignRotateDriveCommand extends Command {
     }
     //Checks to see if the filtered angle is within the aligned bounds
     //Checks to see if the robot is at that position for more than just a single moment
-    if(Math.abs(rotate) < 3 && VisionHelpers.isDetected(limelight)){
-      caNdleSubsystem.setStrobe(LEDConstants.green);
+    if(Math.abs(rotate) < 5 && VisionHelpers.isDetected(limelight)){
+      caNdleSubsystem.setColor(LEDConstants.green);
     } else {
-      caNdleSubsystem.setStrobe(LEDConstants.yellow);
+      caNdleSubsystem.setColor(LEDConstants.yellow);
     }
   }
 

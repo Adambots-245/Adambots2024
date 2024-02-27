@@ -97,7 +97,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "TopFar2"
+                        "pathName": "TopFar2Beta"
                       }
                     },
                     {
@@ -115,7 +115,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TopReturnToShoot"
+            "pathName": "TopReturnToShootBeta"
           }
         },
         {

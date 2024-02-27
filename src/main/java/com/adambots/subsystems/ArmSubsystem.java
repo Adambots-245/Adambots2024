@@ -115,7 +115,7 @@ public class ArmSubsystem extends SubsystemBase {
     } else if (currentStateName.equals("default")) {
       setPidTolerence(5);
     }else {
-      setPidTolerence(1);
+      setPidTolerence(0);
     }
 
     wristPID.reset();

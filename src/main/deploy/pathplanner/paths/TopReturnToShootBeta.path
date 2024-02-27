@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.94,
-        "y": 7.21
+        "x": 6.810799503951951,
+        "y": 5.958801173984146
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.078884289180846,
-        "y": 6.861369417831561
+        "x": 5.195299891154725,
+        "y": 7.399900260399857
       },
       "isLocked": false,
-      "linkedName": "TopFar2"
+      "linkedName": "Far2Endpoint"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 6.307602226747184
       },
       "prevControl": {
-        "x": 2.359132410513821,
-        "y": 6.479161734782171
+        "x": 2.441607369341265,
+        "y": 6.500360703274127
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,5 +48,5 @@
     "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

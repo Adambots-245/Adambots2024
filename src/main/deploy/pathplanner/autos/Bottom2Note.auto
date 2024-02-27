@@ -102,6 +102,12 @@
           "data": {
             "pathName": "BottomExit2"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopCommand"
+          }
         }
       ]
     }

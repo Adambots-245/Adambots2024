@@ -54,6 +54,12 @@
                       "data": {
                         "pathName": "CenterPickup1"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "StopCommand"
+                      }
                     }
                   ]
                 }

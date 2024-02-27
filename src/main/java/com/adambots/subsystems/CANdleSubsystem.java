@@ -84,8 +84,8 @@ public class CANdleSubsystem extends SubsystemBase {
     CANdleConfiguration configAll = new CANdleConfiguration();
     configAll.statusLedOffWhenActive = true;
     configAll.disableWhenLOS = true;
-    configAll.stripType = LEDStripType.RGB; // the BTF-Lighting LED strip uses GRB format
-    configAll.brightnessScalar = 1000;
+    configAll.stripType = LEDStripType.GRB; // the BTF-Lighting LED strip uses GRB format
+    configAll.brightnessScalar = 1;
     configAll.vBatOutputMode = VBatOutputMode.Modulated;
 
     candleDevice.configAllSettings(configAll, 100);
@@ -97,7 +97,7 @@ public class CANdleSubsystem extends SubsystemBase {
   }
 
   public void setColor(Color color) {
-    setColor((int) color.red, (int) color.green, (int) color.blue);
+    setColor((int) color.red * 255, (int) color.green * 255, (int) color.blue * 255);
 
     setAnim = false;
   }
@@ -141,7 +141,9 @@ public class CANdleSubsystem extends SubsystemBase {
 
   public void setStrobe(Color color) {
     candleChannel = 6;
-    toAnimate = new StrobeAnimation((int) color.red, (int) color.green, (int) color.blue, 1, 1, LEDS_IN_STRIP, 8);
+    // toAnimate = new StrobeAnimation(0, 0, 255, 0, 0, LEDS_IN_STRIP, 8);
+    System.out.println(color.red);
+    toAnimate = new StrobeAnimation((int) color.red , (int) color.green, (int) color.blue, 0, 0, LEDS_IN_STRIP, 8);
   }
 
   // public void setmodulateVBatOutput(double dutyCycle) {
@@ -186,7 +188,7 @@ public class CANdleSubsystem extends SubsystemBase {
       default:
       case ColorFlow:
         candleChannel = 0;
-        toAnimate = new ColorFlowAnimation(255, 150, 0, 0, 0.7, LEDS_IN_STRIP, Direction.Forward, 8);
+        toAnimate = new ColorFlowAnimation(255, 150, 0, 0, 1, LEDS_IN_STRIP, Direction.Forward, 8);
         break;
       case Fire:
         candleChannel = 1;
@@ -194,7 +196,7 @@ public class CANdleSubsystem extends SubsystemBase {
         break;
       case Larson:
         candleChannel = 2;
-        toAnimate = new LarsonAnimation(255, 150, 0, 100, 0.001, LEDS_IN_STRIP, BounceMode.Front, 30, 8);
+        toAnimate = new LarsonAnimation(255, 150, 0, 100, 0.001, LEDS_IN_STRIP, BounceMode.Front, 30, 0);
         break;
       case Rainbow:
         candleChannel = 3;
@@ -210,11 +212,11 @@ public class CANdleSubsystem extends SubsystemBase {
         break;
       case Strobe:
         candleChannel = 6;
-        toAnimate = new StrobeAnimation(0, 0, 255, 1, 1, LEDS_IN_STRIP, 8);
+        toAnimate = new StrobeAnimation(0, 0, 255, 0, 0, LEDS_IN_STRIP, 8);
         break;
       case Twinkle:
         candleChannel = 7;
-        toAnimate = new TwinkleAnimation(0, 255, 0, 0, 0.4, LEDS_IN_STRIP, TwinklePercent.Percent100, 0);
+        toAnimate = new TwinkleAnimation(0, 255, 0, 0, 1, LEDS_IN_STRIP, TwinklePercent.Percent100, 0);
         break;
       case TwinkleOff:
         candleChannel = 8;
