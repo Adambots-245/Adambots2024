@@ -62,27 +62,9 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "BottomReturn1"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "StopCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "TopShootSpeakerCommand"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.5
+            "name": "AprilAlignCommand"
           }
         },
         {
