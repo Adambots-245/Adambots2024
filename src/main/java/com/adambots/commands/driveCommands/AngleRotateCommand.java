@@ -21,6 +21,7 @@ public class AngleRotateCommand extends Command {
     addRequirements(driveTrainSubsystem);
 
     angleTurningPIDController.enableContinuousInput(-Math.PI, Math.PI);
+    angleTurningPIDController.disableContinuousInput();
 
     this.driveTrainSubsystem = driveTrainSubsystem;
     this.targetAngle = targetAngle;
@@ -48,7 +49,7 @@ public class AngleRotateCommand extends Command {
     drive_output = angleTurningPIDController.calculate(Math.toRadians(rotate), Math.toRadians(adjustedTargetAngle));
 
     //Moves left or right depending on the angle
-    driveTrainSubsystem.drive(-Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond, -Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond , drive_output, true);  
+    driveTrainSubsystem.drive(Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond, Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond , drive_output, true);  
   }
 
   // Called once the command ends or is interrupted.

@@ -12,27 +12,15 @@
     "data": {
       "commands": [
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 0.2
+            "name": "PrimeShooterCloseCommand"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "PrimeShooterCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "FeedShooterCloseCommand"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
+            "name": "FeedShooterCommand"
           }
         },
         {
@@ -42,7 +30,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "TopFloorIntakeCommand"
+                  "name": "TopFloorIntakeAndShootCommand"
                 }
               },
               {
@@ -76,19 +64,63 @@
         {
           "type": "named",
           "data": {
-            "name": "FeedShooterFarCommand"
+            "name": "FeedShooterCommand"
           }
         },
         {
-          "type": "wait",
+          "type": "deadline",
           "data": {
-            "waitTime": 1.0
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "TopFloorIntakeCloseCommand"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "TopFar2"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "DriveToNoteCommand"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "TopFar2"
+            "pathName": "TopReturnToShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AprilAlignCommand"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FeedShooterCommand"
           }
         }
       ]

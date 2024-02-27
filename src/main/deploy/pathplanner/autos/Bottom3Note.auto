@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3842846515935527,
-      "y": 5.53
+      "x": 0.7159600556714989,
+      "y": 4.398375411623188
     },
-    "rotation": 0.0
+    "rotation": -60.0
   },
   "command": {
     "type": "sequential",
@@ -36,7 +36,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "CenterFloorIntakeAndShootCommand"
+                  "name": "BottomFloorIntakeAndShootCommand"
                 }
               },
               {
@@ -44,21 +44,27 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "wait",
+                      "type": "path",
                       "data": {
-                        "waitTime": 0.75
+                        "pathName": "BottomPickup1"
                       }
                     },
                     {
-                      "type": "path",
+                      "type": "named",
                       "data": {
-                        "pathName": "CenterPickup1"
+                        "name": "StopCommand"
                       }
                     }
                   ]
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AprilAlignCommand"
           }
         },
         {

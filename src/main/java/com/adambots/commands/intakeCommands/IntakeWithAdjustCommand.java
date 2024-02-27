@@ -32,16 +32,17 @@ public class IntakeWithAdjustCommand extends Command {
   public void initialize() {
     if (!intakeSubsystem.isSecondPieceInRobot()) {
       armSubsystem.setCurrentState(ArmConstants.floorState);
-      intakeSubsystem.setGroundIntakeMotorSpeed(0.17);
+      intakeSubsystem.setGroundIntakeMotorSpeed(0.2);
     }
+    state = "initial";
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (state == "initial" && intakeSubsystem.isFirstPieceInRobot()) {
-      intakeSubsystem.setGroundIntakeMotorSpeed(0.06);
-      armSubsystem.incrementWristAngle(30);
+      intakeSubsystem.setGroundIntakeMotorSpeed(0.12);
+      armSubsystem.incrementWristAngle(15);
       state = "touchNote"; //keep this line, prevents above code from running repeatedly
     }
   }

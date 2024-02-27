@@ -18,12 +18,13 @@ public final class Constants {
     public static final String CANivoreBus = "CANivore";
 
     public static final class LEDConstants {
-        public static final int LEDS_IN_STRIP = 200;
+        public static final int LEDS_IN_STRIP = 54;
 
         public static final Color adambotsYellow = new Color(255, 216, 0);
         public static final Color yellow = new Color(255, 150, 0);
         public static final Color blue = new Color(0, 0, 255);
         public static final Color orange = new Color(255, 90, 5);
+        public static final Color green = new Color(0, 255, 0);
     }
 
     public static final class VisionConstants {
@@ -98,7 +99,7 @@ public final class Constants {
 
     public static final class AutoConstants {
         // PD values for auton X, Y translational movement
-        public static final double kPTranslationController = 11; 
+        public static final double kPTranslationController = 7; 
         public static final double kDTranslationController = 0.11;
 
         // PD values for auton rotational movement
@@ -127,9 +128,9 @@ public final class Constants {
     }
 
     public static final class ShooterConstants{
-        public static final double lowSpeed = 37;
+        public static final double lowSpeed = 80;
         public static final double mediumSpeed = 65;
-        public static final double highSpeed = 83;
+        public static final double highSpeed = 90;
         public static final double maxSpeed = 94;
     }
 
@@ -138,7 +139,7 @@ public final class Constants {
         public static final double maxShoulderUpSpeed = 0.4; //1.0
         public static final double maxShoulderDownSpeed = 0.4; //0.5
         public static final double maxShoulderDownSpeedNitro = 0.95;
-        public static final double shoulderLowerLimit = 115;
+        public static final double shoulderLowerLimit = 110;
         public static final double shoulderDangerZoneThreshold = 155; //153 
         public static final double shoulderUpperLimit = 203;
 
@@ -152,34 +153,45 @@ public final class Constants {
         // Arm Angle Offset
         public static final double shoulderOffset = 0;
         public static final double wristOffset = 0;
+     
         // Floor Pickup
         public static final double floorWristAngle = 313;
-        public static final double floorShoulderAngle = 121.5;
+        public static final double floorShoulderAngle = 114.5;
+      
         // Amp Scoring
-        public static final double ampWristAngle = 287;
+        public static final double ampWristAngle = 283;
         public static final double ampShoulderAngle = 184.3;
+      
         // Human Player Pickup
         public static final double humanWristAngle = 310;
         public static final double humanShoulderAngle = 180.3;
+      
         // trap scoring
         public static final double trapWristAngle = 373;
         public static final double trapShoulderAngle = 187.5;
+     
         // default
         public static final double defaultWristAngle = 197;
         public static final double defaultShoulderAngle = 160.5;
+     
         // autonomous starting/speaker
         public static final double speakerWristAngle = 243;
         public static final double speakerShoulderAngle = 206.4;
 
         // Center 2 note floor shoot
-        public static final double centerFloorShootWristAngle = 322;
+        public static final double centerFloorShootWristAngle = 319;
         public static final double centerfloorShootShoulderAngle = 125.7; 
+     
         // Top 2 note floor shoot
-        public static final double topFloorShootWristAngle = 324.8;
+        public static final double topFloorShootWristAngle = 320.7;
         public static final double topfloorShootShoulderAngle = 125.7; 
 
         public static final double hangWristAngle = 186;
         public static final double hangShoulderAngle = 142; 
+
+        // Bottom 2 note floor shoot **NOT TUNED**
+        public static final double bottomFloorShootWristAngle = 324.8;
+        public static final double bottomfloorShootShoulderAngle = 125.7; 
 
         public static class State {
             private double wristAngle;
@@ -205,7 +217,7 @@ public final class Constants {
             }
         }
 
-        public final static State floorState = new State(floorWristAngle, 116, "floor");
+        public final static State floorState = new State(floorWristAngle, floorShoulderAngle, "floor");
         public final static State ampState = new State(ampWristAngle, ampShoulderAngle, "amp");
         public final static State humanState = new State(humanWristAngle, humanShoulderAngle, "human");
         public final static State trapState = new State(trapWristAngle, trapShoulderAngle, "trap");
@@ -213,6 +225,8 @@ public final class Constants {
         public final static State speakerState = new State(speakerWristAngle, speakerShoulderAngle, "speaker");
         public final static State centerFloorShootState = new State(centerFloorShootWristAngle, centerfloorShootShoulderAngle, "centerFloorShoot");
         public final static State topFloorShootState = new State(topFloorShootWristAngle, topfloorShootShoulderAngle, "topFloorShoot");
+        public final static State bottomFloorShootState = new State(bottomFloorShootWristAngle, bottomfloorShootShoulderAngle, "bottomFloorShoot");
+
         public final static State hangState = new State(hangWristAngle, hangShoulderAngle, "hang");
     }
 }

@@ -34,7 +34,7 @@ public class RunHangCommand extends Command {
   public void execute() {
     inc++;
 
-    if (inc >= 20) { //Wait for the solenoids to engage before moving
+    if (inc >= 15) { //Wait for the solenoids to engage before moving
       hangSubsystem.setLeftMotorSpeed(speed);
       hangSubsystem.setRightMotorSpeed(speed);
     }

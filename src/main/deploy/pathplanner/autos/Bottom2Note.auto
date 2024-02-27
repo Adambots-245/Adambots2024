@@ -12,21 +12,15 @@
     "data": {
       "commands": [
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 0.2
+            "name": "PrimeShooterCloseCommand"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "PrimeShooterCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "FeedShooterCloseCommand"
+            "name": "FeedShooterCommand"
           }
         },
         {
@@ -42,7 +36,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "TopFloorIntakeCommand"
+                  "name": "BottomFloorIntakeAndShootCommand"
                 }
               },
               {
@@ -68,15 +62,45 @@
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "AprilAlignCommand"
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BottomReturn1"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "FeedShooterFarCommand"
+            "name": "StopCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TopShootSpeakerCommand"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FeedShooterCommand"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BottomExit2"
           }
         }
       ]
