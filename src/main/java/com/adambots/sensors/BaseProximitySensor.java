@@ -1,6 +1,6 @@
 package com.adambots.sensors;
 
-public interface BasePhotoEye {
+public interface BaseProximitySensor {
 
     /**
      * Returns the detection of the photoeye with regards to whether or not the PhotoEye is defined as inverted

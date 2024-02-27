@@ -6,10 +6,9 @@ package com.adambots.subsystems;
 
 import com.adambots.Constants.HangConstants;
 import com.adambots.actuators.BaseMotor;
+import com.adambots.actuators.BaseSolenoid;
 import com.adambots.utils.Dash;
 
-import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class HangSubsystem extends SubsystemBase {
@@ -17,14 +16,14 @@ public class HangSubsystem extends SubsystemBase {
   private BaseMotor leftHangMotor;
   private BaseMotor rightHangMotor;
   private double leftHangMotorSpeed, rightHangMotorSpeed = 0;
-  private Relay leftRelay;
-  private Relay rightRelay;
+  private BaseSolenoid leftBaseSolenoid;
+  private BaseSolenoid rightBaseSolenoid;
 
-  public HangSubsystem(BaseMotor leftHangMotor, BaseMotor rightHangMotor, Relay rightRelay, Relay leftRelay) {
+  public HangSubsystem(BaseMotor leftHangMotor, BaseMotor rightHangMotor, BaseSolenoid rightBaseSolenoid, BaseSolenoid leftBaseSolenoid) {
     this.leftHangMotor = leftHangMotor;
     this.rightHangMotor = rightHangMotor;
-    this.leftRelay = leftRelay;
-    this.rightRelay = rightRelay;
+    this.leftBaseSolenoid = leftBaseSolenoid;
+    this.rightBaseSolenoid = rightBaseSolenoid;
 
     leftHangMotor.setInverted(true);
     rightHangMotor.setInverted(false);
@@ -62,11 +61,11 @@ public class HangSubsystem extends SubsystemBase {
   
   public void setSolenoids(Boolean active){
     if(active){
-      leftRelay.set(Value.kOn);
-      rightRelay.set(Value.kOn);
+      leftBaseSolenoid.enable();
+      rightBaseSolenoid.enable();
     } else{
-      leftRelay.set(Value.kOff);
-      rightRelay.set(Value.kOff);
+      leftBaseSolenoid.disable();
+      rightBaseSolenoid.disable();
     }
   }
 

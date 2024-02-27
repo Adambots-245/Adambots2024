@@ -76,4 +76,16 @@ public class NEOMotor implements BaseMotor{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getReverseLimitSwitch'");
     }
+
+    @Override
+    public void setSmartCurrentLimit(int value) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setSmartCurrentLimit'");
+    }
+
+    @Override
+    public void enableVoltageCompensation(double value) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'enableVoltageCompensation'");
+    }
 }

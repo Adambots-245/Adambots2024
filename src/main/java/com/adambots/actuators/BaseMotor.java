@@ -10,6 +10,10 @@ public interface BaseMotor {
 
     void setPosition(double rotations);
 
+    void setSmartCurrentLimit(int value);
+
+    void enableVoltageCompensation(double value);
+
     double getPosition();
 
     double getVelocity();

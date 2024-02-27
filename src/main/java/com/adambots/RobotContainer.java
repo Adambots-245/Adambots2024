@@ -64,7 +64,7 @@ public class RobotContainer {
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.shooterWheel);
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.groundIntakeMotor, RobotMap.firstPieceInRobotEye, RobotMap.secondPieceInRobotEye);
   private final CANdleSubsystem ledSubsystem = new CANdleSubsystem(RobotMap.candleLEDs);
-  private final HangSubsystem hangSubsystem = new HangSubsystem(RobotMap.leftHangMotor, RobotMap.rightHangMotor, RobotMap.leftHangRelay, RobotMap.rightHangRelay);
+  private final HangSubsystem hangSubsystem = new HangSubsystem(RobotMap.leftHangMotor, RobotMap.rightHangMotor, RobotMap.leftHangSolenoid, RobotMap.rightHangSolenoid);
 
   //Creates a SmartDashboard element to allow drivers to select differnt autons
   private SendableChooser<Command> autoChooser = new SendableChooser<>();

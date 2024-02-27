@@ -1,19 +1,25 @@
 package com.adambots.sensors;
 
-public interface BaseLidar {
+public interface BaseDistanceSensor {
 
     /**
      * Take a measurement and return the distance in cm
      * 
      * @return Distance in cm
      */
-    double getDistCm();
+    double getDistanceInCentimeters();
 
     /**
      * Take a measurement and return the distance in inches
      * 
      * @return Distance in inches
      */
-    double getDistInches();
+    double getDistanceInInches();
+
+    /**
+     * Take a measurement and return the distance in feet
+     * @return
+     */
+    double getDistanceInFeet();
 
 }

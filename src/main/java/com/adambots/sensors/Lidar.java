@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 /**
  * Generic lidar sensor to hide actual implementation
  */
-public class Lidar implements BaseLidar {
+public class Lidar implements BaseDistanceSensor {
     private Counter counter;
     private DigitalInput _source = null;
 	
@@ -36,7 +36,7 @@ public class Lidar implements BaseLidar {
 	 * @return Distance in cm
 	 */
 	@Override
-	public double getDistCm() {
+	public double getDistanceInCentimeters() {
 		double cm;
 
 		// getPeriod returns time in seconds. The hardware resolution is microseconds.
@@ -51,7 +51,14 @@ public class Lidar implements BaseLidar {
 	 * @return Distance in inches
 	 */
 	@Override
-	public double getDistInches() {
-		return getDistCm() / 2.54;
+	public double getDistanceInInches() {
+		return getDistanceInCentimeters() / 2.54;
     }
+
+	@Override
+	public double getDistanceInFeet() {
+		return getDistanceInInches() / 12.0;
+	}
+
+	
 }

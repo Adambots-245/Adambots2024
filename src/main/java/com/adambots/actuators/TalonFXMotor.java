@@ -5,6 +5,9 @@
 package com.adambots.actuators;
 
 import com.adambots.Constants;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -73,5 +76,20 @@ public class TalonFXMotor implements BaseMotor{
     @Override
     public boolean getReverseLimitSwitch() {
         return motor.getReverseLimit().getValueAsDouble() == 1;
+    }
+
+    @Override
+    public void setSmartCurrentLimit(int value) {
+        CurrentLimitsConfigs currentLimitsConfigs = new CurrentLimitsConfigs();
+        currentLimitsConfigs.StatorCurrentLimit = value;
+        currentLimitsConfigs.StatorCurrentLimitEnable = true;
+        motor.getConfigurator().apply(currentLimitsConfigs);
+    }
+
+    @Override
+    public void enableVoltageCompensation(double value) {
+        
+        final VoltageOut m_request = new VoltageOut(0);
+        motor.setControl(m_request.withOutput(value));
     }
 }

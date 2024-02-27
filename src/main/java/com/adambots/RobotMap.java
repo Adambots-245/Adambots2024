@@ -13,20 +13,20 @@ import java.util.Map;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
 import com.adambots.actuators.BaseMotor;
+import com.adambots.actuators.BaseSolenoid;
+import com.adambots.actuators.ElectricalSolenoid;
 import com.adambots.actuators.TalonFXMotor;
 import com.adambots.sensors.BaseAbsoluteEncoder;
 import com.adambots.sensors.BaseGyro;
-import com.adambots.sensors.BasePhotoEye;
+import com.adambots.sensors.BaseProximitySensor;
 import com.adambots.sensors.Gyro;
 import com.adambots.sensors.PhotoEye;
 import com.adambots.sensors.ThroughBoreEncoder;
 import com.adambots.subsystems.SwerveModule;
 import com.ctre.phoenix.led.CANdle;
 
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj.Relay;
 
 /**
  * Define all the devices here
@@ -73,8 +73,8 @@ public class RobotMap {
     // Hang Ports
     public static final int leftHangMotorPort = 14;
     public static final int rightHangMotorPort = 10;
-    public static final int leftHangRelayPort = 1;
-    public static final int rightHangRelayPort = 0;
+    public static final int leftRelayPort = 1;
+    public static final int rightRelayPort = 0;
     
     // Operator Interface Ports (Joystick and XBoxControllers)
     public static final int kJoystickControllerPort = 0;
@@ -97,14 +97,14 @@ public class RobotMap {
 
     // Intake Devices
     public static final BaseMotor groundIntakeMotor = new TalonFXMotor(groundIntakeMotorPort, true);
-    public static final BasePhotoEye secondPieceInRobotEye = new PhotoEye(secondPieceInRobotEyePort, false);
-    public static final BasePhotoEye firstPieceInRobotEye = new PhotoEye(firstPieceInRobotEyePort, false);
+    public static final BaseProximitySensor secondPieceInRobotEye = new PhotoEye(secondPieceInRobotEyePort, false);
+    public static final BaseProximitySensor firstPieceInRobotEye = new PhotoEye(firstPieceInRobotEyePort, false);
 
     // Hang Devices
     public static final BaseMotor leftHangMotor = new TalonFXMotor(leftHangMotorPort, false);
     public static final BaseMotor rightHangMotor = new TalonFXMotor(rightHangMotorPort, false);
-    public static final Relay leftHangRelay = new Relay(leftHangRelayPort);
-    public static final Relay rightHangRelay = new Relay(rightHangRelayPort);
+    public static final BaseSolenoid leftHangSolenoid = new ElectricalSolenoid(leftRelayPort);
+    public static final BaseSolenoid rightHangSolenoid = new ElectricalSolenoid(rightRelayPort);
 //     public static final PhotoEye leftHangLimit = new PhotoEye(leftHangLimitPort, false);
 //     public static final PhotoEye rightHangLimit = new PhotoEye(rightHangLimitPort, false);
 
