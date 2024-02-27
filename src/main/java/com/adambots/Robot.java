@@ -36,7 +36,7 @@ public class Robot extends TimedRobot {
 
     DriverStation.silenceJoystickConnectionWarning(true);
 
-    VisionHelpers.setPipeline(VisionConstants.noteLimelite, 1);
+    VisionHelpers.setPipeline(VisionConstants.noteLimelite, 0);
     
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our autonomous chooser on the dashboard.
@@ -84,7 +84,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     CommandScheduler.getInstance().cancelAll(); //cancel all teleop or lingering commands
 
-    VisionHelpers.setPipeline(VisionConstants.noteLimelite, 1);
+    VisionHelpers.setPipeline(VisionConstants.noteLimelite, 0);
 
     Command m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     System.out.println("auton selected" + m_autonomousCommand.toString());
@@ -108,7 +108,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    VisionHelpers.setPipeline(VisionConstants.noteLimelite, 1);
+    VisionHelpers.setPipeline(VisionConstants.noteLimelite, 0);
 
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to

@@ -38,7 +38,7 @@ public class DriveToNoteCommand extends Command {
     drive_output = translatePIDController.calculate(Math.toRadians(strafe), 0);
     
     if (VisionHelpers.isDetected(VisionConstants.noteLimelite)){
-      driveTrainSubsystem.drive(0.5, drive_output, 0, false);
+      driveTrainSubsystem.drive(0.5, drive_output, 0, true);
     } else {
       driveTrainSubsystem.stop();
     }
