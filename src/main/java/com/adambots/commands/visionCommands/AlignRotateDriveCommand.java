@@ -70,10 +70,11 @@ public class AlignRotateDriveCommand extends Command {
     //Checks to see if the robot is at that position for more than just a single moment
     if(Math.abs(rotate) < 5 && VisionHelpers.isDetected(limelight)){
       caNdleSubsystem.setColor(LEDConstants.green);
-    } else if (VisionHelpers.isDetected(limelight)){
-      caNdleSubsystem.setColor(LEDConstants.yellow);
     } else {
-      caNdleSubsystem.setColor(LEDConstants.orange);
+      caNdleSubsystem.setColor(LEDConstants.yellow);
+    } 
+    if (!VisionHelpers.getClassName(limelight).equals("note") && limelight == VisionConstants.noteLimelite){
+      caNdleSubsystem.setColor(LEDConstants.purple);
     }
   }
 

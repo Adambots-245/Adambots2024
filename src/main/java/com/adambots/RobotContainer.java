@@ -131,6 +131,9 @@ public class RobotContainer {
     Buttons.JoystickButton5.whileTrue(new AngleRotateCommand(drivetrainSubsystem, 90, RobotMap.gyro));
     Buttons.JoystickButton8.whileTrue(new SpinFastCommand(drivetrainSubsystem));
 
+    Buttons.JoystickButton10.whileTrue(new AngleRotateCommand(drivetrainSubsystem, 60, RobotMap.gyro));
+
+
     Buttons.JoystickButton4.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro)); //Hang on the chain
 
     // Buttons.XboxRightStickButton.onTrue(new InstantCommand(() -> ledSubsystem.changeAnimation(AnimationTypes.Fire)));
@@ -166,8 +169,8 @@ public class RobotContainer {
 
 
     //NOT NEEDED FOR COMP
-    Buttons.JoystickButton10.onTrue(new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.speakerState))); //Encoders should be reset where rods are within frame perim
-    Buttons.JoystickButton9.onTrue(new InstantCommand(() -> hangSubsystem.resetEncoders())); //Encoders should be reset where rods are within frame perim
+    Buttons.JoystickButton9.onTrue(new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.speakerState))); //Encoders should be reset where rods are within frame perim
+    // Buttons.JoystickButton9.onTrue(new InstantCommand(() -> hangSubsystem.resetEncoders())); //Encoders should be reset where rods are within frame perim
 
     // Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem));
 
@@ -207,6 +210,8 @@ public class RobotContainer {
 
   private void setupDashboard() {    
     autoChooser = AutoBuilder.buildAutoChooser();
+
+    Dash.add("getClassName", VisionHelpers.getClassName(VisionConstants.noteLimelite));
 
     //Adds various data to the dashboard that is useful for driving and debugging
     SmartDashboard.putData("Auton Mode", autoChooser);

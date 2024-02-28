@@ -21,7 +21,7 @@ public class ArmSubsystem extends SubsystemBase {
   DutyCycleEncoder shoulderEncoder;
   DutyCycleEncoder wristEncoder;
   PIDController shoulderPID = new PIDController(0.018, 0.008, 0.002); //.00005
-  PIDController wristPID = new PIDController(0.007, 0.009, 0.0006);
+  PIDController wristPID = new PIDController(0.0061, 0.009, 0.00064);
 
   double shoulderLowerLimit = ArmConstants.shoulderLowerLimit;
   double shoulderUpperLimit = ArmConstants.shoulderUpperLimit;
@@ -105,11 +105,12 @@ public class ArmSubsystem extends SubsystemBase {
 
     //Dynamically change pid tolerences depending on the arm state
     if (currentStateName.equals("speaker")) {
-      setPidTolerence(1);
+      shoulderPID.setTolerance(1);
+      wristPID.setTolerance(1);
     } else if (currentStateName.equals("floor")) {
       setPidTolerence(0);
     } else if (currentStateName.equals("amp")) {
-      setPidTolerence(3);
+      setPidTolerence(3.5);
     } else if (currentStateName.equals("human")) {
       setPidTolerence(2);
     } else if (currentStateName.equals("default")) {

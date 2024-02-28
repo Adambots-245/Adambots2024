@@ -25,6 +25,8 @@ public final class Constants {
         public static final Color yellow = new Color(255, 150, 0);
         public static final Color blue = new Color(0, 0, 255);
         public static final Color orange = new Color(255, 90, 5);
+        public static final Color purple = new Color(255, 0, 255);
+
         
         public static final Color green = new Color(0, 255, 0);
     }
@@ -174,7 +176,7 @@ public final class Constants {
      
         // default
         public static final double defaultWristAngle = 197;
-        public static final double defaultShoulderAngle = 160.5;
+        public static final double defaultShoulderAngle = 157.5;
      
         // autonomous starting/speaker
         public static final double speakerWristAngle = 243;

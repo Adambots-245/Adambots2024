@@ -30,7 +30,7 @@ public class AprilAlignRotateCommand extends Command {
     drive_output = 0;
     caNdleSubsystem.clearAllAnims();
     // caNdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.SetAll);
-    caNdleSubsystem.setStrobe(LEDConstants.yellow);
+    caNdleSubsystem.setColor(LEDConstants.yellow);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -49,9 +49,9 @@ public class AprilAlignRotateCommand extends Command {
     //Checks to see if the robot is at that position for more than just a single moment
     if(Math.abs(turningPIDController.getPositionError()) < Math.toRadians(1)){
       alignedCount++;
-      caNdleSubsystem.setStrobe(LEDConstants.blue);
+      caNdleSubsystem.setColor(LEDConstants.green);
     } else {
-      caNdleSubsystem.setStrobe(LEDConstants.yellow);
+      caNdleSubsystem.setColor(LEDConstants.yellow);
     }
   }
 

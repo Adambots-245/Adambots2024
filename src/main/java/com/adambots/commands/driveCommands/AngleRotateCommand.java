@@ -21,7 +21,7 @@ public class AngleRotateCommand extends Command {
     addRequirements(driveTrainSubsystem);
 
     angleTurningPIDController.enableContinuousInput(-Math.PI, Math.PI);
-    angleTurningPIDController.disableContinuousInput();
+    // angleTurningPIDController.disableContinuousInput();
 
     this.driveTrainSubsystem = driveTrainSubsystem;
     this.targetAngle = targetAngle;
@@ -42,7 +42,7 @@ public class AngleRotateCommand extends Command {
     // Calculates the drive rotation
     var alliance = DriverStation.getAlliance();
     if (alliance.isPresent()) {
-      if (alliance.get() == DriverStation.Alliance.Red) {
+      if (alliance.get() == DriverStation.Alliance.Blue) {
         adjustedTargetAngle = -targetAngle;
       };
     }
