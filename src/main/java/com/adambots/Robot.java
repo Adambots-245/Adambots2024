@@ -8,7 +8,7 @@
 package com.adambots;
 
 import com.adambots.Constants.VisionConstants;
-import com.adambots.utils.VisionHelpers;
+import com.adambots.vision.VisionHelpers;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
