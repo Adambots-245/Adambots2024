@@ -21,11 +21,14 @@ import com.adambots.commands.hangCommands.RunHangCommand;
 import com.adambots.commands.hangCommands.RunLeftHangCommand;
 import com.adambots.commands.hangCommands.RunRightHangCommand;
 import com.adambots.commands.intakeCommands.FeedShooterCommand;
+import com.adambots.commands.intakeCommands.IntakeCommand;
 import com.adambots.commands.intakeCommands.IntakeWithAdjustCommand;
 import com.adambots.commands.visionCommands.AlignRotateDriveCommand;
 import com.adambots.commands.visionCommands.AprilAlignRotateCommand;
+import com.adambots.commands.visionCommands.BlinkLightsCommand;
 import com.adambots.commands.visionCommands.DriveToNoteCommand;
 import com.adambots.commands.visionCommands.NoteAlignRotateCommand;
+import com.adambots.commands.visionCommands.PathPlannerAlign;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
@@ -44,6 +47,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -115,19 +119,30 @@ public class RobotContainer {
      * Manual Adjusts
      */
 
+    // ledSubsystem.setColor(LEDConstants.green); 
+    ledSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.Larson);
+
     Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem));
 
     Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
     
-    Buttons.JoystickButton7.whileTrue(new AlignRotateDriveCommand(drivetrainSubsystem, ledSubsystem, true, VisionConstants.aprilLimelite));
-    Buttons.JoystickButton6.whileTrue(new AlignRotateDriveCommand(drivetrainSubsystem, ledSubsystem, false, VisionConstants.noteLimelite));
+    Buttons.JoystickButton7.whileTrue(new AlignRotateDriveCommand(drivetrainSubsystem, intakeSubsystem, ledSubsystem, true, VisionConstants.aprilLimelite));
+    Buttons.JoystickButton6.whileTrue(new AlignRotateDriveCommand(drivetrainSubsystem, intakeSubsystem, ledSubsystem, false, VisionConstants.noteLimelite).andThen(new BlinkLightsCommand(ledSubsystem)));
     Buttons.JoystickButton5.whileTrue(new AngleRotateCommand(drivetrainSubsystem, 90, RobotMap.gyro));
     Buttons.JoystickButton8.whileTrue(new SpinFastCommand(drivetrainSubsystem));
+
+    Buttons.JoystickButton10.whileTrue(new AngleRotateCommand(drivetrainSubsystem, 60, RobotMap.gyro));
+
+
+    Buttons.JoystickButton4.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro)); //Hang on the chain
+
+    // Buttons.XboxRightStickButton.onTrue(new InstantCommand(() -> ledSubsystem.changeAnimation(AnimationTypes.Fire)));
+    // Buttons.XboxLeftStickButton.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(0)));
 
 
     //Xbox Button Bindings 
     Buttons.XboxAButton.whileTrue(new IntakeWithAdjustCommand(armSubsystem, intakeSubsystem));
-    Buttons.XboxAButton.onFalse(new InstantCommand(() -> VisionHelpers.offLight(VisionConstants.noteLimelite)));
+    // Buttons.XboxAButton.onFalse(new InstantCommand(() -> VisionHelpers.offLight(VisionConstants.noteLimelite)));
 
     Buttons.XboxBButton.whileTrue(new HumanStationCommand(armSubsystem, intakeSubsystem));
 
@@ -142,7 +157,7 @@ public class RobotContainer {
 
     //These commands do automatically engage solenoids if you are running the winches out (and leaves time for solenoids to engage)
     Buttons.XboxBackButton.whileTrue(new RunHangCommand(hangSubsystem, 1)); //Raises bendy rods up
-    Buttons.XboxStartButton.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro)); //Hang on the chain
+    Buttons.XboxStartButton.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro)); //Brings bendy rods down
 
 
     //Xbox DPad Bindings
@@ -154,15 +169,15 @@ public class RobotContainer {
 
 
     //NOT NEEDED FOR COMP
-    Buttons.JoystickButton10.onTrue(new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.speakerState))); //Encoders should be reset where rods are within frame perim
-    Buttons.JoystickButton9.onTrue(new InstantCommand(() -> hangSubsystem.resetEncoders())); //Encoders should be reset where rods are within frame perim
+    Buttons.JoystickButton9.onTrue(new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.speakerState))); //Encoders should be reset where rods are within frame perim
+    // Buttons.JoystickButton9.onTrue(new InstantCommand(() -> hangSubsystem.resetEncoders())); //Encoders should be reset where rods are within frame perim
 
     // Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem));
 
     // Buttons.JoystickButton6.onTrue(new AprilAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 5, 5));
     // Buttons.JoystickButton8.onTrue(new NoteAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 5, 5));
 
-    // Buttons.JoystickButton2.onTrue(new SequentialCommandGroup(new PathPlannerAlign(drivetrai\nSubsystem), new PathPlannerAlign(drivetrainSubsystem)));
+    Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem));
 
     // Buttons.XboxDPadE.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
     // Buttons.XboxXButton.onTruef(new ChangeArmStateCommand(armSubsystem, ArmConstants.trapState));
@@ -174,17 +189,20 @@ public class RobotContainer {
     NamedCommands.registerCommand("PrimeShooterFarCommand", new PrimeShooterCommand(armSubsystem, shooterSubsystem, ShooterConstants.highSpeed));
 
     NamedCommands.registerCommand("FeedShooterCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem));
+    NamedCommands.registerCommand("DumbFeedShooterCommand", new ParallelDeadlineGroup(new WaitCommand(1), new IntakeCommand(intakeSubsystem, 0.7)).andThen(new IntakeCommand(intakeSubsystem, 0)));
     
-    NamedCommands.registerCommand("AprilAlignCommand", new ParallelRaceGroup(new WaitCommand(1), new AprilAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 3, 5)));
+    NamedCommands.registerCommand("AprilAlignCommand", new ParallelRaceGroup(new WaitCommand(1), new AprilAlignRotateCommand(drivetrainSubsystem, ledSubsystem, 0)));
     NamedCommands.registerCommand("NoteAlignCommand", new ParallelRaceGroup(new WaitCommand(1), new NoteAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 3, 5)));
     NamedCommands.registerCommand("DriveToNoteCommand", new ParallelRaceGroup(new WaitCommand(3), new DriveToNoteCommand(drivetrainSubsystem, ledSubsystem)));
 
 
-    NamedCommands.registerCommand("CenterFloorIntakeAndShootCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.centerFloorShootState));
-    NamedCommands.registerCommand("TopFloorIntakeAndShootCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.topFloorShootState));
-    NamedCommands.registerCommand("BottomFloorIntakeAndShootCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.defaultState));
-    NamedCommands.registerCommand("TopFloorIntakeCloseCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ArmConstants.defaultState));
+    NamedCommands.registerCommand("CenterFloorIntakeAndShootCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ledSubsystem, ArmConstants.centerFloorShootState));
+    NamedCommands.registerCommand("TopFloorIntakeAndShootCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ledSubsystem, ArmConstants.topFloorShootState));
+    NamedCommands.registerCommand("BottomFloorIntakeAndShootCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ledSubsystem, ArmConstants.defaultState));
+    NamedCommands.registerCommand("TopFloorIntakeCloseCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ledSubsystem, ArmConstants.defaultState));
+    NamedCommands.registerCommand("LowFloorCloseCommand2", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ledSubsystem, ArmConstants.closeFloorShootState));
     NamedCommands.registerCommand("TopShootSpeakerCommand", new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.speakerState)));
+
 
     NamedCommands.registerCommand("PrintCommand",new PrintCommand("Path Following Finished"));
     NamedCommands.registerCommand("StopCommand",new StopCommand(drivetrainSubsystem));
@@ -192,6 +210,8 @@ public class RobotContainer {
 
   private void setupDashboard() {    
     autoChooser = AutoBuilder.buildAutoChooser();
+
+    Dash.add("getClassName", VisionHelpers.getClassName(VisionConstants.noteLimelite));
 
     //Adds various data to the dashboard that is useful for driving and debugging
     SmartDashboard.putData("Auton Mode", autoChooser);

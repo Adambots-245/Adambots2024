@@ -6,6 +6,7 @@ import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.vision.VisionHelpers;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class DriveToNoteCommand extends Command {
@@ -37,8 +38,13 @@ public class DriveToNoteCommand extends Command {
     // Calculates the drive rotation
     drive_output = translatePIDController.calculate(Math.toRadians(strafe), 0);
     
-    if (VisionHelpers.isDetected(VisionConstants.noteLimelite)){
-      driveTrainSubsystem.drive(0.5, drive_output, 0, true);
+    var alliance = DriverStation.getAlliance();
+    if (VisionHelpers.isDetected(VisionConstants.noteLimelite) && alliance.isPresent()){
+      if (alliance.get() == DriverStation.Alliance.Red) {
+        driveTrainSubsystem.drive(-0.5, -drive_output, 0, true);
+      } else {
+        driveTrainSubsystem.drive(0.5, drive_output, 0, true);
+      }
     } else {
       driveTrainSubsystem.stop();
     }

@@ -21,7 +21,7 @@ public class SpinFastCommand extends Command {
   @Override
   public void execute() {
     //Moves left or right depending on the angle
-    driveTrainSubsystem.drive(-Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond, -Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond , DriveConstants.kTeleopRotationalSpeed * 0.25, true);  
+    driveTrainSubsystem.drive(Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond, Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond , DriveConstants.kTeleopRotationalSpeed * 0.5, true);  
   }
 
   // Called once the command ends or is interrupted.

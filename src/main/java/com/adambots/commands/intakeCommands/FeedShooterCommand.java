@@ -13,7 +13,8 @@ public class FeedShooterCommand extends Command {
   /** Creates a new FeedShooterCommand. */
   private IntakeSubsystem intakeSubsystem;
   private ShooterSubsystem shooterSubsystem;
-  private int inc = 0;
+  private int inc;
+  private boolean increment;
   
   public FeedShooterCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
     addRequirements(intakeSubsystem, shooterSubsystem);
@@ -26,13 +27,17 @@ public class FeedShooterCommand extends Command {
   @Override
   public void initialize() {
     inc = 0;
+    increment = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (shooterSubsystem.isAtTargetSpeed()) {
-      intakeSubsystem.setGroundIntakeMotorSpeed(0.3);
+      intakeSubsystem.setGroundIntakeMotorSpeed(0.7);
+      increment = true;
+    }
+    if(increment){
       inc++;
     }
   }
@@ -47,6 +52,6 @@ public class FeedShooterCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return inc > 15;
+    return inc > 10;
   }
 }
