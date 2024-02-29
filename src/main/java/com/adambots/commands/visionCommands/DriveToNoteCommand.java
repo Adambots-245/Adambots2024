@@ -27,7 +27,7 @@ public class DriveToNoteCommand extends Command {
   public void initialize() {
     drive_output = 0;
     caNdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.SetAll);
-    caNdleSubsystem.setColor(LEDConstants.yellow);
+    caNdleSubsystem.setColor(LEDConstants.red);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
