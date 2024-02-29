@@ -1,4 +1,5 @@
 package com.adambots.commands.visionCommands;
+import com.adambots.Robot;
 import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.devices.BaseAddressableLED.AnimationTypes;
@@ -39,9 +40,8 @@ public class DriveToNoteCommand extends Command {
     // Calculates the drive rotation
     drive_output = translatePIDController.calculate(Math.toRadians(strafe), 0);
     
-    var alliance = DriverStation.getAlliance();
-    if (VisionHelpers.isDetected(VisionConstants.noteLimelite) && alliance.isPresent()){
-      if (alliance.get() == DriverStation.Alliance.Red) {
+    if (VisionHelpers.isDetected(VisionConstants.noteLimelite)){
+      if (Robot.isInRedAlliance()) {
         driveTrainSubsystem.drive(-0.5, -drive_output, 0, true);
       } else {
         driveTrainSubsystem.drive(0.5, drive_output, 0, true);
