@@ -4,11 +4,10 @@
 
 package com.adambots.commands.autonCommands;
 
+import com.adambots.Robot;
 import com.adambots.sensors.BaseGyro;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
-
 
 public class GyroFlipCommand extends Command {
   /** Creates a new GyroFlipCommand. */
@@ -21,11 +20,8 @@ public class GyroFlipCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    var alliance = DriverStation.getAlliance();
-    if (alliance.isPresent()) {
-      if(alliance.get() == DriverStation.Alliance.Red) {
-        gyro.setYawOffset(180);
-      }
+    if (Robot.isInRedAlliance()) {
+      gyro.setYawOffset(180);
     }
   }
 

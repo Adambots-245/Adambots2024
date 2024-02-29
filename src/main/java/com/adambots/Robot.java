@@ -7,11 +7,14 @@
 
 package com.adambots;
 
+import java.util.Optional;
+
 import com.adambots.Constants.VisionConstants;
 import com.adambots.vision.VisionHelpers;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -24,6 +27,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
+  public static Optional<Alliance> alliance;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -35,6 +39,9 @@ public class Robot extends TimedRobot {
     RobotMap.gyro.resetYaw();
 
     DriverStation.silenceJoystickConnectionWarning(true);
+    
+    // Initial set - it will also be set in robotPeriodic as well
+    alliance = DriverStation.getAlliance();
 
     VisionHelpers.setPipeline(VisionConstants.noteLimelite, 0);
     
@@ -60,6 +67,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods. This must be called from the
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
+    alliance = DriverStation.getAlliance();
     CommandScheduler.getInstance().run();
   }
 
@@ -136,5 +144,9 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
 
+  }
+
+  public static boolean isInRedAlliance(){
+    return alliance.isPresent() && alliance.get() == Alliance.Red;
   }
 }

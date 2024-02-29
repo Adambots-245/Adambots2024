@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import com.adambots.Constants;
+import com.adambots.Robot;
 import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.VisionConstants;
@@ -27,7 +28,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -43,7 +43,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     this.swerveModules = modules;
     m_gyro = gyro;
 
-    m_odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, m_gyro.getContinuousYawRad(), ModuleMap.orderedModulePositions(swerveModules));
+    m_odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, m_gyro.getContinuousYawRad(),
+        ModuleMap.orderedModulePositions(swerveModules));
 
     AutoBuilder.configureHolonomic(
         this::getPose, // Robot pose supplier
@@ -51,19 +52,17 @@ public class DrivetrainSubsystem extends SubsystemBase {
         this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         this::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
         new HolonomicPathFollowerConfig(
-            new PIDConstants(AutoConstants.kPTranslationController, 0, AutoConstants.kDTranslationController), 
+            new PIDConstants(AutoConstants.kPTranslationController, 0, AutoConstants.kDTranslationController),
             new PIDConstants(AutoConstants.kPThetaController, 0, AutoConstants.kDThetaController),
             DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
-            DriveConstants.kDrivebaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
+            DriveConstants.kDrivebaseRadius, // Drive base radius in meters. Distance from robot center to furthest
+                                             // module.
             new ReplanningConfig(true, false) // Default path replanning config. See the API for the options here
-        ), 
-        () -> { //Flips path if on the red side of the field - ENSURE FIELD SIDE IS CORRECTLY SET IN DRIVERSTATION BEFORE TESTING AUTON
-              var alliance = DriverStation.getAlliance();
-              if (alliance.isPresent()) {
-                return alliance.get() == DriverStation.Alliance.Red;
-              }
-              return false;
-            },
+        ),
+        () -> { // Flips path if on the red side of the field - ENSURE FIELD SIDE IS CORRECTLY
+                // SET IN DRIVERSTATION BEFORE TESTING AUTON
+          return Robot.isInRedAlliance();
+        },
         this // Reference to this subsystem to set requirements
     );
 
@@ -71,14 +70,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // PPHolonomicDriveController.setRotationTargetOverride(this::getRotationTargetAprilOverride);
   }
 
-  
-  public Optional<Rotation2d> getRotationTargetNoteOverride(){
-    if(VisionHelpers.isDetected(VisionConstants.noteLimelite)) {
-      // Return an optional containing the rotation override (this should be a field relative rotation)
-      if (Math.toRadians(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite)) > 0){
+  public Optional<Rotation2d> getRotationTargetNoteOverride() {
+    if (VisionHelpers.isDetected(VisionConstants.noteLimelite)) {
+      // Return an optional containing the rotation override (this should be a field
+      // relative rotation)
+      if (Math.toRadians(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite)) > 0) {
         return Optional.of(new Rotation2d(Math.toRadians(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite))));
       } else {
-        return Optional.of(new Rotation2d(360 + Math.toRadians(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite))));
+        return Optional
+            .of(new Rotation2d(360 + Math.toRadians(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite))));
       }
     } else {
       // return an empty optional when we don't want to override the path's rotation
@@ -86,26 +86,25 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
   }
 
-  public Optional<Rotation2d> getRotationTargetAprilOverride(){
-    if(VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
-      // Return an optional containing the rotation override (this should be a field relative rotation)
+  public Optional<Rotation2d> getRotationTargetAprilOverride() {
+    if (VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
+      // Return an optional containing the rotation override (this should be a field
+      // relative rotation)
       return Optional.of(new Rotation2d(Math.toRadians(VisionHelpers.getHorizAngle(VisionConstants.aprilLimelite))));
     } else {
       // return an empty optional when we don't want to override the path's rotation
       return Optional.empty();
     }
   }
-   
 
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
     m_odometry.update(
         m_gyro.getContinuousYawRad(),
-        ModuleMap.orderedModulePositions(swerveModules)
-    );
+        ModuleMap.orderedModulePositions(swerveModules));
 
-    //Update the position of the robot on the ShuffleBoard field
+    // Update the position of the robot on the ShuffleBoard field
     Constants.field.setRobotPose(getPose());
     Constants.aprilTagfield.setRobotPose(VisionHelpers.getAprilTagPose2d());
   }
@@ -120,7 +119,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   /**
-   * Resets the odometry and gyro to the specified pose, including x, y, and heading.
+   * Resets the odometry and gyro to the specified pose, including x, y, and
+   * heading.
    *
    * @param pose The pose to which to set the odometry.
    */
@@ -133,14 +133,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * Method to drive the robot using joystick info.
    *
    * @param xSpeed
-   *          Speed (m/s) of the robot in the x direction (forward).
+   *                      Speed (m/s) of the robot in the x direction (forward).
    * @param ySpeed
-   *          Speed (m/s) of the robot in the y direction (sideways).
+   *                      Speed (m/s) of the robot in the y direction (sideways).
    * @param rot
-   *          Angular rate of the robot.
+   *                      Angular rate of the robot.
    * @param fieldRelative
-   *          Whether the provided x and y speeds are relative to the
-   *          field.
+   *                      Whether the provided x and y speeds are relative to the
+   *                      field.
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
     if (fieldRelative) {
@@ -163,7 +163,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   /**
-   * Gets the chassis speeds of the robot as calculated from the swerve module states
+   * Gets the chassis speeds of the robot as calculated from the swerve module
+   * states
    *
    * @return The ChassisSpeeds of the robot
    */
