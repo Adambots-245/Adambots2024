@@ -46,7 +46,7 @@ public class RunHangCommand extends Command {
     hangSubsystem.setLeftMotorSpeed(0);
     hangSubsystem.setRightMotorSpeed(0);
 
-    hangSubsystem.setSolenoids(false);
+    // hangSubsystem.setSolenoids(false);
   }
 
   // Returns true when the command should end.

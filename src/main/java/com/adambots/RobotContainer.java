@@ -14,6 +14,7 @@ import com.adambots.commands.armCommands.RetractShooterCommand;
 import com.adambots.commands.armCommands.RotateShoulderCommand;
 import com.adambots.commands.armCommands.RotateWristCommand;
 import com.adambots.commands.autonCommands.FloorIntakeCommand;
+import com.adambots.commands.autonCommands.GyroFlipCommand;
 import com.adambots.commands.driveCommands.AngleRotateCommand;
 import com.adambots.commands.driveCommands.SpinFastCommand;
 import com.adambots.commands.driveCommands.StopCommand;
@@ -124,6 +125,8 @@ public class RobotContainer {
 
     Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem));
 
+    Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem));
+
     Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
     
     Buttons.JoystickButton7.whileTrue(new AlignRotateDriveCommand(drivetrainSubsystem, intakeSubsystem, ledSubsystem, true, VisionConstants.aprilLimelite));
@@ -175,8 +178,6 @@ public class RobotContainer {
 
     // Buttons.JoystickButton6.onTrue(new AprilAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 5, 5));
     // Buttons.JoystickButton8.onTrue(new NoteAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 5, 5));
-
-    Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem));
 
     // Buttons.XboxDPadE.onTrue(new ChangeArmStateCommand(armSubsystem, ArmConstants.defaultState));
     // Buttons.XboxXButton.onTruef(new ChangeArmStateCommand(armSubsystem, ArmConstants.trapState));
@@ -265,4 +266,4 @@ public class RobotContainer {
     return autoChooser.getSelected().andThen(new GyroFlipCommand(RobotMap.gyro));
   }
 }
-//Blahaj_Counter: 3
+//Blahaj_Counter: 4
