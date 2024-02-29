@@ -46,7 +46,7 @@ public class PathPlannerAlign extends Command {
     path = new PathPlannerPath(
       bezierPoints, 
       new PathConstraints(
-        1, 1, 
+        5, 5, 
         Units.degreesToRadians(360), Units.degreesToRadians(540)
       ),  
       new GoalEndState(0.0, new Rotation2d(Math.toRadians(0)))

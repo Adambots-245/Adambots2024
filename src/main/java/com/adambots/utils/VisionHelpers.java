@@ -18,6 +18,12 @@ public class VisionHelpers {
     public static void blinkLight(String limelight) {
         LimelightHelpers.setLEDMode_ForceBlink(limelight);
     }
+    
+     public static int getHeatbeat() {
+        // return (int) LimelightHelpers.getFiducialID(VisionConstants.aprilLimelite);
+        return (int) NetworkTableInstance.getDefault().getTable(VisionConstants.aprilLimelite).getEntry("hb").getDouble(0);
+        // return null;
+    }
 
     public static void setApril(boolean value){
         targetApril = value;

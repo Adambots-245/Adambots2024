@@ -29,8 +29,8 @@ public class AprilAlignRotateCommand extends Command {
     alignedCount = 0;
     drive_output = 0;
     caNdleSubsystem.clearAllAnims();
-    // caNdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.SetAll);
-    caNdleSubsystem.setColor(LEDConstants.yellow);
+    caNdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.SetAll);
+    caNdleSubsystem.setColor(LEDConstants.red);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -51,7 +51,7 @@ public class AprilAlignRotateCommand extends Command {
       alignedCount++;
       caNdleSubsystem.setColor(LEDConstants.green);
     } else {
-      caNdleSubsystem.setColor(LEDConstants.yellow);
+      caNdleSubsystem.setColor(LEDConstants.red);
     }
   }
 
