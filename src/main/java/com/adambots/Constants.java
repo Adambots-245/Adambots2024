@@ -206,11 +206,21 @@ public final class Constants {
             private double wristAngle;
             private double shoulderAngle;
             private String stateName;
+            private double wristTolerance = 0.0;
+            private double shoulderTolerance = 0.0;
 
             public State(double wristAngle, double shoulderAngle, String stateName) {
                 this.wristAngle = wristAngle;
                 this.shoulderAngle = shoulderAngle;
                 this.stateName = stateName;
+            }
+
+            public State(double wristAngle, double shoulderAngle, String stateName, double wristTolerance, double shoulderTolerance) {
+                this.wristAngle = wristAngle;
+                this.shoulderAngle = shoulderAngle;
+                this.stateName = stateName;
+                this.wristTolerance = wristTolerance;
+                this.shoulderTolerance = shoulderTolerance;
             }
 
             public double getWristAngle(){
@@ -224,14 +234,22 @@ public final class Constants {
             public String getStateName() {
                 return stateName;
             }
+
+            public double getWristTolerance() {
+                return wristTolerance;
+            }
+
+            public double getShoulderTolerance() {
+                return shoulderTolerance;
+            }
         }
 
         public final static State floorState = new State(floorWristAngle, floorShoulderAngle, "floor");
-        public final static State ampState = new State(ampWristAngle, ampShoulderAngle, "amp");
-        public final static State humanState = new State(humanWristAngle, humanShoulderAngle, "human");
+        public final static State ampState = new State(ampWristAngle, ampShoulderAngle, "amp", 3.5, 3.5);
+        public final static State humanState = new State(humanWristAngle, humanShoulderAngle, "human", 2, 2);
         public final static State trapState = new State(trapWristAngle, trapShoulderAngle, "trap");
-        public final static State defaultState = new State(defaultWristAngle, defaultShoulderAngle, "default");
-        public final static State speakerState = new State(speakerWristAngle, speakerShoulderAngle, "speaker");
+        public final static State defaultState = new State(defaultWristAngle, defaultShoulderAngle, "default", 5, 5);
+        public final static State speakerState = new State(speakerWristAngle, speakerShoulderAngle, "speaker", 1, 1);
         public final static State centerFloorShootState = new State(centerFloorShootWristAngle, centerfloorShootShoulderAngle, "centerFloorShoot");
         public final static State topFloorShootState = new State(topFloorShootWristAngle, topfloorShootShoulderAngle, "topFloorShoot");
         public final static State bottomFloorShootState = new State(bottomFloorShootWristAngle, bottomfloorShootShoulderAngle, "bottomFloorShoot");

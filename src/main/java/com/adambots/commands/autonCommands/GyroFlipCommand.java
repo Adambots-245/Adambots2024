@@ -5,7 +5,6 @@
 package com.adambots.commands.autonCommands;
 
 import com.adambots.sensors.BaseGyro;
-import com.adambots.sensors.Gyro;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;

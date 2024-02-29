@@ -32,7 +32,8 @@ public class ArmSubsystem extends SubsystemBase {
   double targetWristAngle;
   double shoulderSpeed, wristSpeed = 0;
 
-  String currentStateName = "default";
+  // String currentStateName = "default";
+  State currentState = ArmConstants.defaultState;
 
   boolean failsafeOverride = false;
 
@@ -71,9 +72,14 @@ public class ArmSubsystem extends SubsystemBase {
     Dash.add("Wrst Rev Lim", () -> wristMotor.getReverseLimitSwitch());
   }
 
-  private void setPidTolerence(double degreesOfTolerence) {
-    shoulderPID.setTolerance(degreesOfTolerence);
-    wristPID.setTolerance(degreesOfTolerence);
+  private void setPidTolerence(State state) {
+    shoulderPID.setTolerance(state.getShoulderTolerance());
+    wristPID.setTolerance(state.getWristTolerance());
+  }
+
+  private void setPidTolerence(int tolerance) {
+    shoulderPID.setTolerance(tolerance);
+    wristPID.setTolerance(tolerance);
   }
 
   public void incrementShoulderAngle(double shoulderIncrement) {
@@ -96,43 +102,31 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void setCurrentState(State newState) {
     //Enable override if we are moving directly from speaker to floor states (auton) or if we are targeting the hang state
-    failsafeOverride = ((currentStateName.equals("speaker") && newState.getStateName().equals("floor")) || newState.getStateName().equals("hang"));
+    failsafeOverride = ((currentState.equals(ArmConstants.speakerState) && newState.equals(ArmConstants.floorState)) || newState.equals(ArmConstants.hangState));
 
     //
-    currentStateName = newState.getStateName();
+    currentState = newState;
     targetShoulderAngle = newState.getShoulderAngle();
     targetWristAngle = newState.getWristAngle();
 
-    //Dynamically change pid tolerences depending on the arm state
-    if (currentStateName.equals("speaker")) {
-      shoulderPID.setTolerance(1);
-      wristPID.setTolerance(1);
-    } else if (currentStateName.equals("floor")) {
-      setPidTolerence(0);
-    } else if (currentStateName.equals("amp")) {
-      setPidTolerence(3.5);
-    } else if (currentStateName.equals("human")) {
-      setPidTolerence(2);
-    } else if (currentStateName.equals("default")) {
-      setPidTolerence(5);
-    }else {
-      setPidTolerence(0);
-    }
+    setPidTolerence(currentState);
 
     wristPID.reset();
     shoulderPID.reset();
   }
 
   public String getCurrentStateName() {
-    return currentStateName;
+    return currentState.getStateName();
   }
   
   @Override
   public void periodic() {
-    if (DriverStation.isEnabled()) {shoulderSpeed = shoulderPID.calculate(getCurrentShoulderAngle(), targetShoulderAngle);}
-    else {shoulderSpeed = 0;}
-    if (DriverStation.isEnabled()) {wristSpeed = wristPID.calculate(getCurrentWristAngle(), targetWristAngle);}
-    else {wristSpeed = 0;}
+    shoulderSpeed = shoulderPID.calculate(getCurrentShoulderAngle(), targetShoulderAngle);
+    wristSpeed = wristPID.calculate(getCurrentWristAngle(), targetWristAngle);
+
+    if (!DriverStation.isEnabled()){
+      shoulderSpeed = wristSpeed = 0;
+    }
 
     failSafes();
 
@@ -140,14 +134,11 @@ public class ArmSubsystem extends SubsystemBase {
      shoulderSpeed = MathUtil.clamp(shoulderSpeed, -ArmConstants.maxShoulderDownSpeedNitro, ArmConstants.maxShoulderUpSpeed);
     }else{
       shoulderSpeed = MathUtil.clamp(shoulderSpeed, -ArmConstants.maxShoulderDownSpeed, ArmConstants.maxShoulderUpSpeed);
-
     }
     wristSpeed = MathUtil.clamp(wristSpeed, -ArmConstants.maxWristSpeed, ArmConstants.maxWristSpeed);
 
     shoulderMotor.set(shoulderSpeed);
     wristMotor.set(wristSpeed);
-    // shoulderMotor.set(0);
-    // wristMotor.set(0);
   }
 
   private void failSafes() {
