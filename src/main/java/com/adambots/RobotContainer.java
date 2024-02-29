@@ -195,14 +195,14 @@ public class RobotContainer {
     NamedCommands.registerCommand("NoteAlignCommand", new ParallelRaceGroup(new WaitCommand(1), new NoteAlignRotateCommand(drivetrainSubsystem, ledSubsystem, false, 3, 5)));
     NamedCommands.registerCommand("DriveToNoteCommand", new ParallelRaceGroup(new WaitCommand(3), new DriveToNoteCommand(drivetrainSubsystem, ledSubsystem)));
 
-
     NamedCommands.registerCommand("CenterFloorIntakeAndShootCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ledSubsystem, ArmConstants.centerFloorShootState));
     NamedCommands.registerCommand("TopFloorIntakeAndShootCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ledSubsystem, ArmConstants.topFloorShootState));
     NamedCommands.registerCommand("BottomFloorIntakeAndShootCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ledSubsystem, ArmConstants.defaultState));
     NamedCommands.registerCommand("TopFloorIntakeCloseCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ledSubsystem, ArmConstants.defaultState));
     NamedCommands.registerCommand("LowFloorCloseCommand2", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ledSubsystem, ArmConstants.closeFloorShootState));
     NamedCommands.registerCommand("TopShootSpeakerCommand", new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.speakerState)));
-
+    
+    NamedCommands.registerCommand("GyroFlipCommand", new GyroFlipCommand(RobotMap.gyro));
 
     NamedCommands.registerCommand("PrintCommand",new PrintCommand("Path Following Finished"));
     NamedCommands.registerCommand("StopCommand",new StopCommand(drivetrainSubsystem));
@@ -263,7 +263,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return autoChooser.getSelected().andThen(new GyroFlipCommand(RobotMap.gyro));
+    return autoChooser.getSelected();
   }
 }
 //Blahaj_Counter: 4

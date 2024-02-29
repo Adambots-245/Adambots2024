@@ -144,7 +144,7 @@ public final class Constants {
         public static final double maxShoulderDownSpeed = 0.4; //0.5
         public static final double maxShoulderDownSpeedNitro = 0.95;
         public static final double shoulderLowerLimit = 110;
-        public static final double shoulderDangerZoneThreshold = 155; //153 
+        public static final double shoulderDangerZoneThreshold = 157.5; //153 
         public static final double shoulderUpperLimit = 203;
 
         // Wrist Limits
@@ -176,7 +176,7 @@ public final class Constants {
      
         // default
         public static final double defaultWristAngle = 197;
-        public static final double defaultShoulderAngle = 157.5;
+        public static final double defaultShoulderAngle = 159;
      
         // autonomous starting/speaker
         public static final double speakerWristAngle = 243;

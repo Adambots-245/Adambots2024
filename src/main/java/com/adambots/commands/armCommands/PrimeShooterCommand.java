@@ -5,7 +5,6 @@
 package com.adambots.commands.armCommands;
 
 import com.adambots.Constants.ArmConstants;
-import com.adambots.Constants.ShooterConstants;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
 

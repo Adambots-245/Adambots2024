@@ -108,6 +108,12 @@
           "data": {
             "name": "StopCommand"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "GyroFlipCommand"
+          }
         }
       ]
     }

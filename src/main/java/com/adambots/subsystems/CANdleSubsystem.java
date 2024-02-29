@@ -5,6 +5,7 @@
 package com.adambots.subsystems;
 
 import com.adambots.Constants.LEDConstants;
+import com.adambots.utils.VisionHelpers;
 import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
@@ -32,11 +33,23 @@ public class CANdleSubsystem extends SubsystemBase {
   private static final int LEDS_IN_STRIP = LEDConstants.LEDS_IN_STRIP;
   private CANdle candle;
   private Animation toAnimate = null;
+  private int oldHeartbeat = VisionHelpers.getHeatbeat();
+  private int newHeartbeat = VisionHelpers.getHeatbeat();
   
   @Override
-  public void periodic() {      
+  public void periodic() { 
+    newHeartbeat = VisionHelpers.getHeatbeat();
+    
     if (candle == null) {
       return;
+    }
+
+    if (oldHeartbeat == newHeartbeat){
+      clearAllAnims();
+      changeAnimation(AnimationTypes.SetAll);
+      setColor(LEDConstants.purple);
+    } else {
+      oldHeartbeat = newHeartbeat;
     }
 
   
@@ -139,12 +152,6 @@ public class CANdleSubsystem extends SubsystemBase {
     candle.setLEDs(r, g, b, 0, startIdx, numOfLEDs);
   }
 
-  public void setStrobe(Color color) {
-    candleChannel = 6;
-    // toAnimate = new StrobeAnimation(0, 0, 255, 0, 0, LEDS_IN_STRIP, 8);
-    System.out.println(color.red);
-    toAnimate = new StrobeAnimation((int) color.red , (int) color.green, (int) color.blue, 0, 0, LEDS_IN_STRIP, 8);
-  }
 
   // public void setmodulateVBatOutput(double dutyCycle) {
   //   this.vbatOutput = dutyCycle;
