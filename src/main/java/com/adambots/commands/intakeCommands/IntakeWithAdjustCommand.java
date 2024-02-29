@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import com.adambots.Constants.ArmConstants;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
-import com.adambots.vision.VisionHelpers;
 
 
 public class IntakeWithAdjustCommand extends Command {

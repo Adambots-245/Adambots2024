@@ -6,12 +6,12 @@ package com.adambots.commands.autonCommands;
 
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.ArmConstants.State;
+import com.adambots.devices.BaseAddressableLED.AnimationTypes;
 import com.adambots.Constants.ShooterConstants;
 import com.adambots.subsystems.ArmSubsystem;
-import com.adambots.subsystems.CANdleSubsystem;
+import com.adambots.subsystems.LedLightingSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
-import com.adambots.subsystems.CANdleSubsystem.AnimationTypes;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -21,13 +21,13 @@ public class FloorIntakeCommand extends Command {
   ArmSubsystem armSubsystem;
   IntakeSubsystem intakeSubsystem;
   ShooterSubsystem shooterSubsystem;
-  CANdleSubsystem candle;
+  LedLightingSubsystem candle;
 
   private State shootState;
 
   // private String state = "initial";
 
-  public FloorIntakeCommand(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, CANdleSubsystem candle, State shootState) {
+  public FloorIntakeCommand(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedLightingSubsystem candle, State shootState) {
     addRequirements(armSubsystem, intakeSubsystem, shooterSubsystem);
 
     this.armSubsystem = armSubsystem;

@@ -29,8 +29,9 @@ import com.adambots.commands.visionCommands.BlinkLightsCommand;
 import com.adambots.commands.visionCommands.DriveToNoteCommand;
 import com.adambots.commands.visionCommands.NoteAlignRotateCommand;
 import com.adambots.commands.visionCommands.PathPlannerAlign;
+import com.adambots.devices.BaseAddressableLED.AnimationTypes;
 import com.adambots.subsystems.ArmSubsystem;
-import com.adambots.subsystems.CANdleSubsystem;
+import com.adambots.subsystems.LedLightingSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.subsystems.HangSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
@@ -67,7 +68,7 @@ public class RobotContainer {
   private final ArmSubsystem armSubsystem = new ArmSubsystem(RobotMap.shoulderMotor, RobotMap.wristMotor, RobotMap.shoulderEncoder, RobotMap.wristEncoder);
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.shooterWheel);
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.groundIntakeMotor, RobotMap.firstPieceInRobotEye, RobotMap.secondPieceInRobotEye);
-  private final CANdleSubsystem ledSubsystem = new CANdleSubsystem(RobotMap.candleLEDs);
+  private final LedLightingSubsystem ledSubsystem = new LedLightingSubsystem(RobotMap.candleLEDs);
   private final HangSubsystem hangSubsystem = new HangSubsystem(RobotMap.leftHangMotor, RobotMap.rightHangMotor, RobotMap.leftHangSolenoid, RobotMap.rightHangSolenoid);
 
   //Creates a SmartDashboard element to allow drivers to select differnt autons
@@ -120,7 +121,7 @@ public class RobotContainer {
      */
 
     // ledSubsystem.setColor(LEDConstants.green); 
-    ledSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.Larson);
+    ledSubsystem.changeAnimation(AnimationTypes.Larson);
 
     Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem));
 

@@ -16,6 +16,8 @@ import com.adambots.actuators.BaseMotor;
 import com.adambots.actuators.BaseSolenoid;
 import com.adambots.actuators.ElectricalSolenoid;
 import com.adambots.actuators.TalonFXMotor;
+import com.adambots.devices.BaseAddressableLED;
+import com.adambots.devices.CtreCANdle;
 import com.adambots.sensors.BaseAbsoluteEncoder;
 import com.adambots.sensors.BaseGyro;
 import com.adambots.sensors.BaseProximitySensor;
@@ -23,7 +25,6 @@ import com.adambots.sensors.Gyro;
 import com.adambots.sensors.PhotoEye;
 import com.adambots.sensors.ThroughBoreEncoder;
 import com.adambots.subsystems.SwerveModule;
-import com.ctre.phoenix.led.CANdle;
 
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -84,7 +85,7 @@ public class RobotMap {
     //Robot Devices
     public static final PowerDistribution PDM = new PowerDistribution(kPDMPort, ModuleType.kRev);
     public static final BaseGyro gyro = new Gyro(kGyroPort);
-    public static final CANdle candleLEDs = new CANdle(kCANdlePort);
+    public static final BaseAddressableLED candleLEDs = new CtreCANdle(kCANdlePort);
 
     // Arm Devices
     public static final BaseMotor shoulderMotor = new TalonFXMotor(shoulderMotorPort, true);

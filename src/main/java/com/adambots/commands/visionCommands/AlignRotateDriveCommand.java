@@ -3,7 +3,8 @@ package com.adambots.commands.visionCommands;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
-import com.adambots.subsystems.CANdleSubsystem;
+import com.adambots.devices.BaseAddressableLED.AnimationTypes;
+import com.adambots.subsystems.LedLightingSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.Buttons;
 import com.adambots.vision.VisionHelpers;
@@ -15,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class AlignRotateDriveCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
   private IntakeSubsystem intakeSubsystem;
-  private CANdleSubsystem caNdleSubsystem;
+  private LedLightingSubsystem caNdleSubsystem;
   private final PIDController noteTurningPIDController = new PIDController(VisionConstants.kPNoteThetaController, 0,
       VisionConstants.kDNoteThetaController);
   private final PIDController aprilTurningPIDController = new PIDController(VisionConstants.kPAprilThetaController, 0,
@@ -25,7 +26,7 @@ public class AlignRotateDriveCommand extends Command {
   private String limelight;
 
   public AlignRotateDriveCommand(DrivetrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem,
-      CANdleSubsystem caNdleSubsystem, boolean fieldOrientated, String limelight) {
+      LedLightingSubsystem caNdleSubsystem, boolean fieldOrientated, String limelight) {
     addRequirements(driveTrainSubsystem);
 
     this.driveTrainSubsystem = driveTrainSubsystem;
@@ -39,7 +40,7 @@ public class AlignRotateDriveCommand extends Command {
   public void initialize() {
     drive_output = 0;
     caNdleSubsystem.clearAllAnims();
-    caNdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.SetAll);
+    caNdleSubsystem.changeAnimation(AnimationTypes.SetAll);
     caNdleSubsystem.setColor(LEDConstants.yellow);
     // caNdleSubsystem.setStrobe(LEDConstants.yellow);
   }
@@ -92,7 +93,7 @@ public class AlignRotateDriveCommand extends Command {
   public void end(boolean interrupted) {
     driveTrainSubsystem.stop();
     caNdleSubsystem.clearAllAnims();
-    caNdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.Larson);
+    caNdleSubsystem.changeAnimation(AnimationTypes.Larson);
   }
 
   // Returns true when the command should end.

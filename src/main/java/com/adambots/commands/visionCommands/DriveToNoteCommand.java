@@ -1,7 +1,8 @@
 package com.adambots.commands.visionCommands;
 import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
-import com.adambots.subsystems.CANdleSubsystem;
+import com.adambots.devices.BaseAddressableLED.AnimationTypes;
+import com.adambots.subsystems.LedLightingSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.vision.VisionHelpers;
 
@@ -11,11 +12,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class DriveToNoteCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
-  private CANdleSubsystem caNdleSubsystem;
+  private LedLightingSubsystem caNdleSubsystem;
   private final PIDController translatePIDController = new PIDController(VisionConstants.kPNoteThetaController, 0, VisionConstants.kDNoteThetaController);
   private double drive_output;
 
-  public DriveToNoteCommand(DrivetrainSubsystem driveTrainSubsystem, CANdleSubsystem caNdleSubsystem) {
+  public DriveToNoteCommand(DrivetrainSubsystem driveTrainSubsystem, LedLightingSubsystem caNdleSubsystem) {
     addRequirements(driveTrainSubsystem);
 
     this.driveTrainSubsystem = driveTrainSubsystem;
@@ -26,7 +27,7 @@ public class DriveToNoteCommand extends Command {
   @Override
   public void initialize() {
     drive_output = 0;
-    caNdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.SetAll);
+    caNdleSubsystem.changeAnimation(AnimationTypes.SetAll);
     caNdleSubsystem.setColor(LEDConstants.yellow);
   }
 
@@ -56,7 +57,7 @@ public class DriveToNoteCommand extends Command {
   public void end(boolean interrupted) {
       driveTrainSubsystem.stop();
       caNdleSubsystem.clearAllAnims();
-      caNdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.Larson);
+      caNdleSubsystem.changeAnimation(AnimationTypes.Larson);
   }
 
   // Returns true when the command should end.
