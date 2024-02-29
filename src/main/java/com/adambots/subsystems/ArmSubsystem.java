@@ -21,7 +21,7 @@ public class ArmSubsystem extends SubsystemBase {
   BaseAbsoluteEncoder shoulderEncoder;
   BaseAbsoluteEncoder wristEncoder;
   PIDController shoulderPID = new PIDController(0.018, 0.008, 0.002); //.00005
-  PIDController wristPID = new PIDController(0.0061, 0.009, 0.00064);
+  PIDController wristPID = new PIDController(0.0061, 0.009, 0.00062); //d = 0.00064
 
   double shoulderLowerLimit = ArmConstants.shoulderLowerLimit;
   double shoulderUpperLimit = ArmConstants.shoulderUpperLimit;

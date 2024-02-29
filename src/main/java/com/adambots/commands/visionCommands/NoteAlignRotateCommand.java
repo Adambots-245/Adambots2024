@@ -33,7 +33,7 @@ public class NoteAlignRotateCommand extends Command {
     alignedCount = 0;
     drive_output = 0;
     caNdleSubsystem.changeAnimation(AnimationTypes.SetAll);
-    caNdleSubsystem.setColor(LEDConstants.yellow);
+    caNdleSubsystem.setColor(LEDConstants.red);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -58,7 +58,7 @@ public class NoteAlignRotateCommand extends Command {
       alignedCount++;
       caNdleSubsystem.setColor(LEDConstants.blue);
     } else {
-      caNdleSubsystem.setColor(LEDConstants.yellow);
+      caNdleSubsystem.setColor(LEDConstants.red);
     }
   }
 

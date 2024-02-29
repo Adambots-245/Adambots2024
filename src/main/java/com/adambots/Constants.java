@@ -21,8 +21,8 @@ public final class Constants {
         public static final int LEDS_IN_STRIP = 62;
 
         public static final Color off = new Color(0, 0, 0);
-        public static final Color adambotsYellow = new Color(255, 216, 0);
-        public static final Color yellow = new Color(255, 150, 0);
+        public static final Color adambotsYellow = new Color(255, 255, 0);
+        public static final Color red = new Color(255, 150, 0);
         public static final Color blue = new Color(0, 0, 255);
         public static final Color orange = new Color(255, 90, 5);
         public static final Color purple = new Color(255, 0, 255);

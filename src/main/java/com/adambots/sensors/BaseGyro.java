@@ -20,6 +20,8 @@ public interface BaseGyro {
      */
     Rotation2d getContinuousYawRad();
 
+    void setYawOffset (double offsetDeg);
+
     /**
      * Zeros gyroscope yaw
      */

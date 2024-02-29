@@ -41,7 +41,7 @@ public class AlignRotateDriveCommand extends Command {
     drive_output = 0;
     caNdleSubsystem.clearAllAnims();
     caNdleSubsystem.changeAnimation(AnimationTypes.SetAll);
-    caNdleSubsystem.setColor(LEDConstants.yellow);
+    caNdleSubsystem.setColor(LEDConstants.red);
     // caNdleSubsystem.setStrobe(LEDConstants.yellow);
   }
 
@@ -80,8 +80,10 @@ public class AlignRotateDriveCommand extends Command {
     // moment
     if (Math.abs(rotate) < 5 && VisionHelpers.isDetected(limelight)) {
       caNdleSubsystem.setColor(LEDConstants.green);
+    } else if (Math.abs(rotate) < 10) {
+      caNdleSubsystem.setColor(LEDConstants.adambotsYellow);
     } else {
-      caNdleSubsystem.setColor(LEDConstants.yellow);
+      caNdleSubsystem.setColor(LEDConstants.red);
     }
     if (!VisionHelpers.getClassName(limelight).equals("note") && limelight == VisionConstants.noteLimelite) {
       caNdleSubsystem.setColor(LEDConstants.purple);

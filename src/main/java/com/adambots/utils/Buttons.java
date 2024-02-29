@@ -39,6 +39,10 @@ public class Buttons {
         public static final Trigger XboxLeftStickButton = XboxController.leftStick();
         public static final Trigger XboxRightStickButton = XboxController.rightStick();
 
+        // Xbox Throttle triggers
+        public static final Trigger XboxLeftTriggerButton = XboxController.leftTrigger(0.5);
+        public static final Trigger XboxRightTriggerButton = XboxController.rightTrigger(0.5);
+
         // Xbox DPad
         public static final Trigger XboxDPadN = XboxController.pov(GamepadConstants.kDpadNAngle);
         public static final Trigger XboxDPadNW = XboxController.pov(GamepadConstants.kDpadNWAngle);

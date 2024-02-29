@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Top Autons",
   "previewStartingState": {
     "rotation": 9.88,
     "velocity": 0

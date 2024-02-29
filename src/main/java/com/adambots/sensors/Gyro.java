@@ -60,6 +60,13 @@ public class Gyro implements BaseGyro {
     }
 
     /**
+     * Offsets the current yaw of the gyroscope by a specified angle in degrees
+     */
+    public void setYawOffset (double offsetDeg) {
+        gyro.setYaw(getContinuousYawDeg() % 360 + offsetDeg);
+    }
+
+    /**
      * Returns the measured roll value of the gyroscope in degrees
      * <p>
      * Keep in mind roll and pitch will change depending on robot rotation
@@ -81,6 +88,5 @@ public class Gyro implements BaseGyro {
     public double getRoll () {
         return gyro.getPitch().getValueAsDouble();
         // Pitch and roll values are switched for pigeon
-
     }
 }
