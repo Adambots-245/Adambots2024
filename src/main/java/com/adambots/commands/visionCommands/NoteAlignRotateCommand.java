@@ -31,7 +31,6 @@ public class NoteAlignRotateCommand extends Command {
   public void initialize() {
     alignedCount = 0;
     drive_output = 0;
-    caNdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.SetAll);
     caNdleSubsystem.setColor(LEDConstants.red);
   }
 

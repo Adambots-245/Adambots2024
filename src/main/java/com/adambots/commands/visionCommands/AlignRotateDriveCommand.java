@@ -36,8 +36,6 @@ public class AlignRotateDriveCommand extends Command {
   public void initialize() {
     drive_output = 0;
     caNdleSubsystem.setOverride(true);
-    caNdleSubsystem.clearAllAnims();
-    caNdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.SetAll);
     caNdleSubsystem.setColor(LEDConstants.yellow);
     // caNdleSubsystem.setStrobe(LEDConstants.yellow);
   }

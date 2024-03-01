@@ -26,7 +26,6 @@ public class DriveToNoteCommand extends Command {
   @Override
   public void initialize() {
     drive_output = 0;
-    caNdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.SetAll);
     caNdleSubsystem.setColor(LEDConstants.red);
   }
 

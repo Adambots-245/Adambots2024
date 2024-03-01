@@ -28,8 +28,6 @@ public class AprilAlignRotateCommand extends Command {
   public void initialize() {
     alignedCount = 0;
     drive_output = 0;
-    caNdleSubsystem.clearAllAnims();
-    caNdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.SetAll);
     caNdleSubsystem.setColor(LEDConstants.red);
   }
 

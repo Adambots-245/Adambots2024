@@ -60,8 +60,6 @@ public class CANdleSubsystem extends SubsystemBase {
     }
 
     if(heartbeatInc > 50 && !override){
-      clearAllAnims();
-      changeAnimation(AnimationTypes.SetAll);
       setColor(LEDConstants.purple);
       defibrillate = true;
     }
@@ -121,10 +119,11 @@ public class CANdleSubsystem extends SubsystemBase {
 
     candleDevice.configAllSettings(configAll, 100);
 
-    clearAllAnims();
-    changeAnimation(AnimationTypes.SetAll);
     configBrightness(100);
-    // setColor(LEDConstants.adambotsYellow); //Adambots Yellow
+
+    clearAllAnims();
+    setColor(LEDConstants.adambotsYellow);
+    changeAnimation(AnimationTypes.Larson);
   }
 
   public void setColor(Color color) {
@@ -141,6 +140,9 @@ public class CANdleSubsystem extends SubsystemBase {
    * @param b - Blue (0 to 255)
    */
   public void setColor(int r, int g, int b) {
+    clearAllAnims();
+    changeAnimation(AnimationTypes.SetAll);
+
     this.red = MathUtil.clamp(r, 0, 255);
     this.green = MathUtil.clamp(g, 0, 255);
     this.blue = MathUtil.clamp(b, 0, 255);

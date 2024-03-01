@@ -48,8 +48,6 @@ public class IntakeWithAdjustCommand extends Command {
       armSubsystem.incrementWristAngle(15);
       state = "touchNote"; //keep this line, prevents above code from running repeatedly
       caNdleSubsystem.setOverride(true);
-      caNdleSubsystem.clearAllAnims();
-      caNdleSubsystem.changeAnimation(AnimationTypes.SetAll);
       caNdleSubsystem.setColor(LEDConstants.green);
     }
   }
@@ -61,9 +59,8 @@ public class IntakeWithAdjustCommand extends Command {
     intakeSubsystem.setGroundIntakeMotorSpeed(0);
     // VisionHelpers.blinkLight(VisionConstants.noteLimelite);
     caNdleSubsystem.setOverride(false);
-    caNdleSubsystem.clearAllAnims();
-    caNdleSubsystem.changeAnimation(AnimationTypes.Larson);
     caNdleSubsystem.setColor(LEDConstants.adambotsYellow);
+    caNdleSubsystem.changeAnimation(AnimationTypes.Larson);
   }
 
   // Returns true when the command should end.
