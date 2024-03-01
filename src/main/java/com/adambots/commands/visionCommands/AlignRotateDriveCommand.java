@@ -77,6 +77,9 @@ public class AlignRotateDriveCommand extends Command {
     if (!VisionHelpers.getClassName(limelight).equals("note") && limelight == VisionConstants.noteLimelite){
       caNdleSubsystem.setColor(LEDConstants.purple);
     }
+    if (!VisionHelpers.isDetected(limelight) && limelight == VisionConstants.aprilLimelite){
+      caNdleSubsystem.setColor(LEDConstants.orange);
+    }
   }
 
   // Called once the command ends or is interrupted.

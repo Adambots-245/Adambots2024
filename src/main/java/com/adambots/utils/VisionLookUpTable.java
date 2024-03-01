@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class VisionLookUpTable {
-    ShooterConfig shooterConfig;
+    static ShooterConfig shooterConfig;
 
     private static VisionLookUpTable instance = new VisionLookUpTable();
 
@@ -13,20 +13,11 @@ public class VisionLookUpTable {
     }
     public VisionLookUpTable() {
         shooterConfig = new ShooterConfig();
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(1, 50, 40, 1)); // Distance -> Bumper
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(10, 50, 40, 1.5)); // Distance -> Bumper
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(21, 50, 40, 2)); // Distance -> Bumper
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(25, 50, 40, 2.5)); // Distance -> Bumper
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(29, 70, 60, 3)); // Distance -> Bumper
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(32, 70, 60, 3.5)); 
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(34.35, 70, 60, 4)); // Distance -> Bumper
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(35.85, 70, 60, 4.5)); // Distance -> Bumper
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(36.7, 70, 60, 5)); // Distance -> Bumper
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(38.58, 70, 60, 5.5)); // Distance -> Bumper
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(39.6, 70, 60, 6)); // Distance -> Bumper
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(41, 80, 60, 6.5)); // Distance -> Bumper
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(42, 80, 60, 7)); // Distance -> Bumper
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(42.8, 80, 60, 7.5)); // Distance -> Bumper
+        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 318.2, 90, 1)); // Distance -> Bumper
+        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 312, 90, 1.5)); // Distance -> Bumper
+        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 308, 90, 2)); // Distance -> Bumper
+        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 304, 90, 2.5)); // Distance -> Bumper
+        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 300, 90, 3)); // Distance -> Bumper
 
         Collections.sort(shooterConfig.getShooterConfigs());
     }
@@ -36,7 +27,7 @@ public class VisionLookUpTable {
      * @param DistanceFromTarget measured distance to the shooting target
      * @return new shooter preset for given distance
      */
-    public ShooterPreset getShooterPreset(double distanceFromTarget) {
+    public static ShooterPreset getShooterPreset(double distanceFromTarget) {
         int endIndex = shooterConfig.getShooterConfigs().size()-1;
 
         /*
@@ -72,7 +63,7 @@ public class VisionLookUpTable {
      * 
      * @return (Interpolated) shooting preset
      */
-    private ShooterPreset binarySearchDistance(List<ShooterPreset> shooterConfigs, int startIndex, int endIndex, double distance) {
+    static private ShooterPreset binarySearchDistance(List<ShooterPreset> shooterConfigs, int startIndex, int endIndex, double distance) {
         int mid = startIndex + (endIndex - startIndex) / 2;
         double midIndexDistance = shooterConfigs.get(mid).getDistance();
 
@@ -109,7 +100,7 @@ public class VisionLookUpTable {
      * 
      * @return new interpolated shooter preset
      */
-    private ShooterPreset interpolateShooterPreset(ShooterPreset startPreset, ShooterPreset endPreset, double percentIn) {
+    private static ShooterPreset interpolateShooterPreset(ShooterPreset startPreset, ShooterPreset endPreset, double percentIn) {
         double armAngle = startPreset.getArmAngle() + (endPreset.getArmAngle() - startPreset.getArmAngle()) * percentIn;
         double wristAngle = startPreset.getWristAngle() + (endPreset.getWristAngle() - startPreset.getWristAngle()) * percentIn;
         double shootingSpeed = startPreset.getShootingSpeed() + (endPreset.getShootingSpeed() - startPreset.getShootingSpeed()) * percentIn;
@@ -122,7 +113,7 @@ public class VisionLookUpTable {
      * MAKE SURE YOU SORT THE LIST BEFORE CALLING THIS FUNCTION
      * @param pShooterConfig a sorted shooter config
      */
-    public void setShooterConfig(ShooterConfig pShooterConfig) {
-        this.shooterConfig = pShooterConfig;
-    }
+    // public void setShooterConfig(ShooterConfig pShooterConfig) {
+    //     this.shooterConfig = pShooterConfig;
+    // }
 }

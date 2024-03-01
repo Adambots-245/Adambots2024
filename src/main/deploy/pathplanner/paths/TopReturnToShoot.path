@@ -28,7 +28,13 @@
       "linkedName": "TopFar2ReturnEndpoint"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 50.04,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -39,8 +45,8 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 50.035412262115386,
-    "rotateFast": true
+    "rotation": 50.04,
+    "rotateFast": false
   },
   "reversed": false,
   "folder": null,

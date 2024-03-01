@@ -4,22 +4,27 @@
 
 package com.adambots.commands.intakeCommands;
 
+import com.adambots.Constants.VisionConstants;
+import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
+import com.adambots.utils.VisionHelpers;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class FeedShooterCommand extends Command {
+public class ShootWhenAligned extends Command {
   /** Creates a new FeedShooterCommand. */
   private IntakeSubsystem intakeSubsystem;
+  private ArmSubsystem armSubsystem;
   private ShooterSubsystem shooterSubsystem;
   private int inc;
   private boolean increment;
   
-  public FeedShooterCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
+  public ShootWhenAligned(IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem) {
     addRequirements(intakeSubsystem);
 
     this.intakeSubsystem = intakeSubsystem;
+    this.armSubsystem = armSubsystem;
     this.shooterSubsystem = shooterSubsystem;
   }
 
@@ -33,7 +38,7 @@ public class FeedShooterCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (shooterSubsystem.isAtTargetSpeed()) {
+    if (shooterSubsystem.isAtTargetSpeed() && armSubsystem.isAtTargetState() && VisionHelpers.isAligned(VisionConstants.aprilLimelite) && VisionHelpers.getAprilDistance() < 3) {
       intakeSubsystem.setGroundIntakeMotorSpeed(1);
       increment = true;
     }

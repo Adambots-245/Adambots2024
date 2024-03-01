@@ -33,6 +33,14 @@ public class VisionHelpers {
         return targetApril;
     }
 
+    public static Pose3d getCameraPose2eTargetSpace() {
+        return LimelightHelpers.getCameraPose3d_TargetSpace(VisionConstants.aprilLimelite);
+    }
+
+    public static double getAprilDistance(){
+        return Math.hypot(getCameraPose2eTargetSpace().getX(), getCameraPose2eTargetSpace().getY());
+    }
+
     public static void offLight(String limelight) {
         LimelightHelpers.setLEDMode_ForceOff(limelight);
     }
@@ -162,7 +170,7 @@ public class VisionHelpers {
     // }
 
     public static boolean isAligned(String limelight){
-        return Math.abs(getHorizAngle(limelight)) < 2 && isDetected(limelight);
+        return Math.abs(getHorizAngle(limelight)) < 5 && isDetected(limelight);
     }
 
     public static boolean isDistanceAligned(String limelight){

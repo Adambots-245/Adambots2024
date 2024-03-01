@@ -20,7 +20,7 @@ public class ArmSubsystem extends SubsystemBase {
   BaseMotor wristMotor;
   DutyCycleEncoder shoulderEncoder;
   DutyCycleEncoder wristEncoder;
-  PIDController shoulderPID = new PIDController(0.018, 0.008, 0.002); //.00005
+  PIDController shoulderPID = new PIDController(0.018, 0.008, 0.0024); //0.018, 0.008, 0.002
   PIDController wristPID = new PIDController(0.0061, 0.009, 0.00062);
 
   double shoulderLowerLimit = ArmConstants.shoulderLowerLimit;
@@ -86,6 +86,10 @@ public class ArmSubsystem extends SubsystemBase {
     failsafeOverride = false;
   }
 
+  public boolean isAtTargetState () {
+    return (Math.abs(shoulderPID.getPositionError()) < 3 && Math.abs(wristPID.getPositionError()) < 3); 
+  }
+
   public double getCurrentWristAngle(){
     return wristEncoder.getAbsolutePosition() * 360;
   }
@@ -105,7 +109,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     //Dynamically change pid tolerences depending on the arm state
     if (currentStateName.equals("speaker")) {
-      shoulderPID.setTolerance(1);
+      shoulderPID.setTolerance(2);
       wristPID.setTolerance(1);
     } else if (currentStateName.equals("floor")) {
       setPidTolerence(0);
