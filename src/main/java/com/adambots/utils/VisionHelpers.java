@@ -21,7 +21,7 @@ public class VisionHelpers {
     
      public static int getHeatbeat() {
         // return (int) LimelightHelpers.getFiducialID(VisionConstants.aprilLimelite);
-        return (int) NetworkTableInstance.getDefault().getTable(VisionConstants.aprilLimelite).getEntry("hb").getDouble(0);
+        return (int) NetworkTableInstance.getDefault().getTable(VisionConstants.noteLimelite).getEntry("hb").getDouble(0);
         // return null;
     }
 

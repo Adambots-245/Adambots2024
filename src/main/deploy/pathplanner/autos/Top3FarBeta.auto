@@ -99,12 +99,6 @@
                       "data": {
                         "pathName": "TopFar2Beta"
                       }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "DriveToNoteCommand"
-                      }
                     }
                   ]
                 }
@@ -140,6 +134,12 @@
           "type": "named",
           "data": {
             "name": "FeedShooterCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "GyroFlipCommand"
           }
         }
       ]

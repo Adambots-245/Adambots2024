@@ -4,7 +4,7 @@
 
 package com.adambots.commands.autonCommands;
 
-import com.adambots.sensors.Gyro;
+import com.adambots.RobotMap;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class GyroFlipCommand extends Command {
   /** Creates a new GyroFlipCommand. */
-  Gyro gyro;
+  // Gyro gyro;
 
-  public GyroFlipCommand(Gyro gyro) {
-    this.gyro = gyro;
+  public GyroFlipCommand() {
+    // this.gyro = gyro;
   }
 
   // Called when the command is initially scheduled.
@@ -24,7 +24,9 @@ public class GyroFlipCommand extends Command {
     var alliance = DriverStation.getAlliance();
     if (alliance.isPresent()) {
       if(alliance.get() == DriverStation.Alliance.Red) {
-        gyro.setYawOffset(180);
+        System.out.println("Current Yaw At Reset: " + RobotMap.gyro.getContinuousYawDeg());
+        RobotMap.gyro.setYawOffset(180);
+        System.out.println("Yaw After At Reset: " + RobotMap.gyro.getContinuousYawDeg());
       }
     }
   }

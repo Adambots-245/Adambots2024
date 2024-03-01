@@ -24,19 +24,13 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "BottomFloorIntakeAndShootCommand"
+                  "name": "TopFloorIntakeAndShootCommand"
                 }
               },
               {
@@ -62,33 +56,9 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BottomReturn1"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "StopCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "TopShootSpeakerCommand"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.5
+            "name": "AprilAlignCommand"
           }
         },
         {
@@ -98,15 +68,78 @@
           }
         },
         {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "LowFloorCloseCommand2"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "BottomFar3"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "DriveToNoteCommand"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "BottomExit2"
+            "pathName": "BottomFar3Return"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "StopCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AprilAlignCommand"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FeedShooterCommand"
           }
         },
         {

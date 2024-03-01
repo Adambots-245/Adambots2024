@@ -131,7 +131,7 @@ public class RobotContainer {
     
     Buttons.JoystickButton7.whileTrue(new AlignRotateDriveCommand(drivetrainSubsystem, intakeSubsystem, ledSubsystem, true, VisionConstants.aprilLimelite));
     Buttons.JoystickButton6.whileTrue(new AlignRotateDriveCommand(drivetrainSubsystem, intakeSubsystem, ledSubsystem, false, VisionConstants.noteLimelite).andThen(new BlinkLightsCommand(ledSubsystem)));
-    Buttons.JoystickButton5.whileTrue(new AngleRotateCommand(drivetrainSubsystem, 90, RobotMap.gyro));
+    Buttons.JoystickButton5.whileTrue(new AngleRotateCommand(drivetrainSubsystem, -90, RobotMap.gyro));
     Buttons.JoystickButton8.whileTrue(new SpinFastCommand(drivetrainSubsystem));
 
     Buttons.JoystickButton10.whileTrue(new AngleRotateCommand(drivetrainSubsystem, 60, RobotMap.gyro));
@@ -144,7 +144,7 @@ public class RobotContainer {
 
 
     //Xbox Button Bindings 
-    Buttons.XboxAButton.whileTrue(new IntakeWithAdjustCommand(armSubsystem, intakeSubsystem));
+    Buttons.XboxAButton.whileTrue(new IntakeWithAdjustCommand(armSubsystem, intakeSubsystem, ledSubsystem));
     // Buttons.XboxAButton.onFalse(new InstantCommand(() -> VisionHelpers.offLight(VisionConstants.noteLimelite)));
 
     Buttons.XboxBButton.whileTrue(new HumanStationCommand(armSubsystem, intakeSubsystem));
@@ -210,7 +210,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("LowFloorCloseCommand2", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ledSubsystem, ArmConstants.closeFloorShootState));
     NamedCommands.registerCommand("TopShootSpeakerCommand", new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.speakerState)));
 
-    NamedCommands.registerCommand("GyroFlipCommand", new GyroFlipCommand(RobotMap.gyro));
+    NamedCommands.registerCommand("GyroFlipCommand", new GyroFlipCommand());
 
     NamedCommands.registerCommand("PrintCommand",new PrintCommand("Path Following Finished"));
     NamedCommands.registerCommand("StopCommand",new StopCommand(drivetrainSubsystem));
@@ -220,6 +220,8 @@ public class RobotContainer {
     autoChooser = AutoBuilder.buildAutoChooser();
 
     Dash.add("getClassName", VisionHelpers.getClassName(VisionConstants.noteLimelite));
+        Dash.add("getHeartbeat", () -> VisionHelpers.getHeatbeat());
+
 
     //Adds various data to the dashboard that is useful for driving and debugging
     SmartDashboard.putData("Auton Mode", autoChooser);

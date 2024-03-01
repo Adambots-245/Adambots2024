@@ -178,7 +178,7 @@ public final class Constants {
         public static final double defaultShoulderAngle = 159;
      
         // autonomous starting/speaker
-        public static final double speakerWristAngle = 243;
+        public static final double speakerWristAngle = 240.7;
         public static final double speakerShoulderAngle = 206.4;
 
         // Center 2 note floor shoot
@@ -186,7 +186,7 @@ public final class Constants {
         public static final double centerfloorShootShoulderAngle = 125.7; 
      
         // Top 2 note floor shoot
-        public static final double topFloorShootWristAngle = 321.7;
+        public static final double topFloorShootWristAngle = 318.2;
         public static final double topfloorShootShoulderAngle = 125.7; 
 
         //Hang

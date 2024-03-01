@@ -59,7 +59,7 @@ public class Gyro {
      * Offsets the current yaw of the gyroscope by a specified angle in degrees
      */
     public void setYawOffset (double offsetDeg) {
-        gyro.setYaw(getContinuousYawDeg() % 360 + offsetDeg);
+        gyro.setYaw((getContinuousYawDeg() + offsetDeg) % 360);
     }
 
     /**

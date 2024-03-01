@@ -33,8 +33,11 @@ public class CANdleSubsystem extends SubsystemBase {
   private static final int LEDS_IN_STRIP = LEDConstants.LEDS_IN_STRIP;
   private CANdle candle;
   private Animation toAnimate = null;
-  private int oldHeartbeat = VisionHelpers.getHeatbeat();
+  private int oldHeartbeat = 10;
   private int newHeartbeat = VisionHelpers.getHeatbeat();
+  private int heartbeatInc = 0;
+  private boolean defibrillate = false;
+  private boolean override = false;
   
   @Override
   public void periodic() { 
@@ -45,11 +48,22 @@ public class CANdleSubsystem extends SubsystemBase {
     }
 
     if (oldHeartbeat == newHeartbeat){
+      heartbeatInc++;
+    } else {
+      oldHeartbeat = newHeartbeat;
+      heartbeatInc = 0;
+      if(defibrillate && !override){
+        clearAllAnims();
+        changeAnimation(AnimationTypes.Larson);
+        defibrillate = false;
+      }
+    }
+
+    if(heartbeatInc > 50 && !override){
       clearAllAnims();
       changeAnimation(AnimationTypes.SetAll);
       setColor(LEDConstants.purple);
-    } else {
-      oldHeartbeat = newHeartbeat;
+      defibrillate = true;
     }
 
   
@@ -66,6 +80,10 @@ public class CANdleSubsystem extends SubsystemBase {
     }
 
     candle.modulateVBatOutput(vbatOutput);
+  }
+
+  public void setOverride(boolean value){
+    override = value;
   }
 
   public enum AnimationTypes {

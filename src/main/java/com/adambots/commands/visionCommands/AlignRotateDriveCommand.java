@@ -35,6 +35,7 @@ public class AlignRotateDriveCommand extends Command {
   @Override
   public void initialize() {
     drive_output = 0;
+    caNdleSubsystem.setOverride(true);
     caNdleSubsystem.clearAllAnims();
     caNdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.SetAll);
     caNdleSubsystem.setColor(LEDConstants.yellow);
@@ -84,6 +85,7 @@ public class AlignRotateDriveCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     driveTrainSubsystem.stop();
+    caNdleSubsystem.setOverride(false);
     caNdleSubsystem.clearAllAnims();
     caNdleSubsystem.changeAnimation(CANdleSubsystem.AnimationTypes.Larson);
   }
