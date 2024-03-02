@@ -4,14 +4,17 @@
 
 package com.adambots.commands.intakeCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import com.adambots.subsystems.IntakeSubsystem;
 
-public class SlowOuttakeCommand extends Command {
-  private IntakeSubsystem intakeSubsystem;
-  private int inc = 0;
+import edu.wpi.first.wpilibj2.command.Command;
 
-  public SlowOuttakeCommand(IntakeSubsystem intakeSubsystem) {
+
+public class AdjustCommand extends Command {
+  /** Creates a new IntakeWithAdjustCommand. */
+  IntakeSubsystem intakeSubsystem;
+  int inc = 0;
+
+  public AdjustCommand(IntakeSubsystem intakeSubsystem) {
     addRequirements(intakeSubsystem);
 
     this.intakeSubsystem = intakeSubsystem;
@@ -21,15 +24,18 @@ public class SlowOuttakeCommand extends Command {
   @Override
   public void initialize() {
     inc = 0;
-    // if (!intakeSubsystem.isSecondPieceInRobot()) {
-    intakeSubsystem.setGroundIntakeMotorSpeed(-0.06);
-    // }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     inc++;
+
+    if (inc > 30) {
+      intakeSubsystem.setGroundIntakeMotorSpeed(-0.06);
+    } else if (inc > 20) {
+      intakeSubsystem.setGroundIntakeMotorSpeed(0.1);
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -41,6 +47,7 @@ public class SlowOuttakeCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return inc > 7 || intakeSubsystem.isSecondPieceInRobot() || intakeSubsystem.isFirstPieceInRobot();
+    return inc > 37;
+
   }
 }

@@ -5,6 +5,7 @@
 package com.adambots.commands.intakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.LEDConstants;
@@ -73,6 +74,8 @@ public class IntakeWithAdjustCommand extends Command {
     caNdleSubsystem.setOverride(false);
     caNdleSubsystem.setColor(LEDConstants.adambotsYellow);
     caNdleSubsystem.changeAnimation(AnimationTypes.Larson);
+
+    new WaitCommand(0.1).andThen(new AdjustCommand(intakeSubsystem)).schedule();
   }
 
   // Returns true when the command should end.

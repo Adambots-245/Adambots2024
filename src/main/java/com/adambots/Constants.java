@@ -189,7 +189,7 @@ public final class Constants {
         public static final double centerfloorShootShoulderAngle = 125.7+shoulderOffset; 
      
         // Top 2 note floor shoot
-        public static final double topFloorShootWristAngle = 322.7+wristOffset;
+        public static final double topFloorShootWristAngle = 321.7+wristOffset;
         public static final double topfloorShootShoulderAngle = 125.7+shoulderOffset; 
 
         //Hang
@@ -197,7 +197,7 @@ public final class Constants {
         public static final double hangShoulderAngle = 146.5+shoulderOffset; 
 
         //Close Floor Shoot State
-        public static final double closeFloorShootWristAngle = 310.0+wristOffset;
+        public static final double closeFloorShootWristAngle = 312+wristOffset;
         public static final double closeFloorShootShoulderAngle = 123.7+shoulderOffset;
 
         // Bottom 2 note floor shoot **NOT TUNED**

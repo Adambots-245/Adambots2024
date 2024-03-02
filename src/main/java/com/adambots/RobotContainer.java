@@ -6,6 +6,7 @@ import com.adambots.Constants.ShooterConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.Gamepad.Buttons;
 import com.adambots.commands.intakeCommands.AdaptiveScoreCommand;
+import com.adambots.commands.intakeCommands.AdjustCommand;
 import com.adambots.commands.armCommands.AmpCommand;
 import com.adambots.commands.armCommands.HumanStationCommand;
 import com.adambots.commands.armCommands.PrimeShooterCommand;
@@ -137,16 +138,14 @@ public class RobotContainer {
      */
 
     Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem));
-    // Buttons.JoystickButton9.whileTrue(new ShootWhenAligned(intakeSubsystem, armSubsystem, shooterSubsystem));
 
     Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem));
 
     Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
     
     Buttons.JoystickButton7.whileTrue(new AlignRotateDriveCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, true, VisionConstants.aprilLimelite));
-        Buttons.JoystickButton6.whileTrue(new AlignRotateDriveCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, true, VisionConstants.aprilLimelite));
+    Buttons.JoystickButton6.whileTrue(new AlignRotateDriveCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, true, VisionConstants.aprilLimelite));
 
-    // Buttons.JoystickButton6.whileTrue(new AlignRotateDriveCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, false, VisionConstants.noteLimelite).andThen(new BlinkLightsCommand(candleSubsytem)));
     Buttons.JoystickButton5.whileTrue(new AngleRotateCommand(drivetrainSubsystem, -90, RobotMap.gyro));
     Buttons.JoystickButton8.whileTrue(new SpinFastCommand(drivetrainSubsystem));
 
@@ -155,27 +154,21 @@ public class RobotContainer {
 
     Buttons.JoystickButton4.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro)); //Hang on the chain
 
-    // Buttons.XboxRightStickButton.onTrue(new InstantCommand(() -> ledSubsystem.changeAnimation(AnimationTypes.Fire)));
-    // Buttons.XboxRightStickButton.onTrue(new GyroFlipCommand());
-
-
     //Xbox Button Bindings 
-    // Buttons.XboxStartButton.whileTrue(new InterpolateDistanceCommand(armSubsystem, shooterSubsystem));
-
-    Buttons.XboxAButton.whileTrue(new IntakeWithAdjustCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem).andThen(new SlowOuttakeCommand(intakeSubsystem)));
+    Buttons.XboxAButton.whileTrue(new IntakeWithAdjustCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem));
     // Buttons.XboxAButton.onFalse(new InstantCommand(() -> VisionHelpers.offLight(VisionConstants.noteLimelite)));
 
     Buttons.XboxStartButton.whileTrue(new HumanStationCommand(armSubsystem, intakeSubsystem));
     // Buttons.XboxBButton.whileTrue(new HumanStationCommand(armSubsystem, intakeSubsystem));
-    Buttons.XboxBButton.onTrue(new PrimeShooterCommandFloor(armSubsystem, shooterSubsystem, ShooterConstants.highSpeed));
+    Buttons.XboxBButton.onTrue(new PrimeShooterCommandFloor(armSubsystem, shooterSubsystem, ShooterConstants.lowSpeed));
     Buttons.XboxBButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
 
     Buttons.XboxXButton.whileTrue(new AmpCommand(armSubsystem));
 
-    Buttons.XboxYButton.onTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, ShooterConstants.highSpeed));
+    Buttons.XboxYButton.onTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, ShooterConstants.lowSpeed));
     Buttons.XboxYButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
 
-    Buttons.XboxLeftBumper.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed))); 
+    // Buttons.XboxLeftBumper.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed))); 
     //Spin up flywheels
     Buttons.XboxRightBumper.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(0))); //Stop FLywheels
 
