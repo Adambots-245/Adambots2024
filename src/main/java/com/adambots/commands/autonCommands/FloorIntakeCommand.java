@@ -41,7 +41,7 @@ public class FloorIntakeCommand extends Command {
   @Override
   public void initialize() {
     armSubsystem.setCurrentState(ArmConstants.floorState);
-    intakeSubsystem.setGroundIntakeMotorSpeed(0.17);
+    intakeSubsystem.setMotorSpeed(0.17);
     candle.clearAllAnims();
     candle.changeAnimation(AnimationTypes.Larson);
   }
@@ -50,7 +50,7 @@ public class FloorIntakeCommand extends Command {
   @Override
   public void execute() {
     if (intakeSubsystem.isFirstPieceInRobot()) {
-      intakeSubsystem.setGroundIntakeMotorSpeed(0.1);
+      intakeSubsystem.setMotorSpeed(0.06);
       armSubsystem.setCurrentState(shootState);
       candle.clearAllAnims();
       candle.changeAnimation(AnimationTypes.Fire);
@@ -60,10 +60,10 @@ public class FloorIntakeCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.setGroundIntakeMotorSpeed(0);
+    intakeSubsystem.setMotorSpeed(0);
     armSubsystem.setCurrentState(shootState);
 
-    shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed);
+    shooterSubsystem.setTargetWheelSpeed(ShooterConstants.lowSpeed);
 
     // candle.clearAllAnims();
     // candle.changeAnimation(AnimationTypes.Strobe);

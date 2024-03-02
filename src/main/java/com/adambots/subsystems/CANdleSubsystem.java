@@ -5,7 +5,6 @@
 package com.adambots.subsystems;
 
 import com.adambots.Constants.LEDConstants;
-import com.adambots.utils.VisionHelpers;
 import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
@@ -33,35 +32,76 @@ public class CANdleSubsystem extends SubsystemBase {
   private static final int LEDS_IN_STRIP = LEDConstants.LEDS_IN_STRIP;
   private CANdle candle;
   private Animation toAnimate = null;
-  private int oldHeartbeat = 10;
-  private int newHeartbeat = VisionHelpers.getHeatbeat();
-  private int heartbeatInc = 0;
+  // private int oldHeartbeat = 10;
+  // private int newHeartbeat = VisionHelpers.getHeatbeat();
+  // private int heartbeatInc = 0;
   private boolean defibrillate = false;
   private boolean override = false;
   
+  private int red = 0;
+  private int green = 0;
+  private int blue = 0;
+  private double vbatOutput = 0.0;
+  private int candleChannel;
+  private boolean animDirection = true;
+  private boolean setAnim = false;
+  private double animateSpeed = 0.1;
+  private ShooterSubsystem shooterSubsystem;
+
+  public CANdleSubsystem(CANdle candleDevice, ShooterSubsystem shooterSubsystem) {
+    this.candle = candleDevice;
+    this.shooterSubsystem = shooterSubsystem;
+
+    CANdleConfiguration configAll = new CANdleConfiguration();
+    configAll.statusLedOffWhenActive = true;
+    configAll.disableWhenLOS = true;
+    configAll.stripType = LEDStripType.GRB; // the BTF-Lighting LED strip uses GRB format
+    configAll.brightnessScalar = 1;
+    configAll.vBatOutputMode = VBatOutputMode.Modulated;
+
+    candleDevice.configAllSettings(configAll, 100);
+
+    configBrightness(100);
+
+    clearAllAnims();
+    setColor(LEDConstants.adambotsYellow);
+    changeAnimation(AnimationTypes.Larson);
+  }
+
   @Override
   public void periodic() { 
-    newHeartbeat = VisionHelpers.getHeatbeat();
+    // newHeartbeat = VisionHelpers.getHeatbeat();
     
-    if (candle == null) {
-      return;
-    }
+    // if (candle == null) {
+    //   return;
+    // }
 
-    if (oldHeartbeat == newHeartbeat){
-      heartbeatInc++;
-    } else {
-      oldHeartbeat = newHeartbeat;
-      heartbeatInc = 0;
-      if(defibrillate && !override){
+    // if (oldHeartbeat == newHeartbeat){
+    //   heartbeatInc++;
+    // } else {
+    //   oldHeartbeat = newHeartbeat;
+    //   heartbeatInc = 0;
+    //   if(defibrillate && !override){
+    //     clearAllAnims();
+    //     changeAnimation(AnimationTypes.Larson);
+    //     defibrillate = false;
+    //   }
+    // }
+
+    // if(heartbeatInc > 50 && !override){
+    //   setColor(LEDConstants.purple);
+    //   defibrillate = true;
+    // }
+
+    if (shooterSubsystem.getShooterVelocity() > 0 && !override) {
+      setColor(LEDConstants.purple);
+      defibrillate = true;
+    } 
+
+    if(defibrillate && !override){
         clearAllAnims();
         changeAnimation(AnimationTypes.Larson);
         defibrillate = false;
-      }
-    }
-
-    if(heartbeatInc > 50 && !override){
-      setColor(LEDConstants.purple);
-      defibrillate = true;
     }
 
   
@@ -96,34 +136,6 @@ public class CANdleSubsystem extends SubsystemBase {
     TwinkleOff,
     SetAll,
     Empty
-  }
-
-  private int red = 0;
-  private int green = 0;
-  private int blue = 0;
-  private double vbatOutput = 0.0;
-  private int candleChannel;
-  private boolean animDirection = true;
-  private boolean setAnim = false;
-  private double animateSpeed = 0.1;
-
-  public CANdleSubsystem(CANdle candleDevice) {
-    this.candle = candleDevice;
-
-    CANdleConfiguration configAll = new CANdleConfiguration();
-    configAll.statusLedOffWhenActive = true;
-    configAll.disableWhenLOS = true;
-    configAll.stripType = LEDStripType.GRB; // the BTF-Lighting LED strip uses GRB format
-    configAll.brightnessScalar = 1;
-    configAll.vBatOutputMode = VBatOutputMode.Modulated;
-
-    candleDevice.configAllSettings(configAll, 100);
-
-    configBrightness(100);
-
-    clearAllAnims();
-    setColor(LEDConstants.adambotsYellow);
-    changeAnimation(AnimationTypes.Larson);
   }
 
   public void setColor(Color color) {

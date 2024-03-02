@@ -8,42 +8,36 @@ import com.adambots.sensors.PhotoEye;
 import com.adambots.utils.BaseMotor;
 import com.adambots.utils.Dash;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-  BaseMotor groundIntakeMotor;
+  BaseMotor intakeMotor;
   PhotoEye firstPieceInRobotEye;
   PhotoEye secondPieceInRobotEye;
-  PhotoEye initEye;
-  double groundIntakeMotorSpeed = 0;
-  boolean isIntaking = false;
-  boolean isNote = false;
-  boolean slowSpeed = false;
+  double motorSpeed = 0;
+  boolean distanceMode = false;
+  double targetDist = 0;
+  boolean lockOut = false;
 
-  public IntakeSubsystem(BaseMotor groundIntakeMotor, PhotoEye firstPieceInRobotEye, PhotoEye secondPieceInRobotEye){
-    this.groundIntakeMotor = groundIntakeMotor;
+  public IntakeSubsystem(BaseMotor intakeMotor, PhotoEye firstPieceInRobotEye, PhotoEye secondPieceInRobotEye){
+    this.intakeMotor = intakeMotor;
     this.secondPieceInRobotEye = secondPieceInRobotEye;
     this.firstPieceInRobotEye = firstPieceInRobotEye;
     
     Dash.add("Second Intake Limit Switch", () -> isSecondPieceInRobot());
     Dash.add("First Intake Limit Switch", () -> isFirstPieceInRobot());
-    Dash.add("Intake Velocity", () -> groundIntakeMotor.getVelocity());
-    Dash.add("Intake Speed", () -> groundIntakeMotorSpeed);
+    Dash.add("Intake Velocity", () -> intakeMotor.getVelocity());
+    Dash.add("Intake Speed", () -> motorSpeed);
 
-    groundIntakeMotor.setNeutralMode(true);
-    groundIntakeMotor.setInverted(true);
+    intakeMotor.setNeutralMode(true);
+    intakeMotor.setInverted(true);
   }
 
-  public void setGroundIntakeMotorSpeed(double newGroundIntakeMotorSpeed){
-    // slowSpeed = false;
-    groundIntakeMotorSpeed = newGroundIntakeMotorSpeed;
+  public void setMotorSpeed(double newMotorSpeed){
+    motorSpeed = newMotorSpeed;
   }
-
-  // public void setGroundIntakeMotorSpeedSlow(){
-  //   groundIntakeMotorSpeed = 0.1;
-  //   slowSpeed = true;
-  // }
 
   public boolean isSecondPieceInRobot(){
     return secondPieceInRobotEye.isDetecting();
@@ -53,24 +47,39 @@ public class IntakeSubsystem extends SubsystemBase {
     return firstPieceInRobotEye.isDetecting();
   }
 
+  public void moveDistance(double dist) {
+    distanceMode = true;
+    targetDist = dist;
+    intakeMotor.setPosition(0);
+  }
+
   public double getIntakeSpeed(){
-    return groundIntakeMotor.getVelocity()/512;
+    return intakeMotor.getVelocity();
+  }
+
+  public boolean getLockOut() {
+    return lockOut;
+  }
+
+  public void setLockOut(boolean bool) {
+    lockOut = bool;
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    // if (slowSpeed == true){
-    //   if (groundIntakeMotor.getVelocity() < 0.5){
-    //     groundIntakeMotor.set(groundIntakeMotorSpeed);
-    //     groundIntakeMotorSpeed = groundIntakeMotorSpeed + 0.01; 
-    //   } else {
-    //     groundIntakeMotor.set(groundIntakeMotorSpeed);
-    //     groundIntakeMotorSpeed = groundIntakeMotorSpeed - 0.01; 
-    //   }
-    // } else {
-      groundIntakeMotor.set(groundIntakeMotorSpeed);
-    // }
+    if (!distanceMode) {
+      intakeMotor.set(motorSpeed);
+    } else {
+      motorSpeed = 0;
+
+      double error = targetDist-intakeMotor.getPosition();
+      double speed = MathUtil.clamp(error, -0.1, 0.1);
+      intakeMotor.set(speed);
+
+      if (Math.abs(error) < 0.1) {
+        distanceMode = false;
+      }
+    }
   } 
 }
 

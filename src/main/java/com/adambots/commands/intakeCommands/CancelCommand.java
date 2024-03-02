@@ -2,35 +2,38 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package com.adambots.commands.hangCommands;
-
-import com.adambots.subsystems.HangSubsystem;
+package com.adambots.commands.intakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import com.adambots.subsystems.IntakeSubsystem;
 
-public class StopHangMotorsCommand extends Command {
-  private HangSubsystem hangSubsystem;
+public class CancelCommand extends Command {
+  private IntakeSubsystem intakeSubsystem;
 
-  public StopHangMotorsCommand(HangSubsystem hangSubsystem) {
-    addRequirements(hangSubsystem);
+  public CancelCommand(IntakeSubsystem intakeSubsystem) {
+    addRequirements(intakeSubsystem);
 
-    this.hangSubsystem = hangSubsystem;
+    this.intakeSubsystem = intakeSubsystem;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    hangSubsystem.setLeftMotorSpeed(0);
-    hangSubsystem.setRightMotorSpeed(0);
+    intakeSubsystem.setMotorSpeed(0);
+    intakeSubsystem.setLockOut(false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    intakeSubsystem.setMotorSpeed(0);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    intakeSubsystem.setMotorSpeed(0);
+  }
 
   // Returns true when the command should end.
   @Override

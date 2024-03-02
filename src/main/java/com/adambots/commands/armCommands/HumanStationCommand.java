@@ -31,18 +31,18 @@ public class HumanStationCommand extends Command {
     inc = 0;
     beginInc = false;
     armSubsystem.setCurrentState(ArmConstants.humanState);
-    intakeSubsystem.setGroundIntakeMotorSpeed(0.2);
+    intakeSubsystem.setMotorSpeed(0.2);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (inc > 5) {
-      intakeSubsystem.setGroundIntakeMotorSpeed(0);
+      intakeSubsystem.setMotorSpeed(0);
     } else if (intakeSubsystem.isSecondPieceInRobot()) {
       beginInc = true;
     } else if (intakeSubsystem.isFirstPieceInRobot()) {
-      intakeSubsystem.setGroundIntakeMotorSpeed(0.09);
+      intakeSubsystem.setMotorSpeed(0.09);
     } 
 
     if (beginInc) {inc++;}
@@ -51,7 +51,7 @@ public class HumanStationCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.setGroundIntakeMotorSpeed(0);
+    intakeSubsystem.setMotorSpeed(0);
     armSubsystem.setCurrentState(ArmConstants.defaultState);
   }
 

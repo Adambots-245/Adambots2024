@@ -5,10 +5,7 @@ import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.ShooterConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.Gamepad.Buttons;
-import com.adambots.commands.intakeCommands.AdaptiveScoreCommand;
-import com.adambots.commands.intakeCommands.AdjustCommand;
 import com.adambots.commands.armCommands.AmpCommand;
-import com.adambots.commands.armCommands.HumanStationCommand;
 import com.adambots.commands.armCommands.PrimeShooterCommand;
 import com.adambots.commands.armCommands.PrimeShooterCommandFloor;
 import com.adambots.commands.armCommands.RetractShooterCommand;
@@ -22,15 +19,14 @@ import com.adambots.commands.hangCommands.HangLevelCommand;
 import com.adambots.commands.hangCommands.RunHangCommand;
 import com.adambots.commands.hangCommands.RunLeftHangCommand;
 import com.adambots.commands.hangCommands.RunRightHangCommand;
+import com.adambots.commands.intakeCommands.AdaptiveScoreCommand;
+import com.adambots.commands.intakeCommands.CancelCommand;
+import com.adambots.commands.intakeCommands.FancyAdjustCommand;
 import com.adambots.commands.intakeCommands.FeedShooterCommand;
 import com.adambots.commands.intakeCommands.IntakeCommand;
 import com.adambots.commands.intakeCommands.IntakeWithAdjustCommand;
-import com.adambots.commands.intakeCommands.ShootWhenAligned;
-import com.adambots.commands.intakeCommands.SlowIntakeCommand;
-import com.adambots.commands.intakeCommands.SlowOuttakeCommand;
 import com.adambots.commands.visionCommands.AlignRotateDriveCommand;
 import com.adambots.commands.visionCommands.AprilAlignRotateCommand;
-import com.adambots.commands.visionCommands.BlinkLightsCommand;
 import com.adambots.commands.visionCommands.DriveToNoteCommand;
 import com.adambots.commands.visionCommands.NoteAlignRotateCommand;
 import com.adambots.commands.visionCommands.PathPlannerAlign;
@@ -53,7 +49,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -72,7 +67,7 @@ public class RobotContainer {
   private final ArmSubsystem armSubsystem = new ArmSubsystem(RobotMap.shoulderMotor, RobotMap.wristMotor, RobotMap.shoulderEncoder, RobotMap.wristEncoder);
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.shooterWheel);
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.groundIntakeMotor, RobotMap.firstPieceInRobotEye, RobotMap.secondPieceInRobotEye);
-  private final CANdleSubsystem candleSubsytem = new CANdleSubsystem(RobotMap.candleLEDs);
+  private final CANdleSubsystem candleSubsytem = new CANdleSubsystem(RobotMap.candleLEDs, shooterSubsystem);
   private final HangSubsystem hangSubsystem = new HangSubsystem(RobotMap.leftHangMotor, RobotMap.rightHangMotor, RobotMap.leftHangRelay, RobotMap.rightHangRelay);
 
   //Creates a SmartDashboard element to allow drivers to select differnt autons
@@ -137,50 +132,46 @@ public class RobotContainer {
      * Manual Adjusts
      */
 
-    Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem));
+    Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem)); //Score in amp and speaker
 
-    Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem));
+    Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem)); //Drive to apriltag
 
-    Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw()));
+    Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw())); //Reset Gyro
     
+    //Both lock rotation to apriltag with driver control
     Buttons.JoystickButton7.whileTrue(new AlignRotateDriveCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, true, VisionConstants.aprilLimelite));
     Buttons.JoystickButton6.whileTrue(new AlignRotateDriveCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, true, VisionConstants.aprilLimelite));
 
-    Buttons.JoystickButton5.whileTrue(new AngleRotateCommand(drivetrainSubsystem, -90, RobotMap.gyro));
-    Buttons.JoystickButton8.whileTrue(new SpinFastCommand(drivetrainSubsystem));
+    Buttons.JoystickButton5.whileTrue(new AngleRotateCommand(drivetrainSubsystem, -90, RobotMap.gyro)); //Rotate to amp
+    Buttons.JoystickButton8.whileTrue(new SpinFastCommand(drivetrainSubsystem)); //Spin while drive driving (defense)
 
-    Buttons.JoystickButton10.whileTrue(new AngleRotateCommand(drivetrainSubsystem, 60, RobotMap.gyro));
-
+    Buttons.JoystickButton10.whileTrue(new AngleRotateCommand(drivetrainSubsystem, 60, RobotMap.gyro)); //Rotate to huaman station
 
     Buttons.JoystickButton4.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro)); //Hang on the chain
 
+
     //Xbox Button Bindings 
-    Buttons.XboxAButton.whileTrue(new IntakeWithAdjustCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem));
-    // Buttons.XboxAButton.onFalse(new InstantCommand(() -> VisionHelpers.offLight(VisionConstants.noteLimelite)));
+    Buttons.XboxAButton.whileTrue(new IntakeWithAdjustCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem)); //Intake off floor
+    Buttons.XboxAButton.onFalse(new FancyAdjustCommand(intakeSubsystem)); //Adjust fully intaked note
 
-    Buttons.XboxStartButton.whileTrue(new HumanStationCommand(armSubsystem, intakeSubsystem));
-    // Buttons.XboxBButton.whileTrue(new HumanStationCommand(armSubsystem, intakeSubsystem));
-    Buttons.XboxBButton.onTrue(new PrimeShooterCommandFloor(armSubsystem, shooterSubsystem, ShooterConstants.lowSpeed));
-    Buttons.XboxBButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
+    // Buttons.XboxStartButton.whileTrue(new HumanStationCommand(armSubsystem, intakeSubsystem)); //Raise arm to human station
 
-    Buttons.XboxXButton.whileTrue(new AmpCommand(armSubsystem));
+    Buttons.XboxBButton.whileTrue(new PrimeShooterCommandFloor(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.lowSpeed)); //Floor state and spin shooter
+    Buttons.XboxBButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
 
-    Buttons.XboxYButton.onTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, ShooterConstants.lowSpeed));
-    Buttons.XboxYButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
+    Buttons.XboxXButton.whileTrue(new AmpCommand(armSubsystem)); //Move arm to amp pos
+
+    Buttons.XboxYButton.onTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, ShooterConstants.lowSpeed)); //Speaker state and prime shooter
+    Buttons.XboxYButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
 
     // Buttons.XboxLeftBumper.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed))); 
-    //Spin up flywheels
     Buttons.XboxRightBumper.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(0))); //Stop FLywheels
 
     //THESE COMMANDS DO NOT AUTO ENGAGE SOLENOIDS - which is why they are negative, where the solenoid should be left unpowered
-    // Buttons.XboxLeftBumper.whileTrue(new RunLeftHangCommand(hangSubsystem, -0.25)); //Run left winch in 
-    // Buttons.XboxRightBumper.whileTrue(new RunRightHangCommand(hangSubsystem, -0.25)); //Run right winch in
-
     Buttons.XboxLeftTriggerButton.whileTrue(new RunLeftHangCommand(hangSubsystem, -0.25)); //Run left winch in 
     Buttons.XboxRightTriggerButton.whileTrue(new RunRightHangCommand(hangSubsystem, -0.25)); //Run right winch in
 
-    Buttons.XboxLeftStickButton.onTrue(new SlowOuttakeCommand(intakeSubsystem));
-    Buttons.XboxRightStickButton.onTrue(new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.topFloorShootState));
+    Buttons.XboxLeftBumper.onTrue(new CancelCommand(intakeSubsystem)); //Outtake after we intaked fully
 
     //These commands do automatically engage solenoids if you are running the winches out (and leaves time for solenoids to engage)
     Buttons.XboxBackButton.whileTrue(new RunHangCommand(hangSubsystem, 1)); //Raises bendy rods up
@@ -194,6 +185,7 @@ public class RobotContainer {
 
 
     //NOT NEEDED FOR COMP
+    // Buttons.XboxRightStickButton.onTrue(new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.topFloorShootState));
     // Buttons.JoystickButton9.onTrue(new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.speakerState))); //Encoders should be reset where rods are within frame perim
     // Buttons.JoystickButton9.onTrue(new InstantCommand(() -> hangSubsystem.resetEncoders())); //Encoders should be reset where rods are within frame perim
 
@@ -219,9 +211,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("NoteAlignCommand", new ParallelDeadlineGroup(new WaitCommand(1), new NoteAlignRotateCommand(drivetrainSubsystem, candleSubsytem, false, 3, 5)));
     NamedCommands.registerCommand("DriveToNoteCommand", new ParallelDeadlineGroup(new WaitCommand(3), new DriveToNoteCommand(drivetrainSubsystem, candleSubsytem)));
 
-    NamedCommands.registerCommand("CenterFloorIntakeAndShootCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.centerFloorShootState));
+    NamedCommands.registerCommand("CenterFloorIntakeAndShootCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.closeFloorShootState));
     NamedCommands.registerCommand("TopFloorIntakeAndShootCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.topFloorShootState));
-    NamedCommands.registerCommand("BottomFloorIntakeAndShootCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.defaultState));
+    NamedCommands.registerCommand("BottomFloorIntakeAndShootCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.closeFloorShootState));
     NamedCommands.registerCommand("TopFloorIntakeCloseCommand", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.defaultState));
     NamedCommands.registerCommand("LowFloorCloseCommand2", new FloorIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.closeFloorShootState));
     NamedCommands.registerCommand("TopShootSpeakerCommand", new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.speakerState)));
@@ -262,7 +254,7 @@ public class RobotContainer {
     Dash.add("ClassName", VisionHelpers.getClassName(VisionConstants.noteLimelite));
     // Dash.add("XLocation", () -> VisionHelpers.getXLocation());
     // Dash.add("YLocation", () -> VisionHelpers.getYLocation());
-    Dash.add("Detected", () -> VisionHelpers.isDetected(VisionConstants.noteLimelite));
+    Dash.add("Detected", () -> VisionHelpers.isDetected(VisionConstants.aprilLimelite));
     Dash.add("VertAngle", () -> VisionHelpers.getVertAngle(VisionConstants.noteLimelite));
     Dash.add("HorizAngle", () -> VisionHelpers.getHorizAngle(VisionConstants.noteLimelite));
     Dash.add("Aligned", () -> VisionHelpers.isAligned(VisionConstants.noteLimelite));
@@ -280,7 +272,7 @@ public class RobotContainer {
             drivetrainSubsystem));
     intakeSubsystem.setDefaultCommand(
       new RunCommand(
-        () -> intakeSubsystem.setGroundIntakeMotorSpeed(Buttons.applyCurve(Buttons.XboxController.getLeftY(), Buttons.forwardCurve) * 0.15), 
+        () -> intakeSubsystem.setMotorSpeed(Buttons.applyCurve(Buttons.XboxController.getLeftY(), Buttons.forwardCurve) * 0.15), 
         intakeSubsystem));
   }
 

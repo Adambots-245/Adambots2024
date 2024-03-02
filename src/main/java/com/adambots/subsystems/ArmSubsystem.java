@@ -150,13 +150,6 @@ public class ArmSubsystem extends SubsystemBase {
     wristSpeed = MathUtil.clamp(wristSpeed, -ArmConstants.maxWristSpeed, ArmConstants.maxWristSpeed);
 
 
-
-    // wristSpeed = MathUtil.clamp(wristSpeed, -0.1, 0.1);
-    // shoulderSpeed = MathUtil.clamp(shoulderSpeed, -0.1, 0.1);
-
-
-
-
     shoulderMotor.set(shoulderSpeed);
     wristMotor.set(wristSpeed);
     // shoulderMotor.set(0);
@@ -186,6 +179,15 @@ public class ArmSubsystem extends SubsystemBase {
     }
     if(getCurrentWristAngle() > wristUpperLimit && wristSpeed > 0){
       wristSpeed = 0;
+    }
+
+    if (getCurrentShoulderAngle() == 0) {
+      shoulderSpeed = 0;
+      System.err.println("WARNING: SHOULDER ENCODER DISCONNECTED");
+    }
+    if (getCurrentWristAngle() == 0) {
+      wristSpeed = 0;
+      System.err.println("WARNING: WRIST ENCODER DISCONNECTED");
     }
   }
 }

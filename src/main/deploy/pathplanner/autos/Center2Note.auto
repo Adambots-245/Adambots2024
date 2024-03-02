@@ -68,6 +68,24 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "CenterReturn1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopCommand"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "FeedShooterCommand"

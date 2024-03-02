@@ -5,7 +5,6 @@
 package com.adambots.commands.intakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.LEDConstants;
@@ -40,7 +39,7 @@ public class IntakeWithAdjustCommand extends Command {
   public void initialize() {
     if (!intakeSubsystem.isSecondPieceInRobot()) {
       armSubsystem.setCurrentState(ArmConstants.floorState);
-      intakeSubsystem.setGroundIntakeMotorSpeed(0.2);
+      intakeSubsystem.setMotorSpeed(0.2);
     }
     shooterSubsystem.setTargetWheelSpeed(0);
     state = "initial";
@@ -50,9 +49,8 @@ public class IntakeWithAdjustCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println(inc);
     if (state == "initial" && intakeSubsystem.isFirstPieceInRobot()) {
-      intakeSubsystem.setGroundIntakeMotorSpeed(0.12);
+      intakeSubsystem.setMotorSpeed(0.12);
       armSubsystem.incrementWristAngle(15);
       state = "touchNote"; //keep this line, prevents above code from running repeatedly
       caNdleSubsystem.setOverride(true);
@@ -69,13 +67,11 @@ public class IntakeWithAdjustCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     armSubsystem.setCurrentState(ArmConstants.defaultState);
-    intakeSubsystem.setGroundIntakeMotorSpeed(0);
+    intakeSubsystem.setMotorSpeed(0);
 
     caNdleSubsystem.setOverride(false);
     caNdleSubsystem.setColor(LEDConstants.adambotsYellow);
     caNdleSubsystem.changeAnimation(AnimationTypes.Larson);
-
-    new WaitCommand(0.1).andThen(new AdjustCommand(intakeSubsystem)).schedule();
   }
 
   // Returns true when the command should end.

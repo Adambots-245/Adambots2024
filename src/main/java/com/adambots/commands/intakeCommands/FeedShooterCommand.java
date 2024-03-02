@@ -35,7 +35,7 @@ public class FeedShooterCommand extends Command {
   @Override
   public void execute() {
     if (shooterSubsystem.isAtTargetSpeed()) {
-      intakeSubsystem.setGroundIntakeMotorSpeed(1);
+      intakeSubsystem.setMotorSpeed(1);
       increment = true;
     }
     if(increment){
@@ -46,7 +46,7 @@ public class FeedShooterCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.setGroundIntakeMotorSpeed(0);
+    intakeSubsystem.setMotorSpeed(0);
     shooterSubsystem.setTargetWheelSpeed(ShooterConstants.idleSpeed);
   }
 

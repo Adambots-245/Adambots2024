@@ -67,18 +67,21 @@ public class AlignRotateDriveCommand extends Command {
     }
     //Checks to see if the filtered angle is within the aligned bounds
     //Checks to see if the robot is at that position for more than just a single moment
-    if(Math.abs(rotate) < 5 && VisionHelpers.isDetected(limelight)){
-      caNdleSubsystem.setColor(LEDConstants.green);
-    } else if (Math.abs(rotate) < 10) {
-      caNdleSubsystem.setColor(LEDConstants.adambotsYellow);
+    if (VisionHelpers.isDetected(limelight)){
+      if(Math.abs(rotate) < 5){
+        caNdleSubsystem.setColor(LEDConstants.green);
+      } else if (Math.abs(rotate) < 10) {
+        caNdleSubsystem.setColor(LEDConstants.adambotsYellow);
+      } else{
+        caNdleSubsystem.setColor(LEDConstants.red);
+      }
     } else {
-      caNdleSubsystem.setColor(LEDConstants.red);
-    }
-    if (!VisionHelpers.getClassName(limelight).equals("note") && limelight == VisionConstants.noteLimelite){
+      System.out.println("Pink");
       caNdleSubsystem.setColor(LEDConstants.purple);
     }
-    if (!VisionHelpers.isDetected(limelight) && limelight == VisionConstants.aprilLimelite){
-      caNdleSubsystem.setColor(LEDConstants.orange);
+    
+    if (!VisionHelpers.getClassName(limelight).equals("note") && limelight == VisionConstants.noteLimelite){
+      caNdleSubsystem.setColor(LEDConstants.purple);
     }
   }
 

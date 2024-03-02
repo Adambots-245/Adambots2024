@@ -39,7 +39,7 @@ public class ShootWhenAligned extends Command {
   @Override
   public void execute() {
     if (shooterSubsystem.isAtTargetSpeed() && armSubsystem.getCurrentStateName() == "speaker" && armSubsystem.isAtTargetState() && VisionHelpers.isAligned(VisionConstants.aprilLimelite) && VisionHelpers.getAprilDistance() < 3) {
-      intakeSubsystem.setGroundIntakeMotorSpeed(1);
+      intakeSubsystem.setMotorSpeed(1);
       increment = true;
     }
     if(increment){
@@ -50,7 +50,7 @@ public class ShootWhenAligned extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.setGroundIntakeMotorSpeed(0);
+    intakeSubsystem.setMotorSpeed(0);
     shooterSubsystem.setTargetWheelSpeed(0);
   }
 

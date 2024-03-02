@@ -21,10 +21,11 @@ public final class Constants {
         public static final int LEDS_IN_STRIP = 62;
 
         public static final Color off = new Color(0, 0, 0);
-        public static final Color adambotsYellow = new Color(255, 216, 0);
+        public static final Color adambotsYellow = new Color(255, 255, 0);
         public static final Color yellow = new Color(255, 150, 0);
         public static final Color blue = new Color(0, 0, 255);
-        public static final Color orange = new Color(255, 90, 5);
+        public static final Color orange = new Color(180, 90, 5);
+        public static final Color pink = new Color(255, 200, 200);
         public static final Color purple = new Color(255, 0, 255);
         public static final Color red = new Color(255, 150, 0);
         public static final Color green = new Color(0, 255, 0);
@@ -185,7 +186,7 @@ public final class Constants {
         public static final double speakerShoulderAngle = 206.4+shoulderOffset;
 
         // Center 2 note floor shoot
-        public static final double centerFloorShootWristAngle = 319+wristOffset;
+        public static final double centerFloorShootWristAngle = 320.75+wristOffset;
         public static final double centerfloorShootShoulderAngle = 125.7+shoulderOffset; 
      
         // Top 2 note floor shoot
