@@ -20,7 +20,7 @@ public class SlowIntakeCommand extends Command {
   @Override
   public void initialize() {
     if (!intakeSubsystem.isSecondPieceInRobot()) {
-      intakeSubsystem.setGroundIntakeMotorSpeed(0.025);
+      intakeSubsystem.setGroundIntakeMotorSpeed(0.15);
     }
   }
 

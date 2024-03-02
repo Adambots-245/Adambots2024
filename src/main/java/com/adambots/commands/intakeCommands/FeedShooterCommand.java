@@ -4,6 +4,7 @@
 
 package com.adambots.commands.intakeCommands;
 
+import com.adambots.Constants.ShooterConstants;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
 
@@ -46,7 +47,7 @@ public class FeedShooterCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     intakeSubsystem.setGroundIntakeMotorSpeed(0);
-    shooterSubsystem.setTargetWheelSpeed(0);
+    shooterSubsystem.setTargetWheelSpeed(ShooterConstants.idleSpeed);
   }
 
   // Returns true when the command should end.

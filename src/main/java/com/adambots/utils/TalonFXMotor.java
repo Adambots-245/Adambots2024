@@ -5,6 +5,13 @@
 package com.adambots.utils;
 
 import com.adambots.Constants;
+import com.adambots.RobotMap;
+import com.ctre.phoenix6.BaseStatusSignal;
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfigurator;
+import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -19,6 +26,21 @@ public class TalonFXMotor extends BaseMotor{
         } else {
             motor = new TalonFX(portNum);
         }
+
+        var configs = new CurrentLimitsConfigs();
+        if (portNum == RobotMap.shooterWheelPort) {
+            configs.SupplyCurrentLimit = 35;
+            configs.SupplyCurrentLimitEnable = true;
+        } else {
+            configs.SupplyCurrentLimitEnable = false;
+        }
+
+        motor.getConfigurator().apply(configs);
+
+        motor.getVelocity().setUpdateFrequency(50);
+        motor.getPosition().setUpdateFrequency(50);
+
+        ParentDevice.optimizeBusUtilizationForAll(motor);
     }
 
     @Override
@@ -52,26 +74,31 @@ public class TalonFXMotor extends BaseMotor{
 
     @Override
     public double getVelocity(){
-        return motor.getVelocity().getValueAsDouble();
+        try {
+            return motor.getVelocity().getValueAsDouble();
+        } catch (Exception a) {
+            System.out.println(a);
+            return 0;
+        }
     }
 
-    @Override
-    public double getAcceleration(){
-        return motor.getAcceleration().getValueAsDouble();
-    }
+    // @Override
+    // public double getAcceleration(){
+    //     return motor.getAcceleration().getValueAsDouble();
+    // }
 
-    @Override
-    public double getCurrentDraw(){
-        return motor.getTorqueCurrent().getValueAsDouble();
-    }
+    // @Override
+    // public double getCurrentDraw(){
+    //     return motor.getTorqueCurrent().getValueAsDouble();
+    // }
 
-    @Override
-    public boolean getForwardLimitSwitch() {
-        return motor.getForwardLimit().getValueAsDouble() == 1;
-    }
+    // @Override
+    // public boolean getForwardLimitSwitch() {
+    //     return motor.getForwardLimit().getValueAsDouble() == 1;
+    // }
 
-    @Override
-    public boolean getReverseLimitSwitch() {
-        return motor.getReverseLimit().getValueAsDouble() == 1;
-    }
+    // @Override
+    // public boolean getReverseLimitSwitch() {
+    //     return motor.getReverseLimit().getValueAsDouble() == 1;
+    // }
 }

@@ -12,12 +12,12 @@ public class VisionLookUpTable {
         return instance;
     }
     public VisionLookUpTable() {
-        shooterConfig = new ShooterConfig();
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 318.2, 90, 1)); // Distance -> Bumper
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 312, 90, 1.5)); // Distance -> Bumper
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 308, 90, 2)); // Distance -> Bumper
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 304, 90, 2.5)); // Distance -> Bumper
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 300, 90, 3)); // Distance -> Bumper
+        shooterConfig = new ShooterConfig(); //Lower Angle -> Shoot Higher
+        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 318.2, 90, 1));
+        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 318.2, 90, 1.5));
+        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 317, 90, 2));
+        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 316, 90, 2.5));
+        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 315, 90, 3));
 
         Collections.sort(shooterConfig.getShooterConfigs());
     }

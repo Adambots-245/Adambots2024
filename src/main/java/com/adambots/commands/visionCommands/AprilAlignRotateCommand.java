@@ -6,6 +6,7 @@ import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.VisionHelpers;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class AprilAlignRotateCommand extends Command {
@@ -29,6 +30,13 @@ public class AprilAlignRotateCommand extends Command {
     alignedCount = 0;
     drive_output = 0;
     caNdleSubsystem.setColor(LEDConstants.red);
+
+    var alliance = DriverStation.getAlliance();
+    if (alliance.isPresent()) {
+      if (alliance.get() == DriverStation.Alliance.Red) {
+        offset = -offset;
+      };
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,7 +45,7 @@ public class AprilAlignRotateCommand extends Command {
     double rotate = VisionHelpers.getHorizAngle(VisionConstants.aprilLimelite);
 
     // Calculates the drive rotation
-    drive_output = turningPIDController.calculate(Math.toRadians(rotate), offset);
+    drive_output = turningPIDController.calculate(Math.toRadians(rotate), Math.toRadians(offset));
     
     if (VisionHelpers.isDetected(VisionConstants.aprilLimelite) && (VisionHelpers.getAprilTagID() == 4 || VisionHelpers.getAprilTagID() == 7)){
       driveTrainSubsystem.drive(0, 0, drive_output, true);

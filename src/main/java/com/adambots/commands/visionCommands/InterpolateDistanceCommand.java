@@ -1,6 +1,7 @@
 package com.adambots.commands.visionCommands;
 
 import com.adambots.Constants.ArmConstants;
+import com.adambots.Constants.ShooterConstants;
 import com.adambots.Constants.ArmConstants.State;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.subsystems.ArmSubsystem;
@@ -15,8 +16,13 @@ public class InterpolateDistanceCommand extends Command {
   private ArmSubsystem armSubsystem;
   private ShooterSubsystem shooterSubsystem;
 
+  private double oldDistance = 0;
+  private double distance = 0;
+
+  private final double sens = 0.09;
+
   public InterpolateDistanceCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem) {
-    addRequirements(armSubsystem, shooterSubsystem);
+    addRequirements(armSubsystem);
 
     this.armSubsystem = armSubsystem;
     this.shooterSubsystem = shooterSubsystem;
@@ -24,20 +30,28 @@ public class InterpolateDistanceCommand extends Command {
 
   @Override
   public void initialize() {
+    if (VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
+      oldDistance = VisionHelpers.getAprilDistance();
+      distance = VisionHelpers.getAprilDistance();
+    } else {
+      oldDistance = 2; 
+      distance = 2;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
-      double distance = VisionHelpers.getAprilDistance();
+      distance = (1-sens)*oldDistance + sens*VisionHelpers.getAprilDistance();
+      oldDistance = distance;
 
       ShooterPreset preset = VisionLookUpTable.getShooterPreset(distance);
 
       State state = new State(preset.getWristAngle(), preset.getArmAngle(), "custom");
       armSubsystem.setCurrentState(state);
 
-      shooterSubsystem.setTargetWheelSpeed(preset.getShootingSpeed());
+      shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed);
 
       System.out.println("Updating State, Distance: " + distance);
     } else {

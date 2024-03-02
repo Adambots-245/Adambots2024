@@ -72,12 +72,6 @@
           "data": {
             "name": "FeedShooterCommand"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "GyroFlipCommand"
-          }
         }
       ]
     }

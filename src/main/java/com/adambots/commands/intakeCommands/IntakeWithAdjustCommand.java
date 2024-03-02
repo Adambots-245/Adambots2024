@@ -21,6 +21,7 @@ public class IntakeWithAdjustCommand extends Command {
   CANdleSubsystem caNdleSubsystem;
 
   private String state = "initial";
+  private int inc = 0;
 
   public IntakeWithAdjustCommand(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, CANdleSubsystem caNdleSubsystem) {
     addRequirements(armSubsystem, intakeSubsystem);
@@ -38,17 +39,24 @@ public class IntakeWithAdjustCommand extends Command {
       intakeSubsystem.setGroundIntakeMotorSpeed(0.2);
     }
     state = "initial";
+    inc = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println(inc);
     if (state == "initial" && intakeSubsystem.isFirstPieceInRobot()) {
       intakeSubsystem.setGroundIntakeMotorSpeed(0.12);
       armSubsystem.incrementWristAngle(15);
       state = "touchNote"; //keep this line, prevents above code from running repeatedly
       caNdleSubsystem.setOverride(true);
       caNdleSubsystem.setColor(LEDConstants.green);
+    } if (state == "touchNote" && intakeSubsystem.isSecondPieceInRobot()) {
+      state = "incrementing";
+    }
+    if (state == "incrementing") {
+      inc++;
     }
   }
 
@@ -57,7 +65,7 @@ public class IntakeWithAdjustCommand extends Command {
   public void end(boolean interrupted) {
     armSubsystem.setCurrentState(ArmConstants.defaultState);
     intakeSubsystem.setGroundIntakeMotorSpeed(0);
-    // VisionHelpers.blinkLight(VisionConstants.noteLimelite);
+
     caNdleSubsystem.setOverride(false);
     caNdleSubsystem.setColor(LEDConstants.adambotsYellow);
     caNdleSubsystem.changeAnimation(AnimationTypes.Larson);
@@ -66,6 +74,6 @@ public class IntakeWithAdjustCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return intakeSubsystem.isSecondPieceInRobot();
+    return inc > 10;
   }
 }

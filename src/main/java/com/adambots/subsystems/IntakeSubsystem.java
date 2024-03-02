@@ -36,14 +36,14 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void setGroundIntakeMotorSpeed(double newGroundIntakeMotorSpeed){
-    slowSpeed = false;
+    // slowSpeed = false;
     groundIntakeMotorSpeed = newGroundIntakeMotorSpeed;
   }
 
-  public void setGroundIntakeMotorSpeedSlow(){
-    groundIntakeMotorSpeed = 0.1;
-    slowSpeed = true;
-  }
+  // public void setGroundIntakeMotorSpeedSlow(){
+  //   groundIntakeMotorSpeed = 0.1;
+  //   slowSpeed = true;
+  // }
 
   public boolean isSecondPieceInRobot(){
     return secondPieceInRobotEye.isDetecting();
@@ -60,17 +60,17 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if (slowSpeed == true){
-      if (groundIntakeMotor.getVelocity() < 0.5){
-        groundIntakeMotor.set(groundIntakeMotorSpeed);
-        groundIntakeMotorSpeed = groundIntakeMotorSpeed + 0.01; 
-      } else {
-        groundIntakeMotor.set(groundIntakeMotorSpeed);
-        groundIntakeMotorSpeed = groundIntakeMotorSpeed - 0.01; 
-      }
-    } else {
+    // if (slowSpeed == true){
+    //   if (groundIntakeMotor.getVelocity() < 0.5){
+    //     groundIntakeMotor.set(groundIntakeMotorSpeed);
+    //     groundIntakeMotorSpeed = groundIntakeMotorSpeed + 0.01; 
+    //   } else {
+    //     groundIntakeMotor.set(groundIntakeMotorSpeed);
+    //     groundIntakeMotorSpeed = groundIntakeMotorSpeed - 0.01; 
+    //   }
+    // } else {
       groundIntakeMotor.set(groundIntakeMotorSpeed);
-    }
+    // }
   } 
 }
 

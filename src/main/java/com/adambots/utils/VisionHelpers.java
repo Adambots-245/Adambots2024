@@ -34,11 +34,11 @@ public class VisionHelpers {
     }
 
     public static Pose3d getCameraPose2eTargetSpace() {
-        return LimelightHelpers.getCameraPose3d_TargetSpace(VisionConstants.aprilLimelite);
+        return LimelightHelpers.getBotPose3d_TargetSpace(VisionConstants.aprilLimelite);
     }
 
     public static double getAprilDistance(){
-        return Math.hypot(getCameraPose2eTargetSpace().getX(), getCameraPose2eTargetSpace().getY());
+        return Math.hypot(getCameraPose2eTargetSpace().getX(), getCameraPose2eTargetSpace().getZ());
     }
 
     public static void offLight(String limelight) {

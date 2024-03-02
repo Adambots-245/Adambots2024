@@ -38,7 +38,7 @@ public class ShootWhenAligned extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (shooterSubsystem.isAtTargetSpeed() && armSubsystem.isAtTargetState() && VisionHelpers.isAligned(VisionConstants.aprilLimelite) && VisionHelpers.getAprilDistance() < 3) {
+    if (shooterSubsystem.isAtTargetSpeed() && armSubsystem.getCurrentStateName() == "speaker" && armSubsystem.isAtTargetState() && VisionHelpers.isAligned(VisionConstants.aprilLimelite) && VisionHelpers.getAprilDistance() < 3) {
       intakeSubsystem.setGroundIntakeMotorSpeed(1);
       increment = true;
     }

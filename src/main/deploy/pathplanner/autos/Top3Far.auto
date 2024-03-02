@@ -58,7 +58,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AprilAlignCommand"
+            "name": "AprilAlignTopCommand"
           }
         },
         {
@@ -134,12 +134,6 @@
           "type": "named",
           "data": {
             "name": "FeedShooterCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "GyroFlipCommand"
           }
         }
       ]

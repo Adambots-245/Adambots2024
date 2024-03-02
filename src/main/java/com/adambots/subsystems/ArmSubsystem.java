@@ -20,8 +20,8 @@ public class ArmSubsystem extends SubsystemBase {
   BaseMotor wristMotor;
   DutyCycleEncoder shoulderEncoder;
   DutyCycleEncoder wristEncoder;
-  PIDController shoulderPID = new PIDController(0.018, 0.008, 0.0024); //0.018, 0.008, 0.002
-  PIDController wristPID = new PIDController(0.0061, 0.009, 0.00062);
+  PIDController shoulderPID = new PIDController(0.02, 0.008, 0.0028); //0.018, 0.008, 0.002
+  PIDController wristPID = new PIDController(0.0062, 0.009, 0.00062); //0.0061, 0.009, 0.00062
 
   double shoulderLowerLimit = ArmConstants.shoulderLowerLimit;
   double shoulderUpperLimit = ArmConstants.shoulderUpperLimit;
@@ -64,11 +64,11 @@ public class ArmSubsystem extends SubsystemBase {
     Dash.add("wristSpeed", () ->  wristSpeed);
     Dash.add("shoulderSpeed", () ->  shoulderSpeed);
 
-    Dash.add("Shld Fwd Lim", () -> shoulderMotor.getForwardLimitSwitch());
-    Dash.add("Shld Rev Lim", () -> shoulderMotor.getReverseLimitSwitch());
+    // Dash.add("Shld Fwd Lim", () -> shoulderMotor.getForwardLimitSwitch());
+    // Dash.add("Shld Rev Lim", () -> shoulderMotor.getReverseLimitSwitch());
 
-    Dash.add("Wrst Fwd Lim", () -> wristMotor.getForwardLimitSwitch());
-    Dash.add("Wrst Rev Lim", () -> wristMotor.getReverseLimitSwitch());
+    // Dash.add("Wrst Fwd Lim", () -> wristMotor.getForwardLimitSwitch());
+    // Dash.add("Wrst Rev Lim", () -> wristMotor.getReverseLimitSwitch());
   }
 
   private void setPidTolerence(double degreesOfTolerence) {
@@ -114,7 +114,8 @@ public class ArmSubsystem extends SubsystemBase {
     } else if (currentStateName.equals("floor")) {
       setPidTolerence(0);
     } else if (currentStateName.equals("amp")) {
-      setPidTolerence(3.5);
+      shoulderPID.setTolerance(1.5);
+      wristPID.setTolerance(5);
     } else if (currentStateName.equals("human")) {
       setPidTolerence(2);
     } else if (currentStateName.equals("default")) {
@@ -147,6 +148,14 @@ public class ArmSubsystem extends SubsystemBase {
 
     }
     wristSpeed = MathUtil.clamp(wristSpeed, -ArmConstants.maxWristSpeed, ArmConstants.maxWristSpeed);
+
+
+
+    // wristSpeed = MathUtil.clamp(wristSpeed, -0.1, 0.1);
+    // shoulderSpeed = MathUtil.clamp(shoulderSpeed, -0.1, 0.1);
+
+
+
 
     shoulderMotor.set(shoulderSpeed);
     wristMotor.set(wristSpeed);
