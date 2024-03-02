@@ -29,7 +29,7 @@ public class TalonFXMotor extends BaseMotor{
 
         var configs = new CurrentLimitsConfigs();
         if (portNum == RobotMap.shooterWheelPort) {
-            configs.SupplyCurrentLimit = 35;
+            configs.SupplyCurrentLimit = 45;
             configs.SupplyCurrentLimitEnable = true;
         } else {
             configs.SupplyCurrentLimitEnable = false;

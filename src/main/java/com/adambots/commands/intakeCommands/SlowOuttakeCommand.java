@@ -41,6 +41,6 @@ public class SlowOuttakeCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return inc > 9 || intakeSubsystem.isSecondPieceInRobot() || intakeSubsystem.isFirstPieceInRobot();
+    return inc > 12 || intakeSubsystem.isSecondPieceInRobot() || intakeSubsystem.isFirstPieceInRobot();
   }
 }

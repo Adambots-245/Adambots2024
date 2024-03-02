@@ -189,7 +189,7 @@ public final class Constants {
         public static final double centerfloorShootShoulderAngle = 125.7+shoulderOffset; 
      
         // Top 2 note floor shoot
-        public static final double topFloorShootWristAngle = 321.7+wristOffset;
+        public static final double topFloorShootWristAngle = 322.7+wristOffset;
         public static final double topfloorShootShoulderAngle = 125.7+shoulderOffset; 
 
         //Hang

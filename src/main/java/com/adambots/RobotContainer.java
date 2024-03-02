@@ -162,7 +162,7 @@ public class RobotContainer {
     //Xbox Button Bindings 
     // Buttons.XboxStartButton.whileTrue(new InterpolateDistanceCommand(armSubsystem, shooterSubsystem));
 
-    Buttons.XboxAButton.whileTrue(new IntakeWithAdjustCommand(armSubsystem, intakeSubsystem, candleSubsytem).andThen(new SlowOuttakeCommand(intakeSubsystem)));
+    Buttons.XboxAButton.whileTrue(new IntakeWithAdjustCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem).andThen(new SlowOuttakeCommand(intakeSubsystem)));
     // Buttons.XboxAButton.onFalse(new InstantCommand(() -> VisionHelpers.offLight(VisionConstants.noteLimelite)));
 
     Buttons.XboxStartButton.whileTrue(new HumanStationCommand(armSubsystem, intakeSubsystem));

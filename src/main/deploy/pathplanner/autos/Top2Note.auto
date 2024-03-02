@@ -42,7 +42,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "TopFloorIntakeCloseCommand"
+                  "name": "LowFloorCloseCommand2"
                 }
               },
               {
@@ -77,12 +77,6 @@
           "type": "named",
           "data": {
             "name": "StopCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "TopShootSpeakerCommand"
           }
         },
         {

@@ -11,6 +11,7 @@ import com.adambots.Constants.LEDConstants;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
+import com.adambots.subsystems.ShooterSubsystem;
 import com.adambots.subsystems.CANdleSubsystem.AnimationTypes;
 
 
@@ -19,16 +20,18 @@ public class IntakeWithAdjustCommand extends Command {
   ArmSubsystem armSubsystem;
   IntakeSubsystem intakeSubsystem;
   CANdleSubsystem caNdleSubsystem;
+  ShooterSubsystem shooterSubsystem;
 
   private String state = "initial";
   private int inc = 0;
 
-  public IntakeWithAdjustCommand(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, CANdleSubsystem caNdleSubsystem) {
+  public IntakeWithAdjustCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem, CANdleSubsystem caNdleSubsystem) {
     addRequirements(armSubsystem, intakeSubsystem);
 
     this.armSubsystem = armSubsystem;
     this.intakeSubsystem = intakeSubsystem;
     this.caNdleSubsystem = caNdleSubsystem;
+    this.shooterSubsystem = shooterSubsystem;
   }
 
   // Called when the command is initially scheduled.
@@ -38,6 +41,7 @@ public class IntakeWithAdjustCommand extends Command {
       armSubsystem.setCurrentState(ArmConstants.floorState);
       intakeSubsystem.setGroundIntakeMotorSpeed(0.2);
     }
+    shooterSubsystem.setTargetWheelSpeed(0);
     state = "initial";
     inc = 0;
   }
