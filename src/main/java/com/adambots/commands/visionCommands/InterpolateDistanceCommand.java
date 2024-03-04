@@ -31,8 +31,8 @@ public class InterpolateDistanceCommand extends Command {
   @Override
   public void initialize() {
     if (VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
-      oldDistance = VisionHelpers.getAprilDistance();
-      distance = VisionHelpers.getAprilDistance();
+      oldDistance = VisionHelpers.getAprilHorizDist();
+      distance = VisionHelpers.getAprilHorizDist();
     } else {
       oldDistance = 2; 
       distance = 2;
@@ -43,7 +43,7 @@ public class InterpolateDistanceCommand extends Command {
   @Override
   public void execute() {
     if (VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
-      distance = (1-sens)*oldDistance + sens*VisionHelpers.getAprilDistance();
+      distance = (1-sens)*oldDistance + sens*VisionHelpers.getAprilHorizDist();
       oldDistance = distance;
 
       ShooterPreset preset = VisionLookUpTable.getShooterPreset(distance);

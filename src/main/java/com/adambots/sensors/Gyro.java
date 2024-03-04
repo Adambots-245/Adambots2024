@@ -37,7 +37,17 @@ public class Gyro {
      * Ensure CCW is a positive value change
      * @return Continous value of gyroscope in radians
      */
-    public Rotation2d getContinuousYawRad () {
+    public double getContinuousYawRad () {
+        return Math.toRadians(getContinuousYawDeg());
+    }
+
+    /**
+     * Returns the continuous (Continues from 360-361) value of the gyroscope in a Rotation2d
+     * <p>
+     * Ensure CCW is a positive value change
+     * @return Continous value of gyroscope in radians
+     */
+    public Rotation2d getContinuousYawRotation2d () {
         return new Rotation2d(Math.toRadians(getContinuousYawDeg()));
     }
 
@@ -69,8 +79,7 @@ public class Gyro {
      * @return Roll value of gyroscope in degrees
      */
     public double getPitch () {
-        return gyro.getRoll().getValueAsDouble();
-        // Pitch and roll values are switched for pigeon
+        return gyro.getRoll().getValueAsDouble(); //returns roll as that pigeon has roll defined about conventional pitch axis
     }
 
     /**
@@ -80,8 +89,6 @@ public class Gyro {
      * @return Pitch value of gyroscope in degrees
      */
     public double getRoll () {
-        return gyro.getPitch().getValueAsDouble();
-        // Pitch and roll values are switched for pigeon
-
+        return gyro.getPitch().getValueAsDouble(); //returns pitch as that pigeon has pitch defined about conventional roll axis
     }
 }

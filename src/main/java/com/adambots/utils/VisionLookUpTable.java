@@ -108,12 +108,4 @@ public class VisionLookUpTable {
 
         return new ShooterPreset(armAngle, wristAngle, shootingSpeed, distance);
     }
-
-    /*
-     * MAKE SURE YOU SORT THE LIST BEFORE CALLING THIS FUNCTION
-     * @param pShooterConfig a sorted shooter config
-     */
-    // public void setShooterConfig(ShooterConfig pShooterConfig) {
-    //     this.shooterConfig = pShooterConfig;
-    // }
 }

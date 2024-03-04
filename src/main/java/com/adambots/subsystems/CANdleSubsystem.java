@@ -8,7 +8,6 @@ import com.adambots.Constants.LEDConstants;
 import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
-import com.ctre.phoenix.led.CANdle.VBatOutputMode;
 import com.ctre.phoenix.led.CANdleConfiguration;
 import com.ctre.phoenix.led.ColorFlowAnimation;
 import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
@@ -31,97 +30,30 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class CANdleSubsystem extends SubsystemBase {
   private static final int LEDS_IN_STRIP = LEDConstants.LEDS_IN_STRIP;
   private CANdle candle;
-  private Animation toAnimate = null;
-  // private int oldHeartbeat = 10;
-  // private int newHeartbeat = VisionHelpers.getHeatbeat();
-  // private int heartbeatInc = 0;
-  private boolean defibrillate = false;
-  private boolean override = false;
+  private Animation animation;
   
-  private int red = 0;
-  private int green = 0;
-  private int blue = 0;
-  private double vbatOutput = 0.0;
   private int candleChannel;
-  private boolean animDirection = true;
-  private boolean setAnim = false;
   private double animateSpeed = 0.1;
-  private ShooterSubsystem shooterSubsystem;
 
-  public CANdleSubsystem(CANdle candleDevice, ShooterSubsystem shooterSubsystem) {
+  public CANdleSubsystem(CANdle candleDevice) {
     this.candle = candleDevice;
-    this.shooterSubsystem = shooterSubsystem;
 
     CANdleConfiguration configAll = new CANdleConfiguration();
-    configAll.statusLedOffWhenActive = true;
     configAll.disableWhenLOS = true;
     configAll.stripType = LEDStripType.GRB; // the BTF-Lighting LED strip uses GRB format
     configAll.brightnessScalar = 1;
-    configAll.vBatOutputMode = VBatOutputMode.Modulated;
 
-    candleDevice.configAllSettings(configAll, 100);
+    candleDevice.configAllSettings(configAll);
 
-    configBrightness(100);
-
-    clearAllAnims();
-    setColor(LEDConstants.adambotsYellow);
-    changeAnimation(AnimationTypes.Larson);
+    setColor(LEDConstants.yellow);
+    setAnimation(AnimationTypes.Larson);
   }
 
   @Override
   public void periodic() { 
-    // newHeartbeat = VisionHelpers.getHeatbeat();
-    
-    // if (candle == null) {
-    //   return;
-    // }
-
-    // if (oldHeartbeat == newHeartbeat){
-    //   heartbeatInc++;
-    // } else {
-    //   oldHeartbeat = newHeartbeat;
-    //   heartbeatInc = 0;
-    //   if(defibrillate && !override){
-    //     clearAllAnims();
-    //     changeAnimation(AnimationTypes.Larson);
-    //     defibrillate = false;
-    //   }
-    // }
-
-    // if(heartbeatInc > 50 && !override){
-    //   setColor(LEDConstants.purple);
-    //   defibrillate = true;
-    // }
-
-    if (shooterSubsystem.getShooterVelocity() > 0 && !override) {
-      setColor(LEDConstants.purple);
-      defibrillate = true;
-    } 
-
-    if(defibrillate && !override){
-        clearAllAnims();
-        changeAnimation(AnimationTypes.Larson);
-        defibrillate = false;
+    if (animation != null) {  
+      candle.animate(animation, candleChannel);
     }
-
-  
-    if (toAnimate == null) {   
-      if(!setAnim) {
-        /* Only setLEDs once, because every set will transmit a frame */
-        setAnim = true;
-        candle.setLEDs((int) (red), (int) (green), (int) (blue), 0, 0, LEDS_IN_STRIP);
-      }
-    } else {
-      toAnimate.setSpeed((animateSpeed + 1) * 0.5);
-      candle.animate(toAnimate, candleChannel);
-      setAnim = false;
-    }
-
-    candle.modulateVBatOutput(vbatOutput);
-  }
-
-  public void setOverride(boolean value){
-    override = value;
   }
 
   public enum AnimationTypes {
@@ -139,9 +71,7 @@ public class CANdleSubsystem extends SubsystemBase {
   }
 
   public void setColor(Color color) {
-    setColor((int) color.red * 255, (int) color.green * 255, (int) color.blue * 255);
-
-    setAnim = false;
+    setColor((int)(color.red*255), (int)(color.green*255), (int)(color.blue*255));
   }
 
   /**
@@ -153,13 +83,13 @@ public class CANdleSubsystem extends SubsystemBase {
    */
   public void setColor(int r, int g, int b) {
     clearAllAnims();
-    changeAnimation(AnimationTypes.SetAll);
+    setAnimation(AnimationTypes.SetAll);
 
-    this.red = MathUtil.clamp(r, 0, 255);
-    this.green = MathUtil.clamp(g, 0, 255);
-    this.blue = MathUtil.clamp(b, 0, 255);
+    r = MathUtil.clamp(r, 0, 255);
+    g = MathUtil.clamp(g, 0, 255);
+    b = MathUtil.clamp(b, 0, 255);
 
-    setAnim = false;
+    candle.setLEDs(r, g, b);
   }
 
   /**
@@ -184,104 +114,62 @@ public class CANdleSubsystem extends SubsystemBase {
     candle.setLEDs(r, g, b, 0, startIdx, numOfLEDs);
   }
 
+  public void setAnimation(AnimationTypes toChange) {
+    clearAllAnims();
 
-  // public void setmodulateVBatOutput(double dutyCycle) {
-  //   this.vbatOutput = dutyCycle;
-  // }
-
-  /* Wrappers so we can access the CANdle from the subsystem */
-  // public double getVbat() {
-  //   return candle.getBusVoltage();
-  // }
-
-  // public double get5V() {
-  //   return candle.get5VRailVoltage();
-  // }
-
-  // public double getCurrent() {
-  //   return candle.getCurrent();
-  // }
-
-  // public double getTemperature() {
-  //   return candle.getTemperature();
-  // }
-
-  public void configBrightness(double percent) {
-    candle.configBrightnessScalar(percent, 0);
-  }
-
-  // public void configLos(boolean disableWhenLos) {
-  //   candle.configLOSBehavior(disableWhenLos, 0);
-  // }
-
-  // public void configLedType(LEDStripType type) {
-  //   candle.configLEDType(type, 0);
-  // }
-
-  // public void configStatusLedBehavior(boolean offWhenActive) {
-  //   candle.configStatusLedState(offWhenActive, 0);
-  // }
-
-  public void changeAnimation(AnimationTypes toChange) {
     switch (toChange) {
       default:
       case ColorFlow:
         candleChannel = 0;
-        toAnimate = new ColorFlowAnimation(255, 150, 0, 0, 1, LEDS_IN_STRIP, Direction.Forward, 8);
+        animation = new ColorFlowAnimation(255, 150, 0, 0, 1, LEDS_IN_STRIP, Direction.Forward, 8);
         break;
       case Fire:
         candleChannel = 1;
-        toAnimate = new FireAnimation(0.5, 0.7, LEDS_IN_STRIP, 0.8, 0.5, animDirection, 8);
+        animation = new FireAnimation(0.5, 0.7, LEDS_IN_STRIP, 0.8, 0.5, false, 8);
         break;
       case Larson:
         candleChannel = 2;
-        toAnimate = new LarsonAnimation(255, 150, 0, 100, 0.001, LEDS_IN_STRIP, BounceMode.Front, 30, 0);
+        animation = new LarsonAnimation(255, 150, 0, 100, 0.001, LEDS_IN_STRIP, BounceMode.Front, 30, 0);
         break;
       case Rainbow:
         candleChannel = 3;
-        toAnimate = new RainbowAnimation(1, 0.7, LEDS_IN_STRIP, animDirection, 8);
+        animation = new RainbowAnimation(1, 0.7, LEDS_IN_STRIP, false, 8);
         break;
       case RgbFade:
         candleChannel = 4;
-        toAnimate = new RgbFadeAnimation(0.7, 0.4, LEDS_IN_STRIP, 8);
+        animation = new RgbFadeAnimation(0.7, 0.4, LEDS_IN_STRIP, 8);
         break;
       case SingleFade:
         candleChannel = 5;
-        toAnimate = new SingleFadeAnimation(50, 2, 200, 0, 0.5, LEDS_IN_STRIP, 8);
+        animation = new SingleFadeAnimation(50, 2, 200, 0, 0.5, LEDS_IN_STRIP, 8);
         break;
       case Strobe:
         candleChannel = 6;
-        toAnimate = new StrobeAnimation(0, 0, 255, 0, 0, LEDS_IN_STRIP, 8);
+        animation = new StrobeAnimation(0, 0, 255, 0, 0, LEDS_IN_STRIP, 8);
         break;
       case Twinkle:
         candleChannel = 7;
-        toAnimate = new TwinkleAnimation(0, 255, 0, 0, 1, LEDS_IN_STRIP, TwinklePercent.Percent100, 0);
+        animation = new TwinkleAnimation(0, 255, 0, 0, 1, LEDS_IN_STRIP, TwinklePercent.Percent100, 0);
         break;
       case TwinkleOff:
         candleChannel = 8;
-        toAnimate = new TwinkleOffAnimation(70, 90, 175, 0, 0.2, LEDS_IN_STRIP, TwinkleOffPercent.Percent76, 8);
+        animation = new TwinkleOffAnimation(70, 90, 175, 0, 0.2, LEDS_IN_STRIP, TwinkleOffPercent.Percent76, 8);
         break;
       case Empty:
         candleChannel = 9;
-        toAnimate = new RainbowAnimation(1, 0.7, LEDS_IN_STRIP, animDirection, 8);
+        animation = new RainbowAnimation(1, 0.7, LEDS_IN_STRIP, false, 8);
         break;
       case SetAll:
-        toAnimate = null;
+        animation = null;
         break;
     }
+
+    animation.setSpeed(animateSpeed);
   }
 
   public void clearAllAnims() {
     for(int i = 0; i < 10; ++i) {
       candle.clearAnimation(i);
     }
-  }
-
-  /**
-   * Set the speed of animation - 0.0 to 1.0
-   * @param speed
-   */
-  public void setAnimationSpeed(double speed){
-    animateSpeed = speed;
   }
 }

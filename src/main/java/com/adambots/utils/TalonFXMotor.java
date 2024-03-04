@@ -4,8 +4,7 @@
 
 package com.adambots.utils;
 
-import com.adambots.Constants;
-import com.adambots.RobotMap;
+import com.adambots.Robot;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -18,25 +17,26 @@ public class TalonFXMotor extends BaseMotor{
 
     public TalonFXMotor(int portNum, Boolean isOnCANivore){
         if (isOnCANivore) {
-            motor = new TalonFX(portNum, Constants.CANivoreBus);
+            motor = new TalonFX(portNum, "*"); //'*' will assign the motor on any CANivore seen by the program
         } else {
             motor = new TalonFX(portNum);
         }
 
-        var configs = new CurrentLimitsConfigs();
-        if (portNum == RobotMap.shooterWheelPort) {
-            configs.SupplyCurrentLimit = 45;
-            configs.SupplyCurrentLimitEnable = true;
-        } else {
-            configs.SupplyCurrentLimitEnable = false;
-        }
-
-        motor.getConfigurator().apply(configs);
-
-        motor.getVelocity().setUpdateFrequency(50);
+        motor.getVelocity().setUpdateFrequency(50); //Any status signals must be listed here in order for their value to update
         motor.getPosition().setUpdateFrequency(50);
+        motor.getForwardLimit().setUpdateFrequency(25);
+        motor.getReverseLimit().setUpdateFrequency(25);
 
-        ParentDevice.optimizeBusUtilizationForAll(motor);
+        ParentDevice.optimizeBusUtilizationForAll(motor); //Set update frequency for any unused status objects to 0
+    }
+
+    public TalonFXMotor(int portNum, Boolean isOnCANivore, double currentLimitAmps){
+        new TalonFXMotor(portNum, isOnCANivore);
+
+        var configs = new CurrentLimitsConfigs();
+        configs.SupplyCurrentLimit = currentLimitAmps;
+        configs.SupplyCurrentLimitEnable = true;
+        motor.getConfigurator().apply(configs);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class TalonFXMotor extends BaseMotor{
     }
 
     @Override
-    public void setNeutralMode(boolean brake){
+    public void setBrakeMode(boolean brake){
         if(brake){
            motor.setNeutralMode(NeutralModeValue.Brake);
         }else{
@@ -70,31 +70,16 @@ public class TalonFXMotor extends BaseMotor{
 
     @Override
     public double getVelocity(){
-        try {
-            return motor.getVelocity().getValueAsDouble();
-        } catch (Exception a) {
-            System.out.println(a);
-            return 0;
-        }
+        return motor.getVelocity().getValueAsDouble();
     }
 
-    // @Override
-    // public double getAcceleration(){
-    //     return motor.getAcceleration().getValueAsDouble();
-    // }
+    @Override
+    public boolean getForwardLimitSwitch() {
+        return motor.getForwardLimit().getValueAsDouble() == 1;
+    }
 
-    // @Override
-    // public double getCurrentDraw(){
-    //     return motor.getTorqueCurrent().getValueAsDouble();
-    // }
-
-    // @Override
-    // public boolean getForwardLimitSwitch() {
-    //     return motor.getForwardLimit().getValueAsDouble() == 1;
-    // }
-
-    // @Override
-    // public boolean getReverseLimitSwitch() {
-    //     return motor.getReverseLimit().getValueAsDouble() == 1;
-    // }
+    @Override
+    public boolean getReverseLimitSwitch() {
+        return motor.getReverseLimit().getValueAsDouble() == 1;
+    }
 }

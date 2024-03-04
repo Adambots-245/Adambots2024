@@ -4,10 +4,10 @@ import com.adambots.Gamepad.Buttons;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class SpinFastCommand extends Command {
+public class SpinCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
 
-  public SpinFastCommand(DrivetrainSubsystem driveTrainSubsystem) {
+  public SpinCommand(DrivetrainSubsystem driveTrainSubsystem) {
     addRequirements(driveTrainSubsystem);
     this.driveTrainSubsystem = driveTrainSubsystem;
   }

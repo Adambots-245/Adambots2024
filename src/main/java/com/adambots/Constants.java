@@ -15,14 +15,10 @@ public final class Constants {
     public static Field2d field = new Field2d();    
     public static Field2d aprilTagfield = new Field2d();
 
-    public static final String CANivoreBus = "CANivore";
-
     public static final class LEDConstants {
         public static final int LEDS_IN_STRIP = 62;
 
-        public static final Color off = new Color(0, 0, 0);
-        public static final Color adambotsYellow = new Color(255, 255, 0);
-        public static final Color yellow = new Color(255, 150, 0);
+        public static final Color yellow = new Color(255, 255, 0);
         public static final Color blue = new Color(0, 0, 255);
         public static final Color orange = new Color(180, 90, 5);
         public static final Color pink = new Color(255, 200, 200);
@@ -35,23 +31,12 @@ public final class Constants {
         public static final Pose2d aprilTagRedPose2d = new Pose2d(new Translation2d(1.23, 2.55), new Rotation2d());
         public static final String noteLimelite = "limelight-notebot";
         public static final String aprilLimelite = "limelight-april";
-        public static final double kpBothPID = 0.1;
-        public static final double kdBothPID = 0.035;
 
-        public static final double kpHorizPID = 0.1;
-        public static final double kdHorizPID = 0.02;
+        public static final double kPThetaController = 3; 
+        public static final double kDThetaController = 0.01;
 
-        public static final double kpRotatePID = 0.08;
-        public static final double kdRotatePID = 0.025;
-
-        public static final double kpVertPID = 0.1;
-        public static final double kdVertPID = 0.02;
-
-        public static final double kPAprilThetaController = 3; 
-        public static final double kDAprilThetaController = 0.01;
-
-        public static final double kPNoteThetaController = 3; 
-        public static final double kDNoteThetaController = 0.01;
+        public static final double kPTranslateController = 3; 
+        public static final double kDTranslateController = 0.01;
     }
 
     public static final class DriveConstants {
@@ -79,7 +64,11 @@ public final class Constants {
             new Translation2d(kWheelBase / 2, kTrackWidth / 2),
             new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
             new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-            new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
+            new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)
+        );
+
+        // Xbox controller joystick deadzone
+        public static final double kDeadZone = 0.15;
 
         //Max speed of the robot in m/s, used in teleop and auton (should be set to real world value)
         public static final double kMaxSpeedMetersPerSecond = 4.35; 
@@ -88,6 +77,10 @@ public final class Constants {
     }
 
     public static final class ModuleConstants {
+        public static final int kDriveCurrentLimit = 32; //Current limit in amps of drive motors, higher values mean faster acceleration but lower battery life
+        public static final int kTurningCurrentLimit = 21; //Current limit in amps of turning motors
+        public static final double kNominalVoltage = 12.6; //Nominal battery voltage for motor voltage compensation
+
         public static final double kWheelRadiusMeters = 0.047625; //Should be as precise as you can get it
         public static final double kSwerveModuleFinalGearRatio = 1/6.75; //Google the swerve module model to find this value
 
@@ -107,23 +100,8 @@ public final class Constants {
         public static final double kDTranslationController = 0.11;
 
         // PD values for auton rotational movement
-        public static final double kPThetaController = 1.7; 
+        public static final double kPThetaController = 3; 
         public static final double kDThetaController = 0.01;
-    }
-
-    public static final class GamepadConstants {
-        // Xbox controller joystick deadzone
-        public static final double kDeadZone = 0.15;
-    
-        // DPad returns an angle in degrees 0-315 at 45 intervals
-        public static final int kDpadNAngle = 0;
-        public static final int kDpadNEAngle = 45;
-        public static final int kDpadEAngle = 90;
-        public static final int kDpadSEAngle = 135;
-        public static final int kDpadSAngle = 180;
-        public static final int kDpadSWAngle = 225;
-        public static final int kDpadWAngle = 270;
-        public static final int kDpadNWAngle = 315;
     }
 
     public static final class HangConstants{
@@ -140,7 +118,7 @@ public final class Constants {
     }
 
     public static final class ArmConstants{
-        // Arm Angle Offset
+        // Arm Angle Offset (Is applied when states are created - affects every state)
         public static final double shoulderOffset = 0;
         public static final double wristOffset = 0;
 
@@ -149,61 +127,61 @@ public final class Constants {
         public static final double maxShoulderDownSpeed = 0.4; //0.5
         public static final double maxShoulderDownSpeedNitro = 0.95;
 
-        public static final double shoulderLowerLimit = 110+shoulderOffset;
-        public static final double shoulderDangerZoneThreshold = 153+shoulderOffset; //153 
-        public static final double shoulderUpperLimit = 203+shoulderOffset;
+        public static final double shoulderLowerLimit = 110;
+        public static final double shoulderDangerZoneThreshold = 153;
+        public static final double shoulderUpperLimit = 203;
 
         // Wrist Limits
-        public static final double maxWristSpeed = 0.3; //0.3
+        public static final double maxWristSpeed = 0.3;
         
-        public static final double wristLowerLimit = 160+wristOffset;
-        public static final double wristDangerZoneLowerLimit = 307+wristOffset;
-        public static final double wristShoulderStopLimit = 280+wristOffset;
-        public static final double wristUpperLimit = 338+wristOffset;
+        public static final double wristLowerLimit = 160;
+        public static final double wristDangerZoneLowerLimit = 307;
+        public static final double wristShoulderStopLimit = 280;
+        public static final double wristUpperLimit = 338;
      
         // Floor Pickup
-        public static final double floorWristAngle = 313+wristOffset;
-        public static final double floorShoulderAngle = 114.5+shoulderOffset;
+        public static final double floorWristAngle = 313;
+        public static final double floorShoulderAngle = 114.5;
       
         // Amp Scoring
-        public static final double ampWristAngle = 283+wristOffset;
-        public static final double ampShoulderAngle = 184.3+shoulderOffset;
+        public static final double ampWristAngle = 283;
+        public static final double ampShoulderAngle = 184.3;
       
         // Human Player Pickup
-        public static final double humanWristAngle = 310+wristOffset;
-        public static final double humanShoulderAngle = 180.3+shoulderOffset;
+        public static final double humanWristAngle = 310;
+        public static final double humanShoulderAngle = 180.3;
       
         // trap scoring
-        public static final double trapWristAngle = 373+wristOffset;
-        public static final double trapShoulderAngle = 187.5+shoulderOffset;
+        public static final double trapWristAngle = 373;
+        public static final double trapShoulderAngle = 187.5;
      
         // default
-        public static final double defaultWristAngle = 197+wristOffset;
-        public static final double defaultShoulderAngle = 159+shoulderOffset;
+        public static final double defaultWristAngle = 197;
+        public static final double defaultShoulderAngle = 159;
      
         // autonomous starting/speaker
-        public static final double speakerWristAngle = 242.3+wristOffset;
-        public static final double speakerShoulderAngle = 206.4+shoulderOffset;
+        public static final double speakerWristAngle = 242.3;
+        public static final double speakerShoulderAngle = 206.4;
 
         // Center 2 note floor shoot
-        public static final double centerFloorShootWristAngle = 320.75+wristOffset;
-        public static final double centerfloorShootShoulderAngle = 125.7+shoulderOffset; 
+        public static final double centerFloorShootWristAngle = 320.75;
+        public static final double centerfloorShootShoulderAngle = 125.7; 
      
         // Top 2 note floor shoot
-        public static final double topFloorShootWristAngle = 321.7+wristOffset;
-        public static final double topfloorShootShoulderAngle = 125.7+shoulderOffset; 
+        public static final double topFloorShootWristAngle = 321.7;
+        public static final double topfloorShootShoulderAngle = 125.7; 
 
         //Hang
-        public static final double hangWristAngle = 186+wristOffset;
-        public static final double hangShoulderAngle = 146.5+shoulderOffset; 
+        public static final double hangWristAngle = 186;
+        public static final double hangShoulderAngle = 146.5; 
 
         //Close Floor Shoot State
-        public static final double closeFloorShootWristAngle = 312+wristOffset;
-        public static final double closeFloorShootShoulderAngle = 123.7+shoulderOffset;
+        public static final double closeFloorShootWristAngle = 312;
+        public static final double closeFloorShootShoulderAngle = 123.7;
 
         // Bottom 2 note floor shoot **NOT TUNED**
-        public static final double bottomFloorShootWristAngle = 324.8+wristOffset;
-        public static final double bottomfloorShootShoulderAngle = 125.7+shoulderOffset; 
+        public static final double bottomFloorShootWristAngle = 324.8;
+        public static final double bottomfloorShootShoulderAngle = 125.7; 
 
         public static class State {
             private double wristAngle;
@@ -211,8 +189,8 @@ public final class Constants {
             private String stateName;
 
             public State(double wristAngle, double shoulderAngle, String stateName) {
-                this.wristAngle = wristAngle;
-                this.shoulderAngle = shoulderAngle;
+                this.wristAngle = wristAngle+wristOffset;
+                this.shoulderAngle = shoulderAngle+shoulderOffset;
                 this.stateName = stateName;
             }
 

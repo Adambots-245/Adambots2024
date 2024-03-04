@@ -32,30 +32,12 @@ public class NEOMotor extends BaseMotor{
     }
 
     @Override
-    public void setNeutralMode(boolean brake){
+    public void setBrakeMode(boolean brake){
         if(brake){
             motor.setIdleMode(IdleMode.kBrake);
         }else{
             motor.setIdleMode(IdleMode.kCoast);
         }
-    }
-
-    @Override
-    public double getPosition(){
-        System.err.println("neo pos WARNING: Functionality for this method has not been implemented.");
-        return 0;
-    }
-
-    @Override
-    public double getVelocity(){
-        System.err.println("neovelWARNING: Functionality for this method has not been implemented.");
-        return 0;
-    }
-
-    @Override
-    public double getAcceleration(){
-        System.err.println("neoaccWARNING: Functionality for this method has not been implemented.");
-        return 0;
     }
 
     @Override
