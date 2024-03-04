@@ -4,7 +4,6 @@
 
 package com.adambots.utils;
 
-import com.adambots.Robot;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
