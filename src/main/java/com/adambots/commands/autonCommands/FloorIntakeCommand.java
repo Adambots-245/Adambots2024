@@ -65,8 +65,8 @@ public class FloorIntakeCommand extends Command {
 
     shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed);
 
-    candle.clearAllAnims();
-    candle.changeAnimation(AnimationTypes.Strobe);
+    // candle.clearAllAnims();
+    // candle.changeAnimation(AnimationTypes.Strobe);
   }
 
   // Returns true when the command should end.

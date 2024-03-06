@@ -45,6 +45,12 @@ public class VisionHelpers {
         // return null;
     }
 
+    public static int getHeatbeat() {
+        // return (int) LimelightHelpers.getFiducialID(VisionConstants.aprilLimelite);
+        return (int) NetworkTableInstance.getDefault().getTable(VisionConstants.aprilLimelite).getEntry("hb").getDouble(0);
+        // return null;
+    }
+
     public static Pose2d getAprilTagBotPose2d() {
         return LimelightHelpers.getLatestResults(VisionConstants.aprilLimelite).targetingResults.getBotPose2d();  
     }

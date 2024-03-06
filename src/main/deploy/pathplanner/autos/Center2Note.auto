@@ -68,9 +68,21 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "FeedShooterCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "GyroFlipCommand"
           }
         }
       ]
