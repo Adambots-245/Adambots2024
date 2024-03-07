@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class VisionProcessorSubsystem extends SubsystemBase {
   private BaseAddressableLED ledController;
-  private int oldHeartbeat = VisionHelpers.getHeatbeat();
-  private int newHeartbeat = VisionHelpers.getHeatbeat();
+  private int oldHeartbeat = VisionHelpers.getHeartbeat();
+  private int newHeartbeat = VisionHelpers.getHeartbeat();
   private int counter = 0;
   private final int COUNTER_SIZE = 5;
 
@@ -28,7 +28,7 @@ public class VisionProcessorSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
 
     if (counter > COUNTER_SIZE) {
-      newHeartbeat = VisionHelpers.getHeatbeat();
+      newHeartbeat = VisionHelpers.getHeartbeat();
       counter = 0;
 
       // If the old and new heartbeat is same, then the Limelight is not working - change color to indicate this

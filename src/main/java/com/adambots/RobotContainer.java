@@ -220,7 +220,7 @@ public class RobotContainer {
     autoChooser = AutoBuilder.buildAutoChooser();
 
     Dash.add("getClassName", VisionHelpers.getClassName(VisionConstants.noteLimelite));
-    Dash.add("getHeartbeat", () -> VisionHelpers.getHeatbeat(VisionConstants.noteLimelite));
+    Dash.add("getHeartbeat", () -> VisionHelpers.getHeartbeat(VisionConstants.noteLimelite));
 
 
     //Adds various data to the dashboard that is useful for driving and debugging

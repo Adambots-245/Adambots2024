@@ -24,7 +24,7 @@ public class VisionHelpers {
         LimelightHelpers.setLEDMode_ForceOff(limelight);
     }
     
-     public static int getHeatbeat(String limelight) {
+     public static int getHeartbeat(String limelight) {
         return (int) NetworkTableInstance.getDefault().getTable(limelight).getEntry("hb").getDouble(0);
     }
 
@@ -44,7 +44,7 @@ public class VisionHelpers {
         return (int) NetworkTableInstance.getDefault().getTable(VisionConstants.aprilLimelite).getEntry("tid").getDouble(0);
     }
 
-    public static int getHeatbeat() {
+    public static int getHeartbeat() {
         // return (int) LimelightHelpers.getFiducialID(VisionConstants.aprilLimelite);
         return (int) NetworkTableInstance.getDefault().getTable(VisionConstants.aprilLimelite).getEntry("hb").getDouble(0);
         // return null;
