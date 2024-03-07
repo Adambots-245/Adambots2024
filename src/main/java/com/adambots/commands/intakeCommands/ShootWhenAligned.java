@@ -4,23 +4,28 @@
 
 package com.adambots.commands.intakeCommands;
 
-import com.adambots.Constants.ShooterConstants;
+import com.adambots.Constants.VisionConstants;
+import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
+import com.adambots.vision.VisionHelpers;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class FeedShooterCommand extends Command {
+public class ShootWhenAligned extends Command {
   /** Creates a new FeedShooterCommand. */
   private IntakeSubsystem intakeSubsystem;
+  private ArmSubsystem armSubsystem;
   private ShooterSubsystem shooterSubsystem;
   private int inc;
   private boolean increment;
-  
-  public FeedShooterCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
+
+  public ShootWhenAligned(IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem,
+      ShooterSubsystem shooterSubsystem) {
     addRequirements(intakeSubsystem);
 
     this.intakeSubsystem = intakeSubsystem;
+    this.armSubsystem = armSubsystem;
     this.shooterSubsystem = shooterSubsystem;
   }
 
@@ -34,11 +39,13 @@ public class FeedShooterCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (shooterSubsystem.isAtTargetSpeed()) {
+    if (shooterSubsystem.isAtTargetSpeed() && armSubsystem.getCurrentStateName() == "speaker"
+        && armSubsystem.isAtTargetState() && VisionHelpers.isAligned(VisionConstants.aprilLimelite, 3)
+        && VisionHelpers.getAprilHorizDist() < 3) {
       intakeSubsystem.setMotorSpeed(1);
       increment = true;
     }
-    if(increment){
+    if (increment) {
       inc++;
     }
   }
@@ -47,7 +54,7 @@ public class FeedShooterCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     intakeSubsystem.setMotorSpeed(0);
-    shooterSubsystem.setTargetWheelSpeed(ShooterConstants.idleSpeed);
+    shooterSubsystem.setTargetWheelSpeed(0);
   }
 
   // Returns true when the command should end.

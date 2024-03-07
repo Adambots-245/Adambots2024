@@ -81,6 +81,12 @@ public class ModuleMap {
     return arr;
   }
 
+  /**
+   * Sets the motor speeds of each swerve module to 0.
+   *
+   * @param swerveModules
+   * The {@code HashMap} of the swerve modules that are to be set
+   */
   public static void stopModules(HashMap<ModulePosition, SwerveModule> swerveModules) {
     for (ModulePosition i : swerveModules.keySet()) {
       swerveModules.get(i).stopMotors();

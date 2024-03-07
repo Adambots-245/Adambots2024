@@ -68,9 +68,21 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "CenterReturn1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopCommand"
+          }
+        },
+        {
           "type": "wait",
           "data": {
-            "waitTime": 2.0
+            "waitTime": 1.0
           }
         },
         {

@@ -7,57 +7,53 @@ package com.adambots.commands.armCommands;
 import com.adambots.Constants.ArmConstants;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
+import com.adambots.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class HumanStationCommand extends Command {
+public class PrimeShooterCommandFloor extends Command {
   /** Creates a new FeedShooterCommand. */
   private ArmSubsystem armSubsystem;
+  private ShooterSubsystem shooterSubsystem;
+  private double shooterSpeed;
   private IntakeSubsystem intakeSubsystem;
-
-  private int inc = 0;
-  private Boolean beginInc = false;
+  private boolean finished;
   
-  public HumanStationCommand(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
-    addRequirements(armSubsystem, intakeSubsystem);
+  public PrimeShooterCommandFloor(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem, double shooterSpeed) {
+    addRequirements(armSubsystem, shooterSubsystem);
     
     this.armSubsystem = armSubsystem;
+    this.shooterSubsystem = shooterSubsystem;
+    this.shooterSpeed = shooterSpeed;
     this.intakeSubsystem = intakeSubsystem;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    inc = 0;
-    beginInc = false;
-    armSubsystem.setCurrentState(ArmConstants.humanState);
-    intakeSubsystem.setMotorSpeed(0.2);
+    finished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (inc > 5) {
-      intakeSubsystem.setMotorSpeed(0);
-    } else if (intakeSubsystem.isSecondPieceInRobot()) {
-      beginInc = true;
-    } else if (intakeSubsystem.isFirstPieceInRobot()) {
-      intakeSubsystem.setMotorSpeed(0.09);
-    } 
-
-    if (beginInc) {inc++;}
+    System.out.println("Testing");
+    if (!intakeSubsystem.getLockOut() && !armSubsystem.getCurrentStateName().equals("closeFloorShoot")) {
+      armSubsystem.setCurrentState(ArmConstants.closeFloorShootState);
+      shooterSubsystem.setTargetWheelSpeed(shooterSpeed);
+      finished = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.setMotorSpeed(0);
-    armSubsystem.setCurrentState(ArmConstants.defaultState);
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return finished;
   }
 }

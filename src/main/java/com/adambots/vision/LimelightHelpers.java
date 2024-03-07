@@ -442,8 +442,6 @@ public class LimelightHelpers {
         }
         return null;
     }
-    /////
-    /////
 
     public static double getTX(String limelightName) {
         return getLimelightNTDouble(limelightName, "tx");
@@ -546,8 +544,6 @@ public class LimelightHelpers {
         return getLimelightNTDouble(limelightName, "tclass");
     }
 
-    /////
-    /////
 
     public static Pose3d getBotPose3d(String limelightName) {
         double[] poseArray = getLimelightNTDoubleArray(limelightName, "botpose");
@@ -634,8 +630,6 @@ public class LimelightHelpers {
         return 1.0 == getLimelightNTDouble(limelightName, "tv");
     }
 
-    /////
-    /////
 
     public static void setPipelineIndex(String limelightName, int pipelineIndex) {
         setLimelightNTDouble(limelightName, "pipeline", pipelineIndex);
@@ -705,8 +699,6 @@ public class LimelightHelpers {
         setLimelightNTDoubleArray(limelightName, "camerapose_robotspace_set", entries);
     }
 
-    /////
-    /////
 
     public static void setPythonScriptData(String limelightName, double[] outgoingPythonData) {
         setLimelightNTDoubleArray(limelightName, "llrobot", outgoingPythonData);
@@ -716,8 +708,6 @@ public class LimelightHelpers {
         return getLimelightNTDoubleArray(limelightName, "llpython");
     }
 
-    /////
-    /////
 
     /**
      * Asynchronously take snapshot.

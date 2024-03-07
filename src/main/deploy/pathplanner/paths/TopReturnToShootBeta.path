@@ -3,32 +3,38 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.810799503951951,
-        "y": 5.958801173984146
+        "x": 7.872088097956508,
+        "y": 5.913972455619661
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.195299891154725,
-        "y": 7.399900260399857
+        "x": 6.256588485159282,
+        "y": 7.355071542035372
       },
       "isLocked": false,
       "linkedName": "Far2Endpoint"
     },
     {
       "anchor": {
-        "x": 1.04,
-        "y": 6.307602226747184
+        "x": 1.5833688728718385,
+        "y": 7.049923600560469
       },
       "prevControl": {
-        "x": 2.441607369341265,
-        "y": 6.500360703274127
+        "x": 2.9849762422131034,
+        "y": 7.242682077087411
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "TopFar2ReturnEndpoint"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 53.6,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -45,7 +51,7 @@
   "reversed": false,
   "folder": "Top Autons",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -16.930000000000007,
     "velocity": 0
   },
   "useDefaultConstraints": true

@@ -58,7 +58,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AprilAlignCommand"
+            "name": "AprilAlignTopCommand"
           }
         },
         {
@@ -98,12 +98,6 @@
                       "type": "path",
                       "data": {
                         "pathName": "TopFar2"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "DriveToNoteCommand"
                       }
                     }
                   ]

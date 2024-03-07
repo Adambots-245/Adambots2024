@@ -2,10 +2,8 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package com.adambots.commands;
+package com.adambots.commands.intakeCommands;
 
-import com.adambots.commands.intakeCommands.AmpScoreCommand;
-import com.adambots.commands.intakeCommands.FeedShooterCommand;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
@@ -14,12 +12,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class AdaptiveScoreCommand extends Command {
   /** Creates a new AdaptiveScoreCommand. */
-  ShooterSubsystem shooterSubsystem;
-  ArmSubsystem armSubsystem;
-  IntakeSubsystem intakeSubsystem;
+  private ShooterSubsystem shooterSubsystem;
+  private ArmSubsystem armSubsystem;
+  private IntakeSubsystem intakeSubsystem;
 
   private Command ampScoreCommand;
-  
 
   public AdaptiveScoreCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
     this.shooterSubsystem = shooterSubsystem;
@@ -30,12 +27,12 @@ public class AdaptiveScoreCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (armSubsystem.getCurrentStateName() == "speaker") {
-      new FeedShooterCommand(intakeSubsystem, shooterSubsystem).schedule();
-    } else if (armSubsystem.getCurrentStateName() == "amp") {
+    if (armSubsystem.getCurrentStateName() == "amp") {
       ampScoreCommand = new AmpScoreCommand(intakeSubsystem);
       ampScoreCommand.schedule();
-    }
+    } else {
+      new FeedShooterCommand(intakeSubsystem, shooterSubsystem).schedule();
+    } 
   }
 
   // Called every time the scheduler runs while the command is scheduled.

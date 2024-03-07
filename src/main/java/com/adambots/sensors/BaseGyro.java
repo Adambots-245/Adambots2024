@@ -18,7 +18,9 @@ public interface BaseGyro {
      * Ensure CCW is a positive value change
      * @return Continous value of gyroscope in radians
      */
-    Rotation2d getContinuousYawRad();
+    double getContinuousYawRad();
+
+    Rotation2d getContinuousYawRotation2d();
 
     void setYawOffset (double offsetDeg);
 

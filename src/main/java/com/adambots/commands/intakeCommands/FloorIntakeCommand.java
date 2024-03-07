@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package com.adambots.commands.autonCommands;
+package com.adambots.commands.intakeCommands;
 
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.ArmConstants.State;
@@ -17,15 +17,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 
 public class FloorIntakeCommand extends Command {
-  /** Creates a new IntakeWithAdjustCommand. */
-  ArmSubsystem armSubsystem;
-  IntakeSubsystem intakeSubsystem;
-  ShooterSubsystem shooterSubsystem;
-  LedLightingSubsystem candle;
+  /** Creates a new FloorIntakeCommand. */
+  private ArmSubsystem armSubsystem;
+  private IntakeSubsystem intakeSubsystem;
+  private ShooterSubsystem shooterSubsystem;
+  private LedLightingSubsystem candle;
 
   private State shootState;
-
-  // private String state = "initial";
 
   public FloorIntakeCommand(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedLightingSubsystem candle, State shootState) {
     addRequirements(armSubsystem, intakeSubsystem, shooterSubsystem);
@@ -41,8 +39,7 @@ public class FloorIntakeCommand extends Command {
   @Override
   public void initialize() {
     armSubsystem.setCurrentState(ArmConstants.floorState);
-    intakeSubsystem.setGroundIntakeMotorSpeed(0.25);
-    candle.clearAllAnims();
+    intakeSubsystem.setMotorSpeed(0.17);
     candle.changeAnimation(AnimationTypes.Larson);
   }
 
@@ -50,9 +47,8 @@ public class FloorIntakeCommand extends Command {
   @Override
   public void execute() {
     if (intakeSubsystem.isFirstPieceInRobot()) {
-      intakeSubsystem.setGroundIntakeMotorSpeed(0.15);
+      intakeSubsystem.setMotorSpeed(0.06);
       armSubsystem.setCurrentState(shootState);
-      candle.clearAllAnims();
       candle.changeAnimation(AnimationTypes.Fire);
     }
   }
@@ -60,13 +56,10 @@ public class FloorIntakeCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.setGroundIntakeMotorSpeed(0);
+    intakeSubsystem.setMotorSpeed(0);
     armSubsystem.setCurrentState(shootState);
 
-    shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed);
-
-    // candle.clearAllAnims();
-    // candle.changeAnimation(AnimationTypes.Strobe);
+    shooterSubsystem.setTargetWheelSpeed(ShooterConstants.lowSpeed);
   }
 
   // Returns true when the command should end.
