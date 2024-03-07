@@ -28,8 +28,8 @@ public class HangSubsystem extends SubsystemBase {
     leftHangMotor.setInverted(true);
     rightHangMotor.setInverted(false);
 
-    leftHangMotor.setBrakeMode(true);
-    rightHangMotor.setBrakeMode(true);
+    leftHangMotor.setNeutralMode(true);
+    rightHangMotor.setNeutralMode(true);
 
     resetEncoders();
 

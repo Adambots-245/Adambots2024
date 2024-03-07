@@ -38,7 +38,7 @@ public class PrimeShooterCommandFloor extends Command {
   @Override
   public void execute() {
     System.out.println("Testing");
-    if (!intakeSubsystem.getLockOut() && !armSubsystem.getCurrentStateName().equals("closeFloorShoot")) {
+    if (!intakeSubsystem.getLockOut() && armSubsystem.getCurrentState() != ArmConstants.closeFloorShootState) {
       armSubsystem.setCurrentState(ArmConstants.closeFloorShootState);
       shooterSubsystem.setTargetWheelSpeed(shooterSpeed);
       finished = true;
