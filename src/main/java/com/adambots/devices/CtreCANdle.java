@@ -45,7 +45,7 @@ public class CtreCANdle implements BaseAddressableLED {
 
     private static final int LEDS_IN_STRIP = LEDConstants.LEDS_IN_STRIP;
 
-    public enum CANdleAnimationTypes implements AnimationTypes {
+    public enum CANdleAnimationType {
         ColorFlow(0, new ColorFlowAnimation(255, 150, 0, 0, 1, LEDS_IN_STRIP, Direction.Forward, 8)),
         Fire(1, new FireAnimation(0.5, 0.7, LEDS_IN_STRIP, 0.8, 0.5, true, 8)),
         Larson(2, new LarsonAnimation(255, 150, 0, 100, 0.001, LEDS_IN_STRIP, BounceMode.Front, 30, 0)),
@@ -55,19 +55,12 @@ public class CtreCANdle implements BaseAddressableLED {
         Strobe(6, new StrobeAnimation(0, 0, 255, 0, 0, LEDS_IN_STRIP, 8)),
         Twinkle(7, new TwinkleAnimation(0, 255, 0, 0, 1, LEDS_IN_STRIP, TwinklePercent.Percent100, 0)),
         TwinkleOff(8, new TwinkleOffAnimation(70, 90, 175, 0, 0.2, LEDS_IN_STRIP, TwinkleOffPercent.Percent76, 8)),
-        Empty(9, new RainbowAnimation(1, 0.7, LEDS_IN_STRIP, true, 8)),
-        SetAll(-1, null);
-
-        static {
-            for (CANdleAnimationTypes e : values()) {
-                animationTypes.put(e.name(), e.animation);
-            }
-        }
+        Empty(-1, null);
 
         public final Animation animation;
         public final int channel;
 
-        CANdleAnimationTypes(int channel, Animation animation) {
+        CANdleAnimationType(int channel, Animation animation) {
             this.animation = animation;
             this.channel = channel;
         }
@@ -98,10 +91,12 @@ public class CtreCANdle implements BaseAddressableLED {
         for (int i = 0; i < 10; ++i) {
             clearAnimation(i);
         }
+
+        this.candleChannel = -1;
     }
 
     public void setColor(Color color) {
-        setColor((int) color.red * 255, (int) color.green * 255, (int) color.blue * 255);
+        setColor(getColorValue(color.red), getColorValue(color.green), getColorValue(color.blue));
 
         setAnim = false;
     }
@@ -123,7 +118,7 @@ public class CtreCANdle implements BaseAddressableLED {
 
     public void setStrobe(Color color) {
         candleChannel = 6;
-        toAnimate = new StrobeAnimation((int) color.red, (int) color.green, (int) color.blue, 0, 0, LEDS_IN_STRIP, 8);
+        toAnimate = new StrobeAnimation(getColorValue(color.red), getColorValue(color.green), getColorValue(color.blue), 0, 0, LEDS_IN_STRIP, 8);
     }
 
     /**
@@ -149,13 +144,27 @@ public class CtreCANdle implements BaseAddressableLED {
         candle.setLEDs(r, g, b, 0, startIdx, numOfLEDs);
     }
 
+    public void setLEDs(Color color, int startIdx, int numOfLEDs){
+        setLEDs(getColorValue(color.red), getColorValue(color.green), getColorValue(color.blue), startIdx, numOfLEDs);
+    }
+
+    /**
+     * Return integer value from 0 to 255 from a 0 to 1 double value system that Color object uses
+     * @param colorVal
+     * @return
+     */
+    private int getColorValue(double colorVal){
+        return (int)colorVal * 255;
+    }
+
     public void configBrightness(double value) {
         candle.configBrightnessScalar(value, 0);
     }
 
     public void changeAnimation(AnimationType toChange) {
-        toAnimate = ((CANdleAnimationTypes) toChange).animation;
-        candleChannel = ((CANdleAnimationTypes) toChange).channel;
+        CANdleAnimationType animationType = CANdleAnimationType.valueOf(toChange.toString());
+        toAnimate = animationType.animation;
+        candleChannel = animationType.channel;
     }
 
     /**

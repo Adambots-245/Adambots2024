@@ -6,7 +6,6 @@ package com.adambots.subsystems;
 
 import com.adambots.devices.BaseAddressableLED;
 import com.adambots.devices.BaseAddressableLED.AnimationType;
-import com.adambots.devices.BaseAddressableLED.AnimationTypes;
 
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -61,7 +60,7 @@ private BaseAddressableLED ledController;
 
   public void setStrobe(Color color) {
     ledController.setColor(color);
-    ledController.changeAnimation(AnimationTypes.Strobe);
+    ledController.changeAnimation(AnimationType.Strobe);
   }
 
   // public void setmodulateVBatOutput(double dutyCycle) {

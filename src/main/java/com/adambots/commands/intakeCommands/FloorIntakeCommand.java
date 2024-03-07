@@ -6,7 +6,7 @@ package com.adambots.commands.intakeCommands;
 
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.ArmConstants.State;
-import com.adambots.devices.BaseAddressableLED.AnimationTypes;
+import com.adambots.devices.BaseAddressableLED.AnimationType;
 import com.adambots.Constants.ShooterConstants;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.LedLightingSubsystem;
@@ -40,7 +40,7 @@ public class FloorIntakeCommand extends Command {
   public void initialize() {
     armSubsystem.setCurrentState(ArmConstants.floorState);
     intakeSubsystem.setMotorSpeed(0.17);
-    candle.changeAnimation(AnimationTypes.Larson);
+    candle.changeAnimation(AnimationType.Larson);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -49,7 +49,7 @@ public class FloorIntakeCommand extends Command {
     if (intakeSubsystem.isFirstPieceInRobot()) {
       intakeSubsystem.setMotorSpeed(0.06);
       armSubsystem.setCurrentState(shootState);
-      candle.changeAnimation(AnimationTypes.Fire);
+      candle.changeAnimation(AnimationType.Fire);
     }
   }
 

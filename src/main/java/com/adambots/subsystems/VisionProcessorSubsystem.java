@@ -6,7 +6,7 @@ package com.adambots.subsystems;
 
 import com.adambots.Constants.LEDConstants;
 import com.adambots.devices.BaseAddressableLED;
-import com.adambots.devices.BaseAddressableLED.AnimationTypes;
+import com.adambots.devices.BaseAddressableLED.AnimationType;
 import com.adambots.vision.VisionHelpers;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -34,8 +34,9 @@ public class VisionProcessorSubsystem extends SubsystemBase {
       // If the old and new heartbeat is same, then the Limelight is not working - change color to indicate this
       if (newHeartbeat == oldHeartbeat) {
         ledController.clearAllAnimations();
-        ledController.changeAnimation(AnimationTypes.SetAll);
+        ledController.changeAnimation(AnimationType.Empty);
         ledController.setColor(LEDConstants.purple);
+        System.out.println("Limelight possibly frozen");
       } else {
         oldHeartbeat = newHeartbeat;
       }

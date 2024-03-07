@@ -1,6 +1,6 @@
 package com.adambots.commands.driveCommands;
+
 import com.adambots.Robot;
-import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.sensors.BaseGyro;
@@ -14,7 +14,8 @@ public class RotateToAngleCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
   // private CANdleSubsystem caNdleSubsystem;
   private BaseGyro gyro;
-  private final PIDController angleTurningPIDController = new PIDController(VisionConstants.kPThetaController, 0, VisionConstants.kDThetaController);
+  private final PIDController angleTurningPIDController = new PIDController(VisionConstants.kPThetaController, 0,
+      VisionConstants.kDThetaController);
   private double drive_output;
   private double targetAngleRad;
 
@@ -41,8 +42,9 @@ public class RotateToAngleCommand extends Command {
     // Calculates the drive rotation
     drive_output = angleTurningPIDController.calculate(gyro.getContinuousYawRad(), targetAngleRad);
 
-    //Moves left or right depending on the angle
-    driveTrainSubsystem.drive(Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond, Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond , drive_output, true);  
+    // Moves left or right depending on the angle
+    driveTrainSubsystem.drive(Buttons.forwardSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond,
+        Buttons.sidewaysSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond, drive_output, true);
   }
 
   // Called once the command ends or is interrupted.

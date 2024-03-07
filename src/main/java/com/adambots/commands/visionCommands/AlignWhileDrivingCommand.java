@@ -3,7 +3,7 @@ package com.adambots.commands.visionCommands;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
-import com.adambots.devices.BaseAddressableLED.AnimationTypes;
+import com.adambots.devices.BaseAddressableLED.AnimationType;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.LedLightingSubsystem;
@@ -80,7 +80,7 @@ public class AlignWhileDrivingCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     driveTrainSubsystem.stop();
-    candleSubsystem.changeAnimation(AnimationTypes.Larson);
+    candleSubsystem.changeAnimation(AnimationType.Larson);
   }
 
   // Returns true when the command should end.

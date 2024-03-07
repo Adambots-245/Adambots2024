@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.LEDConstants;
-import com.adambots.devices.BaseAddressableLED.AnimationTypes;
+import com.adambots.devices.BaseAddressableLED.AnimationType;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.LedLightingSubsystem;
@@ -69,7 +69,7 @@ public class IntakeWithAdjustCommand extends Command {
     intakeSubsystem.setMotorSpeed(0);
 
     ledSubsystem.setColor(LEDConstants.yellow);
-    ledSubsystem.changeAnimation(AnimationTypes.Larson);
+    ledSubsystem.changeAnimation(AnimationType.Larson);
   }
 
   // Returns true when the command should end.

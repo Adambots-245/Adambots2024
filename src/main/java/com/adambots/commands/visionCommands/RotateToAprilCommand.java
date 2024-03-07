@@ -3,7 +3,7 @@ package com.adambots.commands.visionCommands;
 import com.adambots.Robot;
 import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
-import com.adambots.devices.BaseAddressableLED.AnimationTypes;
+import com.adambots.devices.BaseAddressableLED.AnimationType;
 import com.adambots.subsystems.LedLightingSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.vision.VisionHelpers;
@@ -70,7 +70,7 @@ public class RotateToAprilCommand extends Command {
   public void end(boolean interrupted) {
     driveTrainSubsystem.stop();
     ledSubsystem.clearAllAnims();
-    ledSubsystem.changeAnimation(AnimationTypes.Larson);
+    ledSubsystem.changeAnimation(AnimationType.Larson);
   }
 
   // Returns true when the command should end.

@@ -4,11 +4,8 @@
 
 package com.adambots.actuators;
 
-import com.adambots.Constants;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VoltageOut;
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -34,7 +31,7 @@ public class TalonFXMotor implements BaseMotor{
     }
 
     public TalonFXMotor(int portNum, Boolean isOnCANivore, double currentLimitAmps){
-        new TalonFXMotor(portNum, isOnCANivore);
+        this(portNum, isOnCANivore);
 
         var configs = new CurrentLimitsConfigs();
         configs.SupplyCurrentLimit = currentLimitAmps;
