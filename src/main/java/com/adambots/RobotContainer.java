@@ -164,7 +164,6 @@ public class RobotContainer {
     Buttons.XboxRightBumper.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(0))); //Stop FLywheels
 
     Buttons.XboxLeftBumper.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed))); //Spin up flywheels
-    Buttons.XboxRightBumper.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(0))); //Stop FLywheels
 
     //THESE COMMANDS DO NOT AUTO ENGAGE SOLENOIDS - which is why they are negative, where the solenoid should be left unpowered
     Buttons.XboxLeftTriggerButton.whileTrue(new RunLeftHangCommand(hangSubsystem, -0.25)); //Run left winch in 
@@ -218,7 +217,7 @@ public class RobotContainer {
   }
 
   private void setupDashboard() {    
-    // autoChooser = AutoBuilder.buildAutoChooser();
+    autoChooser = AutoBuilder.buildAutoChooser();
 
     Dash.add("getClassName", VisionHelpers.getClassName(VisionConstants.noteLimelite));
     Dash.add("getHeartbeat", () -> VisionHelpers.getHeatbeat(VisionConstants.noteLimelite));

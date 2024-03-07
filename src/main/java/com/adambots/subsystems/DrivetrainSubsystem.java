@@ -53,11 +53,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
             DriveConstants.kDrivebaseRadius, // Drive base radius in meters. Distance from robot center to furthest
                                              // module.
             new ReplanningConfig(true, false) // Default path replanning config. See the API for the options here
-        ),
-        () -> { // Flips path if on the red side of the field - ENSURE FIELD SIDE IS CORRECTLY
-                // SET IN DRIVERSTATION BEFORE TESTING AUTON
-          return Robot.isOnRedAlliance();
-        },
+        ), 
+        () -> Robot.isOnRedAlliance(), //Flips path if on the red side of the field - ENSURE FIELD SIDE IS CORRECTLY SET IN DRIVERSTATION BEFORE TESTING AUTON
         this // Reference to this subsystem to set requirements
     );
   }

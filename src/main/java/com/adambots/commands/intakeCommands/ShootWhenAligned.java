@@ -4,6 +4,7 @@
 
 package com.adambots.commands.intakeCommands;
 
+import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
@@ -39,7 +40,7 @@ public class ShootWhenAligned extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (shooterSubsystem.isAtTargetSpeed() && armSubsystem.getCurrentStateName() == "speaker"
+    if (shooterSubsystem.isAtTargetSpeed() && armSubsystem.getCurrentState() == ArmConstants.speakerState
         && armSubsystem.isAtTargetState() && VisionHelpers.isAligned(VisionConstants.aprilLimelite, 3)
         && VisionHelpers.getAprilHorizDist() < 3) {
       intakeSubsystem.setMotorSpeed(1);

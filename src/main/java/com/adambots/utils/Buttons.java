@@ -81,6 +81,10 @@ public class Buttons {
         public static final Trigger JoystickThumbRight = ex3dPro.povRight();
         public static final Trigger JoystickThumbCenter = ex3dPro.povCenter();
 
+        // Xbox Throttle triggers
+        public static final Trigger XboxLeftTriggerButton = XboxController.leftTrigger(0.5);
+        public static final Trigger XboxRightTriggerButton = XboxController.rightTrigger(0.5);
+
         /** 
         Return a value only if it is greater than a threshold, otherwise return 0
         <p> 

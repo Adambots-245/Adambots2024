@@ -1,8 +1,8 @@
 package com.adambots.commands.driveCommands;
 
 import com.adambots.Robot;
+import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.DriveConstants;
-import com.adambots.Constants.VisionConstants;
 import com.adambots.sensors.BaseGyro;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.Buttons;
@@ -14,8 +14,7 @@ public class RotateToAngleCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
   // private CANdleSubsystem caNdleSubsystem;
   private BaseGyro gyro;
-  private final PIDController angleTurningPIDController = new PIDController(VisionConstants.kPThetaController, 0,
-      VisionConstants.kDThetaController);
+  private PIDController angleTurningPIDController = new PIDController(AutoConstants.kPThetaController, 0, AutoConstants.kDThetaController);
   private double drive_output;
   private double targetAngleRad;
 

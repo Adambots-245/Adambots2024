@@ -119,8 +119,8 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderPID.reset();
   }
 
-  public String getCurrentStateName() {
-    return currentState.getStateName();
+  public State getCurrentState() {
+    return currentState;
   }
   
   @Override
