@@ -88,22 +88,22 @@ public class RobotMap {
     public static final BaseAddressableLED candleLEDs = new CtreCANdle(kCANdlePort);
 
     // Arm Devices
-    public static final BaseMotor shoulderMotor = new TalonFXMotor(shoulderMotorPort, true);
-    public static final BaseMotor wristMotor = new TalonFXMotor(wristMotorPort, true);
+    public static final BaseMotor shoulderMotor = new TalonFXMotor(shoulderMotorPort, true, 45.0);
+    public static final BaseMotor wristMotor = new TalonFXMotor(wristMotorPort, true, 35.0);
     public static final BaseAbsoluteEncoder shoulderEncoder = new ThroughBoreEncoder(shoulderEncoderPort);
     public static final BaseAbsoluteEncoder wristEncoder = new ThroughBoreEncoder(wristEncoderPort);
 
     // Shooter Devices
-    public static final BaseMotor shooterWheel = new TalonFXMotor(shooterWheelPort, true);
+    public static final BaseMotor shooterWheel = new TalonFXMotor(shooterWheelPort, true, 45);
 
     // Intake Devices
-    public static final BaseMotor groundIntakeMotor = new TalonFXMotor(groundIntakeMotorPort, true);
+    public static final BaseMotor groundIntakeMotor = new TalonFXMotor(groundIntakeMotorPort, true, 45.0);
     public static final BaseProximitySensor secondPieceInRobotEye = new PhotoEye(secondPieceInRobotEyePort, false);
     public static final BaseProximitySensor firstPieceInRobotEye = new PhotoEye(firstPieceInRobotEyePort, false);
 
     // Hang Devices
-    public static final BaseMotor leftHangMotor = new TalonFXMotor(leftHangMotorPort, false);
-    public static final BaseMotor rightHangMotor = new TalonFXMotor(rightHangMotorPort, false);
+    public static final BaseMotor leftHangMotor = new TalonFXMotor(leftHangMotorPort, false, 35);
+    public static final BaseMotor rightHangMotor = new TalonFXMotor(rightHangMotorPort, false, 35);
     public static final BaseSolenoid leftHangSolenoid = new ElectricalSolenoid(leftRelayPort);
     public static final BaseSolenoid rightHangSolenoid = new ElectricalSolenoid(rightRelayPort);
 //     public static final PhotoEye leftHangLimit = new PhotoEye(leftHangLimitPort, false);

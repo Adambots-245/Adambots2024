@@ -13,8 +13,10 @@ public class SparkMax implements BaseMotor{
 
     private CANSparkMax motor;
 
-    public SparkMax(int port){
+    public SparkMax(int port, int currentLimit){
         motor = new CANSparkMax(port, MotorType.kBrushless);
+
+        motor.setSmartCurrentLimit(currentLimit);
     }
 
     @Override
@@ -74,11 +76,6 @@ public class SparkMax implements BaseMotor{
     public boolean getReverseLimitSwitch() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getReverseLimitSwitch'");
-    }
-
-    @Override
-    public void setSmartCurrentLimit(int value) {
-        motor.setSmartCurrentLimit(value);
     }
 
     @Override

@@ -6,7 +6,6 @@ package com.adambots.actuators;
 
 import com.adambots.Constants;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -16,12 +15,17 @@ public class TalonFXMotor implements BaseMotor{
 
     TalonFX motor;
 
-    public TalonFXMotor(int portNum, Boolean isOnCANivore){
+    public TalonFXMotor(int portNum, Boolean isOnCANivore, double supplyCurrentLimit){
         if (isOnCANivore) {
             motor = new TalonFX(portNum, Constants.CANivoreBus);
         } else {
             motor = new TalonFX(portNum);
         }
+
+        CurrentLimitsConfigs currentLimitsConfigs = new CurrentLimitsConfigs();
+        currentLimitsConfigs.SupplyCurrentLimit = supplyCurrentLimit;
+        currentLimitsConfigs.SupplyCurrentLimitEnable = true;
+        motor.getConfigurator().apply(currentLimitsConfigs);
     }
 
     @Override
@@ -79,16 +83,7 @@ public class TalonFXMotor implements BaseMotor{
     }
 
     @Override
-    public void setSmartCurrentLimit(int value) {
-        CurrentLimitsConfigs currentLimitsConfigs = new CurrentLimitsConfigs();
-        currentLimitsConfigs.StatorCurrentLimit = value;
-        currentLimitsConfigs.StatorCurrentLimitEnable = true;
-        motor.getConfigurator().apply(currentLimitsConfigs);
-    }
-
-    @Override
     public void enableVoltageCompensation(double value) {
-        
         final VoltageOut m_request = new VoltageOut(0);
         motor.setControl(m_request.withOutput(value));
     }

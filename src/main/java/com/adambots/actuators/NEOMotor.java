@@ -78,12 +78,6 @@ public class NEOMotor implements BaseMotor{
     }
 
     @Override
-    public void setSmartCurrentLimit(int value) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setSmartCurrentLimit'");
-    }
-
-    @Override
     public void enableVoltageCompensation(double value) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'enableVoltageCompensation'");
