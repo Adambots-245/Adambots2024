@@ -26,7 +26,6 @@ import com.adambots.commands.intakeCommands.IntakeToFlywheelCommand;
 import com.adambots.commands.intakeCommands.SlowOuttakeCommand;
 import com.adambots.commands.visionCommands.AlignWhileDrivingCommand;
 import com.adambots.commands.visionCommands.DriveToNoteCommand;
-import com.adambots.commands.visionCommands.PathPlannerAlign;
 import com.adambots.commands.visionCommands.RotateToAprilCommand;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.LedLightingSubsystem;
@@ -102,7 +101,7 @@ public class RobotContainer {
     }
 
     if (Robot.isOnRedAlliance() && DriverStation.isFMSAttached()) {
-      RobotMap.gyro.setYawOffset(180);
+      RobotMap.gyro.offsetYawByAngle(180);
     }
   }
 
@@ -137,22 +136,20 @@ public class RobotContainer {
 
     Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem)); //Score in amp and speaker
 
-    Buttons.JoystickButton2.onTrue(new PathPlannerAlign(drivetrainSubsystem)); //Drive to apriltag
-
-    Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw())); //Reset Gyro
     
     //Both lock rotation to apriltag with driver control
+
+    Buttons.JoystickButton3.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, -90, RobotMap.gyro)); //Rotate to amp
+    Buttons.JoystickButton4.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, 60, RobotMap.gyro)); //Rotate to huaman station
+
+    Buttons.JoystickButton5.whileTrue(new SpinCommand(drivetrainSubsystem)); //Spin while drive driving (defense)
+
     Buttons.JoystickButton7.whileTrue(new AlignWhileDrivingCommand(drivetrainSubsystem, intakeSubsystem, ledSubsystem, VisionConstants.aprilLimelite));
-    Buttons.JoystickButton6.whileTrue(new AlignWhileDrivingCommand(drivetrainSubsystem, intakeSubsystem, ledSubsystem, VisionConstants.aprilLimelite));
+    Buttons.JoystickButton8.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro)); //Hang on the chain
+    
+    Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw())); //Reset Gyro
 
-    Buttons.JoystickButton5.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, -90, RobotMap.gyro)); //Rotate to amp
-    Buttons.JoystickButton8.whileTrue(new SpinCommand(drivetrainSubsystem)); //Spin while drive driving (defense)
-
-    Buttons.JoystickButton10.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, 60, RobotMap.gyro)); //Rotate to huaman station
-
-    Buttons.JoystickButton3.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, -150, RobotMap.gyro)); //Rotate to shoot across field
-
-    Buttons.JoystickButton4.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro)); //Hang on the chain
+    // Buttons.JoystickButton3.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, -150, RobotMap.gyro)); //Rotate to shoot across field
 
 
     //Xbox Button Bindings 

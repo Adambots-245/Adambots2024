@@ -23,7 +23,7 @@ public class ShooterSubsystem extends SubsystemBase {
     this.shooterMotor = shooterMotor;
 
     shooterMotor.setInverted(true);
-    shooterMotor.setNeutralMode(false);
+    shooterMotor.setBrakeMode(false);
 
     shooterMotor.enableVoltageCompensation(12.6);
 

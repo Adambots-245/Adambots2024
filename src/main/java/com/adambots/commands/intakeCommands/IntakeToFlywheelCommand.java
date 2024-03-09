@@ -7,6 +7,7 @@ package com.adambots.commands.intakeCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import com.adambots.Constants.ArmConstants;
+import com.adambots.Constants.IntakeConstants;
 import com.adambots.Constants.LEDConstants;
 import com.adambots.devices.BaseAddressableLED.AnimationType;
 import com.adambots.subsystems.ArmSubsystem;
@@ -39,7 +40,7 @@ public class IntakeToFlywheelCommand extends Command {
   public void initialize() {
     if (!intakeSubsystem.isSecondPieceInRobot()) {
       armSubsystem.setCurrentState(ArmConstants.floorState);
-      intakeSubsystem.setMotorSpeed(0.2);
+      intakeSubsystem.setMotorSpeed(IntakeConstants.intakeSpeed);
     }
     shooterSubsystem.setTargetWheelSpeed(0);
     state = "initial";
@@ -50,7 +51,7 @@ public class IntakeToFlywheelCommand extends Command {
   @Override
   public void execute() {
     if (state == "initial" && intakeSubsystem.isFirstPieceInRobot()) {
-      intakeSubsystem.setMotorSpeed(0.12);
+      intakeSubsystem.setMotorSpeed(IntakeConstants.lowSpeed);
       armSubsystem.incrementWristAngle(15);
       state = "touchNote"; //keep this line, prevents above code from running repeatedly
       ledSubsystem.setColor(LEDConstants.green);

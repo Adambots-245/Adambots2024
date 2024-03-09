@@ -22,7 +22,7 @@ public interface BaseGyro {
 
     Rotation2d getContinuousYawRotation2d();
 
-    void setYawOffset (double offsetDeg);
+    void offsetYawByAngle (double offsetDeg);
 
     /**
      * Zeros gyroscope yaw

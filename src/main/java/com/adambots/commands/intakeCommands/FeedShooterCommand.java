@@ -4,6 +4,7 @@
 
 package com.adambots.commands.intakeCommands;
 
+import com.adambots.Constants.IntakeConstants;
 import com.adambots.Constants.ShooterConstants;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
@@ -35,7 +36,7 @@ public class FeedShooterCommand extends Command {
   @Override
   public void execute() {
     if (shooterSubsystem.isAtTargetSpeed()) {
-      intakeSubsystem.setMotorSpeed(1);
+      intakeSubsystem.setMotorSpeed(IntakeConstants.shootSpeed);
       increment = true;
     }
     if(increment){

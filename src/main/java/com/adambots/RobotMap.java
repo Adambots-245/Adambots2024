@@ -104,8 +104,6 @@ public class RobotMap {
     public static final BaseMotor rightHangMotor = new TalonFXMotor(rightHangMotorPort, false, 35);
     public static final BaseSolenoid leftHangSolenoid = new ElectricalSolenoid(leftRelayPort);
     public static final BaseSolenoid rightHangSolenoid = new ElectricalSolenoid(rightRelayPort);
-//     public static final PhotoEye leftHangLimit = new PhotoEye(leftHangLimitPort, false);
-//     public static final PhotoEye rightHangLimit = new PhotoEye(rightHangLimitPort, false);
 
     
     // Robot Swerve Modules

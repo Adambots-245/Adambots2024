@@ -5,6 +5,8 @@
 package com.adambots.commands.intakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+
+import com.adambots.Constants.IntakeConstants;
 import com.adambots.subsystems.IntakeSubsystem;
 
 public class SlowOuttakeCommand extends Command {
@@ -22,7 +24,7 @@ public class SlowOuttakeCommand extends Command {
   public void initialize() {
     inc = 0;
     if (!intakeSubsystem.isSecondPieceInRobot()) {
-      intakeSubsystem.setMotorSpeed(-0.06);
+      intakeSubsystem.setMotorSpeed(-IntakeConstants.lowSpeed);
     }
   }
 

@@ -4,6 +4,7 @@
 
 package com.adambots.commands.intakeCommands;
 
+import com.adambots.Constants.IntakeConstants;
 import com.adambots.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -21,7 +22,7 @@ public class AmpScoreCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intakeSubsystem.setMotorSpeed(-0.1);
+    intakeSubsystem.setMotorSpeed(-IntakeConstants.ampSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

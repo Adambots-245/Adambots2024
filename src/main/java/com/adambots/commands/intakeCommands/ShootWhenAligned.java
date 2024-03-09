@@ -6,6 +6,7 @@ package com.adambots.commands.intakeCommands;
 
 import com.adambots.Constants.VisionConstants;
 import com.adambots.Constants.ArmConstants.StateName;
+import com.adambots.Constants.IntakeConstants;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
@@ -42,7 +43,7 @@ public class ShootWhenAligned extends Command {
   public void execute() {
     if (shooterSubsystem.isAtTargetSpeed() && (armSubsystem.getCurrentStateName() == StateName.SPEAKER || armSubsystem.getCurrentStateName() == StateName.CLOSE_FLOOR_SHOOT) 
     && armSubsystem.isAtTargetState() && VisionHelpers.isAligned(VisionConstants.aprilLimelite, 3) && VisionHelpers.getAprilHorizDist() < 3) {
-      intakeSubsystem.setMotorSpeed(1);
+      intakeSubsystem.setMotorSpeed(IntakeConstants.shootSpeed);
       increment = true;
     }
     if (increment) {

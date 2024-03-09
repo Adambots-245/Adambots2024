@@ -111,6 +111,14 @@ public final class Constants {
         public static final double lowExtension = 0;
     }
 
+    public static final class IntakeConstants{
+        public static final double intakeSpeed = 0.2;
+        public static final double humanSpeed = 0.2;
+        public static final double ampSpeed = 0.5;
+        public static final double lowSpeed = 0.1;
+        public static final double shootSpeed = 1;
+    }
+
     public static final class ShooterConstants{
         public static final double idleSpeed = 30;
         public static final double lowSpeed = 65;

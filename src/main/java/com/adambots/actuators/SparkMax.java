@@ -32,7 +32,7 @@ public class SparkMax implements BaseMotor{
     }
 
     @Override
-    public void setNeutralMode(boolean brake) {
+    public void setBrakeMode(boolean brake) {
         motor.setIdleMode(brake ? IdleMode.kBrake : IdleMode.kCoast);
     }
 

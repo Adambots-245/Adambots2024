@@ -6,6 +6,7 @@ package com.adambots.commands.intakeCommands;
 
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.ArmConstants.State;
+import com.adambots.Constants.IntakeConstants;
 import com.adambots.devices.BaseAddressableLED.AnimationType;
 import com.adambots.Constants.ShooterConstants;
 import com.adambots.subsystems.ArmSubsystem;
@@ -39,7 +40,7 @@ public class AutonIntakeCommand extends Command {
   @Override
   public void initialize() {
     armSubsystem.setCurrentState(ArmConstants.floorState);
-    intakeSubsystem.setMotorSpeed(0.17);
+    intakeSubsystem.setMotorSpeed(IntakeConstants.intakeSpeed);
     candle.changeAnimation(AnimationType.Larson);
   }
 
@@ -47,7 +48,7 @@ public class AutonIntakeCommand extends Command {
   @Override
   public void execute() {
     if (intakeSubsystem.isFirstPieceInRobot()) {
-      intakeSubsystem.setMotorSpeed(0.06);
+      intakeSubsystem.setMotorSpeed(IntakeConstants.lowSpeed);
       armSubsystem.setCurrentState(shootState);
       candle.changeAnimation(AnimationType.Fire);
     }

@@ -4,6 +4,7 @@
 
 package com.adambots.commands.intakeCommands;
 
+import com.adambots.Constants.IntakeConstants;
 import com.adambots.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -37,17 +38,17 @@ public class FancyAdjustCommand extends Command {
     inc++;
 
     if (state == 0 && inc <= 30) {
-      intakeSubsystem.setMotorSpeed(0.1); //Intake for 30 ticks
+      intakeSubsystem.setMotorSpeed(IntakeConstants.lowSpeed); //Intake for 30 ticks
     } else if (state == 0 && inc > 30) {
       state = 1;
-      intakeSubsystem.setMotorSpeed(-0.1); //Outtake until sensor
+      intakeSubsystem.setMotorSpeed(-IntakeConstants.lowSpeed); //Outtake until sensor
     } else if (state == 1 && intakeSubsystem.isSecondPieceInRobot()) {
       inc = 0;
       state = 2;
-      intakeSubsystem.setMotorSpeed(0.1); //Intake for 30 ticks
+      intakeSubsystem.setMotorSpeed(IntakeConstants.lowSpeed); //Intake for 30 ticks
     } else if (state == 2 && inc > 30) {
       state = 3;
-      intakeSubsystem.setMotorSpeed(-0.1); //Outtake until sensor
+      intakeSubsystem.setMotorSpeed(-IntakeConstants.lowSpeed); //Outtake until sensor
     } else if (state == 3 && intakeSubsystem.isSecondPieceInRobot()) {
       inc = 0;
       state = 4;

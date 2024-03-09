@@ -5,6 +5,7 @@
 package com.adambots.commands.armCommands;
 
 import com.adambots.Constants.ArmConstants;
+import com.adambots.Constants.IntakeConstants;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 
@@ -31,7 +32,7 @@ public class HumanStationCommand extends Command {
     inc = 0;
     beginInc = false;
     armSubsystem.setCurrentState(ArmConstants.humanState);
-    intakeSubsystem.setMotorSpeed(0.2);
+    intakeSubsystem.setMotorSpeed(IntakeConstants.humanSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,7 +43,7 @@ public class HumanStationCommand extends Command {
     } else if (intakeSubsystem.isSecondPieceInRobot()) {
       beginInc = true;
     } else if (intakeSubsystem.isFirstPieceInRobot()) {
-      intakeSubsystem.setMotorSpeed(0.09);
+      intakeSubsystem.setMotorSpeed(IntakeConstants.lowSpeed);
     } 
 
     if (beginInc) {inc++;}

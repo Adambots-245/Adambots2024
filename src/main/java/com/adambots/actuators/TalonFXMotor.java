@@ -46,7 +46,7 @@ public class TalonFXMotor implements BaseMotor{
     }
 
     @Override
-    public void setNeutralMode(boolean brake){
+    public void setBrakeMode(boolean brake){
         if(brake){
            motor.setNeutralMode(NeutralModeValue.Brake);
         }else{

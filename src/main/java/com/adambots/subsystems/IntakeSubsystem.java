@@ -33,7 +33,7 @@ public class IntakeSubsystem extends SubsystemBase {
     Dash.add("Intake Velocity", () -> intakeMotor.getVelocity());
     Dash.add("Intake Speed", () -> motorSpeed);
 
-    intakeMotor.setNeutralMode(true);
+    intakeMotor.setBrakeMode(true);
     intakeMotor.setInverted(true);
   }
 

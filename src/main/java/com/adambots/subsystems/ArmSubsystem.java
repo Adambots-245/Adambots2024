@@ -50,8 +50,8 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderMotor.setInverted(false);
     wristMotor.setInverted(false);
 
-    shoulderMotor.setNeutralMode(true);
-    wristMotor.setNeutralMode(true);
+    shoulderMotor.setBrakeMode(true);
+    wristMotor.setBrakeMode(true);
 
     shoulderPID.enableContinuousInput(0, 360);
     wristPID.enableContinuousInput(0, 360);
@@ -86,11 +86,15 @@ public class ArmSubsystem extends SubsystemBase {
   public void incrementShoulderAngle(double shoulderIncrement) {
     targetShoulderAngle += shoulderIncrement;
     failsafeOverride = false;
+
+    currentState = new State(targetWristAngle, targetShoulderAngle, StateName.CUSTOM);
   }
 
   public void incrementWristAngle(double wristIncrement) {
     targetWristAngle += wristIncrement;
     failsafeOverride = false;
+
+    currentState = new State(targetWristAngle, targetShoulderAngle, StateName.CUSTOM);
   }
 
   public boolean isAtTargetState () {
