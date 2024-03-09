@@ -6,7 +6,7 @@ public interface BaseMotor {
 
     void setInverted(boolean inverted);
 
-    void setNeutralMode(boolean brake);
+    void setBrakeMode(boolean brake);
 
     void setPosition(double rotations);
 

@@ -38,7 +38,7 @@ public class ShooterSubsystem extends SubsystemBase {
     targetWheelSpeed = newWheelSpeed; 
     pidController.reset();
   }
-
+  
   public double getShooterVelocity() {
     return shooterMotor.getVelocity();
   }

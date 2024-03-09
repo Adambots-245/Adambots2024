@@ -34,8 +34,8 @@ public final class Constants {
         public static final String noteLimelite = "limelight-notebot";
         public static final String aprilLimelite = "limelight-april";
 
-        public static final double kPThetaController = 3; 
-        public static final double kDThetaController = 0.01;
+        public static final double kPThetaController = 0.3; 
+        public static final double kDThetaController = 0.001;
 
         public static final double kPTranslateController = 3; 
         public static final double kDTranslateController = 0.01;
@@ -114,7 +114,7 @@ public final class Constants {
     public static final class ShooterConstants{
         public static final double idleSpeed = 30;
         public static final double lowSpeed = 65;
-        // public static final double mediumSpeed = 65;
+        public static final double mediumSpeed = 70;
         public static final double highSpeed = 80;
         public static final double maxSpeed = 94;
     }
@@ -159,7 +159,7 @@ public final class Constants {
      
         // default
         public static final double defaultWristAngle = 197;
-        public static final double defaultShoulderAngle = 159;
+        public static final double defaultShoulderAngle = 157;
      
         // autonomous starting/speaker
         public static final double speakerWristAngle = 242.3;
@@ -185,20 +185,24 @@ public final class Constants {
         public static final double bottomFloorShootWristAngle = 324.8;
         public static final double bottomfloorShootShoulderAngle = 125.7; 
 
+        // Bottom 2 note floor shoot **NOT TUNED**
+        public static final double feedWristAngle = 312+wristOffset;
+        public static final double feedShoulderAngle = 123.7+shoulderOffset; 
+
         public static class State {
             private double wristAngle;
             private double shoulderAngle;
-            private String stateName;
+            private StateName stateName;
             private double wristTolerance = 0.0;
             private double shoulderTolerance = 0.0;
 
-            public State(double wristAngle, double shoulderAngle, String stateName) {
+            public State(double wristAngle, double shoulderAngle, StateName stateName) {
                 this.wristAngle = wristAngle+wristOffset;
                 this.shoulderAngle = shoulderAngle+shoulderOffset;
                 this.stateName = stateName;
             }
 
-            public State(double wristAngle, double shoulderAngle, String stateName, double wristTolerance, double shoulderTolerance) {
+            public State(double wristAngle, double shoulderAngle, StateName stateName, double wristTolerance, double shoulderTolerance) {
                 this.wristAngle = wristAngle;
                 this.shoulderAngle = shoulderAngle;
                 this.stateName = stateName;
@@ -214,7 +218,7 @@ public final class Constants {
                 return shoulderAngle;
             }
 
-            public String getStateName() {
+            public StateName getStateName() {
                 return stateName;
             }
 
@@ -227,16 +231,31 @@ public final class Constants {
             }
         }
 
-        public final static State floorState = new State(floorWristAngle, floorShoulderAngle, "floor");
-        public final static State ampState = new State(ampWristAngle, ampShoulderAngle, "amp", 3.5, 3.5);
-        public final static State humanState = new State(humanWristAngle, humanShoulderAngle, "human", 2, 2);
-        public final static State trapState = new State(trapWristAngle, trapShoulderAngle, "trap");
-        public final static State defaultState = new State(defaultWristAngle, defaultShoulderAngle, "default", 5, 5);
-        public final static State speakerState = new State(speakerWristAngle, speakerShoulderAngle, "speaker", 1, 1);
-        public final static State centerFloorShootState = new State(centerFloorShootWristAngle, centerfloorShootShoulderAngle, "centerFloorShoot");
-        public final static State topFloorShootState = new State(topFloorShootWristAngle, topfloorShootShoulderAngle, "topFloorShoot");
-        public final static State bottomFloorShootState = new State(bottomFloorShootWristAngle, bottomfloorShootShoulderAngle, "bottomFloorShoot");
-        public final static State closeFloorShootState = new State(closeFloorShootWristAngle, closeFloorShootShoulderAngle, "closeFloorShoot");
-        public final static State hangState = new State(hangWristAngle, hangShoulderAngle, "hang");
+        public enum StateName {
+            FLOOR,
+            AMP,
+            HUMAN,
+            TRAP,
+            DEFAULT,
+            SPEAKER,
+            TOP_FLOOR_SHOOT,
+            CENTER_FLOOR_SHOOT,
+            BOTTOM_FLOOR_SHOOT,
+            CLOSE_FLOOR_SHOOT,
+            HANG,
+            CUSTOM
+        }
+
+        public final static State floorState = new State(floorWristAngle, floorShoulderAngle, StateName.FLOOR);
+        public final static State ampState = new State(ampWristAngle, ampShoulderAngle, StateName.AMP, 3.5, 3.5);
+        public final static State humanState = new State(humanWristAngle, humanShoulderAngle, StateName.HUMAN, 2, 2);
+        public final static State trapState = new State(trapWristAngle, trapShoulderAngle, StateName.TRAP);
+        public final static State defaultState = new State(defaultWristAngle, defaultShoulderAngle, StateName.DEFAULT, 5, 5);
+        public final static State speakerState = new State(speakerWristAngle, speakerShoulderAngle, StateName.SPEAKER, 1, 1);
+        public final static State centerFloorShootState = new State(centerFloorShootWristAngle, centerfloorShootShoulderAngle, StateName.CENTER_FLOOR_SHOOT);
+        public final static State topFloorShootState = new State(topFloorShootWristAngle, topfloorShootShoulderAngle, StateName.TOP_FLOOR_SHOOT);
+        public final static State bottomFloorShootState = new State(bottomFloorShootWristAngle, bottomfloorShootShoulderAngle, StateName.BOTTOM_FLOOR_SHOOT);
+        public final static State closeFloorShootState = new State(closeFloorShootWristAngle, closeFloorShootShoulderAngle, StateName.CLOSE_FLOOR_SHOOT);
+        public final static State hangState = new State(hangWristAngle, hangShoulderAngle, StateName.HANG);
     }
 }

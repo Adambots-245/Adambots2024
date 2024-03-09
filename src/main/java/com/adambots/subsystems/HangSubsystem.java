@@ -73,8 +73,6 @@ public class HangSubsystem extends SubsystemBase {
   public void periodic() {
     failSafes();
 
-    // System.out.println(leftHangMotor.getVelocity());
-
     leftHangMotor.set(leftHangMotorSpeed);
     rightHangMotor.set(rightHangMotorSpeed);
   }

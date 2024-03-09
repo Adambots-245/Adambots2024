@@ -3,6 +3,7 @@ package com.adambots.commands.visionCommands;
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.ShooterConstants;
 import com.adambots.Constants.ArmConstants.State;
+import com.adambots.Constants.ArmConstants.StateName;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
@@ -48,7 +49,7 @@ public class InterpolateDistanceCommand extends Command {
 
       ShooterPreset preset = VisionLookUpTable.getShooterPreset(distance);
 
-      State state = new State(preset.getWristAngle(), preset.getArmAngle(), "custom");
+      State state = new State(preset.getWristAngle(), preset.getArmAngle(), StateName.CUSTOM);
       armSubsystem.setCurrentState(state);
 
       shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed);

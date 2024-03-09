@@ -4,7 +4,7 @@
 
 package com.adambots.commands.intakeCommands;
 
-import com.adambots.Constants.ArmConstants;
+import com.adambots.Constants.ArmConstants.StateName;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
@@ -28,7 +28,9 @@ public class AdaptiveScoreCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (armSubsystem.getCurrentState() == ArmConstants.ampState) {
+    ampScoreCommand = null;
+
+    if (armSubsystem.getCurrentStateName() == StateName.AMP) {
       ampScoreCommand = new AmpScoreCommand(intakeSubsystem);
       ampScoreCommand.schedule();
     } else {

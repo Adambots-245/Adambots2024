@@ -26,7 +26,7 @@ public class TalonFXMotor implements BaseMotor{
         currentLimitsConfigs.SupplyCurrentLimit = supplyCurrentLimit;
         currentLimitsConfigs.SupplyCurrentLimitEnable = true;
         motor.getConfigurator().apply(currentLimitsConfigs);
-        
+
         motor.getVelocity().setUpdateFrequency(50); //Any status signals must be listed here in order for their value to update
         motor.getPosition().setUpdateFrequency(50);
         motor.getForwardLimit().setUpdateFrequency(25);

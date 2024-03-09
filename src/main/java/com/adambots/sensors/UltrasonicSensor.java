@@ -15,8 +15,7 @@ public class UltrasonicSensor implements BaseDistanceSensor {
     
     // The scaling factor:  distance in inches = volts returned / SCALING_FACTOR
     // 5120 mm per 5V or 512 cm per 5V. The 24/23 is a correction factor to adjust the reading
-    private final int SCALING_FACTOR = 512/5*24/23;
-    // private final double SCALING_FACTOR = 5 / RobotController.getVoltage5V();
+    private final double SCALING_FACTOR = 512/5*24/23;
     
     /** Creates a new ultrasonic sensor hooked up to <code>portNumber</code> on the analog breakout.
      * @params portNumber The port number on the breakout.
@@ -25,23 +24,17 @@ public class UltrasonicSensor implements BaseDistanceSensor {
         rangefinder = new AnalogInput(portNumber);
         rangefinder.setOversampleBits(2); // Completely arbitrary
         rangefinder.setAverageBits(5); // Ditto
-        // Dash.add("Scaling Factor", () ->  SCALING_FACTOR);
-        // Dash.add("AVolts", () -> rangefinder.getAverageVoltage());
-        // Dash.add("Volts", () -> rangefinder.getVoltage());
-        // Dash.add("I", () -> rangefinder.getAverageVoltage() * SCALING_FACTOR);
+    }
+
+    /** Returns the distance measured in inches.  */
+    public double getDistanceInCentimeters(){
+        return rangefinder.getAverageVoltage() * SCALING_FACTOR;
     }
     
     /** Returns the distance measured in inches.  */
     @Override
     public double getDistanceInInches(){
         return getDistanceInCentimeters() / 2.54;
-    }
-    
-    /** Returns the distance measured in inches.  */
-    @Override
-    public double getDistanceInCentimeters(){
-        double volts = rangefinder.getAverageVoltage();
-        return (double) (volts * SCALING_FACTOR);
     }
     
     /** Returns the distance measured in feet.  */

@@ -16,7 +16,6 @@ public class StopCommand extends Command {
     addRequirements(drivetrainSubsystem);
 
     this.drivetrainSubsystem = drivetrainSubsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.

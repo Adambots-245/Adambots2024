@@ -6,6 +6,7 @@ package com.adambots.subsystems;
 
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.ArmConstants.State;
+import com.adambots.Constants.ArmConstants.StateName;
 import com.adambots.actuators.BaseMotor;
 import com.adambots.sensors.BaseAbsoluteEncoder;
 import com.adambots.utils.Dash;
@@ -106,7 +107,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void setCurrentState(State newState) {
     //Enable override if we are moving directly from speaker to floor states (auton) or if we are targeting the hang state
-    failsafeOverride = ((currentState.equals(ArmConstants.speakerState) && newState.equals(ArmConstants.floorState)) || newState.equals(ArmConstants.hangState));
+    failsafeOverride = (currentState.getStateName() == StateName.SPEAKER && newState.getStateName() == StateName.FLOOR) || newState.getStateName() == StateName.HANG;
 
     //
     currentState = newState;
@@ -121,6 +122,10 @@ public class ArmSubsystem extends SubsystemBase {
 
   public State getCurrentState() {
     return currentState;
+  }
+
+  public StateName getCurrentStateName() {
+    return currentState.getStateName();
   }
   
   @Override

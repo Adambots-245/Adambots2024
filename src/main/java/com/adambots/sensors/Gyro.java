@@ -71,7 +71,7 @@ public class Gyro implements BaseGyro {
     /**
      * Offsets the current yaw of the gyroscope by a specified angle in degrees
      */
-    public void setYawOffset (double offsetDeg) {
+    public void offsetYawByAngle (double offsetDeg) {
         gyro.setYaw((getContinuousYawDeg() + offsetDeg) % 360);
     }
 

@@ -10,7 +10,7 @@ import com.adambots.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class AmpCommand extends Command {
-  /** Creates a new FeedShooterCommand. */
+  /** Creates a new AmpCommand. */
   private ArmSubsystem armSubsystem;
   
   public AmpCommand(ArmSubsystem armSubsystem) {

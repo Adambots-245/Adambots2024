@@ -14,7 +14,11 @@ public class NEOMotor implements BaseMotor{
     CANSparkMax motor;
 
     public NEOMotor(int portNum, boolean brushed){
-        motor = new CANSparkMax(portNum, brushed ? MotorType.kBrushed : MotorType.kBrushless);
+        if(brushed){
+            motor = new CANSparkMax(portNum, MotorType.kBrushed);
+        }else{
+           motor = new CANSparkMax(portNum, MotorType.kBrushless);
+        }
     }
 
     @Override
@@ -28,7 +32,7 @@ public class NEOMotor implements BaseMotor{
     }
 
     @Override
-    public void setNeutralMode(boolean brake){
+    public void setBrakeMode(boolean brake){
         if(brake){
             motor.setIdleMode(IdleMode.kBrake);
         }else{

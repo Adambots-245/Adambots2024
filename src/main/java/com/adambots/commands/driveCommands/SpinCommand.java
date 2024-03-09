@@ -10,6 +10,7 @@ public class SpinCommand extends Command {
 
   public SpinCommand(DrivetrainSubsystem driveTrainSubsystem) {
     addRequirements(driveTrainSubsystem);
+    
     this.driveTrainSubsystem = driveTrainSubsystem;
   }
 
