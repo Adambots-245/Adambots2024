@@ -5,29 +5,25 @@
 package com.adambots.subsystems;
 
 import java.util.HashMap;
-import java.util.Optional;
 
 import com.adambots.Constants;
 import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.DriveConstants;
-import com.adambots.Constants.VisionConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
+import com.adambots.Robot;
 import com.adambots.RobotMap;
 import com.adambots.sensors.Gyro;
 import com.adambots.utils.ModuleMap;
-import com.adambots.utils.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -37,13 +33,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
   // Odometry class for tracking robot pose
   private SwerveDriveOdometry m_odometry;
 
-  HashMap<ModulePosition, SwerveModule> swerveModules;
+  private HashMap<ModulePosition, SwerveModule> swerveModules;
 
   public DrivetrainSubsystem(HashMap<ModulePosition, SwerveModule> modules, Gyro gyro) {
     this.swerveModules = modules;
     m_gyro = gyro;
 
-    m_odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, m_gyro.getContinuousYawRad(), ModuleMap.orderedModulePositions(swerveModules));
+    m_odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, m_gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules));
 
     AutoBuilder.configureHolonomic(
         this::getPose, // Robot pose supplier
@@ -57,51 +53,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
             DriveConstants.kDrivebaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
             new ReplanningConfig(true, false) // Default path replanning config. See the API for the options here
         ), 
-        () -> { //Flips path if on the red side of the field - ENSURE FIELD SIDE IS CORRECTLY SET IN DRIVERSTATION BEFORE TESTING AUTON
-              var alliance = DriverStation.getAlliance();
-              if (alliance.isPresent()) {
-                return alliance.get() == DriverStation.Alliance.Red;
-              }
-              return false;
-            },
+        () -> Robot.isOnRedAlliance(), //Flips path if on the red side of the field - ENSURE FIELD SIDE IS CORRECTLY SET IN DRIVERSTATION BEFORE TESTING AUTON
         this // Reference to this subsystem to set requirements
     );
-
-    // PPHolonomicDriveController.setRotationTargetOverride(this::getRotationTargetNoteOverride);
-    // PPHolonomicDriveController.setRotationTargetOverride(this::getRotationTargetAprilOverride);
   }
-
-  
-  public Optional<Rotation2d> getRotationTargetNoteOverride(){
-    if(VisionHelpers.isDetected(VisionConstants.noteLimelite)) {
-      // Return an optional containing the rotation override (this should be a field relative rotation)
-      if (Math.toRadians(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite)) > 0){
-        return Optional.of(new Rotation2d(Math.toRadians(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite))));
-      } else {
-        return Optional.of(new Rotation2d(360 + Math.toRadians(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite))));
-      }
-    } else {
-      // return an empty optional when we don't want to override the path's rotation
-      return Optional.empty();
-    }
-  }
-
-  public Optional<Rotation2d> getRotationTargetAprilOverride(){
-    if(VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
-      // Return an optional containing the rotation override (this should be a field relative rotation)
-      return Optional.of(new Rotation2d(Math.toRadians(VisionHelpers.getHorizAngle(VisionConstants.aprilLimelite))));
-    } else {
-      // return an empty optional when we don't want to override the path's rotation
-      return Optional.empty();
-    }
-  }
-   
 
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
     m_odometry.update(
-        m_gyro.getContinuousYawRad(),
+        m_gyro.getContinuousYawRotation2d(),
         ModuleMap.orderedModulePositions(swerveModules)
     );
 
@@ -144,7 +105,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
     if (fieldRelative) {
-      setChassisSpeeds(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getContinuousYawRad()));
+      setChassisSpeeds(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getContinuousYawRotation2d()));
     } else {
       setChassisSpeeds(new ChassisSpeeds(xSpeed, ySpeed, rot));
     }

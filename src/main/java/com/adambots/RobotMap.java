@@ -12,14 +12,15 @@ import java.util.Map;
 
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
+import com.adambots.actuators.BaseMotor;
+import com.adambots.actuators.TalonFXMotor;
+import com.adambots.sensors.AbsoluteEncoder;
+import com.adambots.sensors.DigitalSensor;
+import com.adambots.sensors.GenericEncoder;
 import com.adambots.sensors.Gyro;
-import com.adambots.sensors.PhotoEye;
 import com.adambots.subsystems.SwerveModule;
-import com.adambots.utils.BaseMotor;
-import com.adambots.utils.TalonFXMotor;
 import com.ctre.phoenix.led.CANdle;
 
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.Relay;
@@ -28,9 +29,7 @@ import edu.wpi.first.wpilibj.Relay;
  * Define all the devices here
  */
 public class RobotMap {
-    // PORTS Definition - This should be the only place to define all ports
-
-    // Robot Device Ports
+    // Robot Device Ports - PDP should be on port 1, and if pnematics are present, PCM must go on port 0
     public static final int kPDMPort = 1;
     public static final int kGyroPort = 0;
     public static final int kCANdlePort = 31;
@@ -85,25 +84,24 @@ public class RobotMap {
     // Arm Devices
     public static final BaseMotor shoulderMotor = new TalonFXMotor(shoulderMotorPort, true);
     public static final BaseMotor wristMotor = new TalonFXMotor(wristMotorPort, true);
-    public static final DutyCycleEncoder shoulderEncoder = new DutyCycleEncoder(shoulderEncoderPort);
-    public static final DutyCycleEncoder wristEncoder = new DutyCycleEncoder(wristEncoderPort);
+    public static final AbsoluteEncoder shoulderEncoder = new GenericEncoder(shoulderEncoderPort);
+    public static final AbsoluteEncoder wristEncoder = new GenericEncoder(wristEncoderPort);
 
     // Shooter Devices
-    public static final BaseMotor shooterWheel = new TalonFXMotor(shooterWheelPort, true);
+    public static final BaseMotor shooterMotor = new TalonFXMotor(shooterWheelPort, true, 45);
 
     // Intake Devices
-    public static final BaseMotor groundIntakeMotor = new TalonFXMotor(groundIntakeMotorPort, true);
-    public static final PhotoEye secondPieceInRobotEye = new PhotoEye(secondPieceInRobotEyePort, false);
-    public static final PhotoEye firstPieceInRobotEye = new PhotoEye(firstPieceInRobotEyePort, false);
+    public static final BaseMotor intakeMotor = new TalonFXMotor(groundIntakeMotorPort, true);
+    public static final DigitalSensor secondIntakePhotoEye = new DigitalSensor(secondPieceInRobotEyePort, false);
+    public static final DigitalSensor firstIntakePhotoEye = new DigitalSensor(firstPieceInRobotEyePort, false);
 
     // Hang Devices
     public static final BaseMotor leftHangMotor = new TalonFXMotor(leftHangMotorPort, false);
     public static final BaseMotor rightHangMotor = new TalonFXMotor(rightHangMotorPort, false);
     public static final Relay leftHangRelay = new Relay(leftHangRelayPort);
     public static final Relay rightHangRelay = new Relay(rightHangRelayPort);
-//     public static final PhotoEye leftHangLimit = new PhotoEye(leftHangLimitPort, false);
-//     public static final PhotoEye rightHangLimit = new PhotoEye(rightHangLimitPort, false);
 
+    
     // Robot Swerve Modules
     public static final HashMap<ModulePosition, SwerveModule> swerveModules = new HashMap<>(
         Map.of(
@@ -114,6 +112,7 @@ public class RobotMap {
                     RobotMap.kFrontLeftTurningMotorPort,
                     RobotMap.kFrontLeftTurningEncoderPort,
                     DriveConstants.kFrontLeftDriveMotorReversed),
+
             ModulePosition.FRONT_RIGHT,
             new SwerveModule(
                     ModulePosition.FRONT_RIGHT,
@@ -121,6 +120,7 @@ public class RobotMap {
                     RobotMap.kFrontRightTurningMotorPort,
                     RobotMap.kFrontRightTurningEncoderPort,
                     DriveConstants.kFrontRightDriveMotorReversed),
+
             ModulePosition.REAR_LEFT,
             new SwerveModule(
                     ModulePosition.REAR_LEFT,
@@ -128,6 +128,7 @@ public class RobotMap {
                     RobotMap.kRearLeftTurningMotorPort,
                     RobotMap.kRearLeftTurningEncoderPort,
                     DriveConstants.kRearLeftDriveMotorReversed),
+
             ModulePosition.REAR_RIGHT,
             new SwerveModule(
                     ModulePosition.REAR_RIGHT,

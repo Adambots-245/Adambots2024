@@ -3,6 +3,7 @@ package com.adambots.commands.visionCommands;
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.ShooterConstants;
 import com.adambots.Constants.ArmConstants.State;
+import com.adambots.Constants.ArmConstants.StateName;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
@@ -31,8 +32,8 @@ public class InterpolateDistanceCommand extends Command {
   @Override
   public void initialize() {
     if (VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
-      oldDistance = VisionHelpers.getAprilDistance();
-      distance = VisionHelpers.getAprilDistance();
+      oldDistance = VisionHelpers.getAprilHorizDist();
+      distance = VisionHelpers.getAprilHorizDist();
     } else {
       oldDistance = 2; 
       distance = 2;
@@ -43,12 +44,12 @@ public class InterpolateDistanceCommand extends Command {
   @Override
   public void execute() {
     if (VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
-      distance = (1-sens)*oldDistance + sens*VisionHelpers.getAprilDistance();
+      distance = (1-sens)*oldDistance + sens*VisionHelpers.getAprilHorizDist();
       oldDistance = distance;
 
       ShooterPreset preset = VisionLookUpTable.getShooterPreset(distance);
 
-      State state = new State(preset.getWristAngle(), preset.getArmAngle(), "custom");
+      State state = new State(preset.getWristAngle(), preset.getArmAngle(), StateName.CUSTOM);
       armSubsystem.setCurrentState(state);
 
       shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed);

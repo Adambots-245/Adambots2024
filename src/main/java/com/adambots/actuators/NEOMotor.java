@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package com.adambots.utils;
+package com.adambots.actuators;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -32,30 +32,12 @@ public class NEOMotor extends BaseMotor{
     }
 
     @Override
-    public void setNeutralMode(boolean brake){
+    public void setBrakeMode(boolean brake){
         if(brake){
             motor.setIdleMode(IdleMode.kBrake);
         }else{
             motor.setIdleMode(IdleMode.kCoast);
         }
-    }
-
-    @Override
-    public double getPosition(){
-        System.err.println("neo pos WARNING: Functionality for this method has not been implemented.");
-        return 0;
-    }
-
-    @Override
-    public double getVelocity(){
-        System.err.println("neovelWARNING: Functionality for this method has not been implemented.");
-        return 0;
-    }
-
-    @Override
-    public double getAcceleration(){
-        System.err.println("neoaccWARNING: Functionality for this method has not been implemented.");
-        return 0;
     }
 
     @Override

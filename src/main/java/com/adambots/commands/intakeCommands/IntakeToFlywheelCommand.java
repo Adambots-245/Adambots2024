@@ -15,17 +15,17 @@ import com.adambots.subsystems.ShooterSubsystem;
 import com.adambots.subsystems.CANdleSubsystem.AnimationTypes;
 
 
-public class IntakeWithAdjustCommand extends Command {
+public class IntakeToFlywheelCommand extends Command {
   /** Creates a new IntakeWithAdjustCommand. */
-  ArmSubsystem armSubsystem;
-  IntakeSubsystem intakeSubsystem;
-  CANdleSubsystem caNdleSubsystem;
-  ShooterSubsystem shooterSubsystem;
+  private ArmSubsystem armSubsystem;
+  private IntakeSubsystem intakeSubsystem;
+  private CANdleSubsystem caNdleSubsystem;
+  private ShooterSubsystem shooterSubsystem;
 
   private String state = "initial";
   private int inc = 0;
 
-  public IntakeWithAdjustCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem, CANdleSubsystem caNdleSubsystem) {
+  public IntakeToFlywheelCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem, CANdleSubsystem caNdleSubsystem) {
     addRequirements(armSubsystem, intakeSubsystem);
 
     this.armSubsystem = armSubsystem;
@@ -53,9 +53,8 @@ public class IntakeWithAdjustCommand extends Command {
       intakeSubsystem.setMotorSpeed(0.12);
       armSubsystem.incrementWristAngle(15);
       state = "touchNote"; //keep this line, prevents above code from running repeatedly
-      caNdleSubsystem.setOverride(true);
       caNdleSubsystem.setColor(LEDConstants.green);
-    } if (state == "touchNote" && intakeSubsystem.isSecondPieceInRobot()) {
+    } if (intakeSubsystem.isSecondPieceInRobot()) {
       state = "incrementing";
     }
     if (state == "incrementing") {
@@ -69,9 +68,8 @@ public class IntakeWithAdjustCommand extends Command {
     armSubsystem.setCurrentState(ArmConstants.defaultState);
     intakeSubsystem.setMotorSpeed(0);
 
-    caNdleSubsystem.setOverride(false);
-    caNdleSubsystem.setColor(LEDConstants.adambotsYellow);
-    caNdleSubsystem.changeAnimation(AnimationTypes.Larson);
+    caNdleSubsystem.setColor(LEDConstants.yellow);
+    caNdleSubsystem.setAnimation(AnimationTypes.Larson);
   }
 
   // Returns true when the command should end.

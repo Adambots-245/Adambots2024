@@ -7,27 +7,22 @@
 
 package com.adambots.sensors;
 
-import com.ctre.phoenix6.hardware.CANcoder;
-
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 
 /**
  * Generic Absolute Encoder sensor to hide actual implementation and ensure uniform values across subsystems
  */
 public class AbsoluteEncoder {
-    private CANcoder encoder;
     
-    public AbsoluteEncoder (int port){
-        this.encoder = new CANcoder(port); //Defining the encoder using the port passed in
-    }
+    public AbsoluteEncoder (){}
 
     /**
      * Returns the discrete (does not continue past 360) value of the encoder in degrees
      * @return Discrete value of encoder in degrees
      */
     public double getAbsolutePositionDegrees () {
-        return encoder.getAbsolutePosition().getValueAsDouble()*360;
+        System.err.println("WARNING: This method has not been implemented - AbsoluteEncoder.getAbsolutePositionDegrees()");
+        return -1;
     }
 
     /**
@@ -35,7 +30,8 @@ public class AbsoluteEncoder {
      * @return Discrete value of encoder in radians
      */
     public double getAbsolutePositionRadians () {
-        return Units.degreesToRadians(getAbsolutePositionDegrees());
+        System.err.println("WARNING: This method has not been implemented - AbsoluteEncoder.getAbsolutePositionRadians()");
+        return -1;
     }
 
     /**
@@ -43,6 +39,7 @@ public class AbsoluteEncoder {
      * @return Discrete value of encoder in radians
      */
     public Rotation2d getAbsolutePositionRotation2D () {
-        return new Rotation2d(Units.degreesToRadians(getAbsolutePositionDegrees()));
+        System.err.println("WARNING: This method has not been implemented - AbsoluteEncoder.getAbsolutePositionRotation2D()");
+        return null;
     }
 }

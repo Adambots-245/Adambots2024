@@ -4,8 +4,8 @@
 
 package com.adambots.subsystems;
 
-import com.adambots.sensors.PhotoEye;
-import com.adambots.utils.BaseMotor;
+import com.adambots.actuators.BaseMotor;
+import com.adambots.sensors.DigitalSensor;
 import com.adambots.utils.Dash;
 
 import edu.wpi.first.math.MathUtil;
@@ -13,15 +13,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-  BaseMotor intakeMotor;
-  PhotoEye firstPieceInRobotEye;
-  PhotoEye secondPieceInRobotEye;
-  double motorSpeed = 0;
-  boolean distanceMode = false;
-  double targetDist = 0;
-  boolean lockOut = false;
+  private BaseMotor intakeMotor;
 
-  public IntakeSubsystem(BaseMotor intakeMotor, PhotoEye firstPieceInRobotEye, PhotoEye secondPieceInRobotEye){
+  private DigitalSensor firstPieceInRobotEye;
+  private DigitalSensor secondPieceInRobotEye;
+  
+  private double motorSpeed = 0;
+  private boolean distanceMode = false;
+  private double targetDist = 0;
+  private boolean lockOut = false;
+
+  public IntakeSubsystem(BaseMotor intakeMotor, DigitalSensor firstPieceInRobotEye, DigitalSensor secondPieceInRobotEye){
     this.intakeMotor = intakeMotor;
     this.secondPieceInRobotEye = secondPieceInRobotEye;
     this.firstPieceInRobotEye = firstPieceInRobotEye;
@@ -31,7 +33,7 @@ public class IntakeSubsystem extends SubsystemBase {
     Dash.add("Intake Velocity", () -> intakeMotor.getVelocity());
     Dash.add("Intake Speed", () -> motorSpeed);
 
-    intakeMotor.setNeutralMode(true);
+    intakeMotor.setBrakeMode(true);
     intakeMotor.setInverted(true);
   }
 

@@ -11,15 +11,15 @@ import com.adambots.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class PrimeShooterCommandFloor extends Command {
-  /** Creates a new FeedShooterCommand. */
+public class PrimeShooterFloorCommand extends Command {
+  /** Creates a new PrimeShooterCommandFloor. */
   private ArmSubsystem armSubsystem;
   private ShooterSubsystem shooterSubsystem;
   private double shooterSpeed;
   private IntakeSubsystem intakeSubsystem;
   private boolean finished;
   
-  public PrimeShooterCommandFloor(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem, double shooterSpeed) {
+  public PrimeShooterFloorCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem, double shooterSpeed) {
     addRequirements(armSubsystem, shooterSubsystem);
     
     this.armSubsystem = armSubsystem;

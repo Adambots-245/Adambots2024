@@ -5,12 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.adambots.Gamepad;
+package com.adambots.utils;
 
 import java.util.ArrayList;
 import java.util.function.DoubleSupplier;
 
-import com.adambots.Constants.GamepadConstants;
 import com.adambots.RobotMap;
 
 import edu.wpi.first.math.MathUtil;
@@ -40,14 +39,14 @@ public class Buttons {
         public static final Trigger XboxRightStickButton = XboxController.rightStick();
 
         // Xbox DPad
-        public static final Trigger XboxDPadN = XboxController.pov(GamepadConstants.kDpadNAngle);
-        public static final Trigger XboxDPadNW = XboxController.pov(GamepadConstants.kDpadNWAngle);
-        public static final Trigger XboxDPadW = XboxController.pov(GamepadConstants.kDpadWAngle);
-        public static final Trigger XboxDPadSW = XboxController.pov(GamepadConstants.kDpadSWAngle);
-        public static final Trigger XboxDPadS = XboxController.pov(GamepadConstants.kDpadSAngle);
-        public static final Trigger XboxDPadSE = XboxController.pov(GamepadConstants.kDpadSEAngle);
-        public static final Trigger XboxDPadE = XboxController.pov(GamepadConstants.kDpadEAngle);
-        public static final Trigger XboxDPadNE = XboxController.pov(GamepadConstants.kDpadNEAngle);
+        public static final Trigger XboxDPadN = XboxController.pov(0);
+        public static final Trigger XboxDPadNE = XboxController.pov(45);
+        public static final Trigger XboxDPadE = XboxController.pov(90);
+        public static final Trigger XboxDPadSE = XboxController.pov(135);
+        public static final Trigger XboxDPadS = XboxController.pov(180);
+        public static final Trigger XboxDPadSW = XboxController.pov(225);
+        public static final Trigger XboxDPadW = XboxController.pov(270);
+        public static final Trigger XboxDPadNW = XboxController.pov(315);
 
         // Joystick Buttons
         public static final Trigger JoystickButton1 = ex3dPro.button(1);

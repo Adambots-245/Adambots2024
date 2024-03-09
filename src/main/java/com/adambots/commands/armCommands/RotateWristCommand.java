@@ -11,8 +11,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RotateWristCommand extends Command {
   /** Creates a new RotateWristCommand. */
   private ArmSubsystem armSubsystem;
-  double wristIncrement;
-  boolean manualAdjust;
+  private double wristIncrement;
+  private boolean manualAdjust;
+  
   public RotateWristCommand(ArmSubsystem armSubsystem, double wristIncrement, boolean manualAdjust) {
     addRequirements(armSubsystem);
 

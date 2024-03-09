@@ -11,9 +11,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class FancyAdjustCommand extends Command {
   /** Creates a new FancyAdjustCommand. */
-  IntakeSubsystem intakeSubsystem;
-  int state = 0;
-  int inc = 0;
+  private IntakeSubsystem intakeSubsystem;
+  private int state;
+  private int inc;
+  private boolean finished;
 
   public FancyAdjustCommand(IntakeSubsystem intakeSubsystem) {
     addRequirements(intakeSubsystem);
@@ -26,48 +27,45 @@ public class FancyAdjustCommand extends Command {
   public void initialize() {
     state = 0;
     inc = 0;
-    intakeSubsystem.setLockOut(true);
+    finished = false;
+    intakeSubsystem.setLockOut(true); //Prevent going to shoot state while still adjusting
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // System.out.println("state: " + state + " Inc : " + inc);
     inc++;
 
     if (state == 0 && inc <= 30) {
-      intakeSubsystem.setMotorSpeed(0.1); //Intake for 10 ticks
-      // intakeSubsystem.moveDistance(1);
+      intakeSubsystem.setMotorSpeed(0.1); //Intake for 30 ticks
     } else if (state == 0 && inc > 30) {
-      inc = 0;
       state = 1;
       intakeSubsystem.setMotorSpeed(-0.1); //Outtake until sensor
     } else if (state == 1 && intakeSubsystem.isSecondPieceInRobot()) {
       inc = 0;
       state = 2;
-      intakeSubsystem.setMotorSpeed(0.1); //Intake for 10 ticks
-      // intakeSubsystem.moveDistance(1);
+      intakeSubsystem.setMotorSpeed(0.1); //Intake for 30 ticks
     } else if (state == 2 && inc > 30) {
-      inc = 0;
       state = 3;
       intakeSubsystem.setMotorSpeed(-0.1); //Outtake until sensor
     } else if (state == 3 && intakeSubsystem.isSecondPieceInRobot()) {
       inc = 0;
       state = 4;
       intakeSubsystem.setMotorSpeed(0.0); //Stop
+      finished = true;
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.setLockOut(false);
+    intakeSubsystem.setLockOut(false); //Ensure this is set back to false to allow going to shoot state
     intakeSubsystem.setMotorSpeed(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return state == 4;
+    return finished;
   }
 }

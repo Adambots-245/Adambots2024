@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package com.adambots.commands.autonCommands;
+package com.adambots.commands.intakeCommands;
 
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.ArmConstants.State;
@@ -16,18 +16,16 @@ import com.adambots.subsystems.CANdleSubsystem.AnimationTypes;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
-public class FloorIntakeCommand extends Command {
-  /** Creates a new IntakeWithAdjustCommand. */
-  ArmSubsystem armSubsystem;
-  IntakeSubsystem intakeSubsystem;
-  ShooterSubsystem shooterSubsystem;
-  CANdleSubsystem candle;
+public class AutonIntakeCommand extends Command {
+  /** Creates a new FloorIntakeCommand. */
+  private ArmSubsystem armSubsystem;
+  private IntakeSubsystem intakeSubsystem;
+  private ShooterSubsystem shooterSubsystem;
+  private CANdleSubsystem candle;
 
   private State shootState;
 
-  // private String state = "initial";
-
-  public FloorIntakeCommand(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, CANdleSubsystem candle, State shootState) {
+  public AutonIntakeCommand(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, CANdleSubsystem candle, State shootState) {
     addRequirements(armSubsystem, intakeSubsystem, shooterSubsystem);
 
     this.armSubsystem = armSubsystem;
@@ -42,8 +40,7 @@ public class FloorIntakeCommand extends Command {
   public void initialize() {
     armSubsystem.setCurrentState(ArmConstants.floorState);
     intakeSubsystem.setMotorSpeed(0.17);
-    candle.clearAllAnims();
-    candle.changeAnimation(AnimationTypes.Larson);
+    candle.setAnimation(AnimationTypes.Larson);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -52,8 +49,7 @@ public class FloorIntakeCommand extends Command {
     if (intakeSubsystem.isFirstPieceInRobot()) {
       intakeSubsystem.setMotorSpeed(0.06);
       armSubsystem.setCurrentState(shootState);
-      candle.clearAllAnims();
-      candle.changeAnimation(AnimationTypes.Fire);
+      candle.setAnimation(AnimationTypes.Fire);
     }
   }
 
@@ -64,9 +60,6 @@ public class FloorIntakeCommand extends Command {
     armSubsystem.setCurrentState(shootState);
 
     shooterSubsystem.setTargetWheelSpeed(ShooterConstants.lowSpeed);
-
-    // candle.clearAllAnims();
-    // candle.changeAnimation(AnimationTypes.Strobe);
   }
 
   // Returns true when the command should end.

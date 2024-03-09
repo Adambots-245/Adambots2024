@@ -5,7 +5,7 @@
 package com.adambots.subsystems;
 
 import com.adambots.Constants.HangConstants;
-import com.adambots.utils.BaseMotor;
+import com.adambots.actuators.BaseMotor;
 import com.adambots.utils.Dash;
 
 import edu.wpi.first.wpilibj.Relay;
@@ -29,8 +29,8 @@ public class HangSubsystem extends SubsystemBase {
     leftHangMotor.setInverted(true);
     rightHangMotor.setInverted(false);
 
-    leftHangMotor.setNeutralMode(true);
-    rightHangMotor.setNeutralMode(true);
+    leftHangMotor.setBrakeMode(true);
+    rightHangMotor.setBrakeMode(true);
 
     resetEncoders();
 
@@ -73,8 +73,6 @@ public class HangSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     failSafes();
-
-    // System.out.println(leftHangMotor.getVelocity());
 
     leftHangMotor.set(leftHangMotorSpeed);
     rightHangMotor.set(rightHangMotorSpeed);

@@ -54,14 +54,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    // System.out.println(VisionHelpers.getAprilDistance());
-
-    // newly-scheduled
-    // commands, running already-scheduled commands, removing finished or
-    // interrupted commands,
-    // and running subsystem periodic() methods. This must be called from the
-    // robot's periodic
-    // block in order for anything in the Command-based framework to work.
+    // Runs newly-scheduled commands, already-scheduled commands, removes finished or interrupted commands, and runs subsystem periodic() methods.
     CommandScheduler.getInstance().run();
   }
 
@@ -84,17 +77,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    CommandScheduler.getInstance().cancelAll(); //cancel all teleop or lingering commands
-
-    VisionHelpers.setPipeline(VisionConstants.noteLimelite, 0);
+    CommandScheduler.getInstance().cancelAll(); //Cancel all teleop or lingering commands
 
     Command m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    System.out.println("auton selected" + m_autonomousCommand.toString());
+    System.out.println("Auton Selected: " + m_autonomousCommand.toString());
 
     System.out.println("Init Auton.........");
     System.out.println("Gyro Yaw at Startup: " + RobotMap.gyro.getContinuousYawDeg());
 
-    // schedule the autonomous command
+    // Schedule the autonomous command
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
@@ -110,7 +101,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    m_robotContainer.TeleopInit();
+    m_robotContainer.teleopInit();
 
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
@@ -124,6 +115,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+
   }
 
   @Override
@@ -137,5 +129,13 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
 
+  }
+
+  public static boolean isOnRedAlliance() {
+    var alliance = DriverStation.getAlliance();
+    if (alliance.isPresent()) {
+      return alliance.get() == DriverStation.Alliance.Red;
+    }
+    return false;
   }
 }
