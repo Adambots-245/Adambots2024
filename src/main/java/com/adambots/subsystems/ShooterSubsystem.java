@@ -25,6 +25,8 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterMotor.setInverted(true);
     shooterMotor.setNeutralMode(false);
 
+    shooterMotor.enableVoltageCompensation(12.6);
+
     pidController.setIntegratorRange(0, 1);
 
     Dash.add("Shooter Velocity", () -> getShooterVelocity());
