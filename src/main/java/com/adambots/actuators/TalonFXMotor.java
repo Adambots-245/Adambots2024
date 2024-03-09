@@ -4,9 +4,9 @@
 
 package com.adambots.actuators;
 
-import com.adambots.Constants;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -17,7 +17,7 @@ public class TalonFXMotor implements BaseMotor{
 
     public TalonFXMotor(int portNum, Boolean isOnCANivore, double supplyCurrentLimit){
         if (isOnCANivore) {
-            motor = new TalonFX(portNum, Constants.CANivoreBus);
+            motor = new TalonFX(portNum, "*"); //'*' will assign the motor on any CANivore seen by the program
         } else {
             motor = new TalonFX(portNum);
         }
@@ -26,6 +26,13 @@ public class TalonFXMotor implements BaseMotor{
         currentLimitsConfigs.SupplyCurrentLimit = supplyCurrentLimit;
         currentLimitsConfigs.SupplyCurrentLimitEnable = true;
         motor.getConfigurator().apply(currentLimitsConfigs);
+        
+        motor.getVelocity().setUpdateFrequency(50); //Any status signals must be listed here in order for their value to update
+        motor.getPosition().setUpdateFrequency(50);
+        motor.getForwardLimit().setUpdateFrequency(25);
+        motor.getReverseLimit().setUpdateFrequency(25);
+
+        ParentDevice.optimizeBusUtilizationForAll(motor); //Set update frequency for any unused status objects to 0
     }
 
     @Override
@@ -63,16 +70,6 @@ public class TalonFXMotor implements BaseMotor{
     }
 
     @Override
-    public double getAcceleration(){
-        return motor.getAcceleration().getValueAsDouble();
-    }
-
-    @Override
-    public double getCurrentDraw(){
-        return motor.getTorqueCurrent().getValueAsDouble();
-    }
-
-    @Override
     public boolean getForwardLimitSwitch() {
         return motor.getForwardLimit().getValueAsDouble() == 1;
     }
@@ -86,5 +83,17 @@ public class TalonFXMotor implements BaseMotor{
     public void enableVoltageCompensation(double value) {
         final VoltageOut m_request = new VoltageOut(0);
         motor.setControl(m_request.withOutput(value));
+    }
+
+    @Override
+    public double getAcceleration() {
+
+        return motor.getAcceleration().getValueAsDouble();
+    }
+
+    @Override
+    public double getCurrentDraw() {
+
+        return motor.getStatorCurrent().getValueAsDouble();
     }
 }

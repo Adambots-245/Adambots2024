@@ -11,35 +11,35 @@ package com.adambots.sensors;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
- * Generic PhotoEye sensor to hide actual implementation
+ * Generic digital sensor to hide actual implementation
  */
 public class PhotoEye implements BaseProximitySensor {
-    private DigitalInput photoEye;
+    private DigitalInput sensor;
     private Boolean inverted;
 
     /**
-     * Define a PhotoEye sensor on a given DigitalInput port. 
-     * If you set up the PhotoEye to return true when not detecting as to ensure a non-critical failure mode, 
+     * Define a PhotoEye or limit switch on a given DigitalInput port. 
+     * If you set up the sensor to return true when not detecting as to ensure a non-critical failure mode, 
      * you can define it as inverted to maintain the expected (reads true when detecting) return in code.
      * <p>
-     * (photoeyes return true when disconnected)
+     * (digital inputs return true when disconnected)
      * @param port
-     * The digital input port of the PhotoEye
+     * The digital input port of the sensor
      * @param inverted
-     * Whether or not to invert the PhotoEye return
+     * Whether or not to invert the sensor return
      */
     public PhotoEye (int port, boolean inverted){
-        this.photoEye = new DigitalInput(port);
+        this.sensor = new DigitalInput(port);
         this.inverted = inverted;
     }
 
     /**
-     * Returns the detection of the photoeye with regards to whether or not the PhotoEye is defined as inverted
+     * Returns the detection of the sensor with regards to whether or not the sensor is defined as inverted
      *
-     * @return Whether or not the PhotoEye is detecting something
+     * @return Whether or not the sensor is detecting something
      */
     public boolean isDetecting(){
-        if (inverted) return !photoEye.get();
-        return photoEye.get(); 
+        if (inverted) return !sensor.get();
+        return sensor.get(); 
     }
 }

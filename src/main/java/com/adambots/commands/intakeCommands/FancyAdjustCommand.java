@@ -4,55 +4,65 @@
 
 package com.adambots.commands.intakeCommands;
 
-import com.adambots.Constants.ShooterConstants;
 import com.adambots.subsystems.IntakeSubsystem;
-import com.adambots.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class FeedShooterCommand extends Command {
-  /** Creates a new FeedShooterCommand. */
+
+public class FancyAdjustCommand extends Command {
+  /** Creates a new FancyAdjustCommand. */
   private IntakeSubsystem intakeSubsystem;
-  private ShooterSubsystem shooterSubsystem;
+  private int state;
   private int inc;
-  private boolean increment;
-  
-  public FeedShooterCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
+
+  public FancyAdjustCommand(IntakeSubsystem intakeSubsystem) {
     addRequirements(intakeSubsystem);
 
     this.intakeSubsystem = intakeSubsystem;
-    this.shooterSubsystem = shooterSubsystem;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    state = 0;
     inc = 0;
-    increment = false;
+    intakeSubsystem.setLockOut(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (shooterSubsystem.isAtTargetSpeed()) {
-      intakeSubsystem.setMotorSpeed(1);
-      increment = true;
-    }
-    if(increment){
-      inc++;
+    inc++;
+
+    if (state == 0 && inc <= 30) {
+      intakeSubsystem.setMotorSpeed(0.1); //Intake for 30 ticks
+    } else if (state == 0 && inc > 30) {
+      state = 1;
+      intakeSubsystem.setMotorSpeed(-0.1); //Outtake until sensor
+    } else if (state == 1 && intakeSubsystem.isSecondPieceInRobot()) {
+      inc = 0;
+      state = 2;
+      intakeSubsystem.setMotorSpeed(0.1); //Intake for 10 ticks
+    } else if (state == 2 && inc > 30) {
+      state = 3;
+      intakeSubsystem.setMotorSpeed(-0.1); //Outtake until sensor
+    } else if (state == 3 && intakeSubsystem.isSecondPieceInRobot()) {
+      inc = 0;
+      state = 4;
+      intakeSubsystem.setMotorSpeed(0.0); //Stop
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    intakeSubsystem.setLockOut(false);
     intakeSubsystem.setMotorSpeed(0);
-    shooterSubsystem.setTargetWheelSpeed(ShooterConstants.idleSpeed);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return inc > 15;
+    return state == 4;
   }
 }

@@ -20,7 +20,7 @@ public class SlowIntakeCommand extends Command {
   @Override
   public void initialize() {
     if (!intakeSubsystem.isSecondPieceInRobot()) {
-      intakeSubsystem.setGroundIntakeMotorSpeed(0.025);
+      intakeSubsystem.setMotorSpeed(0.15);
     }
   }
 
@@ -32,7 +32,7 @@ public class SlowIntakeCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.setGroundIntakeMotorSpeed(0);
+    intakeSubsystem.setMotorSpeed(0);
   }
 
   // Returns true when the command should end.

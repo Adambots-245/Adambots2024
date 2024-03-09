@@ -33,9 +33,7 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
  * Define all the devices here
  */
 public class RobotMap {
-    // PORTS Definition - This should be the only place to define all ports
-
-    // Robot Device Ports
+    // Robot Device Ports - PDP should be on port 1, and if pnematics are present, PCM must go on port 0
     public static final int kPDMPort = 1;
     public static final int kGyroPort = 0;
     public static final int kCANdlePort = 31;
@@ -109,6 +107,7 @@ public class RobotMap {
 //     public static final PhotoEye leftHangLimit = new PhotoEye(leftHangLimitPort, false);
 //     public static final PhotoEye rightHangLimit = new PhotoEye(rightHangLimitPort, false);
 
+    
     // Robot Swerve Modules
     public static final HashMap<ModulePosition, SwerveModule> swerveModules = new HashMap<>(
         Map.of(
@@ -119,6 +118,7 @@ public class RobotMap {
                     RobotMap.kFrontLeftTurningMotorPort,
                     RobotMap.kFrontLeftTurningEncoderPort,
                     DriveConstants.kFrontLeftDriveMotorReversed),
+
             ModulePosition.FRONT_RIGHT,
             new SwerveModule(
                     ModulePosition.FRONT_RIGHT,
@@ -126,6 +126,7 @@ public class RobotMap {
                     RobotMap.kFrontRightTurningMotorPort,
                     RobotMap.kFrontRightTurningEncoderPort,
                     DriveConstants.kFrontRightDriveMotorReversed),
+
             ModulePosition.REAR_LEFT,
             new SwerveModule(
                     ModulePosition.REAR_LEFT,
@@ -133,6 +134,7 @@ public class RobotMap {
                     RobotMap.kRearLeftTurningMotorPort,
                     RobotMap.kRearLeftTurningEncoderPort,
                     DriveConstants.kRearLeftDriveMotorReversed),
+
             ModulePosition.REAR_RIGHT,
             new SwerveModule(
                     ModulePosition.REAR_RIGHT,

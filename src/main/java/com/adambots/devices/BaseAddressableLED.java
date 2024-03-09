@@ -4,9 +4,6 @@
 
 package com.adambots.devices;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import edu.wpi.first.wpilibj.util.Color;
 
 /**
@@ -14,40 +11,28 @@ import edu.wpi.first.wpilibj.util.Color;
  */
 public interface BaseAddressableLED {
 
-    public interface AnimationType {
-        // Color color = Color.kWhite;
-        // int speed = 0;
-        // int numOfLEDs = 0;
-        // int ledOffset = 0;
-    };
-
-    public interface AnimationTypes extends AnimationType {
-        AnimationType ColorFlow = null;
-        AnimationType Fire = null;
-        AnimationType Larson = null;
-        AnimationType Rainbow = null;
-        AnimationType RgbFade = null;
-        AnimationType SingleFade = null;
-        AnimationType Strobe = null;
-        AnimationType Twinkle = null;
-        AnimationType TwinkleOff = null;
-        AnimationType SetAll = null;
-        AnimationType Empty = null;
-
-        AnimationType animation = null;
-    };
-
-    public Map<String, Object> animationTypes = new HashMap<String, Object>();
-
-    void clearAnimation(int index);
+    public enum AnimationType {
+        ColorFlow,
+        Fire,
+        Larson,
+        Rainbow,
+        RgbFade,
+        SingleFade,
+        Strobe,
+        Twinkle,
+        TwinkleOff,
+        Empty
+    }
 
     void clearAllAnimations();
 
     void setColor(Color color);
-
     void setColor(int r, int g, int b);
 
-    void setLEDs(int r, int g, int b, int startIdx, int numOfLEDs);
+
+    void setLEDs(int r, int g, int b, int startIdx, int numOfLEDs);    
+    void setLEDs(Color color, int startIdx, int numOfLEDs);
+
 
     void configBrightness(double value);
 

@@ -20,22 +20,22 @@ public class ArmSubsystem extends SubsystemBase {
   BaseMotor wristMotor;
   BaseAbsoluteEncoder shoulderEncoder;
   BaseAbsoluteEncoder wristEncoder;
-  PIDController shoulderPID = new PIDController(0.018, 0.008, 0.002); //.00005
-  PIDController wristPID = new PIDController(0.0061, 0.009, 0.00062); //d = 0.00064
+  private PIDController shoulderPID = new PIDController(0.02, 0.008, 0.0028); //0.018, 0.008, 0.002
+  private PIDController wristPID = new PIDController(0.0062, 0.009, 0.00062); //0.0061, 0.009, 0.00062
 
-  double shoulderLowerLimit = ArmConstants.shoulderLowerLimit;
-  double shoulderUpperLimit = ArmConstants.shoulderUpperLimit;
-  double wristLowerLimit = ArmConstants.wristLowerLimit;
-  double wristUpperLimit = ArmConstants.wristUpperLimit;
+  private double shoulderLowerLimit = ArmConstants.shoulderLowerLimit;
+  private double shoulderUpperLimit = ArmConstants.shoulderUpperLimit;
+  private double wristLowerLimit = ArmConstants.wristLowerLimit;
+  private double wristUpperLimit = ArmConstants.wristUpperLimit;
 
-  double targetShoulderAngle;
-  double targetWristAngle;
-  double shoulderSpeed, wristSpeed = 0;
+  private double targetShoulderAngle;
+  private double targetWristAngle;
+  private double shoulderSpeed, wristSpeed = 0;
 
   // String currentStateName = "default";
   State currentState = ArmConstants.defaultState;
 
-  boolean failsafeOverride = false;
+  private boolean failsafeOverride = false;
 
   public ArmSubsystem(BaseMotor shoulderMotor, BaseMotor wristMotor, BaseAbsoluteEncoder shoulderEncoder, BaseAbsoluteEncoder wristEncoder) {
     this.shoulderMotor = shoulderMotor;
@@ -65,11 +65,11 @@ public class ArmSubsystem extends SubsystemBase {
     Dash.add("wristSpeed", () ->  wristSpeed);
     Dash.add("shoulderSpeed", () ->  shoulderSpeed);
 
-    Dash.add("Shld Fwd Lim", () -> shoulderMotor.getForwardLimitSwitch());
-    Dash.add("Shld Rev Lim", () -> shoulderMotor.getReverseLimitSwitch());
+    // Dash.add("Shld Fwd Lim", () -> shoulderMotor.getForwardLimitSwitch());
+    // Dash.add("Shld Rev Lim", () -> shoulderMotor.getReverseLimitSwitch());
 
-    Dash.add("Wrst Fwd Lim", () -> wristMotor.getForwardLimitSwitch());
-    Dash.add("Wrst Rev Lim", () -> wristMotor.getReverseLimitSwitch());
+    // Dash.add("Wrst Fwd Lim", () -> wristMotor.getForwardLimitSwitch());
+    // Dash.add("Wrst Rev Lim", () -> wristMotor.getReverseLimitSwitch());
   }
 
   private void setPidTolerence(State state) {
@@ -90,6 +90,10 @@ public class ArmSubsystem extends SubsystemBase {
   public void incrementWristAngle(double wristIncrement) {
     targetWristAngle += wristIncrement;
     failsafeOverride = false;
+  }
+
+  public boolean isAtTargetState () {
+    return (Math.abs(shoulderPID.getPositionError()) < 3 && Math.abs(wristPID.getPositionError()) < 3); 
   }
 
   public double getCurrentWristAngle(){
@@ -115,8 +119,8 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderPID.reset();
   }
 
-  public String getCurrentStateName() {
-    return currentState.getStateName();
+  public State getCurrentState() {
+    return currentState;
   }
   
   @Override
@@ -136,6 +140,7 @@ public class ArmSubsystem extends SubsystemBase {
       shoulderSpeed = MathUtil.clamp(shoulderSpeed, -ArmConstants.maxShoulderDownSpeed, ArmConstants.maxShoulderUpSpeed);
     }
     wristSpeed = MathUtil.clamp(wristSpeed, -ArmConstants.maxWristSpeed, ArmConstants.maxWristSpeed);
+
 
     shoulderMotor.set(shoulderSpeed);
     wristMotor.set(wristSpeed);
@@ -164,6 +169,15 @@ public class ArmSubsystem extends SubsystemBase {
     }
     if(getCurrentWristAngle() > wristUpperLimit && wristSpeed > 0){
       wristSpeed = 0;
+    }
+
+    if (getCurrentShoulderAngle() == 0) {
+      shoulderSpeed = 0;
+      System.err.println("WARNING: SHOULDER ENCODER DISCONNECTED");
+    }
+    if (getCurrentWristAngle() == 0) {
+      wristSpeed = 0;
+      System.err.println("WARNING: WRIST ENCODER DISCONNECTED");
     }
   }
 }

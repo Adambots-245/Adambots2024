@@ -19,11 +19,11 @@ public class HangSubsystem extends SubsystemBase {
   private BaseSolenoid leftBaseSolenoid;
   private BaseSolenoid rightBaseSolenoid;
 
-  public HangSubsystem(BaseMotor leftHangMotor, BaseMotor rightHangMotor, BaseSolenoid rightBaseSolenoid, BaseSolenoid leftBaseSolenoid) {
+  public HangSubsystem(BaseMotor leftHangMotor, BaseMotor rightHangMotor, BaseSolenoid rightHangSolenoid, BaseSolenoid leftHangSolenoid) {
     this.leftHangMotor = leftHangMotor;
     this.rightHangMotor = rightHangMotor;
-    this.leftBaseSolenoid = leftBaseSolenoid;
-    this.rightBaseSolenoid = rightBaseSolenoid;
+    this.leftBaseSolenoid = leftHangSolenoid;
+    this.rightBaseSolenoid = rightHangSolenoid;
 
     leftHangMotor.setInverted(true);
     rightHangMotor.setInverted(false);
@@ -72,6 +72,8 @@ public class HangSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     failSafes();
+
+    // System.out.println(leftHangMotor.getVelocity());
 
     leftHangMotor.set(leftHangMotorSpeed);
     rightHangMotor.set(rightHangMotorSpeed);

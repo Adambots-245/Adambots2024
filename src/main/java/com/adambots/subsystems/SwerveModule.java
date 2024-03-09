@@ -28,8 +28,7 @@ public class SwerveModule {
   private final RelativeEncoder m_driveEncoder;
   private final BaseAbsoluteEncoder m_turningEncoder;
 
-  private final PIDController m_turningPIDController =
-      new PIDController(ModuleConstants.kPModuleTurningController, 0, ModuleConstants.kDModuleTurningController);
+  private final PIDController m_turningPIDController = new PIDController(ModuleConstants.kPModuleTurningController, 0, ModuleConstants.kDModuleTurningController);
 
   private ModulePosition m_position;
 
@@ -48,16 +47,16 @@ public class SwerveModule {
 
     m_driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
     m_driveMotor.setIdleMode(IdleMode.kBrake);
-    m_driveMotor.setSmartCurrentLimit(32);
-    m_driveMotor.enableVoltageCompensation(12.6);
+    m_driveMotor.setSmartCurrentLimit(ModuleConstants.kDriveCurrentLimit);
+    m_driveMotor.enableVoltageCompensation(ModuleConstants.kNominalVoltage);
     m_driveMotor.setInverted(driveMotorReversed);
 
     m_driveEncoder = m_driveMotor.getEncoder();
 
     m_turningMotor = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);
     m_turningMotor.setIdleMode(IdleMode.kBrake);
-    m_turningMotor.setSmartCurrentLimit(21);
-    m_turningMotor.enableVoltageCompensation(12.6);
+    m_turningMotor.setSmartCurrentLimit(ModuleConstants.kTurningCurrentLimit);
+    m_turningMotor.enableVoltageCompensation(ModuleConstants.kNominalVoltage);
     m_turningMotor.setInverted(true);
 
     m_turningEncoder = new CANCoder(turningEncoderChannel);
@@ -66,7 +65,7 @@ public class SwerveModule {
     // Dash.add("Wheel Speed: " + m_position.name(), () -> m_driveEncoder.getVelocity()*ModuleConstants.kDriveEncoderVelocityConversionFactor);
 
     m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
-    resetEncoders();
+    resetDriveEncoders();
   }
 
   /**
@@ -114,13 +113,14 @@ public class SwerveModule {
     m_turningMotor.set(turnOutput);
   }
 
+  /** Sets a motor command of 0 */
   public void stopMotors() {
     m_driveMotor.set(0);
     m_turningMotor.set(0);
   }
 
-  /** Zeroes the SwerveModule drive encoders. */
-  public void resetEncoders() {
+  /** Zeroes the SwerveModule drive encoders */
+  public void resetDriveEncoders() {
     m_driveEncoder.setPosition(0);
   }
 }

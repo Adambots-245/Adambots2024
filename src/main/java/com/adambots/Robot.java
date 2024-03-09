@@ -90,17 +90,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    CommandScheduler.getInstance().cancelAll(); //cancel all teleop or lingering commands
-
-    VisionHelpers.setPipeline(VisionConstants.noteLimelite, 0);
+    CommandScheduler.getInstance().cancelAll(); //Cancel all teleop or lingering commands
 
     Command m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    System.out.println("auton selected" + m_autonomousCommand.toString());
+    System.out.println("Auton Selected: " + m_autonomousCommand.toString());
 
     System.out.println("Init Auton.........");
     System.out.println("Gyro Yaw at Startup: " + RobotMap.gyro.getContinuousYawDeg());
 
-    // schedule the autonomous command
+    // Schedule the autonomous command
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
@@ -116,7 +114,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    VisionHelpers.setPipeline(VisionConstants.noteLimelite, 0);
+    m_robotContainer.teleopInit();
 
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
@@ -146,7 +144,7 @@ public class Robot extends TimedRobot {
 
   }
 
-  public static boolean isInRedAlliance(){
+  public static boolean isOnRedAlliance(){
     return alliance.isPresent() && alliance.get() == Alliance.Red;
   }
 }

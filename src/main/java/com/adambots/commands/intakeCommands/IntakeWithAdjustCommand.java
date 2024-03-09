@@ -7,22 +7,31 @@ package com.adambots.commands.intakeCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import com.adambots.Constants.ArmConstants;
+import com.adambots.Constants.LEDConstants;
+import com.adambots.devices.BaseAddressableLED.AnimationType;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
+import com.adambots.subsystems.LedLightingSubsystem;
+import com.adambots.subsystems.ShooterSubsystem;
 
 
 public class IntakeWithAdjustCommand extends Command {
   /** Creates a new IntakeWithAdjustCommand. */
-  ArmSubsystem armSubsystem;
-  IntakeSubsystem intakeSubsystem;
+  private ArmSubsystem armSubsystem;
+  private IntakeSubsystem intakeSubsystem;
+  private ShooterSubsystem shooterSubsystem;
+  private LedLightingSubsystem ledSubsystem;
 
   private String state = "initial";
+  private int inc = 0;
 
-  public IntakeWithAdjustCommand(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
+  public IntakeWithAdjustCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem, LedLightingSubsystem ledSubsystem) {
     addRequirements(armSubsystem, intakeSubsystem);
 
     this.armSubsystem = armSubsystem;
     this.intakeSubsystem = intakeSubsystem;
+    this.ledSubsystem = ledSubsystem;
+    this.shooterSubsystem = shooterSubsystem;
   }
 
   // Called when the command is initially scheduled.
@@ -30,18 +39,26 @@ public class IntakeWithAdjustCommand extends Command {
   public void initialize() {
     if (!intakeSubsystem.isSecondPieceInRobot()) {
       armSubsystem.setCurrentState(ArmConstants.floorState);
-      intakeSubsystem.setGroundIntakeMotorSpeed(0.2);
+      intakeSubsystem.setMotorSpeed(0.2);
     }
+    shooterSubsystem.setTargetWheelSpeed(0);
     state = "initial";
+    inc = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (state == "initial" && intakeSubsystem.isFirstPieceInRobot()) {
-      intakeSubsystem.setGroundIntakeMotorSpeed(0.12);
+      intakeSubsystem.setMotorSpeed(0.12);
       armSubsystem.incrementWristAngle(15);
       state = "touchNote"; //keep this line, prevents above code from running repeatedly
+      ledSubsystem.setColor(LEDConstants.green);
+    } if (intakeSubsystem.isSecondPieceInRobot()) {
+      state = "incrementing";
+    }
+    if (state == "incrementing") {
+      inc++;
     }
   }
 
@@ -49,13 +66,15 @@ public class IntakeWithAdjustCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     armSubsystem.setCurrentState(ArmConstants.defaultState);
-    intakeSubsystem.setGroundIntakeMotorSpeed(0);
-    // VisionHelpers.blinkLight(VisionConstants.noteLimelite);
+    intakeSubsystem.setMotorSpeed(0);
+
+    ledSubsystem.setColor(LEDConstants.yellow);
+    ledSubsystem.changeAnimation(AnimationType.Larson);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return intakeSubsystem.isSecondPieceInRobot();
+    return inc > 10;
   }
 }
