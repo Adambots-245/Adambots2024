@@ -11,7 +11,7 @@ import com.adambots.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class PrimeShooterCommandFloor extends Command {
+public class PrimeShooterCommandFeed extends Command {
   /** Creates a new FeedShooterCommand. */
   private ArmSubsystem armSubsystem;
   private ShooterSubsystem shooterSubsystem;
@@ -19,7 +19,7 @@ public class PrimeShooterCommandFloor extends Command {
   private IntakeSubsystem intakeSubsystem;
   private boolean finished;
   
-  public PrimeShooterCommandFloor(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem, double shooterSpeed) {
+  public PrimeShooterCommandFeed(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem, double shooterSpeed) {
     addRequirements(armSubsystem, shooterSubsystem);
     
     this.armSubsystem = armSubsystem;
@@ -38,7 +38,7 @@ public class PrimeShooterCommandFloor extends Command {
   @Override
   public void execute() {
     if (!intakeSubsystem.getLockOut() && !armSubsystem.getCurrentStateName().equals("closeFloorShoot")) {
-      armSubsystem.setCurrentState(ArmConstants.closeFloorShootState);
+      armSubsystem.setCurrentState(ArmConstants.defaultState);
       shooterSubsystem.setTargetWheelSpeed(shooterSpeed);
       finished = true;
     }

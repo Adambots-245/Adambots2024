@@ -40,7 +40,6 @@ public class ShooterSubsystem extends SubsystemBase {
     pid.reset();
   }
   
-
   public double getShooterVelocity() {
     return shooterMotor.getVelocity();
   }
@@ -51,33 +50,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    /*
-    if (targetWheelSpeed > 0 && getShooterVelocity() > 65) {
-      shooterSpeed = 1;
-    } else if (targetWheelSpeed > 0) {
-      // shooterSpeed = pid.calculate(getShooterVelocity(), targetWheelSpeed) + targetWheelSpeed/ShooterConstants.maxSpeed*0.75;
-      // shooterSpeed = targetWheelSpeed/ShooterConstants.maxSpeed*1;
-      shooterSpeed = 0.9;
-    } else if (targetWheelSpeed == 0 && getShooterVelocity() > 50) {
-      shooterSpeed = 0.0;
-    } else if (targetWheelSpeed == 0 && !bool) {
-      bool = true;
-      shooterMotor.setNeutralMode(true);
-    }
-    */
-
     if (targetWheelSpeed > 0) {
-      shooterSpeed = pid.calculate(getShooterVelocity(), targetWheelSpeed) + targetWheelSpeed/ShooterConstants.maxSpeed*0.75;
-      // shooterSpeed = targetWheelSpeed/ShooterConstants.maxSpeed*1;
+      shooterSpeed = pid.calculate(getShooterVelocity(), targetWheelSpeed) + targetWheelSpeed/ShooterConstants.maxSpeed*0.525;
     } else {
       shooterSpeed = -0.03;
     }
 
-    // System.out.println(getShooterVelocity());
-
-    // shooterSpeed = MathUtil.clamp(shooterSpeed, 0, 1);
-
     shooterMotor.set(shooterSpeed);
-    // System.out.println(shooterSpeed);
   }
 }

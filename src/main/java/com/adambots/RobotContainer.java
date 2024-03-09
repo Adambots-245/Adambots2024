@@ -7,6 +7,7 @@ import com.adambots.Constants.VisionConstants;
 import com.adambots.Gamepad.Buttons;
 import com.adambots.commands.armCommands.AmpCommand;
 import com.adambots.commands.armCommands.PrimeShooterCommand;
+import com.adambots.commands.armCommands.PrimeShooterCommandFeed;
 import com.adambots.commands.armCommands.PrimeShooterCommandFloor;
 import com.adambots.commands.armCommands.RetractShooterCommand;
 import com.adambots.commands.armCommands.RotateShoulderCommand;
@@ -20,11 +21,11 @@ import com.adambots.commands.hangCommands.RunHangCommand;
 import com.adambots.commands.hangCommands.RunLeftHangCommand;
 import com.adambots.commands.hangCommands.RunRightHangCommand;
 import com.adambots.commands.intakeCommands.AdaptiveScoreCommand;
-import com.adambots.commands.intakeCommands.CancelCommand;
 import com.adambots.commands.intakeCommands.FancyAdjustCommand;
 import com.adambots.commands.intakeCommands.FeedShooterCommand;
 import com.adambots.commands.intakeCommands.IntakeCommand;
 import com.adambots.commands.intakeCommands.IntakeWithAdjustCommand;
+import com.adambots.commands.intakeCommands.SlowOuttakeCommand;
 import com.adambots.commands.visionCommands.AlignRotateDriveCommand;
 import com.adambots.commands.visionCommands.AprilAlignRotateCommand;
 import com.adambots.commands.visionCommands.DriveToNoteCommand;
@@ -95,6 +96,11 @@ public class RobotContainer {
 
     shooterSubsystem.setTargetWheelSpeed(0);
 
+    if (DriverStation.isFMSAttached()) {
+      armSubsystem.setCurrentState(ArmConstants.defaultState);
+      intakeSubsystem.setLockOut(false);
+    }
+
     var alliance = DriverStation.getAlliance();
     if (alliance.isPresent() && DriverStation.isFMSAttached()) {
       if (alliance.get() == DriverStation.Alliance.Red) {
@@ -147,6 +153,8 @@ public class RobotContainer {
 
     Buttons.JoystickButton10.whileTrue(new AngleRotateCommand(drivetrainSubsystem, 60, RobotMap.gyro)); //Rotate to huaman station
 
+    Buttons.JoystickButton3.whileTrue(new AngleRotateCommand(drivetrainSubsystem, -150, RobotMap.gyro)); //Rotate to shoot across field
+
     Buttons.JoystickButton4.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro)); //Hang on the chain
 
 
@@ -154,7 +162,8 @@ public class RobotContainer {
     Buttons.XboxAButton.whileTrue(new IntakeWithAdjustCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem)); //Intake off floor
     Buttons.XboxAButton.onFalse(new FancyAdjustCommand(intakeSubsystem)); //Adjust fully intaked note
 
-    // Buttons.XboxStartButton.whileTrue(new HumanStationCommand(armSubsystem, intakeSubsystem)); //Raise arm to human station
+    Buttons.XboxStartButton.whileTrue(new PrimeShooterCommandFeed(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed)); //Raise arm to human station
+    Buttons.XboxStartButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
 
     Buttons.XboxBButton.whileTrue(new PrimeShooterCommandFloor(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.lowSpeed)); //Floor state and spin shooter
     Buttons.XboxBButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
@@ -164,14 +173,12 @@ public class RobotContainer {
     Buttons.XboxYButton.onTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, ShooterConstants.lowSpeed)); //Speaker state and prime shooter
     Buttons.XboxYButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
 
-    // Buttons.XboxLeftBumper.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed))); 
+    Buttons.XboxLeftBumper.onTrue(new SlowOuttakeCommand(intakeSubsystem)); 
     Buttons.XboxRightBumper.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(0))); //Stop FLywheels
 
     //THESE COMMANDS DO NOT AUTO ENGAGE SOLENOIDS - which is why they are negative, where the solenoid should be left unpowered
     Buttons.XboxLeftTriggerButton.whileTrue(new RunLeftHangCommand(hangSubsystem, -0.25)); //Run left winch in 
     Buttons.XboxRightTriggerButton.whileTrue(new RunRightHangCommand(hangSubsystem, -0.25)); //Run right winch in
-
-    Buttons.XboxLeftBumper.onTrue(new CancelCommand(intakeSubsystem)); //Outtake after we intaked fully
 
     //These commands do automatically engage solenoids if you are running the winches out (and leaves time for solenoids to engage)
     Buttons.XboxBackButton.whileTrue(new RunHangCommand(hangSubsystem, 1)); //Raises bendy rods up

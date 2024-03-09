@@ -134,7 +134,7 @@ public final class Constants {
     public static final class ShooterConstants{
         public static final double idleSpeed = 30;
         public static final double lowSpeed = 65;
-        // public static final double mediumSpeed = 65;
+        public static final double mediumSpeed = 70;
         public static final double highSpeed = 80;
         public static final double maxSpeed = 94;
     }
@@ -179,7 +179,7 @@ public final class Constants {
      
         // default
         public static final double defaultWristAngle = 197+wristOffset;
-        public static final double defaultShoulderAngle = 159+shoulderOffset;
+        public static final double defaultShoulderAngle = 157+shoulderOffset;
      
         // autonomous starting/speaker
         public static final double speakerWristAngle = 242.3+wristOffset;
@@ -204,6 +204,10 @@ public final class Constants {
         // Bottom 2 note floor shoot **NOT TUNED**
         public static final double bottomFloorShootWristAngle = 324.8+wristOffset;
         public static final double bottomfloorShootShoulderAngle = 125.7+shoulderOffset; 
+
+        // Bottom 2 note floor shoot **NOT TUNED**
+        public static final double feedWristAngle = 312+wristOffset;
+        public static final double feedShoulderAngle = 123.7+shoulderOffset; 
 
         public static class State {
             private double wristAngle;
@@ -240,5 +244,6 @@ public final class Constants {
         public final static State bottomFloorShootState = new State(bottomFloorShootWristAngle, bottomfloorShootShoulderAngle, "bottomFloorShoot");
         public final static State closeFloorShootState = new State(closeFloorShootWristAngle, closeFloorShootShoulderAngle, "closeFloorShoot");
         public final static State hangState = new State(hangWristAngle, hangShoulderAngle, "hang");
+        public final static State feedState = new State(feedWristAngle, feedShoulderAngle, "feed");
     }
 }

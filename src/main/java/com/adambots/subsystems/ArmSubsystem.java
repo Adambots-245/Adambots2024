@@ -102,7 +102,6 @@ public class ArmSubsystem extends SubsystemBase {
     //Enable override if we are moving directly from speaker to floor states (auton) or if we are targeting the hang state
     failsafeOverride = ((currentStateName.equals("speaker") && newState.getStateName().equals("floor")) || newState.getStateName().equals("hang"));
 
-    //
     currentStateName = newState.getStateName();
     targetShoulderAngle = newState.getShoulderAngle();
     targetWristAngle = newState.getWristAngle();
@@ -145,7 +144,6 @@ public class ArmSubsystem extends SubsystemBase {
      shoulderSpeed = MathUtil.clamp(shoulderSpeed, -ArmConstants.maxShoulderDownSpeedNitro, ArmConstants.maxShoulderUpSpeed);
     }else{
       shoulderSpeed = MathUtil.clamp(shoulderSpeed, -ArmConstants.maxShoulderDownSpeed, ArmConstants.maxShoulderUpSpeed);
-
     }
     wristSpeed = MathUtil.clamp(wristSpeed, -ArmConstants.maxWristSpeed, ArmConstants.maxWristSpeed);
 

@@ -22,7 +22,7 @@ public class SlowOuttakeCommand extends Command {
   public void initialize() {
     inc = 0;
     // if (!intakeSubsystem.isSecondPieceInRobot()) {
-    intakeSubsystem.setMotorSpeed(-0.06);
+    intakeSubsystem.setMotorSpeed(-0.08);
     // }
   }
 

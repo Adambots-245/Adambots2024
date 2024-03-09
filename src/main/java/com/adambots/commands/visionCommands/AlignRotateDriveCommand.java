@@ -76,7 +76,7 @@ public class AlignRotateDriveCommand extends Command {
         caNdleSubsystem.setColor(LEDConstants.red);
       }
     } else {
-      System.out.println("Pink");
+      // System.out.println("Pink");
       caNdleSubsystem.setColor(LEDConstants.purple);
     }
     
