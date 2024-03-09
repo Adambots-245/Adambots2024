@@ -21,9 +21,9 @@ public class SlowOuttakeCommand extends Command {
   @Override
   public void initialize() {
     inc = 0;
-    // if (!intakeSubsystem.isSecondPieceInRobot()) {
-    intakeSubsystem.setMotorSpeed(-0.06);
-    // }
+    if (!intakeSubsystem.isSecondPieceInRobot()) {
+      intakeSubsystem.setMotorSpeed(-0.06);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

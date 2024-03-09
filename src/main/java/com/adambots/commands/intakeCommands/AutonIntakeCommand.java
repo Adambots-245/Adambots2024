@@ -16,7 +16,7 @@ import com.adambots.subsystems.CANdleSubsystem.AnimationTypes;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
-public class FloorIntakeCommand extends Command {
+public class AutonIntakeCommand extends Command {
   /** Creates a new FloorIntakeCommand. */
   private ArmSubsystem armSubsystem;
   private IntakeSubsystem intakeSubsystem;
@@ -25,7 +25,7 @@ public class FloorIntakeCommand extends Command {
 
   private State shootState;
 
-  public FloorIntakeCommand(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, CANdleSubsystem candle, State shootState) {
+  public AutonIntakeCommand(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, CANdleSubsystem candle, State shootState) {
     addRequirements(armSubsystem, intakeSubsystem, shooterSubsystem);
 
     this.armSubsystem = armSubsystem;

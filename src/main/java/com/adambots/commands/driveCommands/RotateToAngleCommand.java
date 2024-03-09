@@ -2,9 +2,9 @@ package com.adambots.commands.driveCommands;
 import com.adambots.Robot;
 import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.DriveConstants;
-import com.adambots.Gamepad.Buttons;
 import com.adambots.sensors.Gyro;
 import com.adambots.subsystems.DrivetrainSubsystem;
+import com.adambots.utils.Buttons;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;

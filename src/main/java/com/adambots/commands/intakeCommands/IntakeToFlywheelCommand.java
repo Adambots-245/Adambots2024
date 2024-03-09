@@ -15,7 +15,7 @@ import com.adambots.subsystems.ShooterSubsystem;
 import com.adambots.subsystems.CANdleSubsystem.AnimationTypes;
 
 
-public class IntakeWithAdjustCommand extends Command {
+public class IntakeToFlywheelCommand extends Command {
   /** Creates a new IntakeWithAdjustCommand. */
   private ArmSubsystem armSubsystem;
   private IntakeSubsystem intakeSubsystem;
@@ -25,7 +25,7 @@ public class IntakeWithAdjustCommand extends Command {
   private String state = "initial";
   private int inc = 0;
 
-  public IntakeWithAdjustCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem, CANdleSubsystem caNdleSubsystem) {
+  public IntakeToFlywheelCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem, CANdleSubsystem caNdleSubsystem) {
     addRequirements(armSubsystem, intakeSubsystem);
 
     this.armSubsystem = armSubsystem;

@@ -11,7 +11,7 @@ import com.adambots.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class HumanStationCommand extends Command {
-  /** Creates a new FeedShooterCommand. */
+  /** Creates a new HumanStationCommand. */
   private ArmSubsystem armSubsystem;
   private IntakeSubsystem intakeSubsystem;
 

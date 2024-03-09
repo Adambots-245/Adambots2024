@@ -12,13 +12,13 @@ import java.util.Map;
 
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
+import com.adambots.actuators.BaseMotor;
+import com.adambots.actuators.TalonFXMotor;
 import com.adambots.sensors.AbsoluteEncoder;
 import com.adambots.sensors.DigitalSensor;
 import com.adambots.sensors.GenericEncoder;
 import com.adambots.sensors.Gyro;
 import com.adambots.subsystems.SwerveModule;
-import com.adambots.utils.BaseMotor;
-import com.adambots.utils.TalonFXMotor;
 import com.ctre.phoenix.led.CANdle;
 
 import edu.wpi.first.wpilibj.PowerDistribution;

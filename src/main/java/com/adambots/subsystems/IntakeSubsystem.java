@@ -4,8 +4,8 @@
 
 package com.adambots.subsystems;
 
+import com.adambots.actuators.BaseMotor;
 import com.adambots.sensors.DigitalSensor;
-import com.adambots.utils.BaseMotor;
 import com.adambots.utils.Dash;
 
 import edu.wpi.first.math.MathUtil;

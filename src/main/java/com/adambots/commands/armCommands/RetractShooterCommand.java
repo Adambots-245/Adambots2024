@@ -11,7 +11,7 @@ import com.adambots.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class RetractShooterCommand extends Command {
-  /** Creates a new FeedShooterCommand. */
+  /** Creates a new RetractShooterCommand. */
   private ArmSubsystem armSubsystem;
   private ShooterSubsystem shooterSubsystem;
   

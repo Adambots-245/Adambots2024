@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.adambots.Gamepad;
+package com.adambots.utils;
 
 import java.util.ArrayList;
 import java.util.function.DoubleSupplier;

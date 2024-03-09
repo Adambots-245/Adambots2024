@@ -6,8 +6,9 @@ package com.adambots.subsystems;
 
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.ArmConstants.State;
+import com.adambots.Constants.ArmConstants.StateName;
+import com.adambots.actuators.BaseMotor;
 import com.adambots.sensors.AbsoluteEncoder;
-import com.adambots.utils.BaseMotor;
 import com.adambots.utils.Dash;
 
 import edu.wpi.first.math.MathUtil;
@@ -32,7 +33,7 @@ public class ArmSubsystem extends SubsystemBase {
   private double targetWristAngle;
   private double shoulderSpeed, wristSpeed = 0;
 
-  private String currentStateName = "default";
+  private StateName currentStateName = StateName.DEFAULT;
 
   private boolean failsafeOverride = false;
 
@@ -100,24 +101,24 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void setCurrentState(State newState) {
     //Enable override if we are moving directly from speaker to floor states (auton) or if we are targeting the hang state
-    failsafeOverride = ((currentStateName.equals("speaker") && newState.getStateName().equals("floor")) || newState.getStateName().equals("hang"));
+    failsafeOverride = (currentStateName == StateName.SPEAKER && newState.getStateName() == StateName.FLOOR) || newState.getStateName() == StateName.HANG;
 
     currentStateName = newState.getStateName();
     targetShoulderAngle = newState.getShoulderAngle();
     targetWristAngle = newState.getWristAngle();
 
     //Dynamically change pid tolerences depending on the arm state
-    if (currentStateName.equals("speaker")) {
+    if (currentStateName == StateName.SPEAKER) {
       shoulderPID.setTolerance(2);
       wristPID.setTolerance(1);
-    } else if (currentStateName.equals("floor")) {
+    } else if (currentStateName == StateName.FLOOR) {
       setPidTolerence(0);
-    } else if (currentStateName.equals("amp")) {
+    } else if (currentStateName == StateName.AMP) {
       shoulderPID.setTolerance(1.5);
       wristPID.setTolerance(5);
-    } else if (currentStateName.equals("human")) {
+    } else if (currentStateName == StateName.HUMAN) {
       setPidTolerence(2);
-    } else if (currentStateName.equals("default")) {
+    } else if (currentStateName == StateName.DEFAULT) {
       setPidTolerence(5);
     }else {
       setPidTolerence(0);
@@ -127,7 +128,7 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderPID.reset();
   }
 
-  public String getCurrentStateName() {
+  public StateName getCurrentStateName() {
     return currentStateName;
   }
   

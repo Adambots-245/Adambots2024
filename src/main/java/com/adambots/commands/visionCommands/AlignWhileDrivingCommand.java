@@ -2,10 +2,10 @@ package com.adambots.commands.visionCommands;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
-import com.adambots.Gamepad.Buttons;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
+import com.adambots.utils.Buttons;
 import com.adambots.utils.VisionHelpers;
 
 import edu.wpi.first.math.controller.PIDController;
