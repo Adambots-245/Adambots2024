@@ -43,7 +43,7 @@
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "Center Autons",
+  "folder": null,
   "previewStartingState": {
     "rotation": 0.0,
     "velocity": 0

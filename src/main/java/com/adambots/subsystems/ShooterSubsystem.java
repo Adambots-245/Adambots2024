@@ -44,7 +44,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public boolean isAtTargetSpeed() {
-    return getShooterVelocity() > targetWheelSpeed - 1;
+    return getShooterVelocity() > targetWheelSpeed - 20; // 1
   }
 
   @Override

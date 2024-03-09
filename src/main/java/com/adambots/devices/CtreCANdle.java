@@ -31,7 +31,7 @@ import edu.wpi.first.wpilibj.util.Color;
  * A wrapper class for CANdle LED controller from CTRE. Currently requires
  * Phoenix 5.json vendordep
  */
-public class CtreCANdle implements BaseAddressableLED {
+public class CtreCANdle {
     private CANdle candle;
     private int candleChannel;
     private Animation toAnimate = null;
@@ -161,11 +161,11 @@ public class CtreCANdle implements BaseAddressableLED {
         candle.configBrightnessScalar(value, 0);
     }
 
-    public void changeAnimation(AnimationType toChange) {
-        CANdleAnimationType animationType = CANdleAnimationType.valueOf(toChange.toString());
-        toAnimate = animationType.animation;
-        candleChannel = animationType.channel;
-    }
+    // public void changeAnimation(AnimationType toChange) {
+    //     CANdleAnimationType animationType = CANdleAnimationType.valueOf(toChange.toString());
+    //     toAnimate = animationType.animation;
+    //     candleChannel = animationType.channel;
+    // }
 
     /**
      * Set the speed of animation - 0.0 to 1.0

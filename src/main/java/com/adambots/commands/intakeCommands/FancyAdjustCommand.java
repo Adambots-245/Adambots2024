@@ -15,6 +15,7 @@ public class FancyAdjustCommand extends Command {
   private IntakeSubsystem intakeSubsystem;
   private int state;
   private int inc;
+  private int timeOut;
   private boolean finished;
 
   public FancyAdjustCommand(IntakeSubsystem intakeSubsystem) {
@@ -28,6 +29,7 @@ public class FancyAdjustCommand extends Command {
   public void initialize() {
     state = 0;
     inc = 0;
+    timeOut = 0;
     finished = false;
     intakeSubsystem.setLockOut(true); //Prevent going to shoot state while still adjusting
   }
@@ -36,17 +38,18 @@ public class FancyAdjustCommand extends Command {
   @Override
   public void execute() {
     inc++;
+    timeOut++;
 
-    if (state == 0 && inc <= 30) {
+    if (state == 0 && inc <= 15) {
       intakeSubsystem.setMotorSpeed(IntakeConstants.lowSpeed); //Intake for 30 ticks
-    } else if (state == 0 && inc > 30) {
+    } else if (state == 0 && inc > 15) {
       state = 1;
       intakeSubsystem.setMotorSpeed(-IntakeConstants.lowSpeed); //Outtake until sensor
     } else if (state == 1 && intakeSubsystem.isSecondPieceInRobot()) {
       inc = 0;
       state = 2;
       intakeSubsystem.setMotorSpeed(IntakeConstants.lowSpeed); //Intake for 30 ticks
-    } else if (state == 2 && inc > 30) {
+    } else if (state == 2 && inc > 15) {
       state = 3;
       intakeSubsystem.setMotorSpeed(-IntakeConstants.lowSpeed); //Outtake until sensor
     } else if (state == 3 && intakeSubsystem.isSecondPieceInRobot()) {
@@ -67,6 +70,6 @@ public class FancyAdjustCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return finished;
+    return finished || timeOut > 75;
   }
 }

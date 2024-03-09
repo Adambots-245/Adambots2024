@@ -23,17 +23,18 @@ import com.adambots.commands.intakeCommands.AutonIntakeCommand;
 import com.adambots.commands.intakeCommands.FancyAdjustCommand;
 import com.adambots.commands.intakeCommands.FeedShooterCommand;
 import com.adambots.commands.intakeCommands.IntakeToFlywheelCommand;
+import com.adambots.commands.intakeCommands.ShootWhenAligned;
 import com.adambots.commands.intakeCommands.SlowOuttakeCommand;
 import com.adambots.commands.visionCommands.AlignWhileDrivingCommand;
 import com.adambots.commands.visionCommands.DriveToNoteCommand;
+import com.adambots.commands.visionCommands.InterpolateDistanceCommand;
 import com.adambots.commands.visionCommands.RotateToAprilCommand;
 import com.adambots.subsystems.ArmSubsystem;
-import com.adambots.subsystems.LedLightingSubsystem;
+import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.subsystems.HangSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
-import com.adambots.subsystems.VisionProcessorSubsystem;
 import com.adambots.utils.Buttons;
 import com.adambots.utils.Dash;
 import com.adambots.vision.VisionHelpers;
@@ -64,8 +65,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(RobotMap.swerveModules, RobotMap.gyro);
   private final ArmSubsystem armSubsystem = new ArmSubsystem(RobotMap.shoulderMotor, RobotMap.wristMotor, RobotMap.shoulderEncoder, RobotMap.wristEncoder);
-  private final LedLightingSubsystem ledSubsystem = new LedLightingSubsystem(RobotMap.candleLEDs);
-  private final VisionProcessorSubsystem visionProcessorSubsystem = new VisionProcessorSubsystem(RobotMap.candleLEDs);
+  private final CANdleSubsystem candleSubsytem = new CANdleSubsystem(RobotMap.candleLEDs);
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.shooterWheel);
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.groundIntakeMotor, RobotMap.firstPieceInRobotEye, RobotMap.secondPieceInRobotEye);
   private final HangSubsystem hangSubsystem = new HangSubsystem(RobotMap.leftHangMotor, RobotMap.rightHangMotor, RobotMap.leftHangSolenoid, RobotMap.rightHangSolenoid);
@@ -144,20 +144,27 @@ public class RobotContainer {
 
     Buttons.JoystickButton5.whileTrue(new SpinCommand(drivetrainSubsystem)); //Spin while drive driving (defense)
 
-    Buttons.JoystickButton7.whileTrue(new AlignWhileDrivingCommand(drivetrainSubsystem, intakeSubsystem, ledSubsystem, VisionConstants.aprilLimelite));
+    Buttons.JoystickButton9.whileTrue(new SpinCommand(drivetrainSubsystem)); //Spin while drive driving (defense)
+
+    Buttons.JoystickButton7.whileTrue(new AlignWhileDrivingCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, VisionConstants.aprilLimelite));
     Buttons.JoystickButton8.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro)); //Hang on the chain
     
     Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw())); //Reset Gyro
+
+    Buttons.JoystickButton10.whileTrue(new ShootWhenAligned(drivetrainSubsystem, candleSubsytem, intakeSubsystem, armSubsystem, shooterSubsystem));
+
 
     // Buttons.JoystickButton3.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, -150, RobotMap.gyro)); //Rotate to shoot across field
 
 
     //Xbox Button Bindings 
-    Buttons.XboxAButton.whileTrue(new IntakeToFlywheelCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ledSubsystem)); //Intake off floor
+    Buttons.XboxAButton.whileTrue(new IntakeToFlywheelCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem)); //Intake off floor
     Buttons.XboxAButton.onFalse(new FancyAdjustCommand(intakeSubsystem)); //Adjust fully intaked note
 
-    Buttons.XboxStartButton.whileTrue(new PrimeShooterCommandFeed(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed)); //Raise arm to human station
-    Buttons.XboxStartButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
+    // Buttons.XboxStartButton.whileTrue(new PrimeShooterCommandFeed(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed)); //Raise arm to human station
+    // Buttons.XboxStartButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
+
+    Buttons.XboxStartButton.whileTrue(new InterpolateDistanceCommand(armSubsystem, shooterSubsystem));
 
     Buttons.XboxBButton.whileTrue(new PrimeShooterFloorCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.lowSpeed)); //Floor state and spin shooter
     Buttons.XboxBButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
@@ -194,15 +201,15 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("FeedShooterCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem));
     
-    NamedCommands.registerCommand("AprilAlignCommand", new ParallelDeadlineGroup(new WaitCommand(1), new RotateToAprilCommand(drivetrainSubsystem, ledSubsystem, 0)));
-    NamedCommands.registerCommand("AprilAlignTopCommand", new ParallelDeadlineGroup(new WaitCommand(1), new RotateToAprilCommand(drivetrainSubsystem, ledSubsystem, 0.5)));
-    NamedCommands.registerCommand("DriveToNoteCommand", new ParallelDeadlineGroup(new WaitCommand(3), new DriveToNoteCommand(drivetrainSubsystem, ledSubsystem)));
+    NamedCommands.registerCommand("AprilAlignCommand", new ParallelDeadlineGroup(new WaitCommand(1), new RotateToAprilCommand(drivetrainSubsystem, candleSubsytem, 0)));
+    NamedCommands.registerCommand("AprilAlignTopCommand", new ParallelDeadlineGroup(new WaitCommand(1), new RotateToAprilCommand(drivetrainSubsystem, candleSubsytem, 0.5)));
+    NamedCommands.registerCommand("DriveToNoteCommand", new ParallelDeadlineGroup(new WaitCommand(3), new DriveToNoteCommand(drivetrainSubsystem, candleSubsytem)));
 
-    NamedCommands.registerCommand("CenterFloorIntakeAndShootCommand", new AutonIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ledSubsystem, ArmConstants.closeFloorShootState));
-    NamedCommands.registerCommand("TopFloorIntakeAndShootCommand", new AutonIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ledSubsystem, ArmConstants.topFloorShootState));
-    NamedCommands.registerCommand("BottomFloorIntakeAndShootCommand", new AutonIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ledSubsystem, ArmConstants.closeFloorShootState));
-    NamedCommands.registerCommand("TopFloorIntakeCloseCommand", new AutonIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ledSubsystem, ArmConstants.defaultState));
-    NamedCommands.registerCommand("LowFloorCloseCommand2", new AutonIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, ledSubsystem, ArmConstants.closeFloorShootState));
+    NamedCommands.registerCommand("CenterFloorIntakeAndShootCommand", new AutonIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.closeFloorShootState));
+    NamedCommands.registerCommand("TopFloorIntakeAndShootCommand", new AutonIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.topFloorShootState));
+    NamedCommands.registerCommand("BottomFloorIntakeAndShootCommand", new AutonIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.closeFloorShootState));
+    NamedCommands.registerCommand("TopFloorIntakeCloseCommand", new AutonIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.defaultState));
+    NamedCommands.registerCommand("LowFloorCloseCommand2", new AutonIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.closeFloorShootState));
     NamedCommands.registerCommand("TopShootSpeakerCommand", new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.speakerState)));
 
     NamedCommands.registerCommand("PrintCommand",new PrintCommand("Path Following Finished"));
@@ -221,9 +228,9 @@ public class RobotContainer {
     // Dash.add("getX", Buttons.sidewaysSupplier);
     // Dash.add("getZ", Buttons.rotateSupplier);
 
-    Dash.add("getX", () -> VisionHelpers.getCameraPoseTargetSpace().getX());
-    Dash.add("getY", () -> VisionHelpers.getCameraPoseTargetSpace().getY());
-    Dash.add("getZ", () -> VisionHelpers.getCameraPoseTargetSpace().getZ());
+    // Dash.add("getX", () -> VisionHelpers.getCameraPoseTargetSpace().getX());
+    // Dash.add("getY", () -> VisionHelpers.getCameraPoseTargetSpace().getY());
+    // Dash.add("getZ", () -> VisionHelpers.getCameraPoseTargetSpace().getZ());
     Dash.add("getRawZ", () -> Buttons.ex3dPro.getZ());
 
     Dash.add("odom x", () -> drivetrainSubsystem.getPose().getX());
@@ -234,14 +241,18 @@ public class RobotContainer {
 
     // Dash.add("IntakeSpeed", () -> intakeSubsystem.getIntakeSpeed());
 
-    Dash.add("ClassName", VisionHelpers.getClassName(VisionConstants.noteLimelite));
-    Dash.add("getHeartbeat", () -> VisionHelpers.getHeartbeat(VisionConstants.noteLimelite));
+    Dash.add("isAtTargetSpeed", () -> shooterSubsystem.isAtTargetSpeed());
+    Dash.add("isAtTargetState", () -> armSubsystem.isAtTargetState());
+    Dash.add("getDistancetoSpeaker", () -> VisionHelpers.getAprilHorizDist());
+
+    // Dash.add("ClassName", VisionHelpers.getClassName(VisionConstants.noteLimelite));
+    // Dash.add("getHeartbeat", () -> VisionHelpers.getHeartbeat(VisionConstants.noteLimelite));
     // Dash.add("XLocation", () -> VisionHelpers.getXLocation());
     // Dash.add("YLocation", () -> VisionHelpers.getYLocation());
-    Dash.add("Detected", () -> VisionHelpers.isDetected(VisionConstants.aprilLimelite));
-    Dash.add("VertAngle", () -> VisionHelpers.getVertAngle(VisionConstants.noteLimelite));
-    Dash.add("HorizAngle", () -> VisionHelpers.getHorizAngle(VisionConstants.noteLimelite));
-    Dash.add("Aligned", () -> VisionHelpers.isAligned(VisionConstants.noteLimelite, 3));
+    // Dash.add("Detected", () -> VisionHelpers.isDetected(VisionConstants.aprilLimelite));
+    // Dash.add("VertAngle", () -> VisionHelpers.getVertAngle(VisionConstants.noteLimelite));
+    // Dash.add("HorizAngle", () -> VisionHelpers.getHorizAngle(VisionConstants.noteLimelite));
+    // Dash.add("Aligned", () -> VisionHelpers.isAligned(VisionConstants.noteLimelite, 3));
   }
 
   private void setupDefaultCommands() {

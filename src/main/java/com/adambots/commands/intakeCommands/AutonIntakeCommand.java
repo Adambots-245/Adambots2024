@@ -7,10 +7,9 @@ package com.adambots.commands.intakeCommands;
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.ArmConstants.State;
 import com.adambots.Constants.IntakeConstants;
-import com.adambots.devices.BaseAddressableLED.AnimationType;
 import com.adambots.Constants.ShooterConstants;
 import com.adambots.subsystems.ArmSubsystem;
-import com.adambots.subsystems.LedLightingSubsystem;
+import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
 
@@ -22,11 +21,11 @@ public class AutonIntakeCommand extends Command {
   private ArmSubsystem armSubsystem;
   private IntakeSubsystem intakeSubsystem;
   private ShooterSubsystem shooterSubsystem;
-  private LedLightingSubsystem candle;
+  private CANdleSubsystem candle;
 
   private State shootState;
 
-  public AutonIntakeCommand(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedLightingSubsystem candle, State shootState) {
+  public AutonIntakeCommand(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, CANdleSubsystem candle, State shootState) {
     addRequirements(armSubsystem, intakeSubsystem, shooterSubsystem);
 
     this.armSubsystem = armSubsystem;
@@ -41,7 +40,7 @@ public class AutonIntakeCommand extends Command {
   public void initialize() {
     armSubsystem.setCurrentState(ArmConstants.floorState);
     intakeSubsystem.setMotorSpeed(IntakeConstants.intakeSpeed);
-    candle.changeAnimation(AnimationType.Larson);
+    candle.setAnimation(CANdleSubsystem.AnimationTypes.Larson);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -50,7 +49,7 @@ public class AutonIntakeCommand extends Command {
     if (intakeSubsystem.isFirstPieceInRobot()) {
       intakeSubsystem.setMotorSpeed(IntakeConstants.lowSpeed);
       armSubsystem.setCurrentState(shootState);
-      candle.changeAnimation(AnimationType.Fire);
+    candle.setAnimation(CANdleSubsystem.AnimationTypes.Larson);
     }
   }
 
