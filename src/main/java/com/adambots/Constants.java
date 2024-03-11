@@ -14,7 +14,7 @@ public final class Constants {
     public static final String kDefaultShuffleboardTab = "debug";
     public static Field2d field = new Field2d();    
     public static Field2d aprilTagfield = new Field2d();
-    public static final Boolean enableAutomaticShuffleboardRecording = true;
+    public static final Boolean enableAutomaticShuffleboardRecording = false;
 
     public static final class LEDConstants {
         public static final int LEDS_IN_STRIP = 62;
@@ -129,8 +129,9 @@ public final class Constants {
     }
 
     public static final class ArmConstants{
-        public static final double kShoulderEncoderPositionConversionFactor = 1/256;
-        public static final double kWristEncoderPositionConversionFactor = 1/46;
+        public static final double kShoulderEncoderPositionConversionFactor = 1.40625;
+        public static final double kWristEncoderPositionConversionFactor = 4.326923076923077;
+
 
         // Arm Angle Offset (Is applied when states are created - affects every state)
         public static final double shoulderOffset = 0;
@@ -155,7 +156,7 @@ public final class Constants {
      
         // Floor Pickup
         public static final double floorWristAngle = 313;
-        public static final double floorShoulderAngle = 114.5;
+        public static final double floorShoulderAngle = 111.5;
       
         // Amp Scoring
         public static final double ampWristAngle = 283;

@@ -45,9 +45,6 @@ public class ArmSubsystem extends SubsystemBase {
     this.shoulderEncoder = shoulderEncoder;
     this.wristEncoder = wristEncoder;
 
-    targetShoulderAngle = getCurrentShoulderAngle();
-    targetWristAngle = getCurrentWristAngle();
-
     shoulderMotor.setInverted(false);
     wristMotor.setInverted(false);
 
@@ -69,10 +66,13 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderMotor.setPosition(0);
     wristMotor.setPosition(0);
 
+    targetShoulderAngle = getCurrentShoulderAngle();
+    targetWristAngle = getCurrentWristAngle();
+
     Dash.add("Shoulder Encoder", () -> getCurrentShoulderAngle());
     Dash.add("Wrist Encoder", () -> getCurrentWristAngle());
-    Dash.add("Shoulder Motor Encoder", () -> shoulderMotor.getPosition());
-    Dash.add("Wrist Motor Encoder", () -> shoulderMotor.getPosition());
+    Dash.add("Shoulder Motor Encoder", () -> shoulderMotor.getPosition()*ArmConstants.kShoulderEncoderPositionConversionFactor + shoulderAngleOffset);
+    Dash.add("Wrist Motor Encoder", () -> wristMotor.getPosition()*ArmConstants.kWristEncoderPositionConversionFactor + wristAngleOffset);
     Dash.add("wristSpeed", () ->  wristSpeed);
     Dash.add("shoulderSpeed", () ->  shoulderSpeed);
 
@@ -108,10 +108,12 @@ public class ArmSubsystem extends SubsystemBase {
 
   public double getCurrentWristAngle(){
     return wristMotor.getPosition()*ArmConstants.kWristEncoderPositionConversionFactor + wristAngleOffset;
+    // return wristEncoder.getAbsolutePositionDegrees();
   }
 
   public double getCurrentShoulderAngle(){
     return shoulderMotor.getPosition()*ArmConstants.kShoulderEncoderPositionConversionFactor + shoulderAngleOffset;
+    // return shoulderEncoder.getAbsolutePositionDegrees();
   }
 
   public void setCurrentState(State newState) {
@@ -138,6 +140,8 @@ public class ArmSubsystem extends SubsystemBase {
   
   @Override
   public void periodic() {
+    System.out.println(wristMotor.getPosition());
+
     if (DriverStation.isEnabled()){
       shoulderSpeed = shoulderPID.calculate(getCurrentShoulderAngle(), targetShoulderAngle);
       wristSpeed = wristPID.calculate(getCurrentWristAngle(), targetWristAngle);
@@ -157,8 +161,8 @@ public class ArmSubsystem extends SubsystemBase {
 
 
 
-    shoulderSpeed = MathUtil.clamp(shoulderSpeed, -0.1, 0.1);
-    wristSpeed = MathUtil.clamp(wristSpeed, -0.1, 0.1);
+    // shoulderSpeed = MathUtil.clamp(shoulderSpeed, -0.4, 0.4);
+    // wristSpeed = MathUtil.clamp(wristSpeed, -0.1, 0.1);
 
 
     

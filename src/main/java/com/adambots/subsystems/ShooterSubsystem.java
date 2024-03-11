@@ -52,7 +52,8 @@ public class ShooterSubsystem extends SubsystemBase {
     if (targetWheelSpeed > 0) {
       shooterSpeed = pidController.calculate(getShooterVelocity(), targetWheelSpeed) + targetWheelSpeed/ShooterConstants.maxSpeed*0.75;
     } else {
-      shooterSpeed = -0.03;
+      shooterSpeed = 0.0;
+      // shooterSpeed = -0.03;
     }
 
     shooterMotor.set(shooterSpeed);
