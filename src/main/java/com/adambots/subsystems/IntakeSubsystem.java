@@ -8,7 +8,6 @@ import com.adambots.actuators.BaseMotor;
 import com.adambots.sensors.BaseProximitySensor;
 import com.adambots.utils.Dash;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
@@ -18,12 +17,9 @@ public class IntakeSubsystem extends SubsystemBase {
   private BaseProximitySensor secondPieceInRobotEye;
 
   private double motorSpeed = 0;
-  private boolean distanceMode = false;
-  private double targetDist = 0;
   private boolean lockOut = false;
 
-  public IntakeSubsystem(BaseMotor intakeMotor, BaseProximitySensor firstPieceInRobotEye,
-      BaseProximitySensor secondPieceInRobotEye) {
+  public IntakeSubsystem(BaseMotor intakeMotor, BaseProximitySensor firstPieceInRobotEye, BaseProximitySensor secondPieceInRobotEye) {
     this.intakeMotor = intakeMotor;
     this.secondPieceInRobotEye = secondPieceInRobotEye;
     this.firstPieceInRobotEye = firstPieceInRobotEye;
@@ -49,16 +45,6 @@ public class IntakeSubsystem extends SubsystemBase {
     return firstPieceInRobotEye.isDetecting();
   }
 
-  public void moveDistance(double dist) {
-    distanceMode = true;
-    targetDist = dist;
-    intakeMotor.setPosition(0);
-  }
-
-  public double getIntakeSpeed() {
-    return intakeMotor.getVelocity();
-  }
-
   public boolean getLockOut() {
     return lockOut;
   }
@@ -69,18 +55,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (!distanceMode) {
-      intakeMotor.set(motorSpeed);
-    } else {
-      motorSpeed = 0;
-
-      double error = targetDist - intakeMotor.getPosition();
-      double speed = MathUtil.clamp(error, -0.1, 0.1);
-      intakeMotor.set(speed);
-
-      if (Math.abs(error) < 0.1) {
-        distanceMode = false;
-      }
-    }
+    intakeMotor.set(motorSpeed);
   }
 }
