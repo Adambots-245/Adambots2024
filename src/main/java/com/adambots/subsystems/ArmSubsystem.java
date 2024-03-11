@@ -17,10 +17,10 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase {
-  BaseMotor shoulderMotor;
-  BaseMotor wristMotor;
-  BaseAbsoluteEncoder shoulderEncoder;
-  BaseAbsoluteEncoder wristEncoder;
+  private BaseMotor shoulderMotor;
+  private BaseMotor wristMotor;
+  private BaseAbsoluteEncoder shoulderEncoder;
+  private BaseAbsoluteEncoder wristEncoder;
   private PIDController shoulderPID = new PIDController(0.02, 0.008, 0.0028); //0.018, 0.008, 0.002
   private PIDController wristPID = new PIDController(0.0062, 0.009, 0.00062); //0.0061, 0.009, 0.00062
 
@@ -33,8 +33,9 @@ public class ArmSubsystem extends SubsystemBase {
   private double targetWristAngle;
   private double shoulderSpeed, wristSpeed = 0;
 
-  // String currentStateName = "default";
-  State currentState = ArmConstants.defaultState;
+  private double shoulderAngleOffset, wristAngleOffset = 0;
+
+  private State currentState = ArmConstants.defaultState;
 
   private boolean failsafeOverride = false;
 
@@ -59,10 +60,19 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderPID.setIntegratorRange(-0.025, 0.025);
     wristPID.setIntegratorRange(-0.02, 0.02);
 
-    setPidTolerence(1);
+    shoulderPID.setTolerance(1);
+    wristPID.setTolerance(1);
+
+    shoulderAngleOffset = this.shoulderEncoder.getAbsolutePositionDegrees();
+    wristAngleOffset = this.wristEncoder.getAbsolutePositionDegrees();
+
+    shoulderMotor.setPosition(0);
+    wristMotor.setPosition(0);
 
     Dash.add("Shoulder Encoder", () -> getCurrentShoulderAngle());
     Dash.add("Wrist Encoder", () -> getCurrentWristAngle());
+    Dash.add("Shoulder Motor Encoder", () -> shoulderMotor.getPosition());
+    Dash.add("Wrist Motor Encoder", () -> shoulderMotor.getPosition());
     Dash.add("wristSpeed", () ->  wristSpeed);
     Dash.add("shoulderSpeed", () ->  shoulderSpeed);
 
@@ -76,11 +86,6 @@ public class ArmSubsystem extends SubsystemBase {
   private void setPidTolerence(State state) {
     shoulderPID.setTolerance(state.getShoulderTolerance());
     wristPID.setTolerance(state.getWristTolerance());
-  }
-
-  private void setPidTolerence(int tolerance) {
-    shoulderPID.setTolerance(tolerance);
-    wristPID.setTolerance(tolerance);
   }
 
   public void incrementShoulderAngle(double shoulderIncrement) {
@@ -97,23 +102,22 @@ public class ArmSubsystem extends SubsystemBase {
     currentState = new State(targetWristAngle, targetShoulderAngle, StateName.CUSTOM);
   }
 
-  public boolean isAtTargetState () {
+  public boolean isAtTargetState() {
     return (Math.abs(shoulderPID.getPositionError()) < 3 && Math.abs(wristPID.getPositionError()) < 3); 
   }
 
   public double getCurrentWristAngle(){
-    return wristEncoder.getAbsolutePositionDegrees();
+    return wristMotor.getPosition()*ArmConstants.kWristEncoderPositionConversionFactor + wristAngleOffset;
   }
 
   public double getCurrentShoulderAngle(){
-    return shoulderEncoder.getAbsolutePositionDegrees();
+    return shoulderMotor.getPosition()*ArmConstants.kShoulderEncoderPositionConversionFactor + shoulderAngleOffset;
   }
 
   public void setCurrentState(State newState) {
     //Enable override if we are moving directly from speaker to floor states (auton) or if we are targeting the hang state
     failsafeOverride = (currentState.getStateName() == StateName.SPEAKER && newState.getStateName() == StateName.FLOOR) || newState.getStateName() == StateName.HANG;
 
-    //
     currentState = newState;
     targetShoulderAngle = newState.getShoulderAngle();
     targetWristAngle = newState.getWristAngle();
