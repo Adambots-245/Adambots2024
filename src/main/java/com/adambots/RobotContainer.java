@@ -174,7 +174,7 @@ public class RobotContainer {
     Buttons.XboxYButton.onTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, ShooterConstants.lowSpeed)); //Speaker state and prime shooter
     Buttons.XboxYButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
 
-    Buttons.XboxLeftBumper.onTrue(new SlowOuttakeCommand(intakeSubsystem)); 
+    // Buttons.XboxLeftBumper.onTrue(new SlowOuttakeCommand(intakeSubsystem)); 
     Buttons.XboxRightBumper.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(0))); //Stop FLywheels
 
     Buttons.XboxLeftBumper.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed))); //Spin up flywheels
