@@ -35,8 +35,8 @@ public final class Constants {
         public static final String noteLimelite = "limelight-notebot";
         public static final String aprilLimelite = "limelight-april";
 
-        public static final double kPThetaController = 0.3; 
-        public static final double kDThetaController = 0.001;
+        public static final double kPThetaController = 4; 
+        public static final double kDThetaController = 0.03;
 
         public static final double kPTranslateController = 3; 
         public static final double kDTranslateController = 0.01;
@@ -113,7 +113,7 @@ public final class Constants {
     }
 
     public static final class IntakeConstants{
-        public static final double intakeSpeed = 0.2;
+        public static final double intakeSpeed = 0.5;
         public static final double humanSpeed = 0.2;
         public static final double ampSpeed = 0.5;
         public static final double lowSpeed = 0.1;
@@ -159,7 +159,7 @@ public final class Constants {
         public static final double floorShoulderAngle = 111.5;
       
         // Amp Scoring
-        public static final double ampWristAngle = 283;
+        public static final double ampWristAngle = 275;
         public static final double ampShoulderAngle = 184.3;
       
         // Human Player Pickup

@@ -35,7 +35,11 @@ public class FeedShooterCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+          System.out.println("TRYINGGGGGGGGGGGGGGG");
+
     if (shooterSubsystem.isAtTargetSpeed()) {
+      System.out.println("TAGREY SPEEEEEEEEEEEED");
+
       intakeSubsystem.setMotorSpeed(IntakeConstants.shootSpeed);
       increment = true;
     }

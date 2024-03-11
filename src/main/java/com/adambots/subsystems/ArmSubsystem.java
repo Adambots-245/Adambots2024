@@ -102,8 +102,8 @@ public class ArmSubsystem extends SubsystemBase {
     currentState = new State(targetWristAngle, targetShoulderAngle, StateName.CUSTOM);
   }
 
-  public boolean isAtTargetState() {
-    return (Math.abs(shoulderPID.getPositionError()) < 3 && Math.abs(wristPID.getPositionError()) < 3); 
+  public boolean isAtTargetState () {
+    return (Math.abs(shoulderPID.getPositionError()) < 10 && Math.abs(wristPID.getPositionError()) < 10); 
   }
 
   public double getCurrentWristAngle(){
@@ -157,6 +157,7 @@ public class ArmSubsystem extends SubsystemBase {
     }else{
       shoulderSpeed = MathUtil.clamp(shoulderSpeed, -ArmConstants.maxShoulderDownSpeed, ArmConstants.maxShoulderUpSpeed);
     }
+    
     wristSpeed = MathUtil.clamp(wristSpeed, -ArmConstants.maxWristSpeed, ArmConstants.maxWristSpeed);
 
 

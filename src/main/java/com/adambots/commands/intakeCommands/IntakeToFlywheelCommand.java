@@ -9,10 +9,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.IntakeConstants;
 import com.adambots.Constants.LEDConstants;
-import com.adambots.devices.BaseAddressableLED.AnimationType;
 import com.adambots.subsystems.ArmSubsystem;
+import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
-import com.adambots.subsystems.LedLightingSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
 
 
@@ -21,12 +20,12 @@ public class IntakeToFlywheelCommand extends Command {
   private ArmSubsystem armSubsystem;
   private IntakeSubsystem intakeSubsystem;
   private ShooterSubsystem shooterSubsystem;
-  private LedLightingSubsystem ledSubsystem;
+  private CANdleSubsystem ledSubsystem;
 
   private String state = "initial";
   private int inc = 0;
 
-  public IntakeToFlywheelCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem, LedLightingSubsystem ledSubsystem) {
+  public IntakeToFlywheelCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem, CANdleSubsystem ledSubsystem) {
     addRequirements(armSubsystem, intakeSubsystem);
 
     this.armSubsystem = armSubsystem;
@@ -67,10 +66,12 @@ public class IntakeToFlywheelCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     armSubsystem.setCurrentState(ArmConstants.defaultState);
+
+    System.out.println("STOP");
     intakeSubsystem.setMotorSpeed(0);
 
     ledSubsystem.setColor(LEDConstants.yellow);
-    ledSubsystem.changeAnimation(AnimationType.Larson);
+    ledSubsystem.setAnimation(CANdleSubsystem.AnimationTypes.Larson);
   }
 
   // Returns true when the command should end.

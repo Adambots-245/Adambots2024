@@ -22,7 +22,7 @@ public class SpinCommand extends Command {
   @Override
   public void execute() {
     //Moves left or right depending on the angle
-    driveTrainSubsystem.drive(Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond, Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond , DriveConstants.kTeleopRotationalSpeed * 0.8, true);  
+    driveTrainSubsystem.drive(Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond, Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond , DriveConstants.kTeleopRotationalSpeed * 0.6, true);  
   }
 
   // Called once the command ends or is interrupted.

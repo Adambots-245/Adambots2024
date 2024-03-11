@@ -3,8 +3,7 @@ package com.adambots.commands.visionCommands;
 import com.adambots.Robot;
 import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
-import com.adambots.devices.BaseAddressableLED.AnimationType;
-import com.adambots.subsystems.LedLightingSubsystem;
+import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.vision.VisionHelpers;
 
@@ -13,14 +12,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class RotateToAprilCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
-  private LedLightingSubsystem ledSubsystem;
+  private CANdleSubsystem ledSubsystem;
   private final PIDController turningPIDController = new PIDController(VisionConstants.kPThetaController, 0,
       VisionConstants.kDThetaController);
   private int alignedCount;
   private double drive_output;
   private double offset;
 
-  public RotateToAprilCommand(DrivetrainSubsystem driveTrainSubsystem, LedLightingSubsystem caNdleSubsystem,
+  public RotateToAprilCommand(DrivetrainSubsystem driveTrainSubsystem, CANdleSubsystem caNdleSubsystem,
       double offset) {
     addRequirements(driveTrainSubsystem);
 
@@ -70,7 +69,7 @@ public class RotateToAprilCommand extends Command {
   public void end(boolean interrupted) {
     driveTrainSubsystem.stop();
     ledSubsystem.clearAllAnims();
-    ledSubsystem.changeAnimation(AnimationType.Larson);
+    ledSubsystem.setAnimation(CANdleSubsystem.AnimationTypes.Larson);
   }
 
   // Returns true when the command should end.

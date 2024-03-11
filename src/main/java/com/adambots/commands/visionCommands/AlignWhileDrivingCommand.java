@@ -3,10 +3,9 @@ package com.adambots.commands.visionCommands;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
-import com.adambots.devices.BaseAddressableLED.AnimationType;
+import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
-import com.adambots.subsystems.LedLightingSubsystem;
 import com.adambots.utils.Buttons;
 import com.adambots.vision.VisionHelpers;
 
@@ -16,14 +15,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class AlignWhileDrivingCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
   private IntakeSubsystem intakeSubsystem;
-  private LedLightingSubsystem candleSubsystem;
-  private PIDController turningPIDController = new PIDController(VisionConstants.kPThetaController, 0,
-      VisionConstants.kDThetaController);
+  private CANdleSubsystem candleSubsystem;
+  private PIDController turningPIDController = new PIDController(VisionConstants.kPThetaController, 0, VisionConstants.kDThetaController);
   private double rotation_output;
   private String limelight;
 
   public AlignWhileDrivingCommand(DrivetrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem,
-      LedLightingSubsystem ledSubsystem, String limelight) {
+      CANdleSubsystem ledSubsystem, String limelight) {
     addRequirements(driveTrainSubsystem);
 
     this.driveTrainSubsystem = driveTrainSubsystem;
@@ -80,7 +78,7 @@ public class AlignWhileDrivingCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     driveTrainSubsystem.stop();
-    candleSubsystem.changeAnimation(AnimationType.Larson);
+    candleSubsystem.setAnimation(CANdleSubsystem.AnimationTypes.Larson);
   }
 
   // Returns true when the command should end.
