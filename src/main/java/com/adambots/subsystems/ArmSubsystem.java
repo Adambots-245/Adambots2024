@@ -138,11 +138,12 @@ public class ArmSubsystem extends SubsystemBase {
   
   @Override
   public void periodic() {
-    shoulderSpeed = shoulderPID.calculate(getCurrentShoulderAngle(), targetShoulderAngle);
-    wristSpeed = wristPID.calculate(getCurrentWristAngle(), targetWristAngle);
-
-    if (!DriverStation.isEnabled()){
-      shoulderSpeed = wristSpeed = 0;
+    if (DriverStation.isEnabled()){
+      shoulderSpeed = shoulderPID.calculate(getCurrentShoulderAngle(), targetShoulderAngle);
+      wristSpeed = wristPID.calculate(getCurrentWristAngle(), targetWristAngle);
+    } else {
+      wristSpeed = 0;
+      shoulderSpeed = 0;
     }
 
     failSafes();
@@ -155,6 +156,12 @@ public class ArmSubsystem extends SubsystemBase {
     wristSpeed = MathUtil.clamp(wristSpeed, -ArmConstants.maxWristSpeed, ArmConstants.maxWristSpeed);
 
 
+
+    shoulderSpeed = MathUtil.clamp(shoulderSpeed, -0.1, 0.1);
+    wristSpeed = MathUtil.clamp(wristSpeed, -0.1, 0.1);
+
+
+    
     shoulderMotor.set(shoulderSpeed);
     wristMotor.set(wristSpeed);
   }
