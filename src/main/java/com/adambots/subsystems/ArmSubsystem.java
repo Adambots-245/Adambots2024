@@ -33,7 +33,7 @@ public class ArmSubsystem extends SubsystemBase {
   private double targetWristAngle;
   private double shoulderSpeed, wristSpeed = 0;
 
-  private int speedDebounce = 0;
+  // private int speedDebounce = 0;
 
   private double shoulderAngleOffset, wristAngleOffset = 0;
 
@@ -109,13 +109,19 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public double getCurrentWristAngle(){
-    // return wristMotor.getPosition()*ArmConstants.kWristEncoderPositionConversionFactor + wristAngleOffset;
     return wristEncoder.getAbsolutePositionDegrees();
   }
 
   public double getCurrentShoulderAngle(){
+    return shoulderEncoder.getAbsolutePositionDegrees();
+  }
+
+  public double getCurrentWristMotorAngle(){
+    return wristMotor.getPosition()*ArmConstants.kWristEncoderPositionConversionFactor + wristAngleOffset;
+  }
+
+  public double getCurrentShoulderMotorAngle(){
     return shoulderMotor.getPosition()*ArmConstants.kShoulderEncoderPositionConversionFactor + shoulderAngleOffset;
-    // return shoulderEncoder.getAbsolutePositionDegrees();
   }
 
   public void setCurrentState(State newState) {
@@ -143,9 +149,9 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     if (DriverStation.isEnabled()){
-      shoulderSpeed = shoulderPID.calculate(getCurrentShoulderAngle(), targetShoulderAngle);
+      shoulderSpeed = shoulderPID.calculate(getCurrentShoulderMotorAngle(), targetShoulderAngle);
       if (currentState.getStateName() == StateName.FLOOR) {
-        shoulderSpeed = shoulderSpeed - 0.5;
+        shoulderSpeed = shoulderSpeed - 0.3;
       }
       wristSpeed = wristPID.calculate(getCurrentWristAngle(), targetWristAngle);
     } else {
@@ -153,11 +159,11 @@ public class ArmSubsystem extends SubsystemBase {
       shoulderSpeed = 0;
     }
 
-    if (Math.abs(wristEncoder.getAbsolutePositionDegrees() - getCurrentWristAngle()) > 5) {
-      System.out.println("RESET");
-      wristAngleOffset = wristEncoder.getAbsolutePositionDegrees();
-      wristMotor.setPosition(0);
-    }
+    // if (Math.abs(wristEncoder.getAbsolutePositionDegrees() - getCurrentWristAngle()) > 5) {
+    //   System.out.println("RESET");
+    //   wristAngleOffset = wristEncoder.getAbsolutePositionDegrees();
+    //   wristMotor.setPosition(0);
+    // }
     // if (Math.abs(wristSpeed) < 0.1 && getCurrentStateName() == StateName.DEFAULT) {
     //   speedDebounce++;
     // } else {
@@ -180,10 +186,6 @@ public class ArmSubsystem extends SubsystemBase {
     }
     
     wristSpeed = MathUtil.clamp(wristSpeed, -ArmConstants.maxWristSpeed, ArmConstants.maxWristSpeed);
-
-    // shoulderSpeed = MathUtil.clamp(shoulderSpeed, -0.4, 0.4);
-    // wristSpeed = MathUtil.clamp(wristSpeed, -0.1, 0.1);
-
     
     shoulderMotor.set(shoulderSpeed);
     wristMotor.set(wristSpeed);

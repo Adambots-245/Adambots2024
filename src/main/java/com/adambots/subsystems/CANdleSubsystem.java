@@ -42,7 +42,7 @@ public class CANdleSubsystem extends SubsystemBase {
     configAll.disableWhenLOS = true;
     configAll.stripType = LEDStripType.GRB; // the BTF-Lighting LED strip uses GRB format
     configAll.brightnessScalar = 1;
-
+    
     candleDevice.configAllSettings(configAll);
 
     setColor(LEDConstants.yellow);
@@ -164,7 +164,9 @@ public class CANdleSubsystem extends SubsystemBase {
         break;
     }
 
-    // animation.setSpeed(animateSpeed);
+    if (animation != null) {
+      animation.setSpeed(animateSpeed);
+    }
   }
 
   public void clearAllAnims() {

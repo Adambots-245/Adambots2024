@@ -6,7 +6,6 @@ import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
-import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.utils.Buttons;
 import com.adambots.vision.VisionHelpers;
 
@@ -15,15 +14,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class AlignWhileDrivingCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
-  private IntakeSubsystem intakeSubsystem;
   private CANdleSubsystem candleSubsystem;
   private PIDController turningPIDController = new PIDController(VisionConstants.kPThetaController, 0, VisionConstants.kDThetaController);
   private double rotation_output;
   private String limelight;
-  double rotate;
+  private double rotate;
 
-  public AlignWhileDrivingCommand(DrivetrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem,
-      CANdleSubsystem ledSubsystem, String limelight) {
+  public AlignWhileDrivingCommand(DrivetrainSubsystem driveTrainSubsystem, CANdleSubsystem ledSubsystem, String limelight) {
     addRequirements(driveTrainSubsystem);
 
     turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
@@ -31,7 +28,6 @@ public class AlignWhileDrivingCommand extends Command {
     this.driveTrainSubsystem = driveTrainSubsystem;
     this.candleSubsystem = ledSubsystem;
     this.limelight = limelight;
-    this.intakeSubsystem = intakeSubsystem;
   }
 
   @Override
@@ -63,8 +59,6 @@ public class AlignWhileDrivingCommand extends Command {
           Buttons.sidewaysSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond, rotation_output, true);
     // Checks to see if we have an object detected
     if (VisionHelpers.isDetected(limelight)) {
-      // rotateToAngleCommand = new RotateToAngleCommand(driveTrainSubsystem,Math.toDegrees( RobotMap.gyro.getContinuousYawDeg() + rotate), RobotMap.gyro);
-      // rotateToAngleCommand.schedule();
       // driveTrainSubsystem.drive(Buttons.forwardSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond,
       //     Buttons.sidewaysSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond, rotation_output, true);
     } else {
@@ -97,7 +91,7 @@ public class AlignWhileDrivingCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (limelight == VisionConstants.noteLimelite && intakeSubsystem.isFirstPieceInRobot()) {
+    if (limelight == VisionConstants.noteLimelite) {
       return true;
     } else {
       return false;
