@@ -145,7 +145,7 @@ public class RobotContainer {
     Buttons.JoystickButton9.whileTrue(new SpinCommand(drivetrainSubsystem)); //Spin while drive driving (defense)
 
     Buttons.JoystickButton7.whileTrue(new AlignWhileDrivingCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, VisionConstants.aprilLimelite));
-    Buttons.JoystickButton8.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro)); //Hang on the chain
+    Buttons.JoystickButton8.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro, candleSubsytem)); //Hang on the chain
     
     Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw())); //Reset Gyro
 
@@ -182,7 +182,7 @@ public class RobotContainer {
     Buttons.XboxRightTriggerButton.whileTrue(new RunRightHangCommand(hangSubsystem, -0.25)); //Run right winch in
 
     //These commands do automatically engage solenoids if you are running the winches out (and leaves time for solenoids to engage)
-    Buttons.XboxBackButton.whileTrue(new RunHangCommand(hangSubsystem, 1)); //Raises bendy rods up
+    Buttons.XboxBackButton.whileTrue(new RunHangCommand(hangSubsystem, candleSubsytem, 1)); //Raises bendy rods up
 
     //Xbox DPad Bindings
     Buttons.XboxDPadN.whileTrue(new RotateShoulderCommand(armSubsystem,1, true));
@@ -191,7 +191,6 @@ public class RobotContainer {
     Buttons.XboxDPadE.whileTrue(new RotateWristCommand(armSubsystem, -0.5, true));
     Buttons.XboxDPadW.whileTrue(new RotateWristCommand(armSubsystem, 0.5, true));
   }
-
 
   private void registerNamedCommands() {
     NamedCommands.registerCommand("PrimeShooterCloseCommand", new PrimeShooterCommand(armSubsystem, shooterSubsystem, ShooterConstants.lowSpeed));

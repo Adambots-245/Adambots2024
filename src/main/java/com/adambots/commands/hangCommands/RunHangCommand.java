@@ -4,18 +4,21 @@
 
 package com.adambots.commands.hangCommands;
 
+import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.HangSubsystem;
+import com.adambots.subsystems.CANdleSubsystem.AnimationTypes;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class RunHangCommand extends Command {
   private HangSubsystem hangSubsystem;
+  private CANdleSubsystem caNdleSubsystem;
   private double speed;
   private int inc = 0;
 
-  public RunHangCommand(HangSubsystem hangSubsystem, double speed) {
+  public RunHangCommand(HangSubsystem hangSubsystem, CANdleSubsystem caNdleSubsystem, double speed) {
     addRequirements(hangSubsystem);
-
+    this.caNdleSubsystem = caNdleSubsystem;
     this.hangSubsystem = hangSubsystem;
     this.speed = speed;
   }
@@ -25,6 +28,7 @@ public class RunHangCommand extends Command {
   public void initialize() {
     if (speed > 0) {
       hangSubsystem.setSolenoids(true); //Engage solenoids if we are running in the direction they are needed.
+      caNdleSubsystem.setAnimation(AnimationTypes.Fire);
     }
     inc = 0;
   }
