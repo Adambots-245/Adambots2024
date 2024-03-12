@@ -30,9 +30,9 @@ public class RotateToAngleCommand extends Command {
 
   @Override
   public void initialize() {
-    if (Robot.isOnRedAlliance()) {
-      targetAngleRad = -targetAngleRad;
-    }
+    // if (Robot.isOnRedAlliance()) {
+      // targetAngleRad = -targetAngleRad;
+    // }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

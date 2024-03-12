@@ -6,7 +6,6 @@ import com.adambots.Constants.ShooterConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.commands.armCommands.AmpCommand;
 import com.adambots.commands.armCommands.PrimeShooterCommand;
-import com.adambots.commands.armCommands.PrimeShooterCommandFeed;
 import com.adambots.commands.armCommands.PrimeShooterFloorCommand;
 import com.adambots.commands.armCommands.RetractShooterCommand;
 import com.adambots.commands.armCommands.RotateShoulderCommand;
@@ -24,7 +23,6 @@ import com.adambots.commands.intakeCommands.FancyAdjustCommand;
 import com.adambots.commands.intakeCommands.FeedShooterCommand;
 import com.adambots.commands.intakeCommands.IntakeToFlywheelCommand;
 import com.adambots.commands.intakeCommands.ShootWhenAligned;
-import com.adambots.commands.intakeCommands.SlowOuttakeCommand;
 import com.adambots.commands.visionCommands.AlignWhileDrivingCommand;
 import com.adambots.commands.visionCommands.DriveToNoteCommand;
 import com.adambots.commands.visionCommands.InterpolateDistanceCommand;
@@ -166,12 +164,12 @@ public class RobotContainer {
 
     Buttons.XboxStartButton.whileTrue(new InterpolateDistanceCommand(armSubsystem, shooterSubsystem));
 
-    Buttons.XboxBButton.whileTrue(new PrimeShooterFloorCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.lowSpeed)); //Floor state and spin shooter
+    Buttons.XboxBButton.whileTrue(new PrimeShooterFloorCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed)); //Floor state and spin shooter
     Buttons.XboxBButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
 
     Buttons.XboxXButton.whileTrue(new AmpCommand(armSubsystem)); //Move arm to amp pos
 
-    Buttons.XboxYButton.onTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, ShooterConstants.lowSpeed)); //Speaker state and prime shooter
+    Buttons.XboxYButton.onTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, ShooterConstants.mediumSpeed)); //Speaker state and prime shooter
     Buttons.XboxYButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
 
     // Buttons.XboxLeftBumper.onTrue(new SlowOuttakeCommand(intakeSubsystem)); 
@@ -231,6 +229,7 @@ public class RobotContainer {
     // Dash.add("getX", () -> VisionHelpers.getCameraPoseTargetSpace().getX());
     // Dash.add("getY", () -> VisionHelpers.getCameraPoseTargetSpace().getY());
     // Dash.add("getZ", () -> VisionHelpers.getCameraPoseTargetSpace().getZ());
+    Dash.add("newAprilDegreesAngle", () -> VisionHelpers.getHorizAngle(VisionConstants.aprilLimelite));
     Dash.add("getRawZ", () -> Buttons.ex3dPro.getZ());
 
     Dash.add("odom x", () -> drivetrainSubsystem.getPose().getX());

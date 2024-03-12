@@ -35,8 +35,8 @@ public final class Constants {
         public static final String noteLimelite = "limelight-notebot";
         public static final String aprilLimelite = "limelight-april";
 
-        public static final double kPThetaController = 4; 
-        public static final double kDThetaController = 0.03;
+        public static final double kPThetaController = 2; 
+        public static final double kDThetaController = 0.05;
 
         public static final double kPTranslateController = 3; 
         public static final double kDTranslateController = 0.01;
@@ -139,23 +139,23 @@ public final class Constants {
 
         // Shoulder Limits
         public static final double maxShoulderUpSpeed = 0.4; //1.0
-        public static final double maxShoulderDownSpeed = 0.4; //0.5
+        public static final double maxShoulderDownSpeed = 0.5; //0.5
         public static final double maxShoulderDownSpeedNitro = 0.95;
 
         public static final double shoulderLowerLimit = 110;
-        public static final double shoulderDangerZoneThreshold = 153;
+        public static final double shoulderDangerZoneThreshold = 152;
         public static final double shoulderUpperLimit = 203;
 
         // Wrist Limits
-        public static final double maxWristSpeed = 0.3;
+        public static final double maxWristSpeed = 0.4;
         
         public static final double wristLowerLimit = 160;
         public static final double wristDangerZoneLowerLimit = 307;
-        public static final double wristShoulderStopLimit = 280;
+        public static final double wristShoulderStopLimit = 260;
         public static final double wristUpperLimit = 338;
      
         // Floor Pickup
-        public static final double floorWristAngle = 313;
+        public static final double floorWristAngle = 314;
         public static final double floorShoulderAngle = 111.5;
       
         // Amp Scoring
@@ -191,7 +191,7 @@ public final class Constants {
         public static final double hangShoulderAngle = 146.5; 
 
         //Close Floor Shoot State
-        public static final double closeFloorShootWristAngle = 312;
+        public static final double closeFloorShootWristAngle = 310; //322
         public static final double closeFloorShootShoulderAngle = 123.7;
 
         // Bottom 2 note floor shoot **NOT TUNED**
@@ -263,7 +263,7 @@ public final class Constants {
         public final static State ampState = new State(ampWristAngle, ampShoulderAngle, StateName.AMP, 3.5, 3.5);
         public final static State humanState = new State(humanWristAngle, humanShoulderAngle, StateName.HUMAN, 2, 2);
         public final static State trapState = new State(trapWristAngle, trapShoulderAngle, StateName.TRAP);
-        public final static State defaultState = new State(defaultWristAngle, defaultShoulderAngle, StateName.DEFAULT, 5, 5);
+        public final static State defaultState = new State(defaultWristAngle, defaultShoulderAngle, StateName.DEFAULT, 8, 3);
         public final static State speakerState = new State(speakerWristAngle, speakerShoulderAngle, StateName.SPEAKER, 1, 1);
         public final static State centerFloorShootState = new State(centerFloorShootWristAngle, centerfloorShootShoulderAngle, StateName.CENTER_FLOOR_SHOOT);
         public final static State topFloorShootState = new State(topFloorShootWristAngle, topfloorShootShoulderAngle, StateName.TOP_FLOOR_SHOOT);

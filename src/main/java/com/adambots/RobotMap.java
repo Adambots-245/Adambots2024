@@ -86,7 +86,7 @@ public class RobotMap {
 
     // Arm Devices
     public static final BaseMotor shoulderMotor = new TalonFXMotor(shoulderMotorPort, true, 45.0);
-    public static final BaseMotor wristMotor = new TalonFXMotor(wristMotorPort, true, 35.0);
+    public static final BaseMotor wristMotor = new TalonFXMotor(wristMotorPort, true, 35.0); //35
     public static final BaseAbsoluteEncoder shoulderEncoder = new ThroughBoreEncoder(shoulderEncoderPort);
     public static final BaseAbsoluteEncoder wristEncoder = new ThroughBoreEncoder(wristEncoderPort);
 

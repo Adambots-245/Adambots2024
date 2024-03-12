@@ -44,16 +44,16 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public boolean isAtTargetSpeed() {
-    return getShooterVelocity() > targetWheelSpeed - 20; // 1
+    return getShooterVelocity() > targetWheelSpeed - 1; // 1
   }
 
   @Override
   public void periodic() {
     if (targetWheelSpeed > 0) {
-      shooterSpeed = pidController.calculate(getShooterVelocity(), targetWheelSpeed) + targetWheelSpeed/ShooterConstants.maxSpeed*0.75;
+      shooterSpeed = pidController.calculate(getShooterVelocity(), targetWheelSpeed) + targetWheelSpeed/ShooterConstants.maxSpeed*0.5;
     } else {
-      shooterSpeed = 0.0;
-      // shooterSpeed = -0.03;
+      // shooterSpeed = 0.0;
+      shooterSpeed = -0.03;
     }
 
     shooterMotor.set(shooterSpeed);

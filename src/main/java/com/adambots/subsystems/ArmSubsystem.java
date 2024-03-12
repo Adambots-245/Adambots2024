@@ -21,7 +21,7 @@ public class ArmSubsystem extends SubsystemBase {
   private BaseMotor wristMotor;
   private BaseAbsoluteEncoder shoulderEncoder;
   private BaseAbsoluteEncoder wristEncoder;
-  private PIDController shoulderPID = new PIDController(0.02, 0.008, 0.0028); //0.018, 0.008, 0.002
+  private PIDController shoulderPID = new PIDController(0.02, 0.01, 0.0028); //0.02, 0.008, 0.0028
   private PIDController wristPID = new PIDController(0.0062, 0.009, 0.00062); //0.0061, 0.009, 0.00062
 
   private double shoulderLowerLimit = ArmConstants.shoulderLowerLimit;
@@ -32,6 +32,8 @@ public class ArmSubsystem extends SubsystemBase {
   private double targetShoulderAngle;
   private double targetWristAngle;
   private double shoulderSpeed, wristSpeed = 0;
+
+  private int speedDebounce = 0;
 
   private double shoulderAngleOffset, wristAngleOffset = 0;
 
@@ -66,11 +68,11 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderMotor.setPosition(0);
     wristMotor.setPosition(0);
 
-    targetShoulderAngle = getCurrentShoulderAngle();
-    targetWristAngle = getCurrentWristAngle();
+    targetShoulderAngle = this.shoulderEncoder.getAbsolutePositionDegrees();
+    targetWristAngle = this.wristEncoder.getAbsolutePositionDegrees();
 
-    Dash.add("Shoulder Encoder", () -> getCurrentShoulderAngle());
-    Dash.add("Wrist Encoder", () -> getCurrentWristAngle());
+    Dash.add("Shoulder Encoder", () -> shoulderEncoder.getAbsolutePositionDegrees());
+    Dash.add("Wrist Encoder", () -> wristEncoder.getAbsolutePositionDegrees());
     Dash.add("Shoulder Motor Encoder", () -> shoulderMotor.getPosition()*ArmConstants.kShoulderEncoderPositionConversionFactor + shoulderAngleOffset);
     Dash.add("Wrist Motor Encoder", () -> wristMotor.getPosition()*ArmConstants.kWristEncoderPositionConversionFactor + wristAngleOffset);
     Dash.add("wristSpeed", () ->  wristSpeed);
@@ -103,12 +105,12 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public boolean isAtTargetState () {
-    return (Math.abs(shoulderPID.getPositionError()) < 10 && Math.abs(wristPID.getPositionError()) < 10); 
+    return (Math.abs(shoulderPID.getPositionError()) < 5 && Math.abs(wristPID.getPositionError()) < 5); 
   }
 
   public double getCurrentWristAngle(){
-    return wristMotor.getPosition()*ArmConstants.kWristEncoderPositionConversionFactor + wristAngleOffset;
-    // return wristEncoder.getAbsolutePositionDegrees();
+    // return wristMotor.getPosition()*ArmConstants.kWristEncoderPositionConversionFactor + wristAngleOffset;
+    return wristEncoder.getAbsolutePositionDegrees();
   }
 
   public double getCurrentShoulderAngle(){
@@ -140,15 +142,34 @@ public class ArmSubsystem extends SubsystemBase {
   
   @Override
   public void periodic() {
-    System.out.println(wristMotor.getPosition());
-
     if (DriverStation.isEnabled()){
       shoulderSpeed = shoulderPID.calculate(getCurrentShoulderAngle(), targetShoulderAngle);
+      if (currentState.getStateName() == StateName.FLOOR) {
+        shoulderSpeed = shoulderSpeed - 0.5;
+      }
       wristSpeed = wristPID.calculate(getCurrentWristAngle(), targetWristAngle);
     } else {
       wristSpeed = 0;
       shoulderSpeed = 0;
     }
+
+    if (Math.abs(wristEncoder.getAbsolutePositionDegrees() - getCurrentWristAngle()) > 5) {
+      System.out.println("RESET");
+      wristAngleOffset = wristEncoder.getAbsolutePositionDegrees();
+      wristMotor.setPosition(0);
+    }
+    // if (Math.abs(wristSpeed) < 0.1 && getCurrentStateName() == StateName.DEFAULT) {
+    //   speedDebounce++;
+    // } else {
+    //   speedDebounce--;
+    // }
+    // speedDebounce = MathUtil.clamp(speedDebounce, 0, 50);
+    // if (speedDebounce >= 50) {
+    //   System.out.println("RESET");
+    //   speedDebounce = 0;
+    //   wristAngleOffset = wristEncoder.getAbsolutePositionDegrees();
+    //   wristMotor.setPosition(0);
+    // }
 
     failSafes();
 
@@ -160,11 +181,8 @@ public class ArmSubsystem extends SubsystemBase {
     
     wristSpeed = MathUtil.clamp(wristSpeed, -ArmConstants.maxWristSpeed, ArmConstants.maxWristSpeed);
 
-
-
     // shoulderSpeed = MathUtil.clamp(shoulderSpeed, -0.4, 0.4);
     // wristSpeed = MathUtil.clamp(wristSpeed, -0.1, 0.1);
-
 
     
     shoulderMotor.set(shoulderSpeed);
