@@ -23,9 +23,9 @@ import com.adambots.commands.intakeCommands.FancyAdjustCommand;
 import com.adambots.commands.intakeCommands.FeedShooterCommand;
 import com.adambots.commands.intakeCommands.IntakeToFlywheelCommand;
 import com.adambots.commands.intakeCommands.ShootWhenAligned;
-import com.adambots.commands.visionCommands.AlignWhileDrivingCommand;
 import com.adambots.commands.visionCommands.DriveToNoteCommand;
 import com.adambots.commands.visionCommands.InterpolateDistanceCommand;
+import com.adambots.commands.visionCommands.OdomSpeakerAlignCommand;
 import com.adambots.commands.visionCommands.RotateToAprilCommand;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.CANdleSubsystem;
@@ -147,8 +147,9 @@ public class RobotContainer {
     Buttons.JoystickButton9.whileTrue(new SpinCommand(drivetrainSubsystem)); //Spin while drive driving (defense)
 
     Buttons.JoystickButton8.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro, candleSubsytem)); //Hang on the chain
-    Buttons.JoystickButton7.whileTrue(new AlignWhileDrivingCommand(drivetrainSubsystem, candleSubsytem, VisionConstants.aprilLimelite));
-    
+    // Buttons.JoystickButton7.whileTrue(new AlignWhileDrivingCommand(drivetrainSubsystem, candleSubsytem, VisionConstants.aprilLimelite));
+    Buttons.JoystickButton7.whileTrue(new OdomSpeakerAlignCommand(drivetrainSubsystem, candleSubsytem));
+
     Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw())); //Reset Gyro
 
     Buttons.JoystickButton10.whileTrue(new ShootWhenAligned(drivetrainSubsystem, candleSubsytem, intakeSubsystem, armSubsystem, shooterSubsystem));
@@ -241,6 +242,11 @@ public class RobotContainer {
     Dash.add("yaw", () -> RobotMap.gyro.getContinuousYawDeg());
     Dash.add("pitch", () -> RobotMap.gyro.getPitch());
     Dash.add("roll", () -> RobotMap.gyro.getRoll());
+
+    Dash.add("Vision X", () -> VisionHelpers.getAprilTagBotPose2dBlue().getX());
+    Dash.add("Vision y", () -> VisionHelpers.getAprilTagBotPose2dBlue().getY());
+    Dash.add("rOATION y", () -> VisionHelpers.getAprilTagBotPose2dBlue().getRotation().getDegrees());
+
 
     // Dash.add("IntakeSpeed", () -> intakeSubsystem.getIntakeSpeed());
 

@@ -1,9 +1,9 @@
 package com.adambots.commands.visionCommands;
 
-import com.adambots.RobotMap;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
+import com.adambots.RobotMap;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.Buttons;
@@ -40,6 +40,7 @@ public class AlignWhileDrivingCommand extends Command {
   @Override
   public void execute() {
     if (VisionHelpers.isDetected(limelight)){
+      driveTrainSubsystem.resetOdometryXY(VisionHelpers.getAprilTagBotPose2dBlue());
       // rotate = VisionHelpers.getAprilTagBotPose2d().getRotation().getRadians();
       rotate = -Math.toRadians(VisionHelpers.getHorizAngle(limelight)) + RobotMap.gyro.getContinuousYawRad();
 

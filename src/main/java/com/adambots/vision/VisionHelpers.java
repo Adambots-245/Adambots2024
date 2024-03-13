@@ -50,8 +50,8 @@ public class VisionHelpers {
         // return null;
     }
 
-    public static Pose2d getAprilTagBotPose2d() {
-        return LimelightHelpers.getLatestResults(VisionConstants.aprilLimelite).targetingResults.getBotPose2d();  
+    public static Pose2d getAprilTagBotPose2dBlue() {
+        return LimelightHelpers.getLatestResults(VisionConstants.aprilLimelite).targetingResults.getBotPose2d_wpiBlue();  
     }
 
     public static String getClassName(String limelight) {

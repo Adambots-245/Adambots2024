@@ -41,7 +41,7 @@ public class FancyAdjustCommand extends Command {
     timeOut++;
 
     if (state == 0 && inc <= 15) {
-      intakeSubsystem.setMotorSpeed(IntakeConstants.lowSpeed); //Intake for 30 ticks
+      intakeSubsystem.setMotorSpeed(0.25); //Intake for 30 ticks
     } else if (state == 0 && inc > 15) {
       state = 1;
       intakeSubsystem.setMotorSpeed(-IntakeConstants.lowSpeed); //Outtake until sensor

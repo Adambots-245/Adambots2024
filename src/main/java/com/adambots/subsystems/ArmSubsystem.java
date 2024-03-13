@@ -108,11 +108,11 @@ public class ArmSubsystem extends SubsystemBase {
     return (Math.abs(shoulderPID.getPositionError()) < 5 && Math.abs(wristPID.getPositionError()) < 5); 
   }
 
-  public double getCurrentWristAngle(){
+  public double getCurrentWristShaftAngle(){
     return wristEncoder.getAbsolutePositionDegrees();
   }
 
-  public double getCurrentShoulderAngle(){
+  public double getCurrentShoulderShaftAngle(){
     return shoulderEncoder.getAbsolutePositionDegrees();
   }
 
@@ -153,10 +153,16 @@ public class ArmSubsystem extends SubsystemBase {
       if (currentState.getStateName() == StateName.FLOOR) {
         shoulderSpeed = shoulderSpeed - 0.3;
       }
-      wristSpeed = wristPID.calculate(getCurrentWristAngle(), targetWristAngle);
+      wristSpeed = wristPID.calculate(getCurrentWristShaftAngle(), targetWristAngle);
     } else {
       wristSpeed = 0;
       shoulderSpeed = 0;
+    }
+
+    if(currentState.getStateName() == StateName.FLOOR && getCurrentShoulderShaftAngle() < ArmConstants.floorShoulderAngle + 2) {
+      System.out.println("RESET");
+      wristAngleOffset = wristEncoder.getAbsolutePositionDegrees();
+      wristMotor.setPosition(0);
     }
 
     // if (Math.abs(wristEncoder.getAbsolutePositionDegrees() - getCurrentWristAngle()) > 5) {
@@ -192,35 +198,35 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   private void failSafes() {
-    if(getCurrentShoulderAngle() < ArmConstants.shoulderDangerZoneThreshold && !failsafeOverride){
+    if(getCurrentShoulderShaftAngle() < ArmConstants.shoulderDangerZoneThreshold && !failsafeOverride){
       wristLowerLimit = ArmConstants.wristDangerZoneLowerLimit;
     }else{
       wristLowerLimit = ArmConstants.wristLowerLimit;
     }
 
-    if(!failsafeOverride && getCurrentShoulderAngle() < ArmConstants.shoulderDangerZoneThreshold && getCurrentWristAngle() < ArmConstants.wristShoulderStopLimit && shoulderSpeed < 0){
+    if(!failsafeOverride && getCurrentShoulderShaftAngle() < ArmConstants.shoulderDangerZoneThreshold && getCurrentWristShaftAngle() < ArmConstants.wristShoulderStopLimit && shoulderSpeed < 0){
       shoulderSpeed = 0;
     }
 
-    if (getCurrentShoulderAngle() > shoulderUpperLimit && shoulderSpeed > 0){
+    if (getCurrentShoulderShaftAngle() > shoulderUpperLimit && shoulderSpeed > 0){
       shoulderSpeed = 0;
     } 
-    if(getCurrentShoulderAngle() < shoulderLowerLimit && shoulderSpeed < 0) {
+    if(getCurrentShoulderShaftAngle() < shoulderLowerLimit && shoulderSpeed < 0) {
       shoulderSpeed = 0;
     }
 
-    if (getCurrentWristAngle() < wristLowerLimit && wristSpeed < 0){
+    if (getCurrentWristShaftAngle() < wristLowerLimit && wristSpeed < 0){
       wristSpeed = 0;
     }
-    if(getCurrentWristAngle() > wristUpperLimit && wristSpeed > 0){
+    if(getCurrentWristShaftAngle() > wristUpperLimit && wristSpeed > 0){
       wristSpeed = 0;
     }
 
-    if (getCurrentShoulderAngle() == 0) {
+    if (getCurrentShoulderShaftAngle() == 0) {
       shoulderSpeed = 0;
       System.err.println("WARNING: SHOULDER ENCODER DISCONNECTED");
     }
-    if (getCurrentWristAngle() == 0) {
+    if (getCurrentWristShaftAngle() == 0) {
       wristSpeed = 0;
       System.err.println("WARNING: WRIST ENCODER DISCONNECTED");
     }

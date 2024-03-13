@@ -14,12 +14,14 @@ import com.adambots.Constants.DriveConstants.ModulePosition;
 import com.adambots.RobotMap;
 import com.adambots.sensors.BaseGyro;
 import com.adambots.utils.ModuleMap;
+import com.adambots.vision.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -69,7 +71,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     // Update the position of the robot on the ShuffleBoard field
     Constants.field.setRobotPose(getPose());
-    Constants.aprilTagfield.setRobotPose(getPose());
+    Constants.aprilTagfield.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue());
   }
 
   /**
@@ -90,6 +92,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public void resetOdometry(Pose2d pose) {
     RobotMap.gyro.resetYawToAngle(pose.getRotation().getDegrees());
     m_odometry.resetPosition(pose.getRotation(), ModuleMap.orderedModulePositions(swerveModules), pose);
+  }
+
+  public void resetOdometryXY(Pose2d pose) {
+    m_odometry.resetPosition(new Rotation2d(RobotMap.gyro.getContinuousYawRad() + Math.PI), ModuleMap.orderedModulePositions(swerveModules), pose);
   }
 
   /**

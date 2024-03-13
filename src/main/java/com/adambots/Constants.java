@@ -35,8 +35,8 @@ public final class Constants {
         public static final String noteLimelite = "limelight-notebot";
         public static final String aprilLimelite = "limelight-april";
 
-        public static final double kPThetaController = 2; 
-        public static final double kDThetaController = 0.05;
+        public static final double kPThetaController = 5; 
+        public static final double kDThetaController = 0.08;
 
         public static final double kPTranslateController = 3; 
         public static final double kDTranslateController = 0.01;

@@ -1,11 +1,13 @@
 package com.adambots.commands.visionCommands;
 
+import com.adambots.RobotMap;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.Buttons;
+import com.adambots.vision.VisionHelpers;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -16,12 +18,14 @@ public class OdomSpeakerAlignCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
   private CANdleSubsystem candleSubsystem;
   private PIDController turningPIDController = new PIDController(VisionConstants.kPThetaController, 0, VisionConstants.kDThetaController);
-  private final Translation2d blueTargetPoint = new Translation2d(0.46, 5.57);
+  private PIDController fakePIPidController = new PIDController(0, 0, 0);
+  private final Translation2d blueTargetPoint = new Translation2d(-0.1, 5.57);
 
   public OdomSpeakerAlignCommand(DrivetrainSubsystem driveTrainSubsystem, CANdleSubsystem ledSubsystem) {
     addRequirements(driveTrainSubsystem);
 
     turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
+    fakePIPidController.enableContinuousInput(-Math.PI, Math.PI);
 
     this.driveTrainSubsystem = driveTrainSubsystem;
     this.candleSubsystem = ledSubsystem;
@@ -41,7 +45,19 @@ public class OdomSpeakerAlignCommand extends Command {
 
     //TODO: Add support for red side
     //Calculate angle to speaker
-    double targetRotation = Math.atan2(blueTargetPoint.getY()-currentTranslation.getY(), blueTargetPoint.getX()-currentTranslation.getX());
+    if (VisionHelpers.isDetected(VisionConstants.aprilLimelite) && VisionHelpers.getAprilTagBotPose2dBlue() != null) {
+      if (VisionHelpers.getAprilTagBotPose2dBlue().getY() > 3 && Math.floor(VisionHelpers.getAprilTagBotPose2dBlue().getRotation().getRadians() + 0.5) != 0){
+        double gyroYaw = RobotMap.gyro.getContinuousYawRad();
+        double aprilYaw = (VisionHelpers.getAprilTagBotPose2dBlue().getRotation().getRadians() + Math.PI) ;
+        fakePIPidController.calculate(aprilYaw, gyroYaw);
+        double error = Math.abs(fakePIPidController.getPositionError());
+        if (VisionHelpers.getAprilHorizDist() < 3.5 && error < Math.toRadians(10)){
+          System.out.print("updated");
+          driveTrainSubsystem.resetOdometryXY(VisionHelpers.getAprilTagBotPose2dBlue());
+        }
+      }
+    }
+    double targetRotation = Math.atan2(blueTargetPoint.getY()-currentTranslation.getY(), blueTargetPoint.getX()-currentTranslation.getX()) + Math.PI;
 
     //Calculate and apply the nessecary rotation
     double rotation_output = turningPIDController.calculate(currentRotation, targetRotation);
