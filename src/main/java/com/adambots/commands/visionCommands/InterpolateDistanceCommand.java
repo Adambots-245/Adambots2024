@@ -38,6 +38,8 @@ public class InterpolateDistanceCommand extends Command {
       oldDistance = 2; 
       distance = 2;
     }
+          shooterSubsystem.setTargetWheelSpeed(80);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -57,7 +59,6 @@ public class InterpolateDistanceCommand extends Command {
       }
       // armSubsystem.setCurrentState(ArmConstants.floorState);
 
-      shooterSubsystem.setTargetWheelSpeed(80);
 
       System.out.println("Updating State, Distance: " + distance);
       System.out.println("getWristAngle" + preset.getWristAngle());
