@@ -28,6 +28,7 @@ public final class Constants {
         public static final Color purple = new Color(255, 0, 255);
         public static final Color red = new Color(255, 150, 0);
         public static final Color green = new Color(0, 255, 0);
+        public static final Color white = new Color(255, 255, 255);
     }
 
     public static final class VisionConstants {
@@ -40,6 +41,8 @@ public final class Constants {
 
         public static final double kPTranslateController = 3; 
         public static final double kDTranslateController = 0.01;
+        public static final Translation2d blueTargetPoint = new Translation2d(0.1, 5.47);
+
     }
 
     public static final class DriveConstants {

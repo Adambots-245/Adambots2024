@@ -1,6 +1,5 @@
 package com.adambots.commands.driveCommands;
 
-import com.adambots.Robot;
 import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.sensors.BaseGyro;

@@ -34,10 +34,8 @@ public class ShootWhenAligned extends Command {
 
 
   public ShootWhenAligned(DrivetrainSubsystem drivetrainSubsystem, CANdleSubsystem ledSubsystem, IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem,
-      ShooterSubsystem shooterSubsystem) {
-    addRequirements(intakeSubsystem);
-        addRequirements(drivetrainSubsystem);
-
+    ShooterSubsystem shooterSubsystem) {
+    addRequirements(intakeSubsystem, drivetrainSubsystem);
 
     this.intakeSubsystem = intakeSubsystem;
     this.armSubsystem = armSubsystem;

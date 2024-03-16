@@ -44,6 +44,7 @@ public class IntakeToFlywheelCommand extends Command {
     shooterSubsystem.setTargetWheelSpeed(0);
     state = "initial";
     inc = 0;
+    ledSubsystem.setColor(LEDConstants.white);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -67,7 +68,6 @@ public class IntakeToFlywheelCommand extends Command {
   public void end(boolean interrupted) {
     armSubsystem.setCurrentState(ArmConstants.defaultState);
 
-    System.out.println("STOP");
     intakeSubsystem.setMotorSpeed(0);
 
     ledSubsystem.setColor(LEDConstants.yellow);
@@ -77,6 +77,7 @@ public class IntakeToFlywheelCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    
     return inc > 10;
   }
 }
