@@ -18,7 +18,7 @@ import com.adambots.commands.hangCommands.RunLeftHangCommand;
 import com.adambots.commands.hangCommands.RunRightHangCommand;
 import com.adambots.commands.intakeCommands.AdaptiveScoreCommand;
 import com.adambots.commands.intakeCommands.AutonIntakeCommand;
-import com.adambots.commands.intakeCommands.FancyAdjustCommand;
+import com.adambots.commands.intakeCommands.AdjustNoteCommand;
 import com.adambots.commands.intakeCommands.FeedShooterCommand;
 import com.adambots.commands.intakeCommands.IntakeToFlywheelCommand;
 import com.adambots.commands.intakeCommands.ShootWhenAligned;
@@ -26,6 +26,7 @@ import com.adambots.commands.visionCommands.DriveToNoteCommand;
 import com.adambots.commands.visionCommands.InterpolateDistanceCommand;
 import com.adambots.commands.visionCommands.OdomSpeakerAlignCommand;
 import com.adambots.commands.visionCommands.RotateToAprilCommand;
+import com.adambots.commands.visionCommands.VisionOdomResetCommand;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
@@ -134,7 +135,8 @@ public class RobotContainer {
      */
 
     Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem)); //Score in amp and speaker
-
+    
+    Buttons.JoystickButton2.whileTrue(new DriveToNoteCommand(drivetrainSubsystem, candleSubsytem)); //Score in amp and speaker
     
     //Both lock rotation to apriltag with driver control
 
@@ -146,8 +148,10 @@ public class RobotContainer {
     Buttons.JoystickButton9.whileTrue(new SpinCommand(drivetrainSubsystem)); //Spin while drive driving (defense)
 
     Buttons.JoystickButton8.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro, candleSubsytem)); //Hang on the chain
+
     // Buttons.JoystickButton7.whileTrue(new AlignWhileDrivingCommand(drivetrainSubsystem, candleSubsytem, VisionConstants.aprilLimelite));
     Buttons.JoystickButton7.whileTrue(new OdomSpeakerAlignCommand(drivetrainSubsystem, candleSubsytem));
+    Buttons.JoystickButton7.whileTrue(new VisionOdomResetCommand(drivetrainSubsystem));
 
     Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw())); //Reset Gyro
 
@@ -162,12 +166,13 @@ public class RobotContainer {
 
     //Xbox Button Bindings 
     Buttons.XboxAButton.whileTrue(new IntakeToFlywheelCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem)); //Intake off floor
-    Buttons.XboxAButton.onFalse(new FancyAdjustCommand(intakeSubsystem)); //Adjust fully intaked note
+    Buttons.XboxAButton.onFalse(new AdjustNoteCommand(intakeSubsystem)); //Adjust fully intaked note
 
     // Buttons.XboxStartButton.whileTrue(new PrimeShooterCommandFeed(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed)); //Raise arm to human station
     // Buttons.XboxStartButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
 
     Buttons.XboxStartButton.whileTrue(new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem));
+    Buttons.XboxStartButton.whileTrue(new VisionOdomResetCommand(drivetrainSubsystem));
 
     Buttons.XboxBButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed, ArmConstants.closeFloorShootState)); //Floor state and spin shooter
     Buttons.XboxBButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter

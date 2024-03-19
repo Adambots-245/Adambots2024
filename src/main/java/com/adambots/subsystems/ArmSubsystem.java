@@ -128,14 +128,18 @@ public class ArmSubsystem extends SubsystemBase {
     //Enable override if we are moving directly from speaker to floor states (auton) or if we are targeting the hang state
     failsafeOverride = (currentState.getStateName() == StateName.SPEAKER && newState.getStateName() == StateName.FLOOR) || newState.getStateName() == StateName.HANG;
 
+    if (Math.abs(targetShoulderAngle - newState.getShoulderAngle()) > 5) {
+      shoulderPID.reset();
+    }
+    if (Math.abs(targetWristAngle - newState.getWristAngle()) > 5) {
+      wristPID.reset();
+    }
+
     currentState = newState;
     targetShoulderAngle = newState.getShoulderAngle();
     targetWristAngle = newState.getWristAngle();
 
     setPidTolerence(currentState);
-
-    wristPID.reset();
-    shoulderPID.reset();
   }
 
   public State getCurrentState() {
@@ -159,26 +163,8 @@ public class ArmSubsystem extends SubsystemBase {
       shoulderSpeed = 0;
     }
 
-    if(currentState.getStateName() == StateName.FLOOR && getCurrentShoulderShaftAngle() < ArmConstants.floorShoulderAngle + 2) {
-      System.out.println("RESET");
-      wristAngleOffset = wristEncoder.getAbsolutePositionDegrees();
-      wristMotor.setPosition(0);
-    }
-
-    // if (Math.abs(wristEncoder.getAbsolutePositionDegrees() - getCurrentWristAngle()) > 5) {
+    // if(currentState.getStateName() == StateName.FLOOR && getCurrentShoulderShaftAngle() < ArmConstants.floorShoulderAngle + 2) {
     //   System.out.println("RESET");
-    //   wristAngleOffset = wristEncoder.getAbsolutePositionDegrees();
-    //   wristMotor.setPosition(0);
-    // }
-    // if (Math.abs(wristSpeed) < 0.1 && getCurrentStateName() == StateName.DEFAULT) {
-    //   speedDebounce++;
-    // } else {
-    //   speedDebounce--;
-    // }
-    // speedDebounce = MathUtil.clamp(speedDebounce, 0, 50);
-    // if (speedDebounce >= 50) {
-    //   System.out.println("RESET");
-    //   speedDebounce = 0;
     //   wristAngleOffset = wristEncoder.getAbsolutePositionDegrees();
     //   wristMotor.setPosition(0);
     // }

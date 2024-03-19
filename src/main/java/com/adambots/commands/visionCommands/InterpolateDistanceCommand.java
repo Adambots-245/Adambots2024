@@ -37,30 +37,29 @@ public class InterpolateDistanceCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
     Pose2d currentPose = drivetrainSubsystem.getPose(); //Get odometry data from drivetrain
     Translation2d currentTranslation = currentPose.getTranslation();
    
-      double targetDistance = Math.hypot(VisionConstants.blueTargetPoint.getY()-currentTranslation.getY(), VisionConstants.blueTargetPoint.getX()-currentTranslation.getX());
+    double targetDistance = Math.hypot(VisionConstants.blueTargetPoint.getY()-currentTranslation.getY(), VisionConstants.blueTargetPoint.getX()-currentTranslation.getX());
 
-      ShooterPreset preset = VisionLookUpTable.getShooterPreset(targetDistance);
+    ShooterPreset preset = VisionLookUpTable.getShooterPreset(targetDistance);
 
-      if (Math.abs(armSubsystem.getCurrentState().getWristAngle() - preset.getWristAngle()) > 0.5){
-        State state = new State(preset.getWristAngle(), 125, StateName.CUSTOM);
-        armSubsystem.setCurrentState(state);
-      }
+    // if (Math.abs(armSubsystem.getCurrentState().getWristAngle() - preset.getWristAngle()) > 0.5){
+      State state = new State(preset.getWristAngle(), 125, StateName.CUSTOM);
+      armSubsystem.setCurrentState(state);
+    // }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      shooterSubsystem.setTargetWheelSpeed(0);
-      armSubsystem.setCurrentState(ArmConstants.defaultState);
+    shooterSubsystem.setTargetWheelSpeed(0);
+    armSubsystem.setCurrentState(ArmConstants.defaultState);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-      return false;
+    return false;
   }
 }

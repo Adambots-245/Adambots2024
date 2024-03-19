@@ -35,8 +35,10 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setTargetWheelSpeed(double newWheelSpeed){
+    if (Math.abs(newWheelSpeed - targetWheelSpeed) > 10){
+      pidController.reset();
+    }
     targetWheelSpeed = newWheelSpeed; 
-    pidController.reset();
   }
   
   public double getShooterVelocity() {

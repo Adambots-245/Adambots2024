@@ -33,11 +33,14 @@ public final class Constants {
 
     public static final class VisionConstants {
         public static final Pose2d aprilTagRedPose2d = new Pose2d(new Translation2d(1.23, 2.55), new Rotation2d());
-        public static final String noteLimelite = "limelight-notetwo";
+        public static final String noteLimelite = "limelight-notebot";
         public static final String aprilLimelite = "limelight-aprilgg";
 
         public static final double kPThetaController = 5; 
         public static final double kDThetaController = 0.08;
+
+        public static final double kPOdomThetaController = 4.7; 
+        public static final double kDOdomThetaController = 0.25;
 
         public static final double kPTranslateController = 0.03; 
         public static final double kDTranslateController = 0.0001;
@@ -159,7 +162,7 @@ public final class Constants {
      
         // Floor Pickup
         public static final double floorWristAngle = 314;
-        public static final double floorShoulderAngle = 111.5;
+        public static final double floorShoulderAngle = 112.5;
       
         // Amp Scoring
         public static final double ampWristAngle = 275;

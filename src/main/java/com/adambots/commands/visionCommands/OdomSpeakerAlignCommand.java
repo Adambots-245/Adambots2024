@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class OdomSpeakerAlignCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
   private CANdleSubsystem candleSubsystem;
-  private PIDController turningPIDController = new PIDController(VisionConstants.kPThetaController, 0, VisionConstants.kDThetaController);
+  private PIDController turningPIDController = new PIDController(VisionConstants.kPOdomThetaController, 0, VisionConstants.kDOdomThetaController);
 
   public OdomSpeakerAlignCommand(DrivetrainSubsystem driveTrainSubsystem, CANdleSubsystem ledSubsystem) {
     addRequirements(driveTrainSubsystem);

@@ -10,15 +10,15 @@ import com.adambots.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
-public class FancyAdjustCommand extends Command {
-  /** Creates a new FancyAdjustCommand. */
+public class AdjustNoteCommand extends Command {
+  /** Creates a new AdjustNoteCommand. */
   private IntakeSubsystem intakeSubsystem;
   private int state;
   private int inc;
   private int timeOut;
   private boolean finished;
 
-  public FancyAdjustCommand(IntakeSubsystem intakeSubsystem) {
+  public AdjustNoteCommand(IntakeSubsystem intakeSubsystem) {
     addRequirements(intakeSubsystem);
 
     this.intakeSubsystem = intakeSubsystem;
@@ -41,14 +41,14 @@ public class FancyAdjustCommand extends Command {
     timeOut++;
 
     if (state == 0 && inc <= 15) {
-      intakeSubsystem.setMotorSpeed(0.25); //Intake for 30 ticks
+      intakeSubsystem.setMotorSpeed(0.25); //Intake for 15 ticks
     } else if (state == 0 && inc > 15) {
       state = 1;
       intakeSubsystem.setMotorSpeed(-IntakeConstants.lowSpeed); //Outtake until sensor
     } else if (state == 1 && intakeSubsystem.isSecondPieceInRobot()) {
       inc = 0;
       state = 2;
-      intakeSubsystem.setMotorSpeed(IntakeConstants.lowSpeed); //Intake for 30 ticks
+      intakeSubsystem.setMotorSpeed(IntakeConstants.lowSpeed); //Intake for 15 ticks
     } else if (state == 2 && inc > 15) {
       state = 3;
       intakeSubsystem.setMotorSpeed(-IntakeConstants.lowSpeed); //Outtake until sensor

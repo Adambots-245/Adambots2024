@@ -1,5 +1,4 @@
 package com.adambots.commands.visionCommands;
-import com.adambots.Robot;
 import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.subsystems.CANdleSubsystem;
@@ -31,17 +30,18 @@ public class DriveToNoteCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (VisionHelpers.isDetected(VisionConstants.noteLimelite)){
+    System.out.println("Huh? " + VisionHelpers.getHorizAngle(VisionConstants.noteLimelite));
+    // if (VisionHelpers.isDetected(VisionConstants.noteLimelite)){
       drive_output = pidController.calculate(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite), 0);
 
-      if (Robot.isOnRedAlliance()) {
-        driveTrainSubsystem.drive(-0.5, -drive_output, 0, true);
-      } else {
-        driveTrainSubsystem.drive(0.5, drive_output, 0, true);
-      }
-    } else {
-      driveTrainSubsystem.stop();
-    }
+      // if (Robot.isOnRedAlliance()) {
+      //   driveTrainSubsystem.drive(-0.5, -drive_output, 0, false);
+      // } else {
+        driveTrainSubsystem.drive(1, drive_output, 0, false);
+      // }
+    // } else {
+    //   driveTrainSubsystem.stop();
+    // }
   }
 
   // Called once the command ends or is interrupted.
