@@ -39,8 +39,8 @@ public final class Constants {
         public static final double kPThetaController = 5; 
         public static final double kDThetaController = 0.08;
 
-        public static final double kPTranslateController = 3; 
-        public static final double kDTranslateController = 0.01;
+        public static final double kPTranslateController = 0.03; 
+        public static final double kDTranslateController = 0.0001;
         public static final Translation2d blueTargetPoint = new Translation2d(0.1, 5.47);
 
     }
