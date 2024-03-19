@@ -17,15 +17,14 @@ import com.adambots.commands.hangCommands.RunHangCommand;
 import com.adambots.commands.hangCommands.RunLeftHangCommand;
 import com.adambots.commands.hangCommands.RunRightHangCommand;
 import com.adambots.commands.intakeCommands.AdaptiveScoreCommand;
-import com.adambots.commands.intakeCommands.AutonIntakeCommand;
 import com.adambots.commands.intakeCommands.AdjustNoteCommand;
+import com.adambots.commands.intakeCommands.AutonIntakeCommand;
 import com.adambots.commands.intakeCommands.FeedShooterCommand;
 import com.adambots.commands.intakeCommands.IntakeToFlywheelCommand;
 import com.adambots.commands.intakeCommands.ShootWhenAligned;
 import com.adambots.commands.visionCommands.DriveToNoteCommand;
 import com.adambots.commands.visionCommands.InterpolateDistanceCommand;
 import com.adambots.commands.visionCommands.OdomSpeakerAlignCommand;
-import com.adambots.commands.visionCommands.RotateToAprilCommand;
 import com.adambots.commands.visionCommands.VisionOdomResetCommand;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.CANdleSubsystem;
@@ -49,7 +48,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
@@ -203,23 +201,16 @@ public class RobotContainer {
   }
 
   private void registerNamedCommands() {
-    // NamedCommands.registerCommand("PrimeShooterCloseCommand", new PrimeShooterCommand(armSubsystem, shooterSubsystem, ShooterConstants.lowSpeed, ArmConstants.centerFloorShootState));
-    // NamedCommands.registerCommand("PrimeShooterFarCommand", new PrimeShooterCommand(armSubsystem, shooterSubsystem, ShooterConstants.highSpeed));
+    NamedCommands.registerCommand("PrimeShooterCloseCommand", new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.lowSpeed, ArmConstants.speakerState));
 
     NamedCommands.registerCommand("FeedShooterCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem));
     
-    NamedCommands.registerCommand("AprilAlignCommand", new ParallelDeadlineGroup(new WaitCommand(1), new RotateToAprilCommand(drivetrainSubsystem, candleSubsytem, 0)));
-    NamedCommands.registerCommand("AprilAlignTopCommand", new ParallelDeadlineGroup(new WaitCommand(1), new RotateToAprilCommand(drivetrainSubsystem, candleSubsytem, 0.5)));
+    NamedCommands.registerCommand("AprilAlignCommand", new ParallelDeadlineGroup(new WaitCommand(1), new OdomSpeakerAlignCommand(drivetrainSubsystem, candleSubsytem), new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem)));
     NamedCommands.registerCommand("DriveToNoteCommand", new ParallelDeadlineGroup(new WaitCommand(3), new DriveToNoteCommand(drivetrainSubsystem, candleSubsytem)));
+    NamedCommands.registerCommand("VisionOdomReset", new VisionOdomResetCommand(drivetrainSubsystem));
 
-    NamedCommands.registerCommand("CenterFloorIntakeAndShootCommand", new AutonIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.closeFloorShootState));
-    NamedCommands.registerCommand("TopFloorIntakeAndShootCommand", new AutonIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.topFloorShootState));
-    NamedCommands.registerCommand("BottomFloorIntakeAndShootCommand", new AutonIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.closeFloorShootState));
-    NamedCommands.registerCommand("TopFloorIntakeCloseCommand", new AutonIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.defaultState));
-    NamedCommands.registerCommand("LowFloorCloseCommand2", new AutonIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.closeFloorShootState));
-    NamedCommands.registerCommand("TopShootSpeakerCommand", new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.speakerState)));
+    NamedCommands.registerCommand("IntakeAndPrimeShooterCommand", new AutonIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.closeFloorShootState));
 
-    NamedCommands.registerCommand("PrintCommand",new PrintCommand("Path Following Finished"));
     NamedCommands.registerCommand("StopCommand",new StopCommand(drivetrainSubsystem));
   }
 

@@ -30,7 +30,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "TopFloorIntakeAndShootCommand"
+                  "name": "IntakeAndPrimeShooterCommand"
                 }
               },
               {
@@ -56,9 +56,35 @@
           }
         },
         {
-          "type": "named",
+          "type": "deadline",
           "data": {
-            "name": "AprilAlignTopCommand"
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.5
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "VisionOdomReset"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AprilAlignCommand"
+                }
+              }
+            ]
           }
         },
         {
@@ -84,7 +110,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "LowFloorCloseCommand2"
+                        "name": "IntakeAndPrimeShooterCommand"
                       }
                     }
                   ]
@@ -98,6 +124,12 @@
                       "type": "path",
                       "data": {
                         "pathName": "TopFar2"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "DriveToNoteCommand"
                       }
                     }
                   ]
@@ -119,15 +151,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "deadline",
           "data": {
-            "name": "AprilAlignCommand"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AprilAlignCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "VisionOdomReset"
+                }
+              }
+            ]
           }
         },
         {

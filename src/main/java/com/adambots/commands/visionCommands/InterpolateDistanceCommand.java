@@ -12,6 +12,7 @@ import com.adambots.utils.VisionLookUpTable;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class InterpolateDistanceCommand extends Command {
@@ -53,8 +54,10 @@ public class InterpolateDistanceCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterSubsystem.setTargetWheelSpeed(0);
-    armSubsystem.setCurrentState(ArmConstants.defaultState);
+    if (!DriverStation.isAutonomous()) {
+      shooterSubsystem.setTargetWheelSpeed(0);
+      armSubsystem.setCurrentState(ArmConstants.defaultState);
+    }
   }
 
   // Returns true when the command should end.

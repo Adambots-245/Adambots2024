@@ -47,9 +47,9 @@ public class AutonIntakeCommand extends Command {
   @Override
   public void execute() {
     if (intakeSubsystem.isFirstPieceInRobot()) {
+      shooterSubsystem.setTargetWheelSpeed(ShooterConstants.lowSpeed);
       intakeSubsystem.setMotorSpeed(IntakeConstants.lowSpeed);
       armSubsystem.setCurrentState(shootState);
-    candle.setAnimation(CANdleSubsystem.AnimationTypes.Larson);
     }
   }
 

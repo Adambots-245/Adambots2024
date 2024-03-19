@@ -36,7 +36,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "TopFloorIntakeAndShootCommand"
+                  "name": null
                 }
               },
               {
@@ -80,7 +80,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "TopFloorIntakeAndShootCommand"
+                  "name": null
                 }
               },
               {

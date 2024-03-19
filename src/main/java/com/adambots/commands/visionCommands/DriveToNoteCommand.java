@@ -13,6 +13,7 @@ public class DriveToNoteCommand extends Command {
   private CANdleSubsystem ledSubsystem;
   private final PIDController pidController = new PIDController(VisionConstants.kPTranslateController, 0, VisionConstants.kDTranslateController);
   private double drive_output;
+  private double debounce;
 
   public DriveToNoteCommand(DrivetrainSubsystem driveTrainSubsystem, CANdleSubsystem ledSubsystem) {
     addRequirements(driveTrainSubsystem);
@@ -25,23 +26,21 @@ public class DriveToNoteCommand extends Command {
   public void initialize() {
     ledSubsystem.setColor(LEDConstants.red);
     pidController.reset();
+    debounce = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("Huh? " + VisionHelpers.getHorizAngle(VisionConstants.noteLimelite));
-    // if (VisionHelpers.isDetected(VisionConstants.noteLimelite)){
-      drive_output = pidController.calculate(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite), 0);
+    if (!VisionHelpers.isDetected(VisionConstants.noteLimelite)){
+      debounce++;
+    } else {
+      debounce = 0;
+    }
 
-      // if (Robot.isOnRedAlliance()) {
-      //   driveTrainSubsystem.drive(-0.5, -drive_output, 0, false);
-      // } else {
-        driveTrainSubsystem.drive(1, drive_output, 0, false);
-      // }
-    // } else {
-    //   driveTrainSubsystem.stop();
-    // }
+    drive_output = pidController.calculate(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite), 0);
+
+    driveTrainSubsystem.drive(1, drive_output, 0, false);
   }
 
   // Called once the command ends or is interrupted.
@@ -54,6 +53,6 @@ public class DriveToNoteCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-      return false;
+      return debounce > 50;
   }
 }

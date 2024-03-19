@@ -128,7 +128,7 @@ public final class Constants {
 
     public static final class ShooterConstants{
         public static final double idleSpeed = 30;
-        public static final double lowSpeed = 65;
+        public static final double lowSpeed = 40;
         public static final double mediumSpeed = 70;
         public static final double highSpeed = 80;
         public static final double maxSpeed = 94;
