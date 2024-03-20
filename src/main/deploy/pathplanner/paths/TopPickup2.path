@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.042973326421382,
-        "y": 6.645875755702647
+        "x": 1.8174370643968816,
+        "y": 6.76655098038276
       },
       "isLocked": false,
       "linkedName": "TopPickup1"
     },
     {
       "anchor": {
-        "x": 1.7623632139606122,
-        "y": 5.683431921802801
+        "x": 2.037732466141958,
+        "y": 5.912906298620589
       },
       "prevControl": {
-        "x": 1.6404211565285334,
-        "y": 5.97304430820399
+        "x": 1.9729962497922293,
+        "y": 6.220403326281803
       },
       "nextControl": {
-        "x": 1.835795014542304,
-        "y": 5.509031395421282
+        "x": 2.074448366432804,
+        "y": 5.73850577223907
       },
       "isLocked": false,
       "linkedName": null
@@ -41,7 +41,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "NC2_End"
     }
   ],
   "rotationTargets": [],

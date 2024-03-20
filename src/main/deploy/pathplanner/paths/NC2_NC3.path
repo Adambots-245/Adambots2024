@@ -3,38 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.85,
-        "y": 7.42
+        "x": 2.54,
+        "y": 5.545747295712128
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.303825345482358,
-        "y": 6.9281448650771775
+        "x": 2.1453040718734044,
+        "y": 5.371346769330609
       },
       "isLocked": false,
-      "linkedName": "TopFar2"
+      "linkedName": "NC2_End"
     },
     {
       "anchor": {
-        "x": 2.3328624118018553,
-        "y": 6.45267093672561
+        "x": 2.4599653194866877,
+        "y": 4.242332835387091
       },
       "prevControl": {
-        "x": 4.265150441855805,
-        "y": 6.745441850370148
+        "x": 1.9000478400512848,
+        "y": 4.829787240040628
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "TopFar2ReturnEndpoint"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 50.04,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -45,14 +39,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 50.04,
+    "rotation": -15.018360631150621,
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -3.1138739492516248,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

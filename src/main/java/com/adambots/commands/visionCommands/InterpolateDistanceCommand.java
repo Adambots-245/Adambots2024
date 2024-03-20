@@ -13,12 +13,15 @@ import com.adambots.utils.VisionLookUpTable;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class InterpolateDistanceCommand extends Command {
   private ArmSubsystem armSubsystem;
   private ShooterSubsystem shooterSubsystem;
   private DrivetrainSubsystem drivetrainSubsystem;
+  // ShooterPreset preset = VisionLookUpTable.getShooterPreset(1);
 
   public InterpolateDistanceCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, DrivetrainSubsystem drivetrainSubsystem) {
     addRequirements(armSubsystem);
@@ -26,6 +29,7 @@ public class InterpolateDistanceCommand extends Command {
     this.armSubsystem = armSubsystem;
     this.shooterSubsystem = shooterSubsystem;
     this.drivetrainSubsystem = drivetrainSubsystem;
+    // Dash.add("Preset Angle", () -> preset.getWristAngle());
   }
 
   @Override
@@ -44,6 +48,7 @@ public class InterpolateDistanceCommand extends Command {
     double targetDistance = Math.hypot(VisionConstants.blueTargetPoint.getY()-currentTranslation.getY(), VisionConstants.blueTargetPoint.getX()-currentTranslation.getX());
 
     ShooterPreset preset = VisionLookUpTable.getShooterPreset(targetDistance);
+    SmartDashboard.putNumber("Preset Angle", preset.getWristAngle());
 
     // if (Math.abs(armSubsystem.getCurrentState().getWristAngle() - preset.getWristAngle()) > 0.5){
       State state = new State(preset.getWristAngle(), 125, StateName.CUSTOM);

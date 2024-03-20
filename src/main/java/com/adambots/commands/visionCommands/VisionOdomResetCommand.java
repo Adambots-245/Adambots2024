@@ -38,8 +38,9 @@ public class VisionOdomResetCommand extends Command {
         double gyroYaw = RobotMap.gyro.getContinuousYawRad();
         double aprilYaw = (VisionHelpers.getAprilTagBotPose2dBlue().getRotation().getRadians() + Math.PI) ;
         fakePIPidController.calculate(aprilYaw, gyroYaw);
-        double error = Math.abs(fakePIPidController.getPositionError());
-        if (VisionHelpers.getAprilHorizDist() < 3.5 && error < Math.toRadians(10)){
+        // double error = Math.abs(fakePIPidController.getPositionError());
+        // if (VisionHelpers.getAprilHorizDist() < 3.5 && error < Math.toRadians(10)){
+        if (VisionHelpers.getAprilHorizDist() < 3.5){
           System.out.print("updated");
           driveTrainSubsystem.resetOdometryXY(VisionHelpers.getAprilTagBotPose2dBlue());
         }
