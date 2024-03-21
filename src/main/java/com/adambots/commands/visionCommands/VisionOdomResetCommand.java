@@ -5,6 +5,7 @@
 package com.adambots.commands.visionCommands;
 
 import com.adambots.Constants.VisionConstants;
+import com.adambots.Robot;
 import com.adambots.RobotMap;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.vision.VisionHelpers;
@@ -34,13 +35,16 @@ public class VisionOdomResetCommand extends Command {
     //TODO: Add support for red side
     //Calculate angle to speaker
     if (VisionHelpers.isDetected(VisionConstants.aprilLimelite) && VisionHelpers.getAprilTagBotPose2dBlue() != null) {
-      if (VisionHelpers.getAprilTagBotPose2dBlue().getY() > 3){
+      if (VisionHelpers.getAprilTagBotPose2dBlue().getY() > 5) {
+        System.out.println(VisionHelpers.getAprilTagBotPose2dBlue().getY());
         double gyroYaw = RobotMap.gyro.getContinuousYawRad();
         double aprilYaw = (VisionHelpers.getAprilTagBotPose2dBlue().getRotation().getRadians() + Math.PI) ;
+        if (Robot.isOnRedAlliance()) {
+          aprilYaw = (VisionHelpers.getAprilTagBotPose2dBlue().getRotation().getRadians()) ;
+        }
         fakePIPidController.calculate(aprilYaw, gyroYaw);
-        // double error = Math.abs(fakePIPidController.getPositionError());
-        // if (VisionHelpers.getAprilHorizDist() < 3.5 && error < Math.toRadians(10)){
-        if (VisionHelpers.getAprilHorizDist() < 3.5){
+
+        if (VisionHelpers.getAprilHorizDist() < 3.5 && Math.abs(fakePIPidController.getPositionError()) < Math.toRadians(7.5)){
           System.out.print("updated");
           driveTrainSubsystem.resetOdometryXY(VisionHelpers.getAprilTagBotPose2dBlue());
         }

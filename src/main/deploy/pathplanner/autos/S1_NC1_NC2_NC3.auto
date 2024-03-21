@@ -24,12 +24,6 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -68,7 +62,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.5
+                  "waitTime": 0.1
                 }
               },
               {
@@ -101,12 +95,6 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.0
-                      }
-                    },
-                    {
                       "type": "named",
                       "data": {
                         "name": "IntakeAndPrimeShooterCommand"
@@ -124,12 +112,6 @@
                       "data": {
                         "pathName": "TopPickup2"
                       }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "StopCommand"
-                      }
                     }
                   ]
                 }
@@ -138,28 +120,15 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.5
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "VisionOdomReset"
-                }
-              }
-            ]
+            "name": "StopCommand"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AprilAlignCommand"
+            "name": "InterpolateCommand"
           }
         },
         {
@@ -207,7 +176,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.5
+                  "waitTime": 0.1
                 }
               },
               {

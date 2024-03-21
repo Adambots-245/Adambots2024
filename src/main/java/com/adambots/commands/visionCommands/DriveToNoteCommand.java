@@ -3,6 +3,7 @@ import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.ModuleConstants;
 import com.adambots.Constants.VisionConstants;
+import com.adambots.RobotMap;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
@@ -17,7 +18,7 @@ public class DriveToNoteCommand extends Command {
   private IntakeSubsystem intakeSubsystem;
   private CANdleSubsystem ledSubsystem;
   private final PIDController pidController = new PIDController(VisionConstants.kPTranslateController, 0, VisionConstants.kDTranslateController);
-  private final PIDController rotatePidController = new PIDController(0.5, 0, 0.0002);
+  private final PIDController rotatePidController = new PIDController(0.1, 0, 0.00001);
   private double drive_output;
   private double debounce;
   private boolean auton;
@@ -52,7 +53,21 @@ public class DriveToNoteCommand extends Command {
       driveTrainSubsystem.drive(2.5, drive_output, 0, false);
     } else {
       drive_output = rotatePidController.calculate(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite), 0);
-      driveTrainSubsystem.drive(2.5, 0, drive_output, false);
+      driveTrainSubsystem.drive(4, 0, drive_output, false);
+    }
+
+    double rotate = VisionHelpers.getHorizAngle(VisionConstants.noteLimelite);
+
+    if (VisionHelpers.isDetected(VisionConstants.noteLimelite)) {
+      if (Math.abs(rotate) < 5) {
+        ledSubsystem.setColor(LEDConstants.green);
+      } else if (Math.abs(rotate) < 12) {
+        ledSubsystem.setColor(LEDConstants.yellow);
+      } else {
+        ledSubsystem.setColor(LEDConstants.red);
+      }
+    } else {
+      ledSubsystem.setColor(LEDConstants.purple);
     }
   }
 

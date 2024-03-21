@@ -1,5 +1,6 @@
 package com.adambots.commands.visionCommands;
 
+import com.adambots.Robot;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
@@ -26,8 +27,6 @@ public class OdomSpeakerAlignCommand extends Command {
     this.candleSubsystem = ledSubsystem;
   }
 
-  //TODO: add support for red side
-
   @Override
   public void initialize() {
     candleSubsystem.setColor(LEDConstants.yellow);
@@ -39,8 +38,13 @@ public class OdomSpeakerAlignCommand extends Command {
     Pose2d currentPose = driveTrainSubsystem.getPose(); //Get odometry data from drivetrain
     double currentRotation = currentPose.getRotation().getRadians();
     Translation2d currentTranslation = currentPose.getTranslation();
+
+    Translation2d targetPose = VisionConstants.blueTargetPoint;
+    if (Robot.isOnRedAlliance()) {
+      targetPose = VisionConstants.redTargetPoint;
+    }
     //Calculate angle to speaker    
-    double targetRotation = Math.atan2(VisionConstants.blueTargetPoint.getY()-currentTranslation.getY(), VisionConstants.blueTargetPoint.getX()-currentTranslation.getX()) + Math.PI;
+    double targetRotation = Math.atan2(targetPose.getY()-currentTranslation.getY(), targetPose.getX()-currentTranslation.getX()) + Math.PI;
 
     //Calculate and apply the nessecary rotation
     double rotation_output = turningPIDController.calculate(currentRotation, targetRotation);

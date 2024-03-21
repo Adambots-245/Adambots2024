@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.85,
-        "y": 7.42
+        "x": 7.321678780304778,
+        "y": 7.471513716208602
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.303825345482358,
-        "y": 6.9281448650771775
+        "x": 4.775504125787136,
+        "y": 6.979658581285779
       },
       "isLocked": false,
       "linkedName": "TopFar2"
     },
     {
       "anchor": {
-        "x": 2.3328624118018553,
-        "y": 6.45267093672561
+        "x": 1.6887664017838722,
+        "y": 6.8391285427364
       },
       "prevControl": {
-        "x": 4.265150441855805,
-        "y": 6.745441850370148
+        "x": 3.621054431837835,
+        "y": 7.131899456380938
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,7 +31,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.5,
-      "rotationDegrees": 50.04,
+      "rotationDegrees": 35.07,
       "rotateFast": false
     }
   ],
@@ -44,8 +44,8 @@
     "maxAngularAcceleration": 300.0
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 50.04,
+    "velocity": 0.0,
+    "rotation": 35.07,
     "rotateFast": false
   },
   "reversed": false,

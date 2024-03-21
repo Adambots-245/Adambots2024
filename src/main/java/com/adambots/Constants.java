@@ -44,7 +44,9 @@ public final class Constants {
 
         public static final double kPTranslateController = 0.03; 
         public static final double kDTranslateController = 0.0001;
+
         public static final Translation2d blueTargetPoint = new Translation2d(0.11, 5.47);
+        public static final Translation2d redTargetPoint = new Translation2d(16.45, 5.47);
 
     }
 
@@ -130,7 +132,7 @@ public final class Constants {
         public static final double idleSpeed = 30;
         public static final double lowSpeed = 40;
         public static final double mediumSpeed = 70;
-        public static final double highSpeed = 80;
+        public static final double highSpeed = 90;
         public static final double maxSpeed = 94;
     }
 

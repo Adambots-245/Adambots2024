@@ -47,7 +47,7 @@ public class AutonIntakeCommand extends Command {
   @Override
   public void execute() {
     if (intakeSubsystem.isFirstPieceInRobot()) {
-      shooterSubsystem.setTargetWheelSpeed(ShooterConstants.lowSpeed);
+      shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed);
       intakeSubsystem.setMotorSpeed(IntakeConstants.lowSpeed);
       armSubsystem.setCurrentState(shootState);
     }
@@ -59,7 +59,7 @@ public class AutonIntakeCommand extends Command {
     intakeSubsystem.setMotorSpeed(0);
     armSubsystem.setCurrentState(shootState);
 
-    shooterSubsystem.setTargetWheelSpeed(ShooterConstants.lowSpeed);
+    shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed);
   }
 
   // Returns true when the command should end.

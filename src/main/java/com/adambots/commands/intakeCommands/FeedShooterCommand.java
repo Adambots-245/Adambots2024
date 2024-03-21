@@ -52,7 +52,7 @@ public class FeedShooterCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     intakeSubsystem.setMotorSpeed(0);
-    shooterSubsystem.setTargetWheelSpeed(ShooterConstants.idleSpeed);
+    shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed);
   }
 
   // Returns true when the command should end.
