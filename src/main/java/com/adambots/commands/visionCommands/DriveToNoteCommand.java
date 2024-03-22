@@ -50,10 +50,10 @@ public class DriveToNoteCommand extends Command {
 
     if (DriverStation.isAutonomous()){
       drive_output = pidController.calculate(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite), 0);
-      driveTrainSubsystem.drive(2.5, drive_output, 0, false);
+      driveTrainSubsystem.drive(1.5, drive_output, 0, false);
     } else {
       drive_output = rotatePidController.calculate(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite), 0);
-      driveTrainSubsystem.drive(4, 0, drive_output, false);
+      driveTrainSubsystem.drive(3, 0, drive_output, false);
     }
 
     double rotate = VisionHelpers.getHorizAngle(VisionConstants.noteLimelite);

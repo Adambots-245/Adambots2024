@@ -1,9 +1,11 @@
 package com.adambots.commands.visionCommands;
 
 import com.adambots.Robot;
+import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
+import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.Buttons;
@@ -16,14 +18,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class OdomSpeakerAlignCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
   private CANdleSubsystem candleSubsystem;
+  private ArmSubsystem armSubsystem;
   private PIDController turningPIDController = new PIDController(VisionConstants.kPOdomThetaController, 0, VisionConstants.kDOdomThetaController);
 
-  public OdomSpeakerAlignCommand(DrivetrainSubsystem driveTrainSubsystem, CANdleSubsystem ledSubsystem) {
+  public OdomSpeakerAlignCommand(DrivetrainSubsystem driveTrainSubsystem, ArmSubsystem armSubsystem, CANdleSubsystem ledSubsystem) {
     addRequirements(driveTrainSubsystem);
+
 
     turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
 
     this.driveTrainSubsystem = driveTrainSubsystem;
+    this.armSubsystem = armSubsystem;
     this.candleSubsystem = ledSubsystem;
   }
 
@@ -49,11 +54,15 @@ public class OdomSpeakerAlignCommand extends Command {
     //Calculate and apply the nessecary rotation
     double rotation_output = turningPIDController.calculate(currentRotation, targetRotation);
     driveTrainSubsystem.drive(Buttons.forwardSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond,
-          Buttons.sidewaysSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond, rotation_output, true);
+    Buttons.sidewaysSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond, rotation_output, true);
 
     //Light up LEDs depending on our alignment
     double absErrorDeg = Math.abs(Math.toDegrees(turningPIDController.getPositionError()));
-    if (absErrorDeg < 5) {
+    if(armSubsystem.getCurrentStateName() == ArmConstants.StateName.CUSTOM){
+      if (armSubsystem.isAtTargetState() && absErrorDeg < 5){
+        candleSubsystem.setColor(LEDConstants.purple);
+      }
+    } else if (absErrorDeg < 5) {
       candleSubsystem.setColor(LEDConstants.green);
     } else if (absErrorDeg < 12) {
       candleSubsystem.setColor(LEDConstants.yellow);

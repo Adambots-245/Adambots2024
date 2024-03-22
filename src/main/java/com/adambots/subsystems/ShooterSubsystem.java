@@ -25,13 +25,12 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterMotor.setInverted(true);
     shooterMotor.setBrakeMode(false);
 
-    shooterMotor.enableVoltageCompensation(12.6);
-
     pidController.setIntegratorRange(0, 1);
 
     targetWheelSpeed = 0;
 
     Dash.add("Shooter Velocity", () -> getShooterVelocity());
+    Dash.add("Target Shooter Velocity", () -> targetWheelSpeed);
     // Dash.add("Shooter Command", () -> shooterSpeed);
     // Dash.add("Shooter Target", () -> targetWheelSpeed);
   }
@@ -56,7 +55,6 @@ public class ShooterSubsystem extends SubsystemBase {
     if (targetWheelSpeed > 0) {
       shooterSpeed = pidController.calculate(getShooterVelocity(), targetWheelSpeed) + targetWheelSpeed/ShooterConstants.maxSpeed*0.5;
     } else {
-      pidController.reset();
       shooterSpeed = -0.03;
     }
 

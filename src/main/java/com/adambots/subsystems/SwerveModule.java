@@ -32,6 +32,8 @@ public class SwerveModule {
 
   private ModulePosition m_position;
 
+  private double ddrtfgyhuji;
+
   /**
    * Constructs a SwerveModule.
    *
@@ -61,8 +63,10 @@ public class SwerveModule {
 
     m_turningEncoder = new CANCoder(turningEncoderChannel);
     
-    // Dash.add("Cancoder: " + m_position.name(), () -> m_turningEncoder.getAbsolutePositionDegrees());
-    // Dash.add("Wheel Speed: " + m_position.name(), () -> m_driveEncoder.getVelocity()*ModuleConstants.kDriveEncoderVelocityConversionFactor);
+    Dash.add(m_position.name(), () -> m_turningEncoder.getAbsolutePositionDegrees());
+    Dash.add("W Speed: " + m_position.name(), () -> m_driveEncoder.getVelocity()*ModuleConstants.kDriveEncoderVelocityConversionFactor);
+    Dash.add("W Command: " + m_position.name(), () -> ddrtfgyhuji);
+    Dash.add("W Current: " + m_position.name(), () -> m_driveMotor.getOutputCurrent());
 
     m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
     resetDriveEncoders();
@@ -108,9 +112,17 @@ public class SwerveModule {
     // Calculate the turning motor output from the turning PID controller.
     double turnOutput = m_turningPIDController.calculate(currentTurnAngle, desiredState.angle.getRadians());
 
+    // if (m_position.name().equals("FRONT_LEFT") || m_position.name().equals("REAR_LEFT")) {
+    //   System.out.println("Compensating");
+    //   driveOutput *= 1.2;
+    // }
+    // double turnOutput = m_turningPIDController.calculate(currentTurnAngle, 0.0);
+
     //Set the motors to the calculated outputs
     m_driveMotor.set(driveOutput);
     m_turningMotor.set(turnOutput);
+
+    ddrtfgyhuji = driveOutput;
   }
 
   /** Sets a motor command of 0 */

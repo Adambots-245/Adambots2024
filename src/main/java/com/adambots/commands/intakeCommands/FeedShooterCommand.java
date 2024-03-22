@@ -9,6 +9,7 @@ import com.adambots.Constants.ShooterConstants;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class FeedShooterCommand extends Command {
@@ -51,8 +52,13 @@ public class FeedShooterCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    if(DriverStation.isAutonomous()){
+      shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed);
+    }else{
+      shooterSubsystem.setTargetWheelSpeed(0);
+    }
     intakeSubsystem.setMotorSpeed(0);
-    shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed);
+    
   }
 
   // Returns true when the command should end.

@@ -105,6 +105,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public boolean isAtTargetState () {
+    // System.out.println("WRIST PID: " + Math.abs(wristPID.getPositionError()));
     return (Math.abs(shoulderPID.getPositionError()) < 5 && Math.abs(wristPID.getPositionError()) < 5); 
   }
 

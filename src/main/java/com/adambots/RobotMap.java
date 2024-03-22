@@ -91,7 +91,7 @@ public class RobotMap {
     public static final BaseAbsoluteEncoder wristEncoder = new ThroughBoreEncoder(wristEncoderPort);
 
     // Shooter Devices
-    public static final BaseMotor shooterWheel = new TalonFXMotor(shooterWheelPort, true, 45);
+    public static final BaseMotor shooterWheel = new TalonFXMotor(shooterWheelPort, true, 50);
 
     // Intake Devices
     public static final BaseMotor groundIntakeMotor = new TalonFXMotor(groundIntakeMotorPort, true, 45.0);

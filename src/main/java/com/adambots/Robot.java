@@ -113,8 +113,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    m_robotContainer.teleopInit();
-
     if (Constants.enableAutomaticShuffleboardRecording) {
       Shuffleboard.startRecording();
       System.out.println("Teleop Shuffleboard recording started - " + DriverStation.getMatchTime());
@@ -125,6 +123,8 @@ public class Robot extends TimedRobot {
     // continue until interrupted by another command, remove
     // this line or comment it out.
     CommandScheduler.getInstance().cancelAll();
+
+    m_robotContainer.teleopInit();
   }
 
   /**

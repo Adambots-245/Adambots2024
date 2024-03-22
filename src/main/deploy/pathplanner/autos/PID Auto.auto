@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.9112722961537205,
-      "y": 6.031080821077477
+      "x": 6.24,
+      "y": 6.382405917450922
     },
     "rotation": 0.0
   },
@@ -15,6 +15,12 @@
           "type": "path",
           "data": {
             "pathName": "PID Auto Path"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopCommand"
           }
         }
       ]

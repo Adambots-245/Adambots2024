@@ -36,7 +36,7 @@ public class VisionOdomResetCommand extends Command {
     //Calculate angle to speaker
     if (VisionHelpers.isDetected(VisionConstants.aprilLimelite) && VisionHelpers.getAprilTagBotPose2dBlue() != null) {
       if (VisionHelpers.getAprilTagBotPose2dBlue().getY() > 5) {
-        System.out.println(VisionHelpers.getAprilTagBotPose2dBlue().getY());
+        // System.out.println(VisionHelpers.getAprilTagBotPose2dBlue().getY());
         double gyroYaw = RobotMap.gyro.getContinuousYawRad();
         double aprilYaw = (VisionHelpers.getAprilTagBotPose2dBlue().getRotation().getRadians() + Math.PI) ;
         if (Robot.isOnRedAlliance()) {
@@ -45,7 +45,7 @@ public class VisionOdomResetCommand extends Command {
         fakePIPidController.calculate(aprilYaw, gyroYaw);
 
         if (VisionHelpers.getAprilHorizDist() < 3.5 && Math.abs(fakePIPidController.getPositionError()) < Math.toRadians(7.5)){
-          System.out.print("updated");
+          // System.out.print("updated");
           driveTrainSubsystem.resetOdometryXY(VisionHelpers.getAprilTagBotPose2dBlue());
         }
       }

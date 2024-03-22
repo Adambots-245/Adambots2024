@@ -91,7 +91,7 @@ public class RobotContainer {
   public void teleopInit() {
     VisionHelpers.setPipeline(VisionConstants.noteLimelite, 0);
 
-    shooterSubsystem.setTargetWheelSpeed(0);
+    // shooterSubsystem.setTargetWheelSpeed(0);
 
     if (DriverStation.isFMSAttached()) {
       armSubsystem.setCurrentState(ArmConstants.defaultState);
@@ -101,6 +101,8 @@ public class RobotContainer {
     if (Robot.isOnRedAlliance() && DriverStation.isFMSAttached()) {
       RobotMap.gyro.offsetYawByAngle(180);
     }
+
+    // new VisionOdomResetCommand(drivetrainSubsystem).schedule();
   }
 
   /**
@@ -148,7 +150,7 @@ public class RobotContainer {
     Buttons.JoystickButton8.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro, candleSubsytem)); //Hang on the chain
 
     // Buttons.JoystickButton7.whileTrue(new AlignWhileDrivingCommand(drivetrainSubsystem, candleSubsytem, VisionConstants.aprilLimelite));
-    Buttons.JoystickButton7.whileTrue(new OdomSpeakerAlignCommand(drivetrainSubsystem, candleSubsytem));
+    Buttons.JoystickButton7.whileTrue(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, candleSubsytem));
     Buttons.JoystickButton7.whileTrue(new VisionOdomResetCommand(drivetrainSubsystem));
 
     Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw())); //Reset Gyro
@@ -169,6 +171,8 @@ public class RobotContainer {
     // Buttons.XboxStartButton.whileTrue(new PrimeShooterCommandFeed(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed)); //Raise arm to human station
     // Buttons.XboxStartButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
 
+    Buttons.XboxStartButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed, ArmConstants.closeFloorShootState));
+    Buttons.XboxStartButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
     Buttons.XboxBButton.whileTrue(new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem));
     // Buttons.XboxBButton.whileTrue(new VisionOdomResetCommand(drivetrainSubsystem));
 
@@ -177,7 +181,7 @@ public class RobotContainer {
 
     Buttons.XboxXButton.whileTrue(new AmpCommand(armSubsystem)); //Move arm to amp pos
 
-    Buttons.XboxYButton.onTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed, ArmConstants.speakerState)); //Speaker state and prime shooter
+    Buttons.XboxYButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed, ArmConstants.speakerState)); //Speaker state and prime shooter
     Buttons.XboxYButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
 
     // Buttons.XboxLeftBumper.onTrue(new SlowOuttakeCommand(intakeSubsystem)); 
@@ -201,11 +205,11 @@ public class RobotContainer {
   }
 
   private void registerNamedCommands() {
-    NamedCommands.registerCommand("PrimeShooterCloseCommand", new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.lowSpeed, ArmConstants.speakerState));
+    NamedCommands.registerCommand("PrimeShooterCloseCommand", new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed, ArmConstants.speakerState));
 
     NamedCommands.registerCommand("FeedShooterCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem));
     
-    NamedCommands.registerCommand("AprilAlignCommand", new ParallelDeadlineGroup(new WaitCommand(1), new OdomSpeakerAlignCommand(drivetrainSubsystem, candleSubsytem), new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem)));
+    NamedCommands.registerCommand("AprilAlignCommand", new ParallelDeadlineGroup(new WaitCommand(1.3), new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, candleSubsytem), new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem)));
     NamedCommands.registerCommand("DriveToNoteCommand", new ParallelDeadlineGroup(new WaitCommand(3), new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, true)));
     NamedCommands.registerCommand("VisionOdomReset", new VisionOdomResetCommand(drivetrainSubsystem));
 
@@ -214,7 +218,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("SpinShooterCommand", new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)));
 
     NamedCommands.registerCommand("StopCommand",new StopCommand(drivetrainSubsystem));
-  }
+  
 
   private void setupDashboard() {    
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -267,7 +271,9 @@ public class RobotContainer {
             () -> drivetrainSubsystem.drive(
                 Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond,
                 Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond,
+                // 0.1,
                 Buttons.rotateSupplier.getAsDouble()*DriveConstants.kTeleopRotationalSpeed,
+                // 0,
                 true),
             drivetrainSubsystem));
 

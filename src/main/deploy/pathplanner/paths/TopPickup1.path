@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 0.7059762690953959,
-        "y": 6.699372255887369
+        "y": 6.7
       },
       "prevControl": null,
       "nextControl": {
         "x": 0.9059246362043845,
-        "y": 6.703916536958028
+        "y": 6.704544281070659
       },
       "isLocked": false,
       "linkedName": "TopStart1"
