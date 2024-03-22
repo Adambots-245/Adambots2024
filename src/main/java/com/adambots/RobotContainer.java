@@ -218,7 +218,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("SpinShooterCommand", new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)));
 
     NamedCommands.registerCommand("StopCommand",new StopCommand(drivetrainSubsystem));
-  
+  }
 
   private void setupDashboard() {    
     autoChooser = AutoBuilder.buildAutoChooser();
