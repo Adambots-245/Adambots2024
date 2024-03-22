@@ -13,6 +13,7 @@ import com.adambots.utils.Buttons;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class OdomSpeakerAlignCommand extends Command {
@@ -81,6 +82,9 @@ public class OdomSpeakerAlignCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (DriverStation.isAutonomous()){
+      return Math.abs(Math.toDegrees(turningPIDController.getPositionError())) < 2;
+    }
     return false;
   }
 }

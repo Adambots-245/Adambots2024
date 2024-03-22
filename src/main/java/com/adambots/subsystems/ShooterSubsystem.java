@@ -9,6 +9,7 @@ import com.adambots.actuators.BaseMotor;
 import com.adambots.utils.Dash;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -47,6 +48,9 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public boolean isAtTargetSpeed() {
+    if (DriverStation.isAutonomous()) {
+      return Math.abs(getShooterVelocity() - targetWheelSpeed) < 3; // 1
+    }
     return getShooterVelocity() > targetWheelSpeed - 1; // 1
   }
 

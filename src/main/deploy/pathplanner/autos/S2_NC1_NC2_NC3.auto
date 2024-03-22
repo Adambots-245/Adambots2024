@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7059762690953959,
-      "y": 6.699372255887369
+      "x": 1.3842846515935527,
+      "y": 5.53
     },
-    "rotation": 60.0
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -24,47 +24,34 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
-          }
-        },
-        {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": null
+                  "name": "IntakeAndPrimeShooterCommand"
                 }
               },
               {
-                "type": "sequential",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "TopPickup1"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "StopCommand"
-                      }
-                    }
-                  ]
+                  "pathName": "S2_NC1"
                 }
               }
             ]
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "NC1_S2"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "AprilAlignCommand"
+            "name": "StopCommand"
           }
         },
         {
@@ -74,41 +61,71 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": null
+                  "name": "IntakeAndPrimeShooterCommand"
                 }
               },
               {
-                "type": "sequential",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "TopPickup2"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "StopCommand"
-                      }
-                    }
-                  ]
+                  "pathName": "S2_NC2"
                 }
               }
             ]
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "NC2_S2"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "AprilAlignCommand"
+            "name": "StopCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FeedShooterCommand"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeAndPrimeShooterCommand"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "S2_NC3"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NC3_S2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopCommand"
           }
         },
         {

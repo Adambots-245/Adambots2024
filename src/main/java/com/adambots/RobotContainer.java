@@ -1,5 +1,7 @@
 package com.adambots;
 
+import javax.swing.GroupLayout.ParallelGroup;
+
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.ShooterConstants;
@@ -47,6 +49,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -209,7 +212,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("FeedShooterCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem));
     
-    NamedCommands.registerCommand("AprilAlignCommand", new ParallelDeadlineGroup(new WaitCommand(1.3), new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, candleSubsytem), new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem)));
+    NamedCommands.registerCommand("AprilAlignCommand", new ParallelCommandGroup(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, candleSubsytem), new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem)));
     NamedCommands.registerCommand("DriveToNoteCommand", new ParallelDeadlineGroup(new WaitCommand(3), new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, true)));
     NamedCommands.registerCommand("VisionOdomReset", new VisionOdomResetCommand(drivetrainSubsystem));
 
@@ -271,7 +274,7 @@ public class RobotContainer {
             () -> drivetrainSubsystem.drive(
                 Buttons.forwardSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond,
                 Buttons.sidewaysSupplier.getAsDouble()*DriveConstants.kMaxSpeedMetersPerSecond,
-                // 0.1,
+                // 0,
                 Buttons.rotateSupplier.getAsDouble()*DriveConstants.kTeleopRotationalSpeed,
                 // 0,
                 true),

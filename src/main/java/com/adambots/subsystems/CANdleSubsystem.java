@@ -33,7 +33,7 @@ public class CANdleSubsystem extends SubsystemBase {
   private Animation animation;
   
   private int candleChannel;
-  private double animateSpeed = 0.1;
+  private double animateSpeed = 0.4;
 
   public CANdleSubsystem(CANdle candleDevice) {
     this.candle = candleDevice;

@@ -24,19 +24,13 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": null
+                  "name": "IntakeAndPrimeShooterCommand"
                 }
               },
               {
@@ -52,7 +46,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "CenterPickup1"
+                        "pathName": "S2_NC2"
                       }
                     },
                     {
@@ -70,7 +64,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CenterReturn1"
+            "pathName": "NC2_S2"
           }
         },
         {
@@ -80,9 +74,15 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "PrimeShooterCloseCommand"
+          }
+        },
+        {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 3.0
           }
         },
         {

@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.4453918836510984,
-        "y": 7.178742802564065
+        "x": 3.497189502703091,
+        "y": 7.0694571577822405
       },
       "isLocked": false,
-      "linkedName": "TopPickup1"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.361390183550694,
-        "y": 7.202164475655628
+        "x": 6.361029725389085,
+        "y": 7.106173058073088
       },
       "prevControl": {
-        "x": 5.361390183550694,
-        "y": 7.202164475655628
+        "x": 5.361029725389085,
+        "y": 7.106173058073088
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "TopFar2"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -50,7 +50,7 @@
     "maxAngularAcceleration": 300.0
   },
   "goalEndState": {
-    "velocity": 1.5,
+    "velocity": 3.0,
     "rotation": 0,
     "rotateFast": false
   },

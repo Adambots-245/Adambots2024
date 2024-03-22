@@ -52,7 +52,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "TopPickup1"
+                        "pathName": "S1_NC1"
                       }
                     },
                     {
@@ -70,7 +70,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TopReturn1"
+            "pathName": "NC1_S1"
           }
         },
         {

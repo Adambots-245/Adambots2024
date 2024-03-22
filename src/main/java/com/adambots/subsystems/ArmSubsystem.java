@@ -40,6 +40,7 @@ public class ArmSubsystem extends SubsystemBase {
   private State currentState = ArmConstants.defaultState;
 
   private boolean failsafeOverride = false;
+  private double targetStateDebounce = 0;
 
   public ArmSubsystem(BaseMotor shoulderMotor, BaseMotor wristMotor, BaseAbsoluteEncoder shoulderEncoder, BaseAbsoluteEncoder wristEncoder) {
     this.shoulderMotor = shoulderMotor;
@@ -106,7 +107,13 @@ public class ArmSubsystem extends SubsystemBase {
 
   public boolean isAtTargetState () {
     // System.out.println("WRIST PID: " + Math.abs(wristPID.getPositionError()));
-    return (Math.abs(shoulderPID.getPositionError()) < 5 && Math.abs(wristPID.getPositionError()) < 5); 
+    if (Math.abs(shoulderPID.getPositionError()) < 1.5 && Math.abs(wristPID.getPositionError()) < 3.3) {
+      targetStateDebounce++;
+    } else {
+      targetStateDebounce--;
+    }
+    targetStateDebounce = MathUtil.clamp(targetStateDebounce, 0, 30);
+    return targetStateDebounce >= 25; 
   }
 
   public double getCurrentWristShaftAngle(){
@@ -119,6 +126,10 @@ public class ArmSubsystem extends SubsystemBase {
 
   public double getCurrentWristMotorAngle(){
     return wristMotor.getPosition()*ArmConstants.kWristEncoderPositionConversionFactor + wristAngleOffset;
+  }
+
+  public void resetDebounce(){
+    targetStateDebounce = 0;
   }
 
   public double getCurrentShoulderMotorAngle(){
@@ -163,12 +174,15 @@ public class ArmSubsystem extends SubsystemBase {
       wristSpeed = 0;
       shoulderSpeed = 0;
     }
+    // System.out.println("SHOULDER ERROR: " + shoulderPID.getPositionError());
+    // System.out.println("WRIST ERROR: " + wristPID.getPositionError());
 
-    // if(currentState.getStateName() == StateName.FLOOR && getCurrentShoulderShaftAngle() < ArmConstants.floorShoulderAngle + 2) {
-    //   System.out.println("RESET");
-    //   wristAngleOffset = wristEncoder.getAbsolutePositionDegrees();
-    //   wristMotor.setPosition(0);
-    // }
+
+    if(Math.abs(getCurrentShoulderShaftAngle() - getCurrentShoulderMotorAngle()) > 25) {
+      System.out.println("RESET");
+      shoulderAngleOffset = shoulderEncoder.getAbsolutePositionDegrees();
+      shoulderMotor.setPosition(0);
+    }
 
     failSafes();
 

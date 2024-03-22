@@ -40,7 +40,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "TopPickup1"
+                        "pathName": "S1_NC1"
                       }
                     },
                     {
@@ -68,7 +68,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.1
+                  "waitTime": 0.3
                 }
               },
               {
@@ -129,7 +129,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "TopFar2"
+                        "pathName": "NC1_NF1"
                       }
                     },
                     {
@@ -153,7 +153,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TopReturnToShoot"
+            "pathName": "NF1_S1"
           }
         },
         {

@@ -36,7 +36,9 @@ public class InterpolateDistanceCommand extends Command {
   }
 
   @Override
-  public void initialize() {}
+  public void initialize() {
+    armSubsystem.resetDebounce();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -76,6 +78,11 @@ public class InterpolateDistanceCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (DriverStation.isAutonomous()){
+      if (armSubsystem.getCurrentStateName() == ArmConstants.StateName.CUSTOM){
+        return armSubsystem.isAtTargetState();
+      }
+    }
     return false;
   }
 }
