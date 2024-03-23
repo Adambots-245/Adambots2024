@@ -9,6 +9,7 @@ import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.Buttons;
+import com.adambots.vision.VisionHelpers;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -20,6 +21,7 @@ public class OdomSpeakerAlignCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
   private CANdleSubsystem candleSubsystem;
   private ArmSubsystem armSubsystem;
+  private double activateDelay;
   private PIDController turningPIDController = new PIDController(VisionConstants.kPOdomThetaController, 0, VisionConstants.kDOdomThetaController);
 
   public OdomSpeakerAlignCommand(DrivetrainSubsystem driveTrainSubsystem, ArmSubsystem armSubsystem, CANdleSubsystem ledSubsystem) {
@@ -36,40 +38,49 @@ public class OdomSpeakerAlignCommand extends Command {
   @Override
   public void initialize() {
     candleSubsystem.setColor(LEDConstants.yellow);
+
+    activateDelay = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Pose2d currentPose = driveTrainSubsystem.getPose(); //Get odometry data from drivetrain
-    double currentRotation = currentPose.getRotation().getRadians();
-    Translation2d currentTranslation = currentPose.getTranslation();
+    // if (VisionHelpers.isDetected(VisionConstants.aprilLimelite) || activateDelay > 17) {
+      Pose2d currentPose = driveTrainSubsystem.getPose(); //Get odometry data from drivetrain
+      double currentRotation = currentPose.getRotation().getRadians();
+      Translation2d currentTranslation = currentPose.getTranslation();
 
-    Translation2d targetPose = VisionConstants.blueTargetPoint;
-    if (Robot.isOnRedAlliance()) {
-      targetPose = VisionConstants.redTargetPoint;
-    }
-    //Calculate angle to speaker    
-    double targetRotation = Math.atan2(targetPose.getY()-currentTranslation.getY(), targetPose.getX()-currentTranslation.getX()) + Math.PI;
-
-    //Calculate and apply the nessecary rotation
-    double rotation_output = turningPIDController.calculate(currentRotation, targetRotation);
-    driveTrainSubsystem.drive(Buttons.forwardSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond,
-    Buttons.sidewaysSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond, rotation_output, true);
-
-    //Light up LEDs depending on our alignment
-    double absErrorDeg = Math.abs(Math.toDegrees(turningPIDController.getPositionError()));
-    if(armSubsystem.getCurrentStateName() == ArmConstants.StateName.CUSTOM){
-      if (armSubsystem.isAtTargetStateTele() && absErrorDeg < 5){
-        candleSubsystem.setColor(LEDConstants.purple);
+      Translation2d targetPose = VisionConstants.blueTargetPoint;
+      if (Robot.isOnRedAlliance()) {
+        targetPose = VisionConstants.redTargetPoint;
       }
-    } else if (absErrorDeg < 5) {
-      candleSubsystem.setColor(LEDConstants.green);
-    } else if (absErrorDeg < 12) {
-      candleSubsystem.setColor(LEDConstants.yellow);
-    } else {
-      candleSubsystem.setColor(LEDConstants.red);
-    }
+      //Calculate angle to speaker    
+      double targetRotation = Math.atan2(targetPose.getY()-currentTranslation.getY(), targetPose.getX()-currentTranslation.getX()) + Math.PI;
+
+      //Calculate and apply the nessecary rotation
+      double rotation_output = turningPIDController.calculate(currentRotation, targetRotation);
+      driveTrainSubsystem.drive(Buttons.forwardSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond,
+      Buttons.sidewaysSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond, rotation_output, true);
+
+      //Light up LEDs depending on our alignment
+      double absErrorDeg = Math.abs(Math.toDegrees(turningPIDController.getPositionError()));
+      if(armSubsystem.getCurrentStateName() == ArmConstants.StateName.CUSTOM){
+        if (armSubsystem.isAtTargetStateTele() && absErrorDeg < 5){
+          candleSubsystem.setColor(LEDConstants.purple);
+        }
+      } else if (absErrorDeg < 5) {
+        candleSubsystem.setColor(LEDConstants.green);
+      } else if (absErrorDeg < 12) {
+        candleSubsystem.setColor(LEDConstants.yellow);
+      } else {
+        candleSubsystem.setColor(LEDConstants.red);
+      }
+    // } else {
+    //   activateDelay++;
+    //   driveTrainSubsystem.drive(Buttons.forwardSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond,
+    //   Buttons.sidewaysSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond, 
+    //   Buttons.rotateSupplier.getAsDouble() * DriveConstants.kTeleopRotationalSpeed, true);
+    // }
   }
 
   // Called once the command ends or is interrupted.

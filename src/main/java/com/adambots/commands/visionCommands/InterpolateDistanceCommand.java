@@ -58,7 +58,7 @@ public class InterpolateDistanceCommand extends Command {
     double targetDistance = Math.hypot(targetPose.getY()-currentTranslation.getY(), targetPose.getX()-currentTranslation.getX());
 
     ShooterPreset preset = VisionLookUpTable.getShooterPreset(targetDistance);
-    SmartDashboard.putNumber("Preset Angle", preset.getWristAngle());
+    System.out.println(preset.getWristAngle());
 
     // if (Math.abs(armSubsystem.getCurrentState().getWristAngle() - preset.getWristAngle()) > 0.5){
       State state = new State(preset.getWristAngle(), 125, StateName.CUSTOM);

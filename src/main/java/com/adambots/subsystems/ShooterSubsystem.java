@@ -51,7 +51,7 @@ public class ShooterSubsystem extends SubsystemBase {
     if (DriverStation.isAutonomous()) {
       return Math.abs(getShooterVelocity() - targetWheelSpeed) < 3; // 1
     }
-    return getShooterVelocity() > targetWheelSpeed - 1; // 1
+    return getShooterVelocity() > targetWheelSpeed - 3; // 1
   }
 
   @Override

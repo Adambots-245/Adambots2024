@@ -13,6 +13,7 @@ public class VisionLookUpTable {
     }
     public VisionLookUpTable() {
         shooterConfig = new ShooterConfig(); //Lower Angle -> Shoot Higher
+        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 311.5, 90, 1));
         shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 315, 90, 1.5));
         shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 320, 90, 1.75));
         shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 324, 90, 2));

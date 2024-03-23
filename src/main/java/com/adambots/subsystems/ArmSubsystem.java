@@ -165,6 +165,11 @@ public class ArmSubsystem extends SubsystemBase {
   public StateName getCurrentStateName() {
     return currentState.getStateName();
   }
+
+  public void syncShoulderEncoders() {
+    shoulderAngleOffset = shoulderEncoder.getAbsolutePositionDegrees();
+    shoulderMotor.setPosition(0);
+  }
   
   @Override
   public void periodic() {
@@ -181,11 +186,9 @@ public class ArmSubsystem extends SubsystemBase {
     // System.out.println("SHOULDER ERROR: " + shoulderPID.getPositionError());
     // System.out.println("WRIST ERROR: " + wristPID.getPositionError());
 
-
     if(Math.abs(getCurrentShoulderShaftAngle() - getCurrentShoulderMotorAngle()) > 25) {
       System.out.println("RESET");
-      shoulderAngleOffset = shoulderEncoder.getAbsolutePositionDegrees();
-      shoulderMotor.setPosition(0);
+      syncShoulderEncoders();
     }
 
     failSafes();

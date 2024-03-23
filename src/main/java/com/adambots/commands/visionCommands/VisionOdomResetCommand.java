@@ -31,19 +31,23 @@ public class VisionOdomResetCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println("RUNNING");
     //Calculate angle to speaker
     if (VisionHelpers.isDetected(VisionConstants.aprilLimelite) && VisionHelpers.getAprilTagBotPose2dBlue() != null) {
-      if (VisionHelpers.getAprilTagBotPose2dBlue().getY() > 5) {
+      if (VisionHelpers.getAprilTagBotPose2dBlue().getY() > 1) {
+            System.out.println("a");
+
         // System.out.println(VisionHelpers.getAprilTagBotPose2dBlue().getY());
         double gyroYaw = RobotMap.gyro.getContinuousYawRad();
         double aprilYaw = (VisionHelpers.getAprilTagBotPose2dBlue().getRotation().getRadians() + Math.PI) ;
         if (Robot.isOnRedAlliance()) {
+          System.out.println("RED");
           aprilYaw = (VisionHelpers.getAprilTagBotPose2dBlue().getRotation().getRadians()) ;
         }
         fakePIPidController.calculate(aprilYaw, gyroYaw);
 
-        if (VisionHelpers.getAprilHorizDist() < 3.5 && Math.abs(fakePIPidController.getPositionError()) < Math.toRadians(7.5)){
-          // System.out.print("updated");
+        if (VisionHelpers.getAprilHorizDist() < 4.5 && Math.abs(fakePIPidController.getPositionError()) < Math.toRadians(30)){
+          System.out.print("updated");
           driveTrainSubsystem.resetOdometryXY(VisionHelpers.getAprilTagBotPose2dBlue());
         }
       }

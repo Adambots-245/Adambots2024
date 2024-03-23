@@ -34,7 +34,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   // Odometry class for tracking robot pose
   private SwerveDriveOdometry m_odometry;
-
   private HashMap<ModulePosition, SwerveModule> swerveModules;
 
   public DrivetrainSubsystem(HashMap<ModulePosition, SwerveModule> modules, BaseGyro gyro) {

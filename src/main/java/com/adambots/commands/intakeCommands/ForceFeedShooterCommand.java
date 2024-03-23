@@ -9,17 +9,15 @@ import com.adambots.Constants.ShooterConstants;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class FeedShooterCommand extends Command {
-  /** Creates a new FeedShooterCommand. */
+public class ForceFeedShooterCommand extends Command {
+  /** Creates a new ForceFeedShooter. */
   private IntakeSubsystem intakeSubsystem;
   private ShooterSubsystem shooterSubsystem;
   private int inc;
-  private boolean increment;
   
-  public FeedShooterCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
+  public ForceFeedShooterCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
     addRequirements(intakeSubsystem);
 
     this.intakeSubsystem = intakeSubsystem;
@@ -30,36 +28,25 @@ public class FeedShooterCommand extends Command {
   @Override
   public void initialize() {
     inc = 0;
-    increment = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (shooterSubsystem.isAtTargetSpeed()) {
-      intakeSubsystem.setMotorSpeed(IntakeConstants.shootSpeed);
-      increment = true;
-    }
-    if(increment){
-      inc++;
-    }
+    intakeSubsystem.setMotorSpeed(IntakeConstants.shootSpeed);
+    inc++;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if(DriverStation.isAutonomous()){
-      shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed);
-    }else{
-      shooterSubsystem.setTargetWheelSpeed(0);
-    }
+    shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed);
     intakeSubsystem.setMotorSpeed(0);
-    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return inc > 15;
+    return inc > 20;
   }
 }

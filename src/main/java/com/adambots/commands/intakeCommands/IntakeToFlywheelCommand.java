@@ -37,10 +37,10 @@ public class IntakeToFlywheelCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (!intakeSubsystem.isSecondPieceInRobot()) {
+    // if (!intakeSubsystem.isSecondPieceInRobot()) {
       armSubsystem.setCurrentState(ArmConstants.floorState);
       intakeSubsystem.setMotorSpeed(IntakeConstants.intakeSpeed);
-    }
+    // }
     shooterSubsystem.setTargetWheelSpeed(0);
     state = "initial";
     inc = 0;

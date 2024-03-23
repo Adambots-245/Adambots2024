@@ -70,7 +70,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    Shuffleboard.stopRecording();
+    // Shuffleboard.stopRecording();
     System.out.println("Shuffleboard recording ended");
   }
 

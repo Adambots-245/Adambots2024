@@ -9,6 +9,7 @@ import com.adambots.commands.armCommands.PrimeShooterCommand;
 import com.adambots.commands.armCommands.RetractShooterCommand;
 import com.adambots.commands.armCommands.RotateShoulderCommand;
 import com.adambots.commands.armCommands.RotateWristCommand;
+import com.adambots.commands.armCommands.SyncShoulderCommand;
 import com.adambots.commands.driveCommands.RotateToAngleCommand;
 import com.adambots.commands.driveCommands.SpinCommand;
 import com.adambots.commands.driveCommands.StopCommand;
@@ -20,8 +21,10 @@ import com.adambots.commands.intakeCommands.AdaptiveScoreCommand;
 import com.adambots.commands.intakeCommands.AdjustNoteCommand;
 import com.adambots.commands.intakeCommands.AutonIntakeCommand;
 import com.adambots.commands.intakeCommands.FeedShooterCommand;
+import com.adambots.commands.intakeCommands.ForceFeedShooterCommand;
 import com.adambots.commands.intakeCommands.IntakeToFlywheelCommand;
 import com.adambots.commands.intakeCommands.ShootWhenAligned;
+import com.adambots.commands.intakeCommands.SpinFlywheelsCommand;
 import com.adambots.commands.visionCommands.DriveToNoteCommand;
 import com.adambots.commands.visionCommands.InterpolateDistanceCommand;
 import com.adambots.commands.visionCommands.OdomSpeakerAlignCommand;
@@ -161,6 +164,8 @@ public class RobotContainer {
 
 
     Buttons.JoystickButton11.whileTrue(new InstantCommand(() -> drivetrainSubsystem.resetOdometry(new Pose2d(1.38, 5.53, new Rotation2d(0)))));
+    
+    Buttons.JoystickButton16.onTrue(new SyncShoulderCommand(armSubsystem));
 
 
     // Buttons.JoystickButton3.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, -150, RobotMap.gyro)); //Rotate to shoot across field
@@ -173,10 +178,11 @@ public class RobotContainer {
     // Buttons.XboxStartButton.whileTrue(new PrimeShooterCommandFeed(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed)); //Raise arm to human station
     // Buttons.XboxStartButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
 
-    Buttons.XboxStartButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed, ArmConstants.closeFloorShootState));
-    Buttons.XboxStartButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
-    Buttons.XboxBButton.whileTrue(new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem));
-    // Buttons.XboxBButton.whileTrue(new VisionOdomResetCommand(drivetrainSubsystem));
+    Buttons.XboxBButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed, ArmConstants.closeFloorShootState));
+    Buttons.XboxBButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
+    
+    Buttons.XboxStartButton.whileTrue(new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem));
+    // Buttons.XboxStartButton.whileTrue(new VisionOdomResetCommand(drivetrainSubsystem));
 
     // Buttons.XboxBButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed, ArmConstants.closeFloorShootState)); //Floor state and spin shooter
     // Buttons.XboxBButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
@@ -189,7 +195,7 @@ public class RobotContainer {
     // Buttons.XboxLeftBumper.onTrue(new SlowOuttakeCommand(intakeSubsystem)); 
     Buttons.XboxRightBumper.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(0))); //Stop FLywheels
 
-    Buttons.XboxLeftBumper.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed))); //Spin up flywheels
+    Buttons.XboxLeftBumper.whileTrue(new SpinFlywheelsCommand(shooterSubsystem, intakeSubsystem)); //Spin up flywheels
 
     //THESE COMMANDS DO NOT AUTO ENGAGE SOLENOIDS - which is why they are negative, where the solenoid should be left unpowered
     Buttons.XboxLeftTriggerButton.whileTrue(new RunLeftHangCommand(hangSubsystem, -0.25)); //Run left winch in 
@@ -210,6 +216,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("PrimeShooterCloseCommand", new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed, ArmConstants.speakerState));
 
     NamedCommands.registerCommand("FeedShooterCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem));
+    NamedCommands.registerCommand("ForceShootCommand", new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem));
     
     NamedCommands.registerCommand("AprilAlignCommand", new ParallelCommandGroup(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, candleSubsytem), new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem)));
     NamedCommands.registerCommand("DriveToNoteCommand", new ParallelDeadlineGroup(new WaitCommand(3), new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, true)));
