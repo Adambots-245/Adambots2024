@@ -116,6 +116,10 @@ public class ArmSubsystem extends SubsystemBase {
     return targetStateDebounce >= 25; 
   }
 
+  public boolean isAtTargetStateTele () {
+    return Math.abs(shoulderPID.getPositionError()) < 5 && Math.abs(wristPID.getPositionError()) < 4; 
+  }
+
   public double getCurrentWristShaftAngle(){
     return wristEncoder.getAbsolutePositionDegrees();
   }

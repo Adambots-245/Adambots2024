@@ -1,10 +1,10 @@
 package com.adambots.commands.visionCommands;
 
-import com.adambots.Robot;
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
+import com.adambots.Robot;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
@@ -60,7 +60,7 @@ public class OdomSpeakerAlignCommand extends Command {
     //Light up LEDs depending on our alignment
     double absErrorDeg = Math.abs(Math.toDegrees(turningPIDController.getPositionError()));
     if(armSubsystem.getCurrentStateName() == ArmConstants.StateName.CUSTOM){
-      if (armSubsystem.isAtTargetState() && absErrorDeg < 5){
+      if (armSubsystem.isAtTargetStateTele() && absErrorDeg < 5){
         candleSubsystem.setColor(LEDConstants.purple);
       }
     } else if (absErrorDeg < 5) {

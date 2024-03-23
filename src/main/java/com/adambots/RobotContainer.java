@@ -1,7 +1,5 @@
 package com.adambots;
 
-import javax.swing.GroupLayout.ParallelGroup;
-
 import com.adambots.Constants.ArmConstants;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.ShooterConstants;
@@ -143,10 +141,11 @@ public class RobotContainer {
     
     //Both lock rotation to apriltag with driver control
 
-    Buttons.JoystickButton3.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, -90, RobotMap.gyro)); //Rotate to amp
-    Buttons.JoystickButton4.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, 60, RobotMap.gyro)); //Rotate to huaman station
+    Buttons.JoystickButton3.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, 90, RobotMap.gyro)); //Rotate to amp
+    Buttons.JoystickButton4.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, -60, RobotMap.gyro)); //Rotate to huaman station
 
     Buttons.JoystickButton5.whileTrue(new SpinCommand(drivetrainSubsystem)); //Spin while drive driving (defense)
+
 
     Buttons.JoystickButton9.whileTrue(new SpinCommand(drivetrainSubsystem)); //Spin while drive driving (defense)
 

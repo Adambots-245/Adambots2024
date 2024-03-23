@@ -31,8 +31,6 @@ public class VisionOdomResetCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    //TODO: Add support for red side
     //Calculate angle to speaker
     if (VisionHelpers.isDetected(VisionConstants.aprilLimelite) && VisionHelpers.getAprilTagBotPose2dBlue() != null) {
       if (VisionHelpers.getAprilTagBotPose2dBlue().getY() > 5) {
