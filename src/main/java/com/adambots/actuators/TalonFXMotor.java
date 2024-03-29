@@ -5,6 +5,7 @@
 package com.adambots.actuators;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.controls.StrictFollower;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -95,5 +96,9 @@ public class TalonFXMotor implements BaseMotor{
     public double getCurrentDraw() {
 
         return motor.getStatorCurrent().getValueAsDouble();
+    }
+
+    public void setStrictFollower(int deviceId){
+        motor.setControl(new StrictFollower(deviceId));
     }
 }

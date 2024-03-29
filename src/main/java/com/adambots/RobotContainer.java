@@ -37,6 +37,7 @@ import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
 import com.adambots.utils.Buttons;
 import com.adambots.utils.Dash;
+import com.adambots.utils.VisionLookUpTable;
 import com.adambots.vision.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -68,7 +69,7 @@ public class RobotContainer {
   private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(RobotMap.swerveModules, RobotMap.gyro);
   private final ArmSubsystem armSubsystem = new ArmSubsystem(RobotMap.shoulderMotor, RobotMap.wristMotor, RobotMap.shoulderEncoder, RobotMap.wristEncoder);
   private final CANdleSubsystem candleSubsytem = new CANdleSubsystem(RobotMap.candleLEDs);
-  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.shooterWheel);
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.shooterWheel, RobotMap.shooterWheel2);
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.groundIntakeMotor, RobotMap.firstPieceInRobotEye, RobotMap.secondPieceInRobotEye);
   private final HangSubsystem hangSubsystem = new HangSubsystem(RobotMap.leftHangMotor, RobotMap.rightHangMotor, RobotMap.leftHangSolenoid, RobotMap.rightHangSolenoid);
 
@@ -140,8 +141,10 @@ public class RobotContainer {
 
     Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem)); //Score in amp and speaker
     
-    Buttons.JoystickButton2.whileTrue(new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, false)); //Score in amp and speaker
+    Buttons.JoystickButton2.whileTrue(new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 3)); //Score in amp and speaker
     
+    Buttons.JoystickButton6.whileTrue(new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 1)); //Score in amp and speaker
+
     //Both lock rotation to apriltag with driver control
 
     Buttons.JoystickButton3.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, 90, RobotMap.gyro)); //Rotate to amp
@@ -156,7 +159,7 @@ public class RobotContainer {
 
     // Buttons.JoystickButton7.whileTrue(new AlignWhileDrivingCommand(drivetrainSubsystem, candleSubsytem, VisionConstants.aprilLimelite));
     Buttons.JoystickButton7.whileTrue(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, candleSubsytem));
-    Buttons.JoystickButton7.whileTrue(new VisionOdomResetCommand(drivetrainSubsystem));
+    Buttons.JoystickButton7.whileTrue(new VisionOdomResetCommand(drivetrainSubsystem, VisionConstants.defaultAprilLimelite));
 
     Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw())); //Reset Gyro
 
@@ -166,6 +169,8 @@ public class RobotContainer {
     Buttons.JoystickButton11.whileTrue(new InstantCommand(() -> drivetrainSubsystem.resetOdometry(new Pose2d(1.38, 5.53, new Rotation2d(0)))));
     
     Buttons.JoystickButton16.onTrue(new SyncShoulderCommand(armSubsystem));
+
+    Buttons.JoystickButton15.onTrue(new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem));
 
 
     // Buttons.JoystickButton3.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, -150, RobotMap.gyro)); //Rotate to shoot across field
@@ -181,7 +186,7 @@ public class RobotContainer {
     Buttons.XboxBButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed, ArmConstants.closeFloorShootState));
     Buttons.XboxBButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
     
-    Buttons.XboxStartButton.whileTrue(new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem));
+    Buttons.XboxStartButton.whileTrue(new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem, VisionLookUpTable.defaultShooterConfig));
     // Buttons.XboxStartButton.whileTrue(new VisionOdomResetCommand(drivetrainSubsystem));
 
     // Buttons.XboxBButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed, ArmConstants.closeFloorShootState)); //Floor state and spin shooter
@@ -218,12 +223,12 @@ public class RobotContainer {
     NamedCommands.registerCommand("FeedShooterCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem));
     NamedCommands.registerCommand("ForceShootCommand", new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem));
     
-    NamedCommands.registerCommand("AprilAlignCommand", new ParallelCommandGroup(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, candleSubsytem), new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem)));
-    NamedCommands.registerCommand("DriveToNoteCommand", new ParallelDeadlineGroup(new WaitCommand(3), new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, true)));
-    NamedCommands.registerCommand("VisionOdomReset", new VisionOdomResetCommand(drivetrainSubsystem));
+    NamedCommands.registerCommand("AprilAlignCommand", new ParallelCommandGroup(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, candleSubsytem), new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem, VisionLookUpTable.shooterConfig)));
+    NamedCommands.registerCommand("DriveToNoteCommand", new ParallelDeadlineGroup(new WaitCommand(3), new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 1.5)));
+    NamedCommands.registerCommand("VisionOdomReset", new VisionOdomResetCommand(drivetrainSubsystem, VisionConstants.aprilLimelite));
 
     NamedCommands.registerCommand("IntakeAndPrimeShooterCommand", new AutonIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.closeFloorShootState));
-    NamedCommands.registerCommand("InterpolateCommand", new ParallelDeadlineGroup(new WaitCommand(0.5), new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem)));
+    NamedCommands.registerCommand("InterpolateCommand", new ParallelDeadlineGroup(new WaitCommand(0.5), new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem, VisionLookUpTable.shooterConfig)));
     NamedCommands.registerCommand("SpinShooterCommand", new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)));
 
     NamedCommands.registerCommand("StopCommand",new StopCommand(drivetrainSubsystem));
@@ -253,9 +258,9 @@ public class RobotContainer {
     Dash.add("pitch", () -> RobotMap.gyro.getPitch());
     Dash.add("roll", () -> RobotMap.gyro.getRoll());
 
-    Dash.add("Vision X", () -> VisionHelpers.getAprilTagBotPose2dBlue().getX());
-    Dash.add("Vision y", () -> VisionHelpers.getAprilTagBotPose2dBlue().getY());
-    Dash.add("rOATION y", () -> VisionHelpers.getAprilTagBotPose2dBlue().getRotation().getDegrees());
+    // Dash.add("Vision X", () -> VisionHelpers.getAprilTagBotPose2dBlue().getX());
+    // Dash.add("Vision y", () -> VisionHelpers.getAprilTagBotPose2dBlue().getY());
+    // Dash.add("rOATION y", () -> VisionHelpers.getAprilTagBotPose2dBlue().getRotation().getDegrees());
 
 
     // Dash.add("IntakeSpeed", () -> intakeSubsystem.getIntakeSpeed());

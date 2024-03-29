@@ -24,4 +24,5 @@ public interface BaseMotor {
 
     boolean getReverseLimitSwitch();
 
+    void setStrictFollower(int deviceID);
 }

@@ -176,7 +176,7 @@ public class ArmSubsystem extends SubsystemBase {
     if (DriverStation.isEnabled()){
       shoulderSpeed = shoulderPID.calculate(getCurrentShoulderMotorAngle(), targetShoulderAngle);
       if (currentState.getStateName() == StateName.FLOOR) {
-        shoulderSpeed = shoulderSpeed - 0.3;
+        shoulderSpeed = shoulderSpeed - 0.4;
       }
       wristSpeed = wristPID.calculate(getCurrentWristShaftAngle(), targetWristAngle);
     } else {
@@ -191,6 +191,7 @@ public class ArmSubsystem extends SubsystemBase {
       syncShoulderEncoders();
     }
 
+    setPids();
     failSafes();
 
     if(failsafeOverride){
@@ -203,6 +204,31 @@ public class ArmSubsystem extends SubsystemBase {
     
     shoulderMotor.set(shoulderSpeed);
     wristMotor.set(wristSpeed);
+  }
+
+  private void setPids(){
+    if(currentState.getStateName() == StateName.SPEAKER){
+     shoulderPID.setPID(0.02, 0.1, 0.0028);
+     wristPID.setPID(0.0062, 0.009, 0.00062);
+    }else if(currentState.getStateName() == StateName.AMP){
+     shoulderPID.setPID(0.02, 0.1, 0.0028);
+     wristPID.setPID(0.0062, 0.009, 0.00062);
+    }else if(currentState.getStateName() == StateName.FLOOR){
+     shoulderPID.setPID(0.02, 0.1, 0.0028);
+     wristPID.setPID(0.0062, 0.009, 0.00062);
+    }else if(currentState.getStateName() == StateName.DEFAULT){
+     shoulderPID.setPID(0.02, 0.1, 0.0028);
+     wristPID.setPID(0.0062, 0.009, 0.00062);
+    }else if(currentState.getStateName() == StateName.HUMAN){
+     shoulderPID.setPID(0.02, 0.1, 0.0028);
+     wristPID.setPID(0.0062, 0.009, 0.00062);
+    }else if(currentState.getStateName() == StateName.CUSTOM){
+     shoulderPID.setPID(0.02, 0.1, 0.0028);
+     wristPID.setPID(0.0062, 0.009, 0.00062);
+    }else{
+     shoulderPID.setPID(0.02, 0.1, 0.0028);
+     wristPID.setPID(0.0062, 0.009, 0.00062);
+    }
   }
 
   private void failSafes() {

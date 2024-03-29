@@ -62,6 +62,7 @@ public class RobotMap {
 
     // Shooter Ports
     public static final int shooterWheelPort = 5;
+    public static final int shooterWheel2Port = 11;
 
     // Intake Ports
     public static final int groundIntakeMotorPort = 6;
@@ -92,6 +93,7 @@ public class RobotMap {
 
     // Shooter Devices
     public static final BaseMotor shooterWheel = new TalonFXMotor(shooterWheelPort, true, 50);
+    public static final BaseMotor shooterWheel2 = new TalonFXMotor(shooterWheel2Port, true, 50);
 
     // Intake Devices
     public static final BaseMotor groundIntakeMotor = new TalonFXMotor(groundIntakeMotorPort, true, 45.0);

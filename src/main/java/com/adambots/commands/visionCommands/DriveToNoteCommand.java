@@ -20,16 +20,15 @@ public class DriveToNoteCommand extends Command {
   private final PIDController pidController = new PIDController(VisionConstants.kPTranslateController, 0, VisionConstants.kDTranslateController);
   private final PIDController rotatePidController = new PIDController(0.1, 0, 0.00001);
   private double drive_output;
+  private double speed;
   private double debounce;
-  private boolean auton;
-
-  public DriveToNoteCommand(DrivetrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem, CANdleSubsystem ledSubsystem, boolean auton) {
+  public DriveToNoteCommand(DrivetrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem, CANdleSubsystem ledSubsystem, double speed) {
     addRequirements(driveTrainSubsystem);
 
     this.intakeSubsystem = intakeSubsystem;
     this.driveTrainSubsystem = driveTrainSubsystem;
     this.ledSubsystem = ledSubsystem;
-    this.auton = auton;
+    this.speed = speed;
   }
 
   @Override
@@ -48,13 +47,8 @@ public class DriveToNoteCommand extends Command {
       debounce = 0;
     }
 
-    if (DriverStation.isAutonomous()){
-      drive_output = pidController.calculate(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite), 0);
-      driveTrainSubsystem.drive(1.5, drive_output, 0, false);
-    } else {
-      drive_output = rotatePidController.calculate(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite), 0);
-      driveTrainSubsystem.drive(3, 0, drive_output, false);
-    }
+    drive_output = pidController.calculate(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite), 0);
+    driveTrainSubsystem.drive(speed, drive_output, 0, false);
 
     double rotate = VisionHelpers.getHorizAngle(VisionConstants.noteLimelite);
 

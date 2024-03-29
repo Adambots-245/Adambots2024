@@ -17,10 +17,12 @@ public class VisionOdomResetCommand extends Command {
   /** Creates a new VisionOdomResetCommand. */
   DrivetrainSubsystem driveTrainSubsystem;
   private PIDController fakePIPidController = new PIDController(0, 0, 0);
+  private String limelight;
 
-  public VisionOdomResetCommand(DrivetrainSubsystem driveTrainSubsystem) {
+  public VisionOdomResetCommand(DrivetrainSubsystem driveTrainSubsystem, String limelight) {
     this.driveTrainSubsystem = driveTrainSubsystem;
     fakePIPidController.enableContinuousInput(-Math.PI, Math.PI);
+    this.limelight = limelight;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -33,22 +35,27 @@ public class VisionOdomResetCommand extends Command {
   public void execute() {
     System.out.println("RUNNING");
     //Calculate angle to speaker
-    if (VisionHelpers.isDetected(VisionConstants.aprilLimelite) && VisionHelpers.getAprilTagBotPose2dBlue() != null) {
-      if (VisionHelpers.getAprilTagBotPose2dBlue().getY() > 1) {
+    if (VisionHelpers.isDetected(limelight) && VisionHelpers.getAprilTagBotPose2dBlue(limelight) != null) {
+      if (VisionHelpers.getAprilTagBotPose2dBlue(limelight).getY() > 1) {
             System.out.println("a");
 
         // System.out.println(VisionHelpers.getAprilTagBotPose2dBlue().getY());
+        double aprilYaw;
         double gyroYaw = RobotMap.gyro.getContinuousYawRad();
-        double aprilYaw = (VisionHelpers.getAprilTagBotPose2dBlue().getRotation().getRadians() + Math.PI) ;
+        if (limelight == VisionConstants.aprilLimelite){
+          aprilYaw = (VisionHelpers.getAprilTagBotPose2dBlue(limelight).getRotation().getRadians() + Math.PI) ;
+        } else {
+          aprilYaw = (VisionHelpers.getAprilTagBotPose2dBlue(limelight).getRotation().getRadians()) ;
+        }
         if (Robot.isOnRedAlliance()) {
           System.out.println("RED");
-          aprilYaw = (VisionHelpers.getAprilTagBotPose2dBlue().getRotation().getRadians()) ;
+          aprilYaw = (VisionHelpers.getAprilTagBotPose2dBlue(limelight).getRotation().getRadians()) ;
         }
         fakePIPidController.calculate(aprilYaw, gyroYaw);
 
         if (VisionHelpers.getAprilHorizDist() < 4.5 && Math.abs(fakePIPidController.getPositionError()) < Math.toRadians(30)){
           System.out.print("updated");
-          driveTrainSubsystem.resetOdometryXY(VisionHelpers.getAprilTagBotPose2dBlue());
+          driveTrainSubsystem.resetOdometryXY(VisionHelpers.getAprilTagBotPose2dBlue(limelight));
         }
       }
     }

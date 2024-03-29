@@ -55,7 +55,7 @@ public class OdomSpeakerAlignCommand extends Command {
         targetPose = VisionConstants.redTargetPoint;
       }
       //Calculate angle to speaker    
-      double targetRotation = Math.atan2(targetPose.getY()-currentTranslation.getY(), targetPose.getX()-currentTranslation.getX()) + Math.PI;
+      double targetRotation = Math.atan2(targetPose.getY()-currentTranslation.getY(), targetPose.getX()-currentTranslation.getX());
 
       //Calculate and apply the nessecary rotation
       double rotation_output = turningPIDController.calculate(currentRotation, targetRotation);

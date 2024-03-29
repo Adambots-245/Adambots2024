@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class InterpolateDistanceCommand extends Command {
+public class DefaultInterpolateDistanceCommand extends Command {
   private ArmSubsystem armSubsystem;
   private ShooterSubsystem shooterSubsystem;
   private DrivetrainSubsystem drivetrainSubsystem;
@@ -27,7 +27,7 @@ public class InterpolateDistanceCommand extends Command {
   private ShooterConfig shooterConfig;
   // ShooterPreset preset = VisionLookUpTable.getShooterPreset(1);
 
-  public InterpolateDistanceCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, DrivetrainSubsystem drivetrainSubsystem, IntakeSubsystem intakeSubsystem, ShooterConfig shooterConfig) {
+  public DefaultInterpolateDistanceCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, DrivetrainSubsystem drivetrainSubsystem, IntakeSubsystem intakeSubsystem, ShooterConfig shooterConfig) {
     addRequirements(armSubsystem);
 
     this.armSubsystem = armSubsystem;

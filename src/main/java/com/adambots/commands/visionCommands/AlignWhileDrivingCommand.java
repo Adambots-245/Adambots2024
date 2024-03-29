@@ -40,7 +40,7 @@ public class AlignWhileDrivingCommand extends Command {
   @Override
   public void execute() {
     if (VisionHelpers.isDetected(limelight)){
-      driveTrainSubsystem.resetOdometryXY(VisionHelpers.getAprilTagBotPose2dBlue());
+      driveTrainSubsystem.resetOdometryXY(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.defaultAprilLimelite));
       // rotate = VisionHelpers.getAprilTagBotPose2d().getRotation().getRadians();
       rotate = -Math.toRadians(VisionHelpers.getHorizAngle(limelight)) + RobotMap.gyro.getContinuousYawRad();
 

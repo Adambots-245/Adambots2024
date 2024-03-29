@@ -4,7 +4,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class VisionLookUpTable {
-    static ShooterConfig shooterConfig;
+    public static ShooterConfig shooterConfig;
+    public static ShooterConfig defaultShooterConfig;
 
     private static VisionLookUpTable instance = new VisionLookUpTable();
 
@@ -13,6 +14,7 @@ public class VisionLookUpTable {
     }
     public VisionLookUpTable() {
         shooterConfig = new ShooterConfig(); //Lower Angle -> Shoot Higher
+        defaultShooterConfig = new ShooterConfig();
         shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 311.5, 90, 1));
         shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 315, 90, 1.5));
         shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 320, 90, 1.75));
@@ -21,9 +23,16 @@ public class VisionLookUpTable {
         shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 328, 90, 3));
         shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 332, 90, 3.5));
 
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(157, 197, 90, 1));
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(157, 196, 90, 1.5));
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(157, 194, 90, 2));
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(157, 193, 90, 2.5));
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(157, 192, 90, 3));
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(157, 191, 90, 3.5));
+
 
         Collections.sort(shooterConfig.getShooterConfigs());
-
+        Collections.sort(defaultShooterConfig.getShooterConfigs());
     }
 
     /*
@@ -31,29 +40,29 @@ public class VisionLookUpTable {
      * @param DistanceFromTarget measured distance to the shooting target
      * @return new shooter preset for given distance
      */
-    public static ShooterPreset getShooterPreset(double distanceFromTarget) {
-        int endIndex = shooterConfig.getShooterConfigs().size()-1;
+    public static ShooterPreset getShooterPreset(ShooterConfig selectedShooterConfig, double distanceFromTarget) {
+        int endIndex = selectedShooterConfig.getShooterConfigs().size()-1;
 
         /*
          * Check if distance falls below the shortest distance in the lookup table. If the measured distance is shorter
          * select the lookup table entry with the shortest distance
          */
-        if(distanceFromTarget <= shooterConfig.getShooterConfigs().get(0).getDistance()){
-            return shooterConfig.getShooterConfigs().get(0);
+        if(distanceFromTarget <= selectedShooterConfig.getShooterConfigs().get(0).getDistance()){
+            return selectedShooterConfig.getShooterConfigs().get(0);
         }
 
         /*
          * Check if distance falls above the largest distance in the lookup table. If the measured distance is larger
          * select the lookup table entry with the largest distance
          */
-        if(distanceFromTarget >= shooterConfig.getShooterConfigs().get(endIndex).getDistance()){
-            return shooterConfig.getShooterConfigs().get(endIndex);
+        if(distanceFromTarget >= selectedShooterConfig.getShooterConfigs().get(endIndex).getDistance()){
+            return selectedShooterConfig.getShooterConfigs().get(endIndex);
         }
         /*
          * If the measured distance falls somewhere within the lookup table perform a binary seqarch within the lookup
          * table
          */
-        return binarySearchDistance(shooterConfig.getShooterConfigs(),0, endIndex, distanceFromTarget);
+        return binarySearchDistance(selectedShooterConfig.getShooterConfigs(),0, endIndex, distanceFromTarget);
     }
 
     /*

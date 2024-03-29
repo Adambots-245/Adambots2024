@@ -86,12 +86,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "PrimeShooterCloseCommand"
-          }
-        },
-        {
           "type": "wait",
           "data": {
             "waitTime": 2.0

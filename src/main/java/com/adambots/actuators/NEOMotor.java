@@ -86,4 +86,10 @@ public class NEOMotor implements BaseMotor{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'enableVoltageCompensation'");
     }
+
+    @Override
+    public void setStrictFollower(int deviceID) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setStrictFollower'");
+    }
 }

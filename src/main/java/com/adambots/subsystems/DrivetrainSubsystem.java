@@ -10,6 +10,7 @@ import com.adambots.Constants;
 import com.adambots.Robot;
 import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.DriveConstants;
+import com.adambots.Constants.VisionConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
 import com.adambots.RobotMap;
 import com.adambots.sensors.BaseGyro;
@@ -70,7 +71,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     // Update the position of the robot on the ShuffleBoard field
     Constants.field.setRobotPose(getPose());
-    Constants.aprilTagfield.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue());
+    Constants.aprilTagfield.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.defaultAprilLimelite));
   }
 
   /**

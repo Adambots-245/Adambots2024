@@ -83,4 +83,10 @@ public class SparkMax implements BaseMotor{
         motor.enableVoltageCompensation(value);
     }
 
+    @Override
+    public void setStrictFollower(int deviceID) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setStrictFollower'");
+    }
+
 }
