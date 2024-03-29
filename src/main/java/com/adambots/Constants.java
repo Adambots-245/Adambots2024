@@ -39,7 +39,7 @@ public final class Constants {
 
 
         public static final double kPThetaController = 5; 
-        public static final double kDThetaCond oller = 0.08;
+        public static final double kDThetaController = 0.08;
 
         public static final double kPOdomThetaController = 4.7; 
         public static final double kDOdomThetaController = 0.25;
