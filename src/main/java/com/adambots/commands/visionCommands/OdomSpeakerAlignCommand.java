@@ -9,8 +9,8 @@ import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.utils.Buttons;
-import com.adambots.vision.VisionHelpers;
 
+import edu.wpi.first.apriltag.AprilTagDetector;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -22,15 +22,17 @@ public class OdomSpeakerAlignCommand extends Command {
   private CANdleSubsystem candleSubsystem;
   private ArmSubsystem armSubsystem;
   private double activateDelay;
+ private String limelight;
   private PIDController turningPIDController = new PIDController(VisionConstants.kPOdomThetaController, 0, VisionConstants.kDOdomThetaController);
 
-  public OdomSpeakerAlignCommand(DrivetrainSubsystem driveTrainSubsystem, ArmSubsystem armSubsystem, CANdleSubsystem ledSubsystem) {
+  public OdomSpeakerAlignCommand(DrivetrainSubsystem driveTrainSubsystem, ArmSubsystem armSubsystem, CANdleSubsystem ledSubsystem, String limelight) {
     addRequirements(driveTrainSubsystem);
 
 
     turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
 
     this.driveTrainSubsystem = driveTrainSubsystem;
+    this.limelight = limelight;
     this.armSubsystem = armSubsystem;
     this.candleSubsystem = ledSubsystem;
   }
@@ -54,16 +56,31 @@ public class OdomSpeakerAlignCommand extends Command {
       if (Robot.isOnRedAlliance()) {
         targetPose = VisionConstants.redTargetPoint;
       }
-      //Calculate angle to speaker    
-      double targetRotation = Math.atan2(targetPose.getY()-currentTranslation.getY(), targetPose.getX()-currentTranslation.getX());
+      double targetRotation;
+      //Calculate angle to speaker  
+      if (limelight == VisionConstants.aprilLimelite){
+        targetRotation = Math.atan2(targetPose.getY()-currentTranslation.getY(), targetPose.getX()-currentTranslation.getX()) + Math.PI;
+      } else{
+        targetRotation = Math.atan2(targetPose.getY()-currentTranslation.getY(), targetPose.getX()-currentTranslation.getX());
+      }
 
       //Calculate and apply the nessecary rotation
       double rotation_output = turningPIDController.calculate(currentRotation, targetRotation);
+      // if (limelight == VisionConstants.aprilLimelite){
+      //   rotation_output = turningPIDController.calculate(currentRotation + Math.PI, targetRotation);
+      // } 
+      //   rotation_output = turningPIDController.calculate(currentRotation, targetRotation);
+      // }
       driveTrainSubsystem.drive(Buttons.forwardSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond,
       Buttons.sidewaysSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond, rotation_output, true);
 
       //Light up LEDs depending on our alignment
       double absErrorDeg = Math.abs(Math.toDegrees(turningPIDController.getPositionError()));
+      if (DriverStation.isAutonomous()){
+        absErrorDeg = Math.abs(Math.toDegrees(turningPIDController.getPositionError()));
+      } 
+      //   rotation_output = turningPIDController.calculate(currentRotation, targetRotation);
+      // }
       if(armSubsystem.getCurrentStateName() == ArmConstants.StateName.CUSTOM){
         if (armSubsystem.isAtTargetStateTele() && absErrorDeg < 5){
           candleSubsystem.setColor(LEDConstants.purple);

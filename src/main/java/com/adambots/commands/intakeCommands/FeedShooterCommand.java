@@ -37,6 +37,7 @@ public class FeedShooterCommand extends Command {
   @Override
   public void execute() {
     if (shooterSubsystem.isAtTargetSpeed()) {
+      System.out.println("TRYING TO FEED");
       intakeSubsystem.setMotorSpeed(IntakeConstants.shootSpeed);
       increment = true;
     }
@@ -60,6 +61,6 @@ public class FeedShooterCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return inc > 15;
+    return inc > 25;
   }
 }

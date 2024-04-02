@@ -28,12 +28,12 @@ public class VisionHelpers {
         return (int) NetworkTableInstance.getDefault().getTable(limelight).getEntry("hb").getDouble(0);
     }
 
-    public static Pose3d getCameraPoseTargetSpace() {
-        return LimelightHelpers.getBotPose3d_TargetSpace(VisionConstants.aprilLimelite);
+    public static Pose3d getCameraPoseTargetSpace(String limelight) {
+        return LimelightHelpers.getBotPose3d_TargetSpace(limelight);
     }
 
-    public static double getAprilHorizDist(){
-        return Math.hypot(getCameraPoseTargetSpace().getX(), getCameraPoseTargetSpace().getZ());
+    public static double getAprilHorizDist(String limelight){
+        return Math.hypot(getCameraPoseTargetSpace(limelight).getX(), getCameraPoseTargetSpace(limelight).getZ());
     }
 
     public static Pose2d getAprilTagPose2d() {

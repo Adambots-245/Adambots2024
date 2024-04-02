@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     // Shuffleboard.stopRecording();
-    System.out.println("Shuffleboard recording ended");
+    // System.out.println("Shuffleboard recording ended");
   }
 
   @Override
@@ -87,10 +87,10 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     CommandScheduler.getInstance().cancelAll(); //Cancel all teleop or lingering commands
 
-    if (Constants.enableAutomaticShuffleboardRecording) {
-      Shuffleboard.startRecording();
-      System.out.println("Autonomous Shuffleboard recording started - " + DriverStation.getMatchTime());
-    }
+    // if (Constants.enableAutomaticShuffleboardRecording) {
+    //   Shuffleboard.startRecording();
+    //   System.out.println("Autonomous Shuffleboard recording started - " + DriverStation.getMatchTime());
+    // }
 
     Command m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     System.out.println("Auton Selected: " + m_autonomousCommand.toString());
@@ -113,10 +113,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    if (Constants.enableAutomaticShuffleboardRecording) {
-      Shuffleboard.startRecording();
-      System.out.println("Teleop Shuffleboard recording started - " + DriverStation.getMatchTime());
-    }
+    // if (Constants.enableAutomaticShuffleboardRecording) {
+    //   Shuffleboard.startRecording();
+    //   System.out.println("Teleop Shuffleboard recording started - " + DriverStation.getMatchTime());
+    // }
 
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to

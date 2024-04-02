@@ -18,9 +18,15 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.7
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "FeedShooterCommand"
+            "name": "ForceShootCommand"
           }
         },
         {
@@ -96,7 +102,7 @@
         {
           "type": "named",
           "data": {
-            "name": "FeedShooterCommand"
+            "name": "ForceShootCommand"
           }
         },
         {
@@ -213,7 +219,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "FeedShooterCommand"
+                  "name": "ForceShootCommand"
                 }
               }
             ]

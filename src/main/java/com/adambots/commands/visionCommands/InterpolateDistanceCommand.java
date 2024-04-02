@@ -47,7 +47,7 @@ public class InterpolateDistanceCommand extends Command {
   @Override
   public void execute() {
     if (!intakeSubsystem.getLockOut()) {
-      shooterSubsystem.setTargetWheelSpeed(90);
+      shooterSubsystem.setTargetWheelSpeed(89);
     }
 
     Pose2d currentPose = drivetrainSubsystem.getPose(); //Get odometry data from drivetrain
@@ -61,10 +61,10 @@ public class InterpolateDistanceCommand extends Command {
     double targetDistance = Math.hypot(targetPose.getY()-currentTranslation.getY(), targetPose.getX()-currentTranslation.getX());
 
     ShooterPreset preset = VisionLookUpTable.getShooterPreset(shooterConfig, targetDistance);
-    System.out.println(preset.getWristAngle());
+    // System.out.println(preset.getWristAngle());
 
     // if (Math.abs(armSubsystem.getCurrentState().getWristAngle() - preset.getWristAngle()) > 0.5){
-      State state = new State(preset.getWristAngle(), 125, StateName.CUSTOM);
+      State state = new State(preset.getWristAngle(), preset.getArmAngle(), StateName.CUSTOM);
       armSubsystem.setCurrentState(state);
     // }
   }

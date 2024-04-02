@@ -71,7 +71,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     // Update the position of the robot on the ShuffleBoard field
     Constants.field.setRobotPose(getPose());
-    Constants.aprilTagfield.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.defaultAprilLimelite));
+    Constants.aprilTagfield.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite));
   }
 
   /**

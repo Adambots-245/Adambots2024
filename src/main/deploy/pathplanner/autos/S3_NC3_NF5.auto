@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7059762690953959,
-      "y": 6.7
+      "x": 0.7284778050297884,
+      "y": 4.42669621430541
     },
-    "rotation": 60.0
+    "rotation": 120.69337738238586
   },
   "command": {
     "type": "sequential",
@@ -18,15 +18,9 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.7
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "ForceShootCommand"
+            "name": "FeedShooterCommand"
           }
         },
         {
@@ -46,7 +40,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "S1_NC1"
+                        "pathName": "S3_NC3"
                       }
                     },
                     {
@@ -74,9 +68,22 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 2.5
+                  "waitTime": 0.3
                 }
               },
+              {
+                "type": "named",
+                "data": {
+                  "name": "VisionOdomReset"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
               {
                 "type": "named",
                 "data": {
@@ -89,7 +96,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ForceShootCommand"
+            "name": "FeedShooterCommand"
           }
         },
         {
@@ -122,7 +129,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "NC1_NF2"
+                        "pathName": "NC3_NF5"
                       }
                     },
                     {
@@ -146,7 +153,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "NF2_S1"
+            "pathName": "NF5_S1"
           }
         },
         {
@@ -162,13 +169,38 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 2.5
+                  "waitTime": 0.2
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "AprilAlignCommand"
+                  "name": "VisionOdomReset"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AprilAlignCommand"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "FeedShooterCommand"
                 }
               }
             ]

@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class VisionLookUpTable {
-    public static ShooterConfig shooterConfig;
+    public static ShooterConfig lowShooterConfig;
     public static ShooterConfig defaultShooterConfig;
 
     private static VisionLookUpTable instance = new VisionLookUpTable();
@@ -13,25 +13,26 @@ public class VisionLookUpTable {
         return instance;
     }
     public VisionLookUpTable() {
-        shooterConfig = new ShooterConfig(); //Lower Angle -> Shoot Higher
+        lowShooterConfig = new ShooterConfig(); //Lower Angle -> Shoot Higher
         defaultShooterConfig = new ShooterConfig();
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 311.5, 90, 1));
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 315, 90, 1.5));
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 320, 90, 1.75));
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 324, 90, 2));
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 327, 90, 2.5));
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 328, 90, 3));
-        shooterConfig.getShooterConfigs().add(new ShooterPreset(125, 332, 90, 3.5));
+        lowShooterConfig.getShooterConfigs().add(new ShooterPreset(125, 310, 90, 1));
+        lowShooterConfig.getShooterConfigs().add(new ShooterPreset(125, 313, 90, 1.5));
+        lowShooterConfig.getShooterConfigs().add(new ShooterPreset(125, 317, 90, 1.75));
+        lowShooterConfig.getShooterConfigs().add(new ShooterPreset(125, 320, 90, 2));
+        lowShooterConfig.getShooterConfigs().add(new ShooterPreset(125, 325, 90, 2.5));
+        lowShooterConfig.getShooterConfigs().add(new ShooterPreset(125, 330, 90, 3));
+        lowShooterConfig.getShooterConfigs().add(new ShooterPreset(125, 335, 90, 3.5));
 
-        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(157, 197, 90, 1));
-        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(157, 196, 90, 1.5));
-        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(157, 194, 90, 2));
-        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(157, 193, 90, 2.5));
-        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(157, 192, 90, 3));
-        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(157, 191, 90, 3.5));
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 209, 90, 1.4));
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 196, 90, 2));
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 190, 90, 2.5));
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 185, 90, 3));
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 180, 90, 3.5));
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(160, 174, 90, 4));
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(160, 172, 90, 4.5));
 
 
-        Collections.sort(shooterConfig.getShooterConfigs());
+        Collections.sort(lowShooterConfig.getShooterConfigs());
         Collections.sort(defaultShooterConfig.getShooterConfigs());
     }
 
@@ -62,7 +63,7 @@ public class VisionLookUpTable {
          * If the measured distance falls somewhere within the lookup table perform a binary seqarch within the lookup
          * table
          */
-        return binarySearchDistance(selectedShooterConfig.getShooterConfigs(),0, endIndex, distanceFromTarget);
+        return binarySearchDistance(selectedShooterConfig.getShooterConfigs(), selectedShooterConfig, 0, endIndex, distanceFromTarget);
     }
 
     /*
@@ -76,7 +77,7 @@ public class VisionLookUpTable {
      * 
      * @return (Interpolated) shooting preset
      */
-    static private ShooterPreset binarySearchDistance(List<ShooterPreset> shooterConfigs, int startIndex, int endIndex, double distance) {
+    static private ShooterPreset binarySearchDistance(List<ShooterPreset> shooterConfigs, ShooterConfig selectedShooterConfig, int startIndex, int endIndex, double distance) {
         int mid = startIndex + (endIndex - startIndex) / 2;
         double midIndexDistance = shooterConfigs.get(mid).getDistance();
 
@@ -88,20 +89,20 @@ public class VisionLookUpTable {
         // If only two elements are left
         // return the interpolated config
         if (endIndex - startIndex == 1) {
-            double percentIn = (distance - shooterConfig.getShooterConfigs().get(startIndex).getDistance()) / 
+            double percentIn = (distance - selectedShooterConfig.getShooterConfigs().get(startIndex).getDistance()) / 
                 (
-                    shooterConfig.getShooterConfigs().get(endIndex).getDistance() - 
-                        shooterConfig.getShooterConfigs().get(startIndex).getDistance()
+                    selectedShooterConfig.getShooterConfigs().get(endIndex).getDistance() - 
+                    selectedShooterConfig.getShooterConfigs().get(startIndex).getDistance()
                 );
-            return interpolateShooterPreset(shooterConfig.getShooterConfigs().get(startIndex), shooterConfig.getShooterConfigs().get(endIndex), percentIn);
+            return interpolateShooterPreset(selectedShooterConfig.getShooterConfigs().get(startIndex), selectedShooterConfig.getShooterConfigs().get(endIndex), percentIn);
         }
         // If element is smaller than mid, then
         // it can only be present in left subarray
         if (distance < midIndexDistance) {
-            return binarySearchDistance(shooterConfigs, startIndex, mid, distance);
+            return binarySearchDistance(shooterConfigs, selectedShooterConfig, startIndex, mid, distance);
         }
         // Else the element can only be present in right subarray
-        return binarySearchDistance(shooterConfigs, mid, endIndex, distance);
+        return binarySearchDistance(shooterConfigs, selectedShooterConfig, mid, endIndex, distance);
     }
 
     /*

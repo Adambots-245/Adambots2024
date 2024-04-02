@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.3243138250982405,
-        "y": 0.8736489837019632
+        "x": 2.262597392527166,
+        "y": 4.122214464115091
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.185612633156456,
-        "y": 1.323418762264827
+        "x": 2.175417092232631,
+        "y": 2.103631643445306
       },
       "isLocked": false,
-      "linkedName": "NC3_NF5"
+      "linkedName": "S3_NC3"
     },
     {
       "anchor": {
-        "x": 1.4410990864157092,
-        "y": 3.7742051066788043
+        "x": 6.3243138250982405,
+        "y": 0.8736489837019632
       },
       "prevControl": {
-        "x": 1.881689889903143,
-        "y": 2.663549122886253
+        "x": 5.3243138250982405,
+        "y": 0.8736489837019632
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "NC3_NF5"
     }
   ],
   "rotationTargets": [],
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 126.54930110639798,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 147.2395998369319,
     "velocity": 0
   },
   "useDefaultConstraints": true

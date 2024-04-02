@@ -107,17 +107,18 @@ public class ArmSubsystem extends SubsystemBase {
 
   public boolean isAtTargetState () {
     // System.out.println("WRIST PID: " + Math.abs(wristPID.getPositionError()));
-    if (Math.abs(shoulderPID.getPositionError()) < 1.5 && Math.abs(wristPID.getPositionError()) < 3.3) {
+    if (Math.abs(shoulderPID.getPositionError()) < 2 && Math.abs(wristPID.getPositionError()) < 5) {
       targetStateDebounce++;
     } else {
       targetStateDebounce--;
     }
     targetStateDebounce = MathUtil.clamp(targetStateDebounce, 0, 30);
-    return targetStateDebounce >= 25; 
+    return targetStateDebounce >= 15; 
   }
 
   public boolean isAtTargetStateTele () {
-    return Math.abs(shoulderPID.getPositionError()) < 5 && Math.abs(wristPID.getPositionError()) < 4; 
+    // System.out.println(Math.abs(wristPID.getPositionError()));
+    return Math.abs(shoulderPID.getPositionError()) < 5 && Math.abs(wristPID.getPositionError()) < 3; 
   }
 
   public double getCurrentWristShaftAngle(){
@@ -176,7 +177,7 @@ public class ArmSubsystem extends SubsystemBase {
     if (DriverStation.isEnabled()){
       shoulderSpeed = shoulderPID.calculate(getCurrentShoulderMotorAngle(), targetShoulderAngle);
       if (currentState.getStateName() == StateName.FLOOR) {
-        shoulderSpeed = shoulderSpeed - 0.4;
+        shoulderSpeed = shoulderSpeed - 0.55;
       }
       wristSpeed = wristPID.calculate(getCurrentWristShaftAngle(), targetWristAngle);
     } else {
@@ -224,7 +225,7 @@ public class ArmSubsystem extends SubsystemBase {
      wristPID.setPID(0.0062, 0.009, 0.00062);
     }else if(currentState.getStateName() == StateName.CUSTOM){
      shoulderPID.setPID(0.02, 0.1, 0.0028);
-     wristPID.setPID(0.0062, 0.009, 0.00062);
+     wristPID.setPID(0.008, 0.01, 0.00045);
     }else{
      shoulderPID.setPID(0.02, 0.1, 0.0028);
      wristPID.setPID(0.0062, 0.009, 0.00062);

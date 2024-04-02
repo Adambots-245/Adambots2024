@@ -11,6 +11,7 @@ import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.vision.VisionHelpers;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class VisionOdomResetCommand extends Command {
@@ -33,27 +34,37 @@ public class VisionOdomResetCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("RUNNING");
+    // System.out.println("RUNNING");
     //Calculate angle to speaker
     if (VisionHelpers.isDetected(limelight) && VisionHelpers.getAprilTagBotPose2dBlue(limelight) != null) {
       if (VisionHelpers.getAprilTagBotPose2dBlue(limelight).getY() > 1) {
-            System.out.println("a");
+            // System.out.println("a");
 
         // System.out.println(VisionHelpers.getAprilTagBotPose2dBlue().getY());
         double aprilYaw;
         double gyroYaw = RobotMap.gyro.getContinuousYawRad();
         if (limelight == VisionConstants.aprilLimelite){
-          aprilYaw = (VisionHelpers.getAprilTagBotPose2dBlue(limelight).getRotation().getRadians() + Math.PI) ;
+          aprilYaw = (VisionHelpers.getAprilTagBotPose2dBlue(limelight).getRotation().getRadians()) + Math.PI;
         } else {
           aprilYaw = (VisionHelpers.getAprilTagBotPose2dBlue(limelight).getRotation().getRadians()) ;
         }
-        if (Robot.isOnRedAlliance()) {
-          System.out.println("RED");
-          aprilYaw = (VisionHelpers.getAprilTagBotPose2dBlue(limelight).getRotation().getRadians()) ;
-        }
-        fakePIPidController.calculate(aprilYaw, gyroYaw);
 
-        if (VisionHelpers.getAprilHorizDist() < 4.5 && Math.abs(fakePIPidController.getPositionError()) < Math.toRadians(30)){
+                // aprilYaw = (VisionHelpers.getAprilTagBotPose2dBlue(limelight).getRotation().getRadians()) ;
+
+        
+
+        if (Robot.isOnRedAlliance()) {
+          // System.out.println("RED");
+          aprilYaw = aprilYaw + Math.PI;
+        }
+        // if (DriverStation.isAutonomous()){
+        //   aprilYaw = aprilYaw + Math.PI;
+        // }
+        fakePIPidController.calculate(aprilYaw, gyroYaw);
+        
+        System.out.println(Math.toDegrees(Math.abs(fakePIPidController.getPositionError())));
+
+        if (VisionHelpers.getAprilHorizDist(limelight) < 4.5 && Math.abs(fakePIPidController.getPositionError()) < Math.toRadians(30)){
           System.out.print("updated");
           driveTrainSubsystem.resetOdometryXY(VisionHelpers.getAprilTagBotPose2dBlue(limelight));
         }
