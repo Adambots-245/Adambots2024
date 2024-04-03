@@ -34,7 +34,7 @@ public class AdaptiveScoreCommand extends Command {
       ampScoreCommand = new AmpScoreCommand(intakeSubsystem);
       ampScoreCommand.schedule();
     } else {
-      new FeedShooterCommand(intakeSubsystem, shooterSubsystem).schedule();
+      new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem).schedule();
     } 
   }
 

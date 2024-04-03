@@ -41,25 +41,14 @@ public class VisionOdomResetCommand extends Command {
             // System.out.println("a");
 
         // System.out.println(VisionHelpers.getAprilTagBotPose2dBlue().getY());
-        double aprilYaw;
+        double aprilYaw = VisionHelpers.getAprilTagBotPose2dBlue(limelight).getRotation().getRadians();
         double gyroYaw = RobotMap.gyro.getContinuousYawRad();
-        if (limelight == VisionConstants.aprilLimelite){
-          aprilYaw = (VisionHelpers.getAprilTagBotPose2dBlue(limelight).getRotation().getRadians()) + Math.PI;
-        } else {
-          aprilYaw = (VisionHelpers.getAprilTagBotPose2dBlue(limelight).getRotation().getRadians()) ;
-        }
 
-                // aprilYaw = (VisionHelpers.getAprilTagBotPose2dBlue(limelight).getRotation().getRadians()) ;
-
-        
 
         if (Robot.isOnRedAlliance()) {
           // System.out.println("RED");
           aprilYaw = aprilYaw + Math.PI;
         }
-        // if (DriverStation.isAutonomous()){
-        //   aprilYaw = aprilYaw + Math.PI;
-        // }
         fakePIPidController.calculate(aprilYaw, gyroYaw);
         
         System.out.println(Math.toDegrees(Math.abs(fakePIPidController.getPositionError())));

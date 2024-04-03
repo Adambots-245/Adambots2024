@@ -20,7 +20,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 0.7
           }
         },
         {
@@ -68,9 +68,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "deadline",
           "data": {
-            "pathName": "NC1_S1"
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AprilAlignCommand"
+                }
+              }
+            ]
           }
         },
         {
@@ -97,12 +110,6 @@
                       "type": "named",
                       "data": {
                         "name": "IntakeAndPrimeShooterCommand"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NF1_OdomReset"
                       }
                     }
                   ]
@@ -143,21 +150,34 @@
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 0.3
+            "name": "StopCommand"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.5
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AprilAlignCommand"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
             "name": "ForceShootCommand"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "S1_DO"
           }
         }
       ]

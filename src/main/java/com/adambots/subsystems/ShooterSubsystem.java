@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
   private BaseMotor shooterMotor;
-  private BaseMotor shooterMotor2;
 
   private double shooterSpeed;  
   private double targetWheelSpeed;
@@ -24,7 +23,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public ShooterSubsystem(BaseMotor shooterMotor, BaseMotor shooterMotor2) {
     this.shooterMotor = shooterMotor;
-    this.shooterMotor2 = shooterMotor2;
 
     shooterMotor.setInverted(true);
     shooterMotor.setBrakeMode(false);
@@ -39,7 +37,7 @@ public class ShooterSubsystem extends SubsystemBase {
     targetWheelSpeed = 0;
 
     Dash.add("Shooter Velocity", () -> getShooterVelocity());
-    Dash.add("Target Shooter Velocity", () -> targetWheelSpeed);
+    Dash.add("Target Vel", () -> targetWheelSpeed);
 
     Dash.add("Shooter 1 Current", () -> shooterMotor.getCurrentDraw());
     Dash.add("Shooter 2 Current", () -> shooterMotor2.getCurrentDraw());

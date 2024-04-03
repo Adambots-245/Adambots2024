@@ -25,6 +25,7 @@ import com.adambots.commands.intakeCommands.ForceFeedShooterCommand;
 import com.adambots.commands.intakeCommands.IntakeToFlywheelCommand;
 import com.adambots.commands.intakeCommands.ShootWhenAligned;
 import com.adambots.commands.intakeCommands.SpinFlywheelsCommand;
+import com.adambots.commands.visionCommands.AlignWhileDrivingCommand;
 import com.adambots.commands.visionCommands.DriveToNoteCommand;
 import com.adambots.commands.visionCommands.InterpolateDistanceCommand;
 import com.adambots.commands.visionCommands.OdomSpeakerAlignCommand;
@@ -97,6 +98,10 @@ public class RobotContainer {
   public void teleopInit() {
     VisionHelpers.setPipeline(VisionConstants.noteLimelite, 0);
 
+    new VisionOdomResetCommand(drivetrainSubsystem, VisionConstants.defaultAprilLimelite).schedule();
+    new VisionOdomResetCommand(drivetrainSubsystem, VisionConstants.aprilLimelite).schedule();
+
+
     // shooterSubsystem.setTargetWheelSpeed(0);
 
     if (DriverStation.isFMSAttached()) {
@@ -154,15 +159,15 @@ public class RobotContainer {
     Buttons.JoystickButton5.whileTrue(new SpinCommand(drivetrainSubsystem)); //Spin while drive driving (defense)
 
     Buttons.JoystickButton9.whileTrue(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, candleSubsytem, VisionConstants.aprilLimelite));
-    Buttons.JoystickButton9.whileTrue(new VisionOdomResetCommand(drivetrainSubsystem, VisionConstants.aprilLimelite));
+    // Buttons.JoystickButton9.whileTrue(new VisionOdomResetCommand(drivetrainSubsystem, VisionConstants.aprilLimelite));
 
     Buttons.JoystickButton8.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro, candleSubsytem)); //Hang on the chain
 
-    // Buttons.JoystickButton7.whileTrue(new AlignWhileDrivingCommand(drivetrainSubsystem, candleSubsytem, VisionConstants.aprilLimelite));
+    // Buttons.JoystickButton7.whileTrue(new AlignWhileDrivingCommand(drivetrainSubsystem, candleSubsytem, VisionConstants.defaultAprilLimelite));
     Buttons.JoystickButton7.whileTrue(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, candleSubsytem, VisionConstants.defaultAprilLimelite));
-    Buttons.JoystickButton7.whileTrue(new VisionOdomResetCommand(drivetrainSubsystem, VisionConstants.defaultAprilLimelite));
-    // Buttons.JoystickButton7.whileTrue(new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem, VisionLookUpTable.defaultShooterConfig));
-    // Buttons.JoystickButton7.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
+    // Buttons.JoystickButton7.whileTrue(new VisionOdomResetCommand(drivetrainSubsystem, VisionConstants.defaultAprilLimelite));
+    Buttons.JoystickButton7.whileTrue(new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem, VisionLookUpTable.defaultShooterConfig));
+    Buttons.JoystickButton7.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
 
 
 
@@ -175,7 +180,7 @@ public class RobotContainer {
     
     Buttons.JoystickButton16.onTrue(new SyncShoulderCommand(armSubsystem));
 
-    Buttons.JoystickButton15.onTrue(new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem));
+    // Buttons.JoystickButton15.onTrue(new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem));
 
 
     // Buttons.JoystickButton3.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, -150, RobotMap.gyro)); //Rotate to shoot across field
@@ -230,16 +235,16 @@ public class RobotContainer {
     
     // NamedCommands.registerCommand("AprilAlignCommand", new ParallelCommandGroup(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, candleSubsytem, VisionConstants.aprilLimelite), new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem, VisionLookUpTable.lowShooterConfig)));
     NamedCommands.registerCommand("AprilAlignCommand", new ParallelRaceGroup(new ParallelCommandGroup(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, candleSubsytem, VisionConstants.aprilLimelite), new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem, VisionLookUpTable.lowShooterConfig)), new VisionOdomResetCommand(drivetrainSubsystem, VisionConstants.aprilLimelite)));
+    NamedCommands.registerCommand("DefaultAprilAlignCommand", new ParallelRaceGroup(new ParallelCommandGroup(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, candleSubsytem, VisionConstants.defaultAprilLimelite), new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem, VisionLookUpTable.defaultShooterConfig)), new VisionOdomResetCommand(drivetrainSubsystem, VisionConstants.defaultAprilLimelite)));
+
     NamedCommands.registerCommand("DriveToNoteCommand", new ParallelDeadlineGroup(new WaitCommand(3), new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 1.5)));
     NamedCommands.registerCommand("VisionOdomReset", new VisionOdomResetCommand(drivetrainSubsystem, VisionConstants.aprilLimelite));
 
-    
-
     NamedCommands.registerCommand("IntakeAndPrimeShooterCommand", new AutonIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.closeFloorShootState));
-    NamedCommands.registerCommand("InterpolateCommand", new ParallelDeadlineGroup(new WaitCommand(0.5), new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem, VisionLookUpTable.defaultShooterConfig)));
     NamedCommands.registerCommand("SpinShooterCommand", new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)));
 
-    NamedCommands.registerCommand("StopCommand",new StopCommand(drivetrainSubsystem));
+    NamedCommands.registerCommand("StopCommand", new StopCommand(drivetrainSubsystem));
+    NamedCommands.registerCommand("NF1_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Pose2d(7.84, 7.44, new Rotation2d()))));
   }
 
   private void setupDashboard() {    

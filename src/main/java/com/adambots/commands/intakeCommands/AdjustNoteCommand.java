@@ -40,9 +40,9 @@ public class AdjustNoteCommand extends Command {
     inc++;
     timeOut++;
 
-    if (state == 0 && inc <= 15) {
+    if (state == 0 && inc <= 25) {
       intakeSubsystem.setMotorSpeed(0.25); //Intake for 15 ticks
-    } else if (state == 0 && inc > 15) {
+    } else if (state == 0 && inc > 25) {
       state = 1;
       intakeSubsystem.setMotorSpeed(-IntakeConstants.lowSpeed); //Outtake until sensor
     } else if (state == 1 && intakeSubsystem.isSecondPieceInRobot()) {

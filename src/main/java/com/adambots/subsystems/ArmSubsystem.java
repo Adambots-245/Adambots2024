@@ -113,7 +113,7 @@ public class ArmSubsystem extends SubsystemBase {
       targetStateDebounce--;
     }
     targetStateDebounce = MathUtil.clamp(targetStateDebounce, 0, 30);
-    return targetStateDebounce >= 15; 
+    return targetStateDebounce >= 1; 
   }
 
   public boolean isAtTargetStateTele () {
@@ -213,7 +213,7 @@ public class ArmSubsystem extends SubsystemBase {
      wristPID.setPID(0.0062, 0.009, 0.00062);
     }else if(currentState.getStateName() == StateName.AMP){
      shoulderPID.setPID(0.02, 0.1, 0.0028);
-     wristPID.setPID(0.0062, 0.009, 0.00062);
+     wristPID.setPID(0.0062, 0.009, 0.0008);
     }else if(currentState.getStateName() == StateName.FLOOR){
      shoulderPID.setPID(0.02, 0.1, 0.0028);
      wristPID.setPID(0.0062, 0.009, 0.00062);
@@ -233,13 +233,13 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   private void failSafes() {
-    if(getCurrentShoulderShaftAngle() < ArmConstants.shoulderDangerZoneThreshold && !failsafeOverride){
+    if(getCurrentShoulderShaftAngle() < ArmConstants.shoulderDangerZoneDownThreshold && !failsafeOverride){
       wristLowerLimit = ArmConstants.wristDangerZoneLowerLimit;
     }else{
       wristLowerLimit = ArmConstants.wristLowerLimit;
     }
 
-    if(!failsafeOverride && getCurrentShoulderShaftAngle() < ArmConstants.shoulderDangerZoneThreshold && getCurrentWristShaftAngle() < ArmConstants.wristShoulderStopLimit && shoulderSpeed < 0){
+    if(!failsafeOverride && getCurrentShoulderShaftAngle() < ArmConstants.shoulderDangerZoneUpThreshold && getCurrentWristShaftAngle() < ArmConstants.wristShoulderStopLimit && shoulderSpeed < 0){
       shoulderSpeed = 0;
     }
 

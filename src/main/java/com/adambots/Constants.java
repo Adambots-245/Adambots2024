@@ -157,7 +157,8 @@ public final class Constants {
         public static final double maxShoulderDownSpeedNitro = 0.95;
 
         public static final double shoulderLowerLimit = 110;
-        public static final double shoulderDangerZoneThreshold = 152;
+        public static final double shoulderDangerZoneDownThreshold = 145;
+        public static final double shoulderDangerZoneUpThreshold = 152;
         public static final double shoulderUpperLimit = 203;
 
         // Wrist Limits

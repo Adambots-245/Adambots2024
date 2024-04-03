@@ -8,6 +8,7 @@
 package com.adambots;
 
 import com.adambots.Constants.VisionConstants;
+import com.adambots.commands.visionCommands.VisionOdomResetCommand;
 import com.adambots.vision.VisionHelpers;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -122,6 +123,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+
     CommandScheduler.getInstance().cancelAll();
 
     m_robotContainer.teleopInit();

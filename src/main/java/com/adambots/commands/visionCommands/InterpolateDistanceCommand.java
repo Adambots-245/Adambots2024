@@ -83,6 +83,7 @@ public class InterpolateDistanceCommand extends Command {
   public boolean isFinished() {
     if (DriverStation.isAutonomous()){
       if (armSubsystem.getCurrentStateName() == ArmConstants.StateName.CUSTOM){
+        System.out.print("INTERPOLATE ALIGNED");
         return armSubsystem.isAtTargetState();
       }
     }

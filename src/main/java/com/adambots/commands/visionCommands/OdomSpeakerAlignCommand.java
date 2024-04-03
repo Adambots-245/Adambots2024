@@ -111,6 +111,7 @@ public class OdomSpeakerAlignCommand extends Command {
   @Override
   public boolean isFinished() {
     if (DriverStation.isAutonomous()){
+      System.out.print("ODEN ALIGNED");
       return Math.abs(Math.toDegrees(turningPIDController.getPositionError())) < 2;
     }
     return false;

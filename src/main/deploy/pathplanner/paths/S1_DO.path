@@ -3,25 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5085249599885775,
-        "y": 6.897682725465309
+        "x": 0.94,
+        "y": 6.1
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.497189502703091,
-        "y": 7.0694571577822405
+        "x": 1.94,
+        "y": 6.1
+      },
+      "isLocked": false,
+      "linkedName": "NF1_S1"
+    },
+    {
+      "anchor": {
+        "x": 4.690456262155588,
+        "y": 7.0052043322732604
+      },
+      "prevControl": {
+        "x": 3.690456262155588,
+        "y": 7.0052043322732604
+      },
+      "nextControl": {
+        "x": 5.690456262155588,
+        "y": 7.0052043322732604
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.361029725389085,
-        "y": 7.106173058073088
+        "x": 7.3248221080237945,
+        "y": 5.903727323547877
       },
       "prevControl": {
-        "x": 5.361029725389085,
-        "y": 7.106173058073088
+        "x": 6.773829462198325,
+        "y": 6.257117863847271
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,19 +45,7 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "New Constraints Zone",
-      "minWaypointRelativePos": 0.8,
-      "maxWaypointRelativePos": 1.0,
-      "constraints": {
-        "maxVelocity": 1.0,
-        "maxAcceleration": 1.0,
-        "maxAngularVelocity": 200.0,
-        "maxAngularAcceleration": 300.0
-      }
-    }
-  ],
+  "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
@@ -50,14 +54,14 @@
     "maxAngularAcceleration": 300.0
   },
   "goalEndState": {
-    "velocity": 3.0,
-    "rotation": 0,
-    "rotateFast": true
+    "velocity": 0,
+    "rotation": 0.0,
+    "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": -150.77115617905417,
+    "rotation": 57.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

@@ -71,6 +71,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     // Update the position of the robot on the ShuffleBoard field
     Constants.field.setRobotPose(getPose());
+        // Constants.field.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite));
+
     Constants.aprilTagfield.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite));
   }
 
@@ -95,7 +97,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   public void resetOdometryXY(Pose2d pose) {
-    m_odometry.resetPosition(new Rotation2d(RobotMap.gyro.getContinuousYawRad() + Math.PI), ModuleMap.orderedModulePositions(swerveModules), pose);
+    m_odometry.resetPosition(new Rotation2d(RobotMap.gyro.getContinuousYawRad()), ModuleMap.orderedModulePositions(swerveModules), pose);
   }
 
   /**
