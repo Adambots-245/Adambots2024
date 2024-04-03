@@ -18,9 +18,15 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "FeedShooterCommand"
+            "name": "ForceShootCommand"
           }
         },
         {
@@ -62,6 +68,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "SpinShooterCommand"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "NC2_S2"
@@ -74,21 +86,15 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "PrimeShooterCloseCommand"
-          }
-        },
-        {
           "type": "wait",
           "data": {
-            "waitTime": 3.0
+            "waitTime": 1.0
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "FeedShooterCommand"
+            "name": "ForceShootCommand"
           }
         }
       ]

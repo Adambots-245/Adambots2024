@@ -76,6 +76,12 @@
         {
           "type": "named",
           "data": {
+            "name": "StopCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "ForceShootCommand"
           }
         },
@@ -115,7 +121,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "NC1_NF1"
+                        "pathName": "S1_NF1"
                       }
                     },
                     {
@@ -143,6 +149,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "StopCommand"
+          }
+        },
+        {
           "type": "wait",
           "data": {
             "waitTime": 0.3
@@ -155,9 +167,21 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "S1_DO"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopCommand"
           }
         }
       ]
