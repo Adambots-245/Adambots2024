@@ -20,7 +20,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.7
+            "waitTime": 1.0
           }
         },
         {
@@ -68,22 +68,15 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 2.5
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AprilAlignCommand"
-                }
-              }
-            ]
+            "pathName": "NC1_S1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopCommand"
           }
         },
         {
@@ -111,6 +104,12 @@
                       "data": {
                         "name": "IntakeAndPrimeShooterCommand"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NF2_OdomReset"
+                      }
                     }
                   ]
                 }
@@ -122,7 +121,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "NC1_NF2"
+                        "pathName": "S1_NF2"
                       }
                     },
                     {
@@ -156,28 +155,33 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "wait",
           "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 2.5
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AprilAlignCommand"
-                }
-              }
-            ]
+            "waitTime": 0.3
           }
         },
         {
           "type": "named",
           "data": {
             "name": "ForceShootCommand"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S1_DO"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopCommand"
           }
         }
       ]
