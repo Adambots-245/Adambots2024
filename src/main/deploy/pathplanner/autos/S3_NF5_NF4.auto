@@ -5,7 +5,7 @@
       "x": 0.7358234536288891,
       "y": 4.418968117215514
     },
-    "rotation": 60.0
+    "rotation": -60.0
   },
   "command": {
     "type": "sequential",
@@ -21,62 +21,6 @@
           "type": "wait",
           "data": {
             "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ForceShootCommand"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "IntakeAndPrimeShooterCommand"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "S1_NC1"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "StopCommand"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SpinShooterCommand"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "NC1_S1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StopCommand"
           }
         },
         {
@@ -108,7 +52,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "NF1_OdomReset"
+                        "name": "NF5_OdomReset"
                       }
                     }
                   ]
@@ -121,7 +65,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "S1_NF1"
+                        "pathName": "S3_NF5"
                       }
                     },
                     {
@@ -145,25 +89,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "NF1_S1"
+            "pathName": "NF5_S3"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "StopCommand"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.3
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ForceShootCommand"
           }
         },
         {
@@ -173,15 +105,90 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "ForceShootCommand"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IntakeAndPrimeShooterCommand"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NF5_OdomReset"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "S3_NF4"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "DriveToNoteCommand"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpinShooterCommand"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "S1_DO"
+            "pathName": "NF4_S3"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "StopCommand"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ForceShootCommand"
           }
         }
       ]

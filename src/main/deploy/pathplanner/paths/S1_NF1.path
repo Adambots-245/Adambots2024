@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7059762690953959,
+        "x": 0.71,
         "y": 6.7
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.9059246362043845,
+        "x": 0.9099483671089885,
         "y": 6.704544281070659
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "S1_NF1"
     },
     {
       "anchor": {

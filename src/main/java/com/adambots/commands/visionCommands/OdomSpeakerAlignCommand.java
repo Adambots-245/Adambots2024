@@ -8,6 +8,7 @@ import com.adambots.Robot;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
+import com.adambots.subsystems.ShooterSubsystem;
 import com.adambots.utils.Buttons;
 
 import edu.wpi.first.apriltag.AprilTagDetector;
@@ -20,18 +21,20 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class OdomSpeakerAlignCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
   private CANdleSubsystem candleSubsystem;
+  private ShooterSubsystem shooterSubsystem;
   private ArmSubsystem armSubsystem;
   private double activateDelay;
  private String limelight;
   private PIDController turningPIDController = new PIDController(VisionConstants.kPOdomThetaController, 0, VisionConstants.kDOdomThetaController);
 
-  public OdomSpeakerAlignCommand(DrivetrainSubsystem driveTrainSubsystem, ArmSubsystem armSubsystem, CANdleSubsystem ledSubsystem, String limelight) {
+  public OdomSpeakerAlignCommand(DrivetrainSubsystem driveTrainSubsystem, ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, CANdleSubsystem ledSubsystem, String limelight) {
     addRequirements(driveTrainSubsystem);
 
 
     turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
 
     this.driveTrainSubsystem = driveTrainSubsystem;
+    this.shooterSubsystem = shooterSubsystem;
     this.limelight = limelight;
     this.armSubsystem = armSubsystem;
     this.candleSubsystem = ledSubsystem;
@@ -82,7 +85,7 @@ public class OdomSpeakerAlignCommand extends Command {
       //   rotation_output = turningPIDController.calculate(currentRotation, targetRotation);
       // }
       if(armSubsystem.getCurrentStateName() == ArmConstants.StateName.CUSTOM){
-        if (armSubsystem.isAtTargetStateTele() && absErrorDeg < 5){
+        if (armSubsystem.isAtTargetStateTele() && absErrorDeg < 5 && shooterSubsystem.getShooterVelocity() >= 82){
           candleSubsystem.setColor(LEDConstants.purple);
         }
       } else if (absErrorDeg < 5) {
