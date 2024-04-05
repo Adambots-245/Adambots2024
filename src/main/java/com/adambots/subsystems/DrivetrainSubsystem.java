@@ -73,7 +73,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     Constants.field.setRobotPose(getPose());
         // Constants.field.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite));
 
-    Constants.aprilTagfield.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite));
+    Constants.aprilTagfield.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.defaultAprilLimelite));
   }
 
   /**
@@ -97,6 +97,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   public void resetOdometryXY(Pose2d pose) {
+    if (Robot.isOnRedAlliance()) { //TODO: Make this match IRL behavior
+      pose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(Math.PI));
+    }
     m_odometry.resetPosition(new Rotation2d(RobotMap.gyro.getContinuousYawRad()), ModuleMap.orderedModulePositions(swerveModules), pose);
   }
 

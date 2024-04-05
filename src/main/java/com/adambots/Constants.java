@@ -36,7 +36,7 @@ public final class Constants {
         public static final String noteLimelite = "limelight-noteii";
         // public static final String noteLimelite = "limelight-aprilgg";
 
-        public static final String aprilLimelite = "limelight-aprilgg";
+        // public static final String aprilLimelite = "limelight-aprilgg";
         // public static final String defaultAprilLimelite = "limelight-aprilgg";
 
         public static final String defaultAprilLimelite = "limelight-gg";
@@ -129,7 +129,7 @@ public final class Constants {
     public static final class IntakeConstants{
         public static final double intakeSpeed = 0.5;
         public static final double humanSpeed = 0.2;
-        public static final double ampSpeed = 0.5;
+        public static final double ampSpeed = 0.28;
         public static final double lowSpeed = 0.1;
         public static final double shootSpeed = 1;
     }
@@ -174,8 +174,8 @@ public final class Constants {
         public static final double floorShoulderAngle = 122;
       
         // Amp Scoring
-        public static final double ampWristAngle = 275;
-        public static final double ampShoulderAngle = 184.3;
+        public static final double ampWristAngle = 288;
+        public static final double ampShoulderAngle = 182;
       
         // Human Player Pickup
         public static final double humanWristAngle = 310;
@@ -199,6 +199,9 @@ public final class Constants {
         // Center 2 note floor shoot
         public static final double centerFloorShootWristAngle = 320.75;
         public static final double centerfloorShootShoulderAngle = 125.7; 
+
+        public static final double defaultPodiumWristAngle = 184.5;
+        public static final double defaultPodiumShoulderAngle = 162; 
      
         // Top 2 note floor shoot
         public static final double topFloorShootWristAngle = 321.7;
@@ -271,6 +274,7 @@ public final class Constants {
             DEFAULT,
             SPEAKER,
             TOP_FLOOR_SHOOT,
+            DEFAULT_PODIUM_SHOOT,
             CENTER_FLOOR_SHOOT,
             BOTTOM_FLOOR_SHOOT,
             CLOSE_FLOOR_SHOOT,
@@ -286,6 +290,7 @@ public final class Constants {
         public final static State defaultSpeakerState = new State(defaultSpeakerWristAngle, defaultSpeakerShoulderAngle, StateName.DEFAULT_SPEAKER, 1, 1);
         public final static State speakerState = new State(speakerWristAngle, speakerShoulderAngle, StateName.SPEAKER, 1, 1);
         public final static State centerFloorShootState = new State(centerFloorShootWristAngle, centerfloorShootShoulderAngle, StateName.CENTER_FLOOR_SHOOT);
+        public final static State defaultPodiumState = new State(defaultPodiumWristAngle, defaultPodiumShoulderAngle, StateName.DEFAULT_PODIUM_SHOOT);
         public final static State topFloorShootState = new State(topFloorShootWristAngle, topfloorShootShoulderAngle, StateName.TOP_FLOOR_SHOOT);
         public final static State bottomFloorShootState = new State(bottomFloorShootWristAngle, bottomfloorShootShoulderAngle, StateName.BOTTOM_FLOOR_SHOOT);
         public final static State closeFloorShootState = new State(closeFloorShootWristAngle, closeFloorShootShoulderAngle, StateName.CLOSE_FLOOR_SHOOT);

@@ -118,7 +118,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public boolean isAtTargetStateTele () {
     // System.out.println(Math.abs(wristPID.getPositionError()));
-    return Math.abs(shoulderPID.getPositionError()) < 5 && Math.abs(wristPID.getPositionError()) < 3; 
+    return Math.abs(shoulderPID.getPositionError()) < 5 && Math.abs(wristPID.getPositionError()) < 4; 
   }
 
   public double getCurrentWristShaftAngle(){
@@ -226,7 +226,14 @@ public class ArmSubsystem extends SubsystemBase {
      wristPID.setPID(0.0062, 0.009, 0.00062);
     }else if(currentState.getStateName() == StateName.CUSTOM){
      shoulderPID.setPID(0.02, 0.1, 0.0028);
-     wristPID.setPID(0.008, 0.01, 0.00045);
+     wristPID.setPID(0.0062, 0.009, 0.0004);
+    //  wristPID.setPID(0.008, 0.01, 0.00045);
+    }else if(currentState.getStateName() == StateName.DEFAULT_SPEAKER){
+     shoulderPID.setPID(0.02, 0.1, 0.0028);
+          wristPID.setPID(0.0056, 0.0, 0.0003);
+
+    //  wristPID.setPID(0.0062, 0.007, 0.0004);
+    //  wristPID.setPID(0.008, 0.01, 0.00045);
     }else{
      shoulderPID.setPID(0.02, 0.1, 0.0028);
      wristPID.setPID(0.0062, 0.009, 0.00062);

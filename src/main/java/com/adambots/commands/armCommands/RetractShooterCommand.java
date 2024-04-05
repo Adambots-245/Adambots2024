@@ -14,12 +14,14 @@ public class RetractShooterCommand extends Command {
   /** Creates a new RetractShooterCommand. */
   private ArmSubsystem armSubsystem;
   private ShooterSubsystem shooterSubsystem;
+  // private CANdleSubsystem caNdleSubsystem;
   
   public RetractShooterCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem) {
     addRequirements(armSubsystem, shooterSubsystem);
     
     this.armSubsystem = armSubsystem;
     this.shooterSubsystem = shooterSubsystem;
+    // this.caNdleSubsystem = caNdleSubsystem;
   }
 
   // Called when the command is initially scheduled.

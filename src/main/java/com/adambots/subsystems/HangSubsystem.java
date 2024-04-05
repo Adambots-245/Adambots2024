@@ -78,12 +78,12 @@ public class HangSubsystem extends SubsystemBase {
   }
 
   public void failSafes() {
-    if (getLeftMotorPosition() < 0 && leftHangMotorSpeed < 0) {
-      leftHangMotorSpeed = 0;
-    }
-    if (getRightMotorPosition() < 0 && rightHangMotorSpeed < 0) {
-      rightHangMotorSpeed = 0;
-    }
+    // if (getLeftMotorPosition() < 0 && leftHangMotorSpeed < 0) {
+    //   leftHangMotorSpeed = 0;
+    // }
+    // if (getRightMotorPosition() < 0 && rightHangMotorSpeed < 0) {
+    //   rightHangMotorSpeed = 0;
+    // }
 
     if (getLeftMotorPosition() > HangConstants.maxExtension && leftHangMotorSpeed > 0) {
       leftHangMotorSpeed = 0;
