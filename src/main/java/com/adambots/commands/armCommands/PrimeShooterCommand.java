@@ -5,7 +5,9 @@
 package com.adambots.commands.armCommands;
 
 import com.adambots.Constants.ArmConstants.State;
+import com.adambots.Constants.LEDConstants;
 import com.adambots.subsystems.ArmSubsystem;
+import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
 
@@ -17,13 +19,15 @@ public class PrimeShooterCommand extends Command {
   private ShooterSubsystem shooterSubsystem;
   private double shooterSpeed;
   private IntakeSubsystem intakeSubsystem;
+  private CANdleSubsystem caNdleSubsystem;;
   private boolean finished;
   private State armState;
   
-  public PrimeShooterCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem, double shooterSpeed, State armState) {
+  public PrimeShooterCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem, CANdleSubsystem caNdleSubsystem, double shooterSpeed, State armState) {
     addRequirements(armSubsystem, shooterSubsystem);
     
     this.armSubsystem = armSubsystem;
+    this.caNdleSubsystem = caNdleSubsystem;
     this.shooterSubsystem = shooterSubsystem;
     this.shooterSpeed = shooterSpeed;
     this.intakeSubsystem = intakeSubsystem;
@@ -33,6 +37,8 @@ public class PrimeShooterCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    caNdleSubsystem.setColor(LEDConstants.yellow);
+
     finished = false;
   }
 
@@ -44,12 +50,15 @@ public class PrimeShooterCommand extends Command {
       shooterSubsystem.setTargetWheelSpeed(shooterSpeed);
       finished = true;
     }
+    if (armSubsystem.isAtTargetStateTele()){
+      caNdleSubsystem.setColor(LEDConstants.purple);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+    caNdleSubsystem.setAnimation(CANdleSubsystem.AnimationTypes.Larson);
   }
 
   // Returns true when the command should end.

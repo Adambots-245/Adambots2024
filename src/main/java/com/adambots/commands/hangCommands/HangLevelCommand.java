@@ -20,7 +20,7 @@ public class HangLevelCommand extends Command {
   private ArmSubsystem armSubsystem;
   private CANdleSubsystem caNdleSubsystem;
   private BaseGyro gyro;
-  private double speed = -0.65;
+  private double speed = -0.9;
 
   public HangLevelCommand(HangSubsystem hangSubsystem, ArmSubsystem armSubsystem, BaseGyro gyro, CANdleSubsystem caNdleSubsystem) {
     addRequirements(hangSubsystem, armSubsystem, caNdleSubsystem);

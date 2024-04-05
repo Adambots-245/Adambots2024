@@ -25,7 +25,6 @@ import com.adambots.commands.intakeCommands.ForceFeedShooterCommand;
 import com.adambots.commands.intakeCommands.IntakeToFlywheelCommand;
 import com.adambots.commands.intakeCommands.ShootWhenAligned;
 import com.adambots.commands.intakeCommands.SpinFlywheelsCommand;
-import com.adambots.commands.visionCommands.AlignWhileDrivingCommand;
 import com.adambots.commands.visionCommands.DriveToNoteCommand;
 import com.adambots.commands.visionCommands.InterpolateDistanceCommand;
 import com.adambots.commands.visionCommands.OdomSpeakerAlignCommand;
@@ -149,7 +148,10 @@ public class RobotContainer {
     
     Buttons.JoystickButton2.whileTrue(new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 3)); //Score in amp and speaker
     
-    Buttons.JoystickButton6.whileTrue(new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 1)); //Score in amp and speaker
+    // Buttons.JoystickButton6.whileTrue(new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 1)); //Score in amp and speaker
+
+    // Buttons.JoystickButton6.whileTrue(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, shooterSubsystem, candleSubsytem, VisionConstants.defaultAprilLimelite));
+    Buttons.JoystickButton6.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, 180, RobotMap.gyro)); //Rotate to huaman station
 
     //Both lock rotation to apriltag with driver control
 
@@ -158,14 +160,13 @@ public class RobotContainer {
 
     Buttons.JoystickButton5.whileTrue(new SpinCommand(drivetrainSubsystem)); //Spin while drive driving (defense)
 
-    Buttons.JoystickButton9.whileTrue(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, shooterSubsystem, candleSubsytem, VisionConstants.aprilLimelite));
+    // Buttons.JoystickButton9.whileTrue(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, shooterSubsystem, candleSubsytem, VisionConstants.aprilLimelite));
     // Buttons.JoystickButton9.whileTrue(new VisionOdomResetCommand(drivetrainSubsystem, VisionConstants.aprilLimelite));
 
     Buttons.JoystickButton8.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro, candleSubsytem)); //Hang on the chain
 
     // Buttons.JoystickButton7.whileTrue(new AlignWhileDrivingCommand(drivetrainSubsystem, candleSubsytem, VisionConstants.defaultAprilLimelite));
     Buttons.JoystickButton7.whileTrue(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, shooterSubsystem, candleSubsytem, VisionConstants.defaultAprilLimelite));
-    // Buttons.JoystickButton7.whileTrue(new VisionOdomResetCommand(drivetrainSubsystem, VisionConstants.defaultAprilLimelite));
     Buttons.JoystickButton7.whileTrue(new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem, VisionLookUpTable.defaultShooterConfig));
     Buttons.JoystickButton7.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
 
@@ -194,10 +195,10 @@ public class RobotContainer {
     // Buttons.XboxStartButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
 
     // Buttons.XboxBButton.whileTrue(new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem, VisionLookUpTable.lowShooterConfig));
-    Buttons.XboxBButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.highSpeed, ArmConstants.defaultSpeakerState)); //Speaker state and prime shooter
+    Buttons.XboxBButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem, ShooterConstants.highSpeed, ArmConstants.defaultSpeakerState)); //Speaker state and prime shooter
     Buttons.XboxBButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
     
-    Buttons.XboxStartButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed, ArmConstants.closeFloorShootState));
+    Buttons.XboxStartButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem, ShooterConstants.mediumSpeed, ArmConstants.closeFloorShootState));
     // Buttons.XboxStartButton.whileTrue(new VisionOdomResetCommand(drivetrainSubsystem));
 
     // Buttons.XboxBButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed, ArmConstants.closeFloorShootState)); //Floor state and spin shooter
@@ -205,7 +206,7 @@ public class RobotContainer {
 
     Buttons.XboxXButton.whileTrue(new AmpCommand(armSubsystem)); //Move arm to amp pos
 
-    Buttons.XboxYButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed, ArmConstants.speakerState)); //Speaker state and prime shooter
+    Buttons.XboxYButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem, ShooterConstants.mediumSpeed, ArmConstants.speakerState)); //Speaker state and prime shooter
     Buttons.XboxYButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
 
     // Buttons.XboxLeftBumper.onTrue(new SlowOuttakeCommand(intakeSubsystem)); 
@@ -231,8 +232,8 @@ public class RobotContainer {
   }
 
   private void registerNamedCommands() {
-    NamedCommands.registerCommand("PrimeShooterCloseCommand", new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed, ArmConstants.speakerState));
-    NamedCommands.registerCommand("PrimeShooterDefaultCommand", new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.highSpeed, ArmConstants.defaultSpeakerState));
+    NamedCommands.registerCommand("PrimeShooterCloseCommand", new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem, ShooterConstants.mediumSpeed, ArmConstants.speakerState));
+    NamedCommands.registerCommand("PrimeShooterDefaultCommand", new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem, ShooterConstants.highSpeed, ArmConstants.defaultSpeakerState));
 
     NamedCommands.registerCommand("FeedShooterCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem));
     NamedCommands.registerCommand("ForceShootCommand", new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem));

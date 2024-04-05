@@ -68,9 +68,15 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "PrimeShooterDefaultCommand"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "NC1_S1"
+            "pathName": "NC1_S1 SPIN"
           }
         },
         {
@@ -143,9 +149,15 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "PrimeShooterDefaultCommand"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "NF1_S1"
+            "pathName": "NF1_S1 SPIN"
           }
         },
         {

@@ -4,14 +4,12 @@
 
 package com.adambots.commands.visionCommands;
 
-import com.adambots.Constants.VisionConstants;
 import com.adambots.Robot;
 import com.adambots.RobotMap;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.vision.VisionHelpers;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class VisionOdomResetCommand extends Command {
@@ -51,10 +49,10 @@ public class VisionOdomResetCommand extends Command {
         }
         fakePIPidController.calculate(aprilYaw, gyroYaw);
         
-        System.out.println(Math.toDegrees(Math.abs(fakePIPidController.getPositionError())));
+        // System.out.println(Math.toDegrees(Math.abs(fakePIPidController.getPositionError())));
 
         if (VisionHelpers.getAprilHorizDist(limelight) < 4.5 && Math.abs(fakePIPidController.getPositionError()) < Math.toRadians(30)){
-          System.out.print("updated");
+          // System.out.print("updated");
           driveTrainSubsystem.resetOdometryXY(VisionHelpers.getAprilTagBotPose2dBlue(limelight));
         }
       }

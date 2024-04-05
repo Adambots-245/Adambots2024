@@ -37,7 +37,7 @@ public class FeedShooterCommand extends Command {
   @Override
   public void execute() {
     if (shooterSubsystem.isAtTargetSpeed()) {
-      System.out.println("TRYING TO FEED");
+      // System.out.println("TRYING TO FEED");
       intakeSubsystem.setMotorSpeed(IntakeConstants.shootSpeed);
       increment = true;
     }

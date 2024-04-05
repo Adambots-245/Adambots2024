@@ -11,7 +11,6 @@ import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
 import com.adambots.utils.Buttons;
 
-import edu.wpi.first.apriltag.AprilTagDetector;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
