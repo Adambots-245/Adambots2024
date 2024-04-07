@@ -49,10 +49,10 @@ public class VisionOdomResetCommand extends Command {
         }
         fakePIPidController.calculate(aprilYaw, gyroYaw);
         
-        System.out.println(Math.toDegrees(Math.abs(fakePIPidController.getPositionError())));
+        // System.out.println(Math.toDegrees(Math.abs(fakePIPidController.getPositionError())));
 
         if (VisionHelpers.getAprilHorizDist(limelight) < 4.5 && Math.abs(fakePIPidController.getPositionError()) < Math.toRadians(30)){
-          System.out.print("updated");
+          // System.out.print("updated");
           driveTrainSubsystem.resetOdometryXY(VisionHelpers.getAprilTagBotPose2dBlue(limelight));
         }
       }

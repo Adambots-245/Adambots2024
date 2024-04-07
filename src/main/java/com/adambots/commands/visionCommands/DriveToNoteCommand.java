@@ -1,9 +1,6 @@
 package com.adambots.commands.visionCommands;
-import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.LEDConstants;
-import com.adambots.Constants.ModuleConstants;
 import com.adambots.Constants.VisionConstants;
-import com.adambots.RobotMap;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
@@ -69,7 +66,7 @@ public class DriveToNoteCommand extends Command {
   @Override
   public void end(boolean interrupted) {
       driveTrainSubsystem.stop();
-      System.out.println("DONEEEEEEEEEEEEEEE" + interrupted);
+      System.out.println("DriveToNoteCommand DONE" + interrupted);
       ledSubsystem.setAnimation(CANdleSubsystem.AnimationTypes.Larson);
   }
 

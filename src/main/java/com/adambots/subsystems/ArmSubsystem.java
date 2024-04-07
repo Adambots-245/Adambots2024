@@ -213,13 +213,14 @@ public class ArmSubsystem extends SubsystemBase {
      wristPID.setPID(0.0062, 0.009, 0.00062);
     }else if(currentState.getStateName() == StateName.AMP){
      shoulderPID.setPID(0.02, 0.1, 0.0028);
-     wristPID.setPID(0.0062, 0.009, 0.0008);
+     wristPID.setPID(0.0052, 0.0, 0.0003);
     }else if(currentState.getStateName() == StateName.FLOOR){
      shoulderPID.setPID(0.02, 0.1, 0.0028);
      wristPID.setPID(0.0062, 0.009, 0.00062);
     }else if(currentState.getStateName() == StateName.DEFAULT){
      shoulderPID.setPID(0.02, 0.1, 0.0028);
-     wristPID.setPID(0.0062, 0.009, 0.00062);
+    //  wristPID.setPID(0.0062, 0.009, 0.00062);
+     wristPID.setPID(0.0062, 0.009, 0.0004);
     }else if(currentState.getStateName() == StateName.HUMAN){
      shoulderPID.setPID(0.02, 0.1, 0.0028);
      wristPID.setPID(0.0062, 0.009, 0.00062);

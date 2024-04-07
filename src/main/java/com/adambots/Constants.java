@@ -190,6 +190,9 @@ public final class Constants {
         // default
         public static final double defaultWristAngle = 197;
         public static final double defaultShoulderAngle = 157;
+
+        public static final double defaultSpeakerWristAngle = 209;
+        public static final double defaultSpeakerShoulderAngle = 162;        
      
         // autonomous starting/speaker
         public static final double speakerWristAngle = 242.3;
@@ -263,6 +266,7 @@ public final class Constants {
 
         public enum StateName {
             FLOOR,
+            DEFAULT_SPEAKER,
             AMP,
             HUMAN,
             TRAP,
@@ -281,6 +285,7 @@ public final class Constants {
         public final static State humanState = new State(humanWristAngle, humanShoulderAngle, StateName.HUMAN, 2, 2);
         public final static State trapState = new State(trapWristAngle, trapShoulderAngle, StateName.TRAP);
         public final static State defaultState = new State(defaultWristAngle, defaultShoulderAngle, StateName.DEFAULT, 8, 3);
+        public final static State defaultSpeakerState = new State(defaultSpeakerWristAngle, defaultSpeakerShoulderAngle, StateName.DEFAULT_SPEAKER, 1, 1);
         public final static State speakerState = new State(speakerWristAngle, speakerShoulderAngle, StateName.SPEAKER, 1, 1);
         public final static State centerFloorShootState = new State(centerFloorShootWristAngle, centerfloorShootShoulderAngle, StateName.CENTER_FLOOR_SHOOT);
         public final static State topFloorShootState = new State(topFloorShootWristAngle, topfloorShootShoulderAngle, StateName.TOP_FLOOR_SHOOT);

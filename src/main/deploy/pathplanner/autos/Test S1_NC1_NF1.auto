@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3842846515935527,
-      "y": 5.53
+      "x": 0.7059762690953959,
+      "y": 6.7
     },
-    "rotation": 0.0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -30,7 +30,7 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -44,15 +44,15 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "wait",
+                      "type": "path",
                       "data": {
-                        "waitTime": 1.0
+                        "pathName": "S1_NC1"
                       }
                     },
                     {
-                      "type": "path",
+                      "type": "named",
                       "data": {
-                        "pathName": "S2_NC2"
+                        "name": "StopCommand"
                       }
                     }
                   ]
@@ -62,9 +62,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "SpinShooterCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PrimeShooterDefaultCommand"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "NC2_S2"
+            "pathName": "NC1_S1 SPIN"
           }
         },
         {
@@ -84,24 +96,68 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "IntakeAndPrimeShooterCommand"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IntakeAndPrimeShooterCommand"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NF1_OdomReset"
+                      }
+                    }
+                  ]
                 }
               },
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "S2_NC1"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "S1_NF1"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "DriveToNoteCommand"
+                      }
+                    }
+                  ]
                 }
               }
             ]
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "SpinShooterCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PrimeShooterDefaultCommand"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "NC1_S2"
+            "pathName": "NF1_S1 SPIN"
           }
         },
         {
@@ -111,46 +167,33 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.3
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "ForceShootCommand"
           }
         },
         {
-          "type": "deadline",
+          "type": "wait",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "IntakeAndPrimeShooterCommand"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S2_NC3"
-                }
-              }
-            ]
+            "waitTime": 0.2
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "NC3_S2"
+            "pathName": "S1_DO"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "StopCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ForceShootCommand"
           }
         }
       ]
