@@ -4,14 +4,12 @@
 
 package com.adambots.commands.visionCommands;
 
-import com.adambots.Constants.VisionConstants;
 import com.adambots.Robot;
 import com.adambots.RobotMap;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.vision.VisionHelpers;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class VisionOdomResetCommand extends Command {

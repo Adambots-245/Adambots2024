@@ -119,6 +119,8 @@ public final class Constants {
         // PD values for auton rotational movement
         public static final double kPThetaController = 3; 
         public static final double kDThetaController = 0.01;
+
+        public static final double kMaxWaypointTranslateSpeed = 1;
     }
 
     public static final class HangConstants{
