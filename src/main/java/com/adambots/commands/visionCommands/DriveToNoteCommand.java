@@ -14,11 +14,14 @@ public class DriveToNoteCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
   private IntakeSubsystem intakeSubsystem;
   private CANdleSubsystem ledSubsystem;
-  private final PIDController pidController = new PIDController(VisionConstants.kPTranslateController, 0, VisionConstants.kDTranslateController);
-  private final PIDController rotatePidController = new PIDController(0.1, 0, 0.00001);
+
+  private PIDController pidController = new PIDController(VisionConstants.kPTranslateController, 0, VisionConstants.kDTranslateController);
+
   private double drive_output;
   private double speed;
   private double debounce;
+
+
   public DriveToNoteCommand(DrivetrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem, CANdleSubsystem ledSubsystem, double speed) {
     addRequirements(driveTrainSubsystem);
 
@@ -31,7 +34,6 @@ public class DriveToNoteCommand extends Command {
   @Override
   public void initialize() {
     ledSubsystem.setColor(LEDConstants.red);
-    pidController.reset();
     debounce = 0;
   }
 
@@ -44,18 +46,16 @@ public class DriveToNoteCommand extends Command {
       debounce = 0;
     }
 
-    drive_output = pidController.calculate(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite), 0);
+    double horizAngle = VisionHelpers.getHorizAngle(VisionConstants.noteLimelite);
+
+    drive_output = pidController.calculate(horizAngle, 0);
     driveTrainSubsystem.drive(speed, drive_output, 0, false);
 
-    double rotate = VisionHelpers.getHorizAngle(VisionConstants.noteLimelite);
-
     if (VisionHelpers.isDetected(VisionConstants.noteLimelite)) {
-      if (Math.abs(rotate) < 5) {
+      if (Math.abs(horizAngle) < 5) {
         ledSubsystem.setColor(LEDConstants.green);
-      } else if (Math.abs(rotate) < 12) {
-        ledSubsystem.setColor(LEDConstants.yellow);
       } else {
-        ledSubsystem.setColor(LEDConstants.red);
+        ledSubsystem.setColor(LEDConstants.yellow);
       }
     } else {
       ledSubsystem.setColor(LEDConstants.purple);
@@ -65,18 +65,18 @@ public class DriveToNoteCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      driveTrainSubsystem.stop();
-      System.out.println("DriveToNoteCommand DONE" + interrupted);
-      ledSubsystem.setAnimation(CANdleSubsystem.AnimationTypes.Larson);
+    driveTrainSubsystem.stop();
+
+    ledSubsystem.setColor(LEDConstants.adambotsYellow);
+    ledSubsystem.setAnimation(CANdleSubsystem.AnimationTypes.Larson);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-      if (DriverStation.isAutonomous()){
-          return debounce > 50 || intakeSubsystem.isFirstPieceInRobot();
-      } else {
-        return intakeSubsystem.isFirstPieceInRobot();
-      }
+    if (DriverStation.isAutonomous()){
+      return debounce > 50;
+    }
+    return intakeSubsystem.isFirstPieceInRobot();
   }
 }

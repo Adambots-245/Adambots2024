@@ -14,19 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "PrimeShooterCloseCommand"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ForceShootCommand"
+            "name": "ShootPreload"
           }
         },
         {
@@ -36,29 +24,22 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "IntakeAndPrimeShooterCommand"
+                  "name": "IntakeNote->ShootState"
                 }
               },
               {
-                "type": "sequential",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.0
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "S2_NC2"
-                      }
-                    }
-                  ]
+                  "pathName": "S2_NC2"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpinUpShooter"
           }
         },
         {
@@ -70,13 +51,7 @@
         {
           "type": "named",
           "data": {
-            "name": "StopCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ForceShootCommand"
+            "name": "Shoot"
           }
         },
         {
@@ -86,7 +61,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "IntakeAndPrimeShooterCommand"
+                  "name": "IntakeNote->ShootState"
                 }
               },
               {
@@ -99,6 +74,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "SpinUpShooter"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "NC1_S2"
@@ -107,13 +88,7 @@
         {
           "type": "named",
           "data": {
-            "name": "StopCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ForceShootCommand"
+            "name": "Shoot"
           }
         },
         {
@@ -123,7 +98,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "IntakeAndPrimeShooterCommand"
+                  "name": "IntakeNote->ShootState"
                 }
               },
               {
@@ -136,6 +111,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "SpinUpShooter"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "NC3_S2"
@@ -144,13 +125,7 @@
         {
           "type": "named",
           "data": {
-            "name": "StopCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ForceShootCommand"
+            "name": "Shoot"
           }
         }
       ]

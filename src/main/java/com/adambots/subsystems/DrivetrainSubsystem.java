@@ -23,6 +23,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -96,7 +97,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     m_odometry.resetPosition(pose.getRotation(), ModuleMap.orderedModulePositions(swerveModules), pose);
   }
 
-  public void resetOdometryXY(Pose2d pose) {
+  public void resetOdometryXY(Translation2d translation) {
+    Pose2d pose = new Pose2d(translation.getX(), translation.getY(), new Rotation2d(RobotMap.gyro.getContinuousYawRad()));
     m_odometry.resetPosition(new Rotation2d(RobotMap.gyro.getContinuousYawRad()), ModuleMap.orderedModulePositions(swerveModules), pose);
   }
 
@@ -122,6 +124,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   /**
+   * Stops the drivetrain
+   */
+  public void stop() {
+    ModuleMap.stopModules(swerveModules);
+  }
+
+  /**
    * Sets the swerve module states as according to the chassis speeds requested
    *
    * @param chassisSpeeds The desired ChassisSpeeds of the robot
@@ -141,12 +150,5 @@ public class DrivetrainSubsystem extends SubsystemBase {
    */
   public ChassisSpeeds getChassisSpeeds() {
     return DriveConstants.kDriveKinematics.toChassisSpeeds(ModuleMap.orderedModuleStates(swerveModules));
-  }
-
-  /**
-   * Stops the drivetrain
-   */
-  public void stop() {
-    ModuleMap.stopModules(swerveModules);
   }
 }

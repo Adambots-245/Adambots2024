@@ -39,10 +39,8 @@ public class ShooterSubsystem extends SubsystemBase {
     Dash.add("Shooter Velocity", () -> getShooterVelocity());
     Dash.add("Target Vel", () -> targetWheelSpeed);
 
-    Dash.add("Shooter 1 Current", () -> shooterMotor.getCurrentDraw());
-    Dash.add("Shooter 2 Current", () -> shooterMotor2.getCurrentDraw());
-    // Dash.add("Shooter Command", () -> shooterSpeed);
-    // Dash.add("Shooter Target", () -> targetWheelSpeed);
+    // Dash.add("Shooter 1 Current", () -> shooterMotor.getCurrentDraw());
+    // Dash.add("Shooter 2 Current", () -> shooterMotor2.getCurrentDraw());
   }
 
   public void setTargetWheelSpeed(double newWheelSpeed){

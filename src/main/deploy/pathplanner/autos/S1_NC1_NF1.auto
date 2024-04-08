@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7059762690953959,
+      "x": 0.71,
       "y": 6.7
     },
     "rotation": 60.0
@@ -14,19 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "PrimeShooterCloseCommand"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ForceShootCommand"
+            "name": "ShootPreload"
           }
         },
         {
@@ -36,7 +24,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "IntakeAndPrimeShooterCommand"
+                  "name": "IntakeNote->ShootState"
                 }
               },
               {
@@ -64,25 +52,7 @@
         {
           "type": "named",
           "data": {
-            "name": "SpinShooterCommand"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "NC1_S1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StopCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ForceShootCommand"
+            "name": "S1Approach->Score"
           }
         },
         {
@@ -102,7 +72,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "IntakeAndPrimeShooterCommand"
+                        "name": "IntakeNote->ShootState"
                       }
                     },
                     {
@@ -127,19 +97,13 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "DriveToNoteCommand"
+                        "name": "DriveToNote"
                       }
                     }
                   ]
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SpinShooterCommand"
           }
         },
         {
@@ -151,37 +115,7 @@
         {
           "type": "named",
           "data": {
-            "name": "StopCommand"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.3
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ForceShootCommand"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "S1_DO"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StopCommand"
+            "name": "S1Approach->Score"
           }
         }
       ]

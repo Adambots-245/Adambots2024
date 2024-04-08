@@ -37,11 +37,11 @@
       },
       "prevControl": {
         "x": 4.809782938100838,
-        "y": 1.1581972109560192
+        "y": 1.1581972109560195
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "NC3_NF5"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],

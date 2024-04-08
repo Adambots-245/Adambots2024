@@ -22,6 +22,7 @@ public class UltrasonicSensor implements BaseDistanceSensor {
      */
     public UltrasonicSensor(int portNumber){
         rangefinder = new AnalogInput(portNumber);
+        //Legendary comments ngl
         rangefinder.setOversampleBits(2); // Completely arbitrary
         rangefinder.setAverageBits(5); // Ditto
     }

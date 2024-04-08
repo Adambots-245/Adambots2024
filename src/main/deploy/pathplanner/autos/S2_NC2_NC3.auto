@@ -14,25 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "PrimeShooterCloseCommand"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ForceShootCommand"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
+            "name": "ShootPreload"
           }
         },
         {
@@ -42,7 +24,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "IntakeAndPrimeShooterCommand"
+                  "name": "IntakeNote->ShootState"
                 }
               },
               {
@@ -57,7 +39,7 @@
         {
           "type": "named",
           "data": {
-            "name": "SpinShooterCommand"
+            "name": "SpinUpShooter"
           }
         },
         {
@@ -69,25 +51,7 @@
         {
           "type": "named",
           "data": {
-            "name": "StopCommand"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.6
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ForceShootCommand"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.3
+            "name": "Shoot"
           }
         },
         {
@@ -97,7 +61,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "IntakeAndPrimeShooterCommand"
+                  "name": "IntakeNote->ShootState"
                 }
               },
               {
@@ -112,7 +76,7 @@
         {
           "type": "named",
           "data": {
-            "name": "SpinShooterCommand"
+            "name": "SpinUpShooter"
           }
         },
         {
@@ -124,19 +88,7 @@
         {
           "type": "named",
           "data": {
-            "name": "StopCommand"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.3
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ForceShootCommand"
+            "name": "Shoot"
           }
         }
       ]

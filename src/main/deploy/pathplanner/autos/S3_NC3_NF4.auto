@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7358234536288891,
-      "y": 4.418968117215514
+      "x": 0.7284778050297884,
+      "y": 4.42669621430541
     },
     "rotation": -60.0
   },
@@ -14,48 +14,17 @@
         {
           "type": "named",
           "data": {
-            "name": "PrimeShooterCloseCommand"
+            "name": "ShootPreload"
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ForceShootCommand"
-          }
-        },
-        {
-          "type": "deadline",
+          "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.0
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "IntakeAndPrimeShooterCommand"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NF5_OdomReset"
-                      }
-                    }
-                  ]
+                  "name": "IntakeNote->ShootState"
                 }
               },
               {
@@ -65,13 +34,13 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "S3_NF5"
+                        "pathName": "S3_NC3"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "DriveToNoteCommand"
+                        "name": "StopCommand"
                       }
                     }
                   ]
@@ -83,31 +52,7 @@
         {
           "type": "named",
           "data": {
-            "name": "SpinShooterCommand"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "NF5_S3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StopCommand"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ForceShootCommand"
+            "name": "S3Approach->Score"
           }
         },
         {
@@ -127,13 +72,13 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "IntakeAndPrimeShooterCommand"
+                        "name": "IntakeNote->ShootState"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "NF5_OdomReset"
+                        "name": "NF4_OdomReset"
                       }
                     }
                   ]
@@ -152,19 +97,13 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "DriveToNoteCommand"
+                        "name": "DriveToNote"
                       }
                     }
                   ]
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SpinShooterCommand"
           }
         },
         {
@@ -176,19 +115,7 @@
         {
           "type": "named",
           "data": {
-            "name": "StopCommand"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ForceShootCommand"
+            "name": "S3Approach->Score"
           }
         }
       ]

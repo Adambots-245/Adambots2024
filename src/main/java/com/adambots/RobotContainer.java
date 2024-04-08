@@ -13,6 +13,7 @@ import com.adambots.commands.armCommands.SyncShoulderCommand;
 import com.adambots.commands.driveCommands.RotateToAngleCommand;
 import com.adambots.commands.driveCommands.SpinCommand;
 import com.adambots.commands.driveCommands.StopCommand;
+import com.adambots.commands.driveCommands.VisionDriveToWaypointCommand;
 import com.adambots.commands.hangCommands.HangLevelCommand;
 import com.adambots.commands.hangCommands.RunHangCommand;
 import com.adambots.commands.hangCommands.RunLeftHangCommand;
@@ -44,6 +45,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -55,6 +57,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /**
@@ -232,26 +235,47 @@ public class RobotContainer {
   }
 
   private void registerNamedCommands() {
-    NamedCommands.registerCommand("PrimeShooterCloseCommand", new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem, ShooterConstants.mediumSpeed, ArmConstants.speakerState));
-    NamedCommands.registerCommand("PrimeShooterDefaultCommand", new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem, ShooterConstants.highSpeed, ArmConstants.defaultSpeakerState));
+    NamedCommands.registerCommand("ShootPreload", new SequentialCommandGroup(
+      new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem, ShooterConstants.mediumSpeed, ArmConstants.speakerState),
+      new WaitCommand(1),
+      new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
+    ));
+    NamedCommands.registerCommand("IntakeNote->ShootState", new SequentialCommandGroup(
+      new AutonIntakeCommand(armSubsystem, intakeSubsystem, candleSubsytem),
+      new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.closeFloorShootState))
+    ));
+    NamedCommands.registerCommand("SpinUpShooter",
+      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed))
+    );
+    NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
+      new InstantCommand(() -> drivetrainSubsystem.stop()),
+      new WaitCommand(0.3),
+      new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
+    ));
+    NamedCommands.registerCommand("S1Approach->Score", new SequentialCommandGroup(
+      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
+      new VisionDriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, new Pose2d(new Translation2d(0.71, 6.70), new Rotation2d(Math.toRadians(60)))),
+      new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
+    ));
+    NamedCommands.registerCommand("S2Approach->Score", new SequentialCommandGroup(
+      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
+      new VisionDriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, new Pose2d(new Translation2d(1.38, 5.53), new Rotation2d(Math.toRadians(0)))),
+      new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
+    ));
+    NamedCommands.registerCommand("S3Approach->Score", new SequentialCommandGroup(
+      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
+      new VisionDriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, new Pose2d(new Translation2d(0.71, 4.40), new Rotation2d(Math.toRadians(60)))),
+      new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
+    ));
 
-    NamedCommands.registerCommand("FeedShooterCommand", new FeedShooterCommand(intakeSubsystem, shooterSubsystem));
-    NamedCommands.registerCommand("ForceShootCommand", new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem));
-    
-    // NamedCommands.registerCommand("AprilAlignCommand", new ParallelCommandGroup(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, candleSubsytem, VisionConstants.aprilLimelite), new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem, VisionLookUpTable.lowShooterConfig)));
-    NamedCommands.registerCommand("AprilAlignCommand", new ParallelRaceGroup(new ParallelCommandGroup(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, shooterSubsystem, candleSubsytem, VisionConstants.aprilLimelite), new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem, VisionLookUpTable.lowShooterConfig)), new VisionOdomResetCommand(drivetrainSubsystem, VisionConstants.aprilLimelite)));
-    NamedCommands.registerCommand("DefaultAprilAlignCommand", new ParallelRaceGroup(new ParallelCommandGroup(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, shooterSubsystem, candleSubsytem, VisionConstants.defaultAprilLimelite), new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem, VisionLookUpTable.defaultShooterConfig)), new VisionOdomResetCommand(drivetrainSubsystem, VisionConstants.defaultAprilLimelite)));
-
-    NamedCommands.registerCommand("DriveToNoteCommand", new ParallelDeadlineGroup(new WaitCommand(3), new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 1.5)));
-    NamedCommands.registerCommand("VisionOdomReset", new VisionOdomResetCommand(drivetrainSubsystem, VisionConstants.aprilLimelite));
-
-    NamedCommands.registerCommand("IntakeAndPrimeShooterCommand", new AutonIntakeCommand(armSubsystem, intakeSubsystem, shooterSubsystem, candleSubsytem, ArmConstants.closeFloorShootState));
-    NamedCommands.registerCommand("SpinShooterCommand", new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)));
+    NamedCommands.registerCommand("DriveToNote", new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 1.5));
 
     NamedCommands.registerCommand("StopCommand", new StopCommand(drivetrainSubsystem));
-    NamedCommands.registerCommand("NF1_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Pose2d(8.28, 7.44, new Rotation2d()))));
-    NamedCommands.registerCommand("NF2_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Pose2d(8.28, 5.77, new Rotation2d()))));
-    NamedCommands.registerCommand("NF5_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Pose2d(8.28, 0.77, new Rotation2d()))));
+
+    NamedCommands.registerCommand("NF1_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Translation2d(8.28, 7.44))));
+    NamedCommands.registerCommand("NF2_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Translation2d(8.28, 5.77))));
+    NamedCommands.registerCommand("NF4_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Translation2d(8.28, 2.44))));
+    NamedCommands.registerCommand("NF5_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Translation2d(8.28, 0.77))));
   }
 
   private void setupDashboard() {    
@@ -260,7 +284,8 @@ public class RobotContainer {
     //Adds various data to the dashboard that is useful for driving and debugging
     SmartDashboard.putData("Auton Mode", autoChooser);
     SmartDashboard.putData("AprilTagField", Constants.aprilTagfield);   
-    SmartDashboard.putData("Field", Constants.field);
+    SmartDashboard.putData("OdomField", Constants.field);
+    SmartDashboard.putData("DebugField", Constants.debugField);
 
     // Dash.add("getY", Buttons.forwardSupplier);
     // Dash.add("getX", Buttons.sidewaysSupplier);

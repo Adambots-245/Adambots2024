@@ -12,13 +12,13 @@ import com.adambots.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class ForceFeedShooterCommand extends Command {
-  /** Creates a new ForceFeedShooter. */
+  /** Creates a new ForceFeedShooterCommand. */
   private IntakeSubsystem intakeSubsystem;
   private ShooterSubsystem shooterSubsystem;
   private int inc;
   
   public ForceFeedShooterCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
-    addRequirements(intakeSubsystem);
+    addRequirements(intakeSubsystem, shooterSubsystem);
 
     this.intakeSubsystem = intakeSubsystem;
     this.shooterSubsystem = shooterSubsystem;
@@ -27,21 +27,21 @@ public class ForceFeedShooterCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    intakeSubsystem.setMotorSpeed(IntakeConstants.shootSpeed);
     inc = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.setMotorSpeed(IntakeConstants.shootSpeed);
     inc++;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed);
     intakeSubsystem.setMotorSpeed(0);
+    shooterSubsystem.setTargetWheelSpeed(ShooterConstants.idleSpeed);
   }
 
   // Returns true when the command should end.

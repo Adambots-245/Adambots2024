@@ -7,10 +7,6 @@
 
 package com.adambots;
 
-import com.adambots.Constants.VisionConstants;
-import com.adambots.commands.visionCommands.VisionOdomResetCommand;
-import com.adambots.vision.VisionHelpers;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -37,8 +33,6 @@ public class Robot extends TimedRobot {
     RobotMap.gyro.resetYaw();
 
     DriverStation.silenceJoystickConnectionWarning(true);
-
-    VisionHelpers.setPipeline(VisionConstants.noteLimelite, 0);
     
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our autonomous chooser on the dashboard.
@@ -56,12 +50,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    // newly-scheduled
-    // commands, running already-scheduled commands, removing finished or
-    // interrupted commands,
-    // and running subsystem periodic() methods. This must be called from the
-    // robot's periodic
-    // block in order for anything in the Command-based framework to work.
+    // newly-scheduled commands, running already-scheduled commands, removing finished or
+    // interrupted commands, and running subsystem periodic() methods. This must be called from the
+    // robot's periodic block in order for anything in the Command-based framework to work.
 
     CommandScheduler.getInstance().run();
   }
@@ -71,14 +62,14 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    // Shuffleboard.stopRecording();
-    // System.out.println("Shuffleboard recording ended");
+    if (Constants.enableAutomaticShuffleboardRecording) {
+      Shuffleboard.stopRecording();
+      System.out.println("Shuffleboard recording ended");
+    }
   }
 
   @Override
-  public void disabledPeriodic() {
-    
-  }
+  public void disabledPeriodic() {}
 
   /**
    * This autonomous runs the autonomous command selected by your
@@ -88,10 +79,10 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     CommandScheduler.getInstance().cancelAll(); //Cancel all teleop or lingering commands
 
-    // if (Constants.enableAutomaticShuffleboardRecording) {
-    //   Shuffleboard.startRecording();
-    //   System.out.println("Autonomous Shuffleboard recording started - " + DriverStation.getMatchTime());
-    // }
+    if (Constants.enableAutomaticShuffleboardRecording) {
+      Shuffleboard.startRecording();
+      System.out.println("Autonomous Shuffleboard recording started - " + DriverStation.getMatchTime());
+    }
 
     Command m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     System.out.println("Auton Selected: " + m_autonomousCommand.toString());
@@ -108,16 +99,14 @@ public class Robot extends TimedRobot {
    * This function is called periodically during autonomous.
    */
   //@Override
-  public void autonomousPeriodic() {
-
-  }
+  public void autonomousPeriodic() {}
 
   @Override
   public void teleopInit() {
-    // if (Constants.enableAutomaticShuffleboardRecording) {
-    //   Shuffleboard.startRecording();
-    //   System.out.println("Teleop Shuffleboard recording started - " + DriverStation.getMatchTime());
-    // }
+    if (Constants.enableAutomaticShuffleboardRecording) {
+      Shuffleboard.startRecording();
+      System.out.println("Teleop Shuffleboard recording started - " + DriverStation.getMatchTime());
+    }
 
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
@@ -133,23 +122,22 @@ public class Robot extends TimedRobot {
    * This function is called periodically during operator control.
    */
   @Override
-  public void teleopPeriodic() {
-
-  }
+  public void teleopPeriodic() {}
 
   @Override
-  public void testInit() {
-
-  }
+  public void testInit() {}
 
   /**
    * This function is called periodically during test mode.
    */
   @Override
-  public void testPeriodic() {
+  public void testPeriodic() {}
 
-  }
-
+  /**
+   * Returns {@code True} if the robot is on the red alliance according to driverstation, {@code False} otherwise
+   *
+   * @return Whether the robot is on the red alliance
+   */
   public static boolean isOnRedAlliance(){
     var alliance = DriverStation.getAlliance();
     if (alliance.isPresent()) {

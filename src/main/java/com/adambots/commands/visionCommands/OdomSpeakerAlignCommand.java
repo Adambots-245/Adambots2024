@@ -22,8 +22,8 @@ public class OdomSpeakerAlignCommand extends Command {
   private CANdleSubsystem candleSubsystem;
   private ShooterSubsystem shooterSubsystem;
   private ArmSubsystem armSubsystem;
-  private double activateDelay;
- private String limelight;
+  // private double activateDelay;
+  private String limelight;
   private PIDController turningPIDController = new PIDController(VisionConstants.kPOdomThetaController, 0, VisionConstants.kDOdomThetaController);
 
   public OdomSpeakerAlignCommand(DrivetrainSubsystem driveTrainSubsystem, ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, CANdleSubsystem ledSubsystem, String limelight) {
@@ -43,7 +43,7 @@ public class OdomSpeakerAlignCommand extends Command {
   public void initialize() {
     candleSubsystem.setColor(LEDConstants.yellow);
 
-    activateDelay = 0;
+    // activateDelay = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.

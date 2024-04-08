@@ -14,6 +14,7 @@ public final class Constants {
     public static final String kDefaultShuffleboardTab = "debug";
     public static Field2d field = new Field2d();    
     public static Field2d aprilTagfield = new Field2d();
+    public static Field2d debugField = new Field2d();
     public static final Boolean enableAutomaticShuffleboardRecording = false;
 
     public static final class LEDConstants {
@@ -54,6 +55,9 @@ public final class Constants {
         public static final Translation2d blueTargetPoint = new Translation2d(0.11, 5.47);
         public static final Translation2d redTargetPoint = new Translation2d(16.45, 5.47);
 
+        public static final Translation2d aprilTagPos = new Translation2d(0.0, 5.55);
+
+        public static final double kFieldWidth = 16.53;
     }
 
     public static final class DriveConstants {
@@ -119,6 +123,9 @@ public final class Constants {
         // PD values for auton rotational movement
         public static final double kPThetaController = 3; 
         public static final double kDThetaController = 0.01;
+
+        public static final double kPWaypointTranslation = 5; 
+        public static final double kDWaypointTranslation = 0.11;
 
         public static final double kMaxWaypointTranslateSpeed = 1;
     }

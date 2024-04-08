@@ -53,7 +53,7 @@ public class VisionOdomResetCommand extends Command {
 
         if (VisionHelpers.getAprilHorizDist(limelight) < 4.5 && Math.abs(fakePIPidController.getPositionError()) < Math.toRadians(30)){
           // System.out.print("updated");
-          driveTrainSubsystem.resetOdometryXY(VisionHelpers.getAprilTagBotPose2dBlue(limelight));
+          driveTrainSubsystem.resetOdometryXY(VisionHelpers.getAprilTagBotPose2dBlue(limelight).getTranslation());
         }
       }
     }

@@ -33,8 +33,6 @@ public class ArmSubsystem extends SubsystemBase {
   private double targetWristAngle;
   private double shoulderSpeed, wristSpeed = 0;
 
-  // private int speedDebounce = 0;
-
   private double shoulderAngleOffset, wristAngleOffset = 0;
 
   private State currentState = ArmConstants.defaultState;
@@ -133,12 +131,12 @@ public class ArmSubsystem extends SubsystemBase {
     return wristMotor.getPosition()*ArmConstants.kWristEncoderPositionConversionFactor + wristAngleOffset;
   }
 
-  public void resetDebounce(){
-    targetStateDebounce = 0;
-  }
-
   public double getCurrentShoulderMotorAngle(){
     return shoulderMotor.getPosition()*ArmConstants.kShoulderEncoderPositionConversionFactor + shoulderAngleOffset;
+  }
+
+  public void resetDebounce(){
+    targetStateDebounce = 0;
   }
 
   public void setCurrentState(State newState) {
@@ -208,28 +206,16 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   private void setPids(){
-    if(currentState.getStateName() == StateName.SPEAKER){
-     shoulderPID.setPID(0.02, 0.1, 0.0028);
-     wristPID.setPID(0.0062, 0.009, 0.00062);
-    }else if(currentState.getStateName() == StateName.AMP){
-     shoulderPID.setPID(0.02, 0.1, 0.0028);
-     wristPID.setPID(0.0052, 0.0, 0.0003);
-    }else if(currentState.getStateName() == StateName.FLOOR){
-     shoulderPID.setPID(0.02, 0.1, 0.0028);
-     wristPID.setPID(0.0062, 0.009, 0.00062);
-    }else if(currentState.getStateName() == StateName.DEFAULT){
-     shoulderPID.setPID(0.02, 0.1, 0.0028);
-    //  wristPID.setPID(0.0062, 0.009, 0.00062);
-     wristPID.setPID(0.0062, 0.009, 0.0004);
-    }else if(currentState.getStateName() == StateName.HUMAN){
-     shoulderPID.setPID(0.02, 0.1, 0.0028);
-     wristPID.setPID(0.0062, 0.009, 0.00062);
-    }else if(currentState.getStateName() == StateName.CUSTOM){
-     shoulderPID.setPID(0.02, 0.1, 0.0028);
-     wristPID.setPID(0.008, 0.01, 0.00045);
-    }else{
-     shoulderPID.setPID(0.02, 0.1, 0.0028);
-     wristPID.setPID(0.0062, 0.009, 0.00062);
+    if (currentState.getStateName() == StateName.SPEAKER) {
+      wristPID.setPID(0.0062, 0.009, 0.00062);
+    } else if(currentState.getStateName() == StateName.AMP) {
+      wristPID.setPID(0.0052, 0.0, 0.0003);
+    } else if(currentState.getStateName() == StateName.DEFAULT) {
+      wristPID.setPID(0.0062, 0.009, 0.0004);
+    } else if(currentState.getStateName() == StateName.CUSTOM) {
+      wristPID.setPID(0.008, 0.01, 0.00045);
+    } else{
+      wristPID.setPID(0.0062, 0.009, 0.00062);
     }
   }
 
