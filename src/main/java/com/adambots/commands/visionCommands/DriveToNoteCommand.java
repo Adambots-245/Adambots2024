@@ -1,4 +1,6 @@
 package com.adambots.commands.visionCommands;
+import com.adambots.Robot;
+import com.adambots.RobotMap;
 import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.subsystems.CANdleSubsystem;
@@ -15,9 +17,9 @@ public class DriveToNoteCommand extends Command {
   private IntakeSubsystem intakeSubsystem;
   private CANdleSubsystem ledSubsystem;
 
-  private PIDController pidController = new PIDController(VisionConstants.kPTranslateController, 0, VisionConstants.kDTranslateController);
+  private PIDController translateController = new PIDController(VisionConstants.kPTranslateController, 0, VisionConstants.kDTranslateController);
+  private PIDController thetaController = new PIDController(VisionConstants.kPThetaController, 0, VisionConstants.kDThetaController);
 
-  private double drive_output;
   private double speed;
   private double debounce;
 
@@ -35,6 +37,12 @@ public class DriveToNoteCommand extends Command {
   public void initialize() {
     ledSubsystem.setColor(LEDConstants.red);
     debounce = 0;
+
+    if (Robot.isOnRedAlliance()) {
+      thetaController.setSetpoint(Math.PI);
+    } else {
+      thetaController.setSetpoint(0);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -47,9 +55,11 @@ public class DriveToNoteCommand extends Command {
     }
 
     double horizAngle = VisionHelpers.getHorizAngle(VisionConstants.noteLimelite);
+    
+    double translate_output = translateController.calculate(horizAngle, 0);
+    double theta_output = thetaController.calculate(RobotMap.gyro.getContinuousYawRad());
 
-    drive_output = pidController.calculate(horizAngle, 0);
-    driveTrainSubsystem.drive(speed, drive_output, 0, false);
+    driveTrainSubsystem.drive(speed, translate_output, theta_output, false);
 
     if (VisionHelpers.isDetected(VisionConstants.noteLimelite)) {
       if (Math.abs(horizAngle) < 5) {
