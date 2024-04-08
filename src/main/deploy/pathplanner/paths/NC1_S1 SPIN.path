@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 0.72,
-        "y": 6.76
+        "x": 0.98,
+        "y": 6.41
       },
       "prevControl": {
-        "x": 1.7027901326934534,
-        "y": 7.180816363950554
+        "x": 1.9627901326934531,
+        "y": 6.830816363950555
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "NC1_S1_Endpoint"
     }
   ],
   "rotationTargets": [],

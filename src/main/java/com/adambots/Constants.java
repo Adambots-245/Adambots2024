@@ -204,7 +204,7 @@ public final class Constants {
         public static final double defaultPodiumShoulderAngle = 162; 
      
         // Top 2 note floor shoot
-        public static final double topFloorShootWristAngle = 321.7;
+        public static final double topFloorShootWristAngle = 320.2;
         public static final double topfloorShootShoulderAngle = 125.7; 
 
         //Hang

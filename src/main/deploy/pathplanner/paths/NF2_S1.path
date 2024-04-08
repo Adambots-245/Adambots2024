@@ -17,36 +17,30 @@
     {
       "anchor": {
         "x": 1.38,
-        "y": 5.7
+        "y": 6.15
       },
       "prevControl": {
-        "x": 2.7816073693412777,
-        "y": 5.892758476526943
+        "x": 2.7816093189776923,
+        "y": 6.3427442995775865
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "NF1_S1"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.35,
-      "rotationDegrees": 16.10686790423502,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 2.76,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 200.0,
     "maxAngularAcceleration": 300.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 20.026089094116585,
-    "rotateFast": false
+    "rotation": -159.7,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": null,
@@ -54,5 +48,5 @@
     "rotation": -16.930000000000007,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

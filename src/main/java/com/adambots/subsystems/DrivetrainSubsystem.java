@@ -103,6 +103,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     m_odometry.resetPosition(new Rotation2d(RobotMap.gyro.getContinuousYawRad()), ModuleMap.orderedModulePositions(swerveModules), pose);
   }
 
+  public void resetOdometryXY_TEMP(Pose2d pose) {
+    pose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(RobotMap.gyro.getContinuousYawRad()));
+    m_odometry.resetPosition(new Rotation2d(RobotMap.gyro.getContinuousYawRad()), ModuleMap.orderedModulePositions(swerveModules), pose);
+  }
+
   /**
    * Method to drive the robot using joystick info.
    *

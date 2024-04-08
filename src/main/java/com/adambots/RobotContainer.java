@@ -256,7 +256,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("StopCommand", new StopCommand(drivetrainSubsystem));
     NamedCommands.registerCommand("NF1_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Pose2d(8.28, 7.44, new Rotation2d()))));
-    NamedCommands.registerCommand("NF2_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Pose2d(8.28, 5.77, new Rotation2d()))));
+    NamedCommands.registerCommand("NF2_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY_TEMP(new Pose2d(8.28, 5.77, new Rotation2d()))));
     NamedCommands.registerCommand("NF5_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Pose2d(8.28, 0.77, new Rotation2d()))));
   }
 
