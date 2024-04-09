@@ -91,9 +91,7 @@ public class RobotContainer {
   }
 
   public void teleopInit() {
-    VisionHelpers.setPipeline(VisionConstants.noteLimelite, 0);
-
-    new VisionOdomResetCommand(drivetrainSubsystem, VisionConstants.defaultAprilLimelite).schedule();
+    // new VisionOdomResetCommand(drivetrainSubsystem, VisionConstants.defaultAprilLimelite).schedule();
     // new VisionOdomResetCommand(drivetrainSubsystem, VisionConstants.aprilLimelite).schedule();
 
 
@@ -168,10 +166,11 @@ public class RobotContainer {
     Buttons.JoystickButton8.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro, candleSubsytem)); //Hang on the chain
 
     // Buttons.JoystickButton7.whileTrue(new AlignWhileDrivingCommand(drivetrainSubsystem, candleSubsytem, VisionConstants.defaultAprilLimelite));
-    Buttons.JoystickButton7.whileTrue(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, shooterSubsystem, candleSubsytem, VisionConstants.defaultAprilLimelite));
     // Buttons.JoystickButton7.whileTrue(new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem, VisionLookUpTable.defaultShooterConfig));
     // Buttons.JoystickButton7.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
 
+    //TODO: Uncomment
+    // Buttons.JoystickButton7.whileTrue(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, shooterSubsystem, candleSubsytem, VisionConstants.defaultAprilLimelite));
 
 
     Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw())); //Reset Gyro
@@ -312,7 +311,7 @@ public class RobotContainer {
 
     Dash.add("isAtTargetSpeed", () -> shooterSubsystem.isAtTargetSpeed());
     Dash.add("isAtTargetState", () -> armSubsystem.isAtTargetState());
-    Dash.add("getDistancetoSpeaker", () -> VisionHelpers.getAprilHorizDist(VisionConstants.defaultAprilLimelite));
+    // Dash.add("getDistancetoSpeaker", () -> VisionHelpers.getAprilHorizDist(VisionConstants.defaultAprilLimelite));
 
     // Dash.add("ClassName", VisionHelpers.getClassName(VisionConstants.noteLimelite));
     // Dash.add("getHeartbeat", () -> VisionHelpers.getHeartbeat(VisionConstants.noteLimelite));

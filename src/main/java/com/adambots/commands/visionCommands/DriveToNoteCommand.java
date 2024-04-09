@@ -48,28 +48,28 @@ public class DriveToNoteCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!VisionHelpers.isDetected(VisionConstants.noteLimelite)){
-      debounce++;
-    } else {
-      debounce = 0;
-    }
+    // if (!VisionHelpers.isDetected(VisionConstants.noteLimelite)){
+    //   debounce++;
+    // } else {
+    //   debounce = 0;
+    // }
 
-    double horizAngle = VisionHelpers.getHorizAngle(VisionConstants.noteLimelite);
+    // double horizAngle = VisionHelpers.getHorizAngle(VisionConstants.noteLimelite);
     
-    double translate_output = translateController.calculate(horizAngle, 0);
-    double theta_output = thetaController.calculate(RobotMap.gyro.getContinuousYawRad());
+    // double translate_output = translateController.calculate(horizAngle, 0);
+    // double theta_output = thetaController.calculate(RobotMap.gyro.getContinuousYawRad());
 
-    driveTrainSubsystem.drive(speed, translate_output, theta_output, false);
+    // driveTrainSubsystem.drive(speed, translate_output, theta_output, false);
 
-    if (VisionHelpers.isDetected(VisionConstants.noteLimelite)) {
-      if (Math.abs(horizAngle) < 5) {
-        ledSubsystem.setColor(LEDConstants.green);
-      } else {
-        ledSubsystem.setColor(LEDConstants.yellow);
-      }
-    } else {
-      ledSubsystem.setColor(LEDConstants.purple);
-    }
+    // if (VisionHelpers.isDetected(VisionConstants.noteLimelite)) {
+    //   if (Math.abs(horizAngle) < 5) {
+    //     ledSubsystem.setColor(LEDConstants.green);
+    //   } else {
+    //     ledSubsystem.setColor(LEDConstants.yellow);
+    //   }
+    // } else {
+    //   ledSubsystem.setColor(LEDConstants.purple);
+    // }
   }
 
   // Called once the command ends or is interrupted.

@@ -74,7 +74,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     Constants.field.setRobotPose(getPose());
         // Constants.field.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite));
 
-    Constants.aprilTagfield.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.defaultAprilLimelite));
+    Constants.aprilTagfield.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite));
   }
 
   /**

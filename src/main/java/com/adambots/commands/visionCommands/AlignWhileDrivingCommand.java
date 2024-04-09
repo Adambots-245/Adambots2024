@@ -39,47 +39,47 @@ public class AlignWhileDrivingCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (VisionHelpers.isDetected(limelight)){
-      driveTrainSubsystem.resetOdometryXY(VisionHelpers.getAprilTagBotPose2dBlue(limelight).getTranslation());
-      // rotate = VisionHelpers.getAprilTagBotPose2d().getRotation().getRadians();
-      rotate = -Math.toRadians(VisionHelpers.getHorizAngle(limelight)) + RobotMap.gyro.getContinuousYawRad();
+    // if (VisionHelpers.isDetected(limelight)){
+    //   driveTrainSubsystem.resetOdometryXY(VisionHelpers.getAprilTagBotPose2dBlue(limelight).getTranslation());
+    //   // rotate = VisionHelpers.getAprilTagBotPose2d().getRotation().getRadians();
+    //   rotate = -Math.toRadians(VisionHelpers.getHorizAngle(limelight)) + RobotMap.gyro.getContinuousYawRad();
 
 
-    }
-    // Calculates the drive rotation
-    if (limelight == VisionConstants.noteLimelite) {
-      rotation_output = turningPIDController.calculate(Math.toRadians(rotate), 0);
-    } else if (limelight == VisionConstants.defaultAprilLimelite){
-        // && (VisionHelpers.getAprilTagID() == 4 || VisionHelpers.getAprilTagID() == 7)) {
-          rotation_output = turningPIDController.calculate(RobotMap.gyro.getContinuousYawRad(), rotate);
-    } else {
-      rotation_output = 0;
-    }
+    // }
+    // // Calculates the drive rotation
+    // if (limelight == VisionConstants.noteLimelite) {
+    //   rotation_output = turningPIDController.calculate(Math.toRadians(rotate), 0);
+    // } else if (limelight == VisionConstants.defaultAprilLimelite){
+    //     // && (VisionHelpers.getAprilTagID() == 4 || VisionHelpers.getAprilTagID() == 7)) {
+    //       rotation_output = turningPIDController.calculate(RobotMap.gyro.getContinuousYawRad(), rotate);
+    // } else {
+    //   rotation_output = 0;
+    // }
 
-     driveTrainSubsystem.drive(Buttons.forwardSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond,
-          Buttons.sidewaysSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond, rotation_output, true);
-    // Checks to see if we have an object detected
-    if (VisionHelpers.isDetected(limelight)) {
-      // driveTrainSubsystem.drive(Buttons.forwardSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond,
-      //     Buttons.sidewaysSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond, rotation_output, true);
-    } else {
-      // driveTrainSubsystem.drive(Buttons.forwardSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond,
-      //     Buttons.sidewaysSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond,
-      //     Buttons.rotateSupplier.getAsDouble() * DriveConstants.kTeleopRotationalSpeed, true);
-    }
+    //  driveTrainSubsystem.drive(Buttons.forwardSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond,
+    //       Buttons.sidewaysSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond, rotation_output, true);
+    // // Checks to see if we have an object detected
+    // if (VisionHelpers.isDetected(limelight)) {
+    //   // driveTrainSubsystem.drive(Buttons.forwardSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond,
+    //   //     Buttons.sidewaysSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond, rotation_output, true);
+    // } else {
+    //   // driveTrainSubsystem.drive(Buttons.forwardSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond,
+    //   //     Buttons.sidewaysSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond,
+    //   //     Buttons.rotateSupplier.getAsDouble() * DriveConstants.kTeleopRotationalSpeed, true);
+    // }
 
-    // Checks to see if the angle is within the aligned bounds
-    if (VisionHelpers.isDetected(limelight)) {
-      if (Math.abs(rotate) < 5) {
-        candleSubsystem.setColor(LEDConstants.green);
-      } else if (Math.abs(rotate) < 12) {
-        candleSubsystem.setColor(LEDConstants.yellow);
-      } else {
-        candleSubsystem.setColor(LEDConstants.red);
-      }
-    } else {
-      candleSubsystem.setColor(LEDConstants.purple);
-    }
+    // // Checks to see if the angle is within the aligned bounds
+    // if (VisionHelpers.isDetected(limelight)) {
+    //   if (Math.abs(rotate) < 5) {
+    //     candleSubsystem.setColor(LEDConstants.green);
+    //   } else if (Math.abs(rotate) < 12) {
+    //     candleSubsystem.setColor(LEDConstants.yellow);
+    //   } else {
+    //     candleSubsystem.setColor(LEDConstants.red);
+    //   }
+    // } else {
+    //   candleSubsystem.setColor(LEDConstants.purple);
+    // }
   }
 
   // Called once the command ends or is interrupted.
@@ -92,10 +92,9 @@ public class AlignWhileDrivingCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (limelight == VisionConstants.noteLimelite) {
-      return true;
-    } else {
-      return false;
-    }
+    // if (limelight == VisionConstants.noteLimelite) {
+    //   return true;
+    // }
+    return false;
   }
 }
