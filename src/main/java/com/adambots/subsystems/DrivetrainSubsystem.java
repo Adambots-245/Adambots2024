@@ -21,6 +21,7 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -33,6 +34,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class DrivetrainSubsystem extends SubsystemBase {
   // The gyro sensor
   private final BaseGyro m_gyro;
+
+  //Pose Estimator
+  private SwerveDrivePoseEstimator m_poseEstimator;
 
   // Odometry class for tracking robot pose
   private SwerveDriveOdometry m_odometry;
@@ -60,15 +64,21 @@ public class DrivetrainSubsystem extends SubsystemBase {
         () -> Robot.isOnRedAlliance(), //Flips path if on the red side of the field - ENSURE FIELD SIDE IS CORRECTLY SET IN DRIVERSTATION BEFORE TESTING AUTON
         this // Reference to this subsystem to set requirements
     );
+
+    m_poseEstimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics, gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules), getPose());
+
   }
 
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    m_odometry.update(
-        m_gyro.getContinuousYawRotation2d(),
-        ModuleMap.orderedModulePositions(swerveModules)
-    );
+    // m_odometry.update(
+    //     m_gyro.getContinuousYawRotation2d(),
+    //     ModuleMap.orderedModulePositions(swerveModules)
+    // );
+
+    m_poseEstimator.update(m_gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules));
+    m_poseEstimator.addVisionMeasurement(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite), VisionHelpers.getTimestamp(VisionConstants.aprilLimelite));
 
     // Update the position of the robot on the ShuffleBoard field
     Constants.field.setRobotPose(getPose());
@@ -76,6 +86,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     Constants.aprilTagfield.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite));
   }
+
 
   /**
    * Returns the currently-estimated pose of the robot.

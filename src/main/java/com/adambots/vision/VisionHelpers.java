@@ -36,6 +36,10 @@ public class VisionHelpers {
         return Math.hypot(getCameraPoseTargetSpace(limelight).getX(), getCameraPoseTargetSpace(limelight).getZ());
     }
 
+    public static double getTimestamp(String limelight){
+        return LimelightHelpers.getLatestResults(limelight).targetingResults.timestamp_LIMELIGHT_publish;
+    }
+
     // public static Pose2d getAprilTagPose2d() {
     //     // return LimelightHelpers.getLatestResults(VisionConstants.aprilLimelite).targetingResults.getBotPose2d_wpiRed();
     // }
