@@ -30,7 +30,7 @@ public class VisionDriveToWaypointCommand extends Command {
   private double xPosOld;
   private double yPosOld;
 
-  private final double posSensitivity = 1;
+  private final double posSensitivity = 0.7;
   private final double abortThreshold = 25;
   private final String limelight = VisionConstants.aprilLimelite; //Can quicky change which limelight is referenced
 
@@ -83,7 +83,7 @@ public class VisionDriveToWaypointCommand extends Command {
       double xDrive = xController.calculate(xPos);
       double yDrive = yController.calculate(yPos);
       
-      if (Math.abs(waypoint.getX()-xPos) > 1.25){
+      if (Math.abs(waypoint.getX()-xPos) > 1.25 || Math.abs(waypoint.getY()-yPos) > 0.7){
         if (Robot.isOnRedAlliance()) { //If the robot is further than 1.25 meters in x, rotate to face the apriltags instead of the waypoint to maintain them in FOV
           thetaController.setSetpoint(Math.atan2(VisionConstants.aprilTagPos.getY()-yPos, VisionConstants.aprilTagPos.getX()+VisionConstants.kFieldWidth-xPos));
         } else {
@@ -98,8 +98,14 @@ public class VisionDriveToWaypointCommand extends Command {
       }
       double thetaDrive = thetaController.calculate(gyro.getContinuousYawRad());
 
-      xDrive = MathUtil.clamp(xDrive, -AutoConstants.kMaxWaypointTranslateSpeed, AutoConstants.kMaxWaypointTranslateSpeed);
-      yDrive = MathUtil.clamp(yDrive, -AutoConstants.kMaxWaypointTranslateSpeed, AutoConstants.kMaxWaypointTranslateSpeed);
+      if (getDist(waypoint, visionPose) > 1.2) {
+        xDrive = MathUtil.clamp(xDrive, -AutoConstants.kMaxWaypointTranslateSpeed, AutoConstants.kMaxWaypointTranslateSpeed);
+        yDrive = MathUtil.clamp(yDrive, -AutoConstants.kMaxWaypointTranslateSpeed, AutoConstants.kMaxWaypointTranslateSpeed);
+      } else {
+        xDrive = MathUtil.clamp(xDrive, -AutoConstants.kMinWaypointTranslateSpeed, AutoConstants.kMinWaypointTranslateSpeed);
+        yDrive = MathUtil.clamp(yDrive, -AutoConstants.kMinWaypointTranslateSpeed, AutoConstants.kMinWaypointTranslateSpeed);
+      }
+      
 
       if (Robot.isOnRedAlliance()) {
         drivetrainSubsystem.drive(xDrive, -yDrive, thetaDrive, true);
@@ -132,7 +138,7 @@ public class VisionDriveToWaypointCommand extends Command {
       System.out.println(this.getName() + " | ABORTED - UNRELIABLE APRILTAG DETECTION");
       return true;
     }
-    return finishedInc > 7;
+    return finishedInc > 25;
   }
 
   public double getDist (Pose2d pos1, Pose2d pos2) {

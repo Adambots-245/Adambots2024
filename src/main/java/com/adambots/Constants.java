@@ -37,7 +37,7 @@ public final class Constants {
         // public static final String noteLimelite = "limelight-noteii";
         // public static final String noteLimelite = "limelight-aprilgg";
 
-        public static final String aprilLimelite = "limelight-aprilgg";
+        public static final String aprilLimelite = "limelight-blahaj";
         // public static final String defaultAprilLimelite = "limelight-aprilgg";
 
         // public static final String defaultAprilLimelite = "limelight-gg";
@@ -61,9 +61,9 @@ public final class Constants {
     }
 
     public static final class DriveConstants {
-        public static final boolean kFrontLeftDriveMotorReversed = false;
+        public static final boolean kFrontLeftDriveMotorReversed = true;
         public static final boolean kRearLeftDriveMotorReversed = false;
-        public static final boolean kFrontRightDriveMotorReversed = true;
+        public static final boolean kFrontRightDriveMotorReversed = false;
         public static final boolean kRearRightDriveMotorReversed = true;
 
         // Distance between centers of right and left wheels on robot in meters
@@ -125,9 +125,10 @@ public final class Constants {
         public static final double kDThetaController = 0.01;
 
         public static final double kPWaypointTranslation = 5; 
-        public static final double kDWaypointTranslation = 0.11;
+        public static final double kDWaypointTranslation = 0.15;
 
-        public static final double kMaxWaypointTranslateSpeed = 1;
+        public static final double kMaxWaypointTranslateSpeed = 1.6;
+        public static final double kMinWaypointTranslateSpeed = 0.7;
     }
 
     public static final class HangConstants{
