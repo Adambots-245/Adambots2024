@@ -10,7 +10,9 @@ import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
+import com.adambots.subsystems.CANdleSubsystem.AnimationTypes;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class PrimeShooterCommand extends Command {
@@ -50,20 +52,27 @@ public class PrimeShooterCommand extends Command {
       shooterSubsystem.setTargetWheelSpeed(shooterSpeed);
       finished = true;
     }
-    if (armSubsystem.isAtTargetStateTele()){
+    
+    if (armSubsystem.isAtTargetStateTele() && shooterSubsystem.isAtTargetSpeed()){
       caNdleSubsystem.setColor(LEDConstants.purple);
+    } else{
+      caNdleSubsystem.setColor(LEDConstants.yellow);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    caNdleSubsystem.setAnimation(CANdleSubsystem.AnimationTypes.Larson);
+    caNdleSubsystem.setColor(LEDConstants.adambotsYellow);
+    caNdleSubsystem.setAnimation(AnimationTypes.Larson);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return finished;
+    if (DriverStation.isAutonomous()) {
+      return finished;
+    }
+    return false;
   }
 }

@@ -116,7 +116,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public boolean isAtTargetStateTele () {
     // System.out.println(Math.abs(wristPID.getPositionError()));
-    return Math.abs(shoulderPID.getPositionError()) < 5 && Math.abs(wristPID.getPositionError()) < 3; 
+    return Math.abs(shoulderPID.getPositionError()) < 5 && Math.abs(wristPID.getPositionError()) < 4; 
   }
 
   public double getCurrentWristShaftAngle(){

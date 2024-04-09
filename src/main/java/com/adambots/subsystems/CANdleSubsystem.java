@@ -8,6 +8,7 @@ import com.adambots.Constants.LEDConstants;
 import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
+import com.ctre.phoenix.led.CANdle.VBatOutputMode;
 import com.ctre.phoenix.led.CANdleConfiguration;
 import com.ctre.phoenix.led.ColorFlowAnimation;
 import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
@@ -42,6 +43,8 @@ public class CANdleSubsystem extends SubsystemBase {
     configAll.disableWhenLOS = true;
     configAll.stripType = LEDStripType.GRB; // the BTF-Lighting LED strip uses GRB format
     configAll.brightnessScalar = 1;
+    configAll.vBatOutputMode = VBatOutputMode.Off;
+    configAll.v5Enabled = true;
     
     candleDevice.configAllSettings(configAll);
 

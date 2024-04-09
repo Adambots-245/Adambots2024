@@ -74,7 +74,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     Constants.field.setRobotPose(getPose());
         // Constants.field.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite));
 
-    Constants.aprilTagfield.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite));
+    Constants.aprilTagfield.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.defaultAprilLimelite));
   }
 
   /**
@@ -99,7 +99,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   public void resetOdometryXY(Translation2d translation) {
     Pose2d pose = new Pose2d(translation.getX(), translation.getY(), new Rotation2d(RobotMap.gyro.getContinuousYawRad()));
-    m_odometry.resetPosition(new Rotation2d(RobotMap.gyro.getContinuousYawRad()), ModuleMap.orderedModulePositions(swerveModules), pose);
+    m_odometry.resetPosition(pose.getRotation(), ModuleMap.orderedModulePositions(swerveModules), pose);
   }
 
   /**

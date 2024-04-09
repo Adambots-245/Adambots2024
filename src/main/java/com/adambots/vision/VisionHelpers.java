@@ -36,19 +36,19 @@ public class VisionHelpers {
         return Math.hypot(getCameraPoseTargetSpace(limelight).getX(), getCameraPoseTargetSpace(limelight).getZ());
     }
 
-    public static Pose2d getAprilTagPose2d() {
-        return LimelightHelpers.getLatestResults(VisionConstants.aprilLimelite).targetingResults.getBotPose2d_wpiRed();
-    }
+    // public static Pose2d getAprilTagPose2d() {
+    //     // return LimelightHelpers.getLatestResults(VisionConstants.aprilLimelite).targetingResults.getBotPose2d_wpiRed();
+    // }
 
-    public static int getAprilTagID() {
-        return (int) NetworkTableInstance.getDefault().getTable(VisionConstants.aprilLimelite).getEntry("tid").getDouble(0);
-    }
+    // public static int getAprilTagID() {
+    //     return (int) NetworkTableInstance.getDefault().getTable(VisionConstants.aprilLimelite).getEntry("tid").getDouble(0);
+    // }
 
-    public static int getHeartbeat() {
-        // return (int) LimelightHelpers.getFiducialID(VisionConstants.aprilLimelite);
-        return (int) NetworkTableInstance.getDefault().getTable(VisionConstants.aprilLimelite).getEntry("hb").getDouble(0);
-        // return null;
-    }
+    // public static int getHeartbeat() {
+    //     // return (int) LimelightHelpers.getFiducialID(VisionConstants.aprilLimelite);
+    //     return (int) NetworkTableInstance.getDefault().getTable(VisionConstants.aprilLimelite).getEntry("hb").getDouble(0);
+    //     // return null;
+    // }
 
     public static Pose2d getAprilTagBotPose2dBlue(String limelight) {
         return LimelightHelpers.getLatestResults(limelight).targetingResults.getBotPose2d_wpiBlue();  
