@@ -65,20 +65,11 @@ public class VisionDriveToWaypointCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Pose2d visionPose = new Pose2d();
-    if (VisionHelpers.isDetected(limelight)) {
-      visionPose = VisionHelpers.getAprilTagBotPose2dBlue(limelight); //TODO: Check pose vetting on red side
-      if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians(), gyro.getContinuousYawRad()) < Math.toRadians(20)) {
-        xPos = posSensitivity*visionPose.getX() + (1-posSensitivity)*xPosOld;
-        yPos = posSensitivity*visionPose.getY() + (1-posSensitivity)*yPosOld;
-        xPosOld = xPos;
-        yPosOld = yPos;
-        abortInc = 0;
-      }
-    } else {
-      abortInc++;
-      System.out.println(this.getName() + " | No Apriltags detected");
-    }
+    
+    yPos = drivetrainSubsystem.getPose().getY();
+    xPosOld = xPos;
+    yPosOld = yPos;
+      
     if (xPos != 0 && yPos != 0) {
       double xDrive = xController.calculate(xPos);
       double yDrive = yController.calculate(yPos);
@@ -98,7 +89,7 @@ public class VisionDriveToWaypointCommand extends Command {
       }
       double thetaDrive = thetaController.calculate(gyro.getContinuousYawRad());
 
-      if (getDist(waypoint, visionPose) > 1.2) {
+      if (getDist(waypoint, drivetrainSubsystem.getPose()) > 1.2) {
         xDrive = MathUtil.clamp(xDrive, -AutoConstants.kMaxWaypointTranslateSpeed, AutoConstants.kMaxWaypointTranslateSpeed);
         yDrive = MathUtil.clamp(yDrive, -AutoConstants.kMaxWaypointTranslateSpeed, AutoConstants.kMaxWaypointTranslateSpeed);
       } else {
@@ -119,7 +110,7 @@ public class VisionDriveToWaypointCommand extends Command {
         finishedInc--;
       }
     }
-    Constants.debugField.setRobotPose(new Pose2d(xPos, yPos, new Rotation2d(visionPose.getRotation().getRadians())));
+    // Constants.debugField.setRobotPose(new Pose2d(xPos, yPos, new Rotation2d(drivetrainSubsystem.getPose().getRotation().getRadians())));
   }
 
   // Called once the command ends or is interrupted.

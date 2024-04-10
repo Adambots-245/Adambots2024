@@ -65,7 +65,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         this // Reference to this subsystem to set requirements
     );
 
-    m_poseEstimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics, gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules), getPose());
+    m_poseEstimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics, gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules), new Pose2d());
 
   }
 
@@ -76,14 +76,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
     //     m_gyro.getContinuousYawRotation2d(),
     //     ModuleMap.orderedModulePositions(swerveModules)
     // );
-
-    m_poseEstimator.update(m_gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules));
-    m_poseEstimator.addVisionMeasurement(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite), VisionHelpers.getTimestamp(VisionConstants.aprilLimelite));
+    if(VisionHelpers.isDetected(VisionConstants.aprilLimelite)){
+      m_poseEstimator.addVisionMeasurement(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite), VisionHelpers.getTimestamp(VisionConstants.aprilLimelite));
+    }
+      m_poseEstimator.update(m_gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules));
 
     // Update the position of the robot on the ShuffleBoard field
-    Constants.field.setRobotPose(getPose());
+    // Constants.field.setRobotPose(getPose());
         // Constants.field.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite));
-
+    Constants.debugField.setRobotPose(getPose());
+     
     Constants.aprilTagfield.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite));
   }
 
@@ -94,7 +96,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
+    return m_poseEstimator.getEstimatedPosition();
   }
 
   /**
@@ -105,12 +107,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
    */
   public void resetOdometry(Pose2d pose) {
     RobotMap.gyro.resetYawToAngle(pose.getRotation().getDegrees());
-    m_odometry.resetPosition(pose.getRotation(), ModuleMap.orderedModulePositions(swerveModules), pose);
+    m_poseEstimator.resetPosition(pose.getRotation(), ModuleMap.orderedModulePositions(swerveModules), pose);
   }
 
   public void resetOdometryXY(Translation2d translation) {
     Pose2d pose = new Pose2d(translation.getX(), translation.getY(), new Rotation2d(RobotMap.gyro.getContinuousYawRad()));
-    m_odometry.resetPosition(pose.getRotation(), ModuleMap.orderedModulePositions(swerveModules), pose);
+    m_poseEstimator.resetPosition(pose.getRotation(), ModuleMap.orderedModulePositions(swerveModules), pose);
   }
 
   /**
