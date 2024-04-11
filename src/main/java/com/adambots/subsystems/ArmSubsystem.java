@@ -63,17 +63,17 @@ public class ArmSubsystem extends SubsystemBase {
     shoulderPID.setTolerance(1);
     wristPID.setTolerance(1);
 
-    shoulderAngleOffset = this.shoulderEncoder.getAbsolutePositionDegrees();
-    wristAngleOffset = this.wristEncoder.getAbsolutePositionDegrees();
+    shoulderAngleOffset = getCurrentShoulderShaftAngle();
+    wristAngleOffset = getCurrentWristShaftAngle();
 
     shoulderMotor.setPosition(0);
     wristMotor.setPosition(0);
 
-    targetShoulderAngle = this.shoulderEncoder.getAbsolutePositionDegrees();
-    targetWristAngle = this.wristEncoder.getAbsolutePositionDegrees();
+    targetShoulderAngle = getCurrentShoulderShaftAngle();
+    targetWristAngle = getCurrentWristShaftAngle();
 
-    Dash.add("Shoulder Encoder", () -> shoulderEncoder.getAbsolutePositionDegrees());
-    Dash.add("Wrist Encoder", () -> wristEncoder.getAbsolutePositionDegrees());
+    Dash.add("Shoulder Encoder", () -> getCurrentShoulderShaftAngle());
+    Dash.add("Wrist Encoder", () -> getCurrentWristShaftAngle());
     Dash.add("Shoulder Motor Encoder", () -> shoulderMotor.getPosition()*ArmConstants.kShoulderEncoderPositionConversionFactor + shoulderAngleOffset);
     Dash.add("Wrist Motor Encoder", () -> wristMotor.getPosition()*ArmConstants.kWristEncoderPositionConversionFactor + wristAngleOffset);
     Dash.add("wristSpeed", () ->  wristSpeed);
@@ -122,7 +122,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public double getCurrentWristShaftAngle(){
-    return wristEncoder.getAbsolutePositionDegrees();
+    return wristEncoder.getAbsolutePositionDegrees() - 60;
   }
 
   public double getCurrentShoulderShaftAngle(){

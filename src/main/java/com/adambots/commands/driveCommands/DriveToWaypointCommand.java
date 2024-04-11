@@ -14,7 +14,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class VisionDriveToWaypointCommand extends Command {
+public class DriveToWaypointCommand extends Command {
   private DrivetrainSubsystem drivetrainSubsystem;
   private PIDController xController = new PIDController(AutoConstants.kPWaypointTranslation, 0, AutoConstants.kDWaypointTranslation);
   private PIDController yController = new PIDController(AutoConstants.kPWaypointTranslation, 0, AutoConstants.kDWaypointTranslation);
@@ -30,7 +30,7 @@ public class VisionDriveToWaypointCommand extends Command {
 
   private final double abortThreshold = 25;
 
-  public VisionDriveToWaypointCommand(DrivetrainSubsystem drivetrainSubsystem, BaseGyro gyro, Pose2d waypoint) {
+  public DriveToWaypointCommand(DrivetrainSubsystem drivetrainSubsystem, BaseGyro gyro, Pose2d waypoint) {
     addRequirements(drivetrainSubsystem);
 
     this.drivetrainSubsystem = drivetrainSubsystem;
