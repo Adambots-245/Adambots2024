@@ -18,44 +18,6 @@
           }
         },
         {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "IntakeNote->ShootState"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "S3_NC3"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "StopCommand"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "S3Approach->Score"
-          }
-        },
-        {
           "type": "deadline",
           "data": {
             "commands": [
@@ -79,6 +41,12 @@
                       "type": "named",
                       "data": {
                         "name": "NF5_OdomReset"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 7.0
                       }
                     }
                   ]
@@ -110,6 +78,44 @@
           "type": "path",
           "data": {
             "pathName": "NF5_S3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "S3Approach->Score"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeNote->ShootState"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "S3_NC3"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "StopCommand"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {

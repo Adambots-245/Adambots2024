@@ -21,6 +21,8 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -29,6 +31,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -39,14 +42,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private SwerveDrivePoseEstimator m_poseEstimator;
 
   // Odometry class for tracking robot pose
-  private SwerveDriveOdometry m_odometry;
+  // private SwerveDriveOdometry m_odometry;
   private HashMap<ModulePosition, SwerveModule> swerveModules;
 
   public DrivetrainSubsystem(HashMap<ModulePosition, SwerveModule> modules, BaseGyro gyro) {
     this.swerveModules = modules;
     m_gyro = gyro;
 
-    m_odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, m_gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules));
+    // m_odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, m_gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules));
 
     AutoBuilder.configureHolonomic(
         this::getPose, // Robot pose supplier
@@ -65,8 +68,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
         this // Reference to this subsystem to set requirements
     );
 
-    m_poseEstimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics, gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules), new Pose2d());
+    m_poseEstimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics, gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules), 
+      new Pose2d(), VecBuilder.fill(0.1, 0.1, 0.01), VecBuilder.fill(0.9, 0.9, 6));
+  }
 
+  public double getContinuousAngleError (double setpoint, double measurement) {
+    return MathUtil.inputModulus(setpoint - measurement, -Math.PI, Math.PI);
   }
 
   @Override
@@ -76,10 +83,17 @@ public class DrivetrainSubsystem extends SubsystemBase {
     //     m_gyro.getContinuousYawRotation2d(),
     //     ModuleMap.orderedModulePositions(swerveModules)
     // );
-    if(VisionHelpers.isDetected(VisionConstants.aprilLimelite)){
-      m_poseEstimator.addVisionMeasurement(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite), VisionHelpers.getTimestamp(VisionConstants.aprilLimelite));
+    // if(VisionHelpers.isDetected(VisionConstants.aprilLimelite)){
+    //   m_poseEstimator.addVisionMeasurement(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite), VisionHelpers.getTimestamp(VisionConstants.aprilLimelite));
+    // }
+    if (VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
+      Pose2d visionPose = VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite); //TODO: Check pose vetting on red side
+      if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians(), RobotMap.gyro.getContinuousYawRad()) < Math.toRadians(20)) {
+        // m_poseEstimator.addVisionMeasurement(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite), VisionHelpers.getTimestamp(VisionConstants.aprilLimelite));
+        m_poseEstimator.addVisionMeasurement(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite), System.currentTimeMillis()/1000);
+      }
     }
-      m_poseEstimator.update(m_gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules));
+    m_poseEstimator.updateWithTime(System.currentTimeMillis()/1000, m_gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules));
 
     // Update the position of the robot on the ShuffleBoard field
     // Constants.field.setRobotPose(getPose());

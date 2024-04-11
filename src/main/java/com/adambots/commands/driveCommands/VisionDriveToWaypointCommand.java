@@ -27,12 +27,8 @@ public class VisionDriveToWaypointCommand extends Command {
 
   private double xPos;
   private double yPos;
-  private double xPosOld;
-  private double yPosOld;
 
-  private final double posSensitivity = 0.7;
   private final double abortThreshold = 25;
-  private final String limelight = VisionConstants.aprilLimelite; //Can quicky change which limelight is referenced
 
   public VisionDriveToWaypointCommand(DrivetrainSubsystem drivetrainSubsystem, BaseGyro gyro, Pose2d waypoint) {
     addRequirements(drivetrainSubsystem);
@@ -58,17 +54,14 @@ public class VisionDriveToWaypointCommand extends Command {
     abortInc = 0;
     xPos = 0;
     yPos = 0;
-    xPosOld = 0;
-    yPosOld = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     
+    xPos = drivetrainSubsystem.getPose().getX();
     yPos = drivetrainSubsystem.getPose().getY();
-    xPosOld = xPos;
-    yPosOld = yPos;
       
     if (xPos != 0 && yPos != 0) {
       double xDrive = xController.calculate(xPos);
@@ -97,6 +90,7 @@ public class VisionDriveToWaypointCommand extends Command {
         yDrive = MathUtil.clamp(yDrive, -AutoConstants.kMinWaypointTranslateSpeed, AutoConstants.kMinWaypointTranslateSpeed);
       }
       
+      System.out.println(this.getName());
 
       if (Robot.isOnRedAlliance()) {
         drivetrainSubsystem.drive(xDrive, -yDrive, thetaDrive, true);
@@ -104,7 +98,7 @@ public class VisionDriveToWaypointCommand extends Command {
         drivetrainSubsystem.drive(xDrive, yDrive, thetaDrive, true);
       }
 
-      if (Math.abs(waypoint.getX()-xPos) < 0.1 && Math.abs(waypoint.getY()-yPos) < 0.1 && Math.abs(thetaController.getPositionError()) < Math.toRadians(5)) {
+      if (Math.abs(waypoint.getX()-xPos) < 0.1 && Math.abs(waypoint.getY()-yPos) < 0.1 && Math.abs(thetaController.getPositionError()) < Math.toRadians(1)) {
         finishedInc++;
       } else if (finishedInc > 0) {
         finishedInc--;

@@ -119,8 +119,8 @@ public class RobotContainer {
 
     // Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem)); //Score in amp and speaker
     Buttons.JoystickButton1.whileTrue(new VisionDriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, new Pose2d(new Translation2d(0.78, 6.64), new Rotation2d(Math.toRadians(-120))))); //Score in amp and speaker
-    Buttons.JoystickButton2.whileTrue(new VisionDriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, new Pose2d(new Translation2d(1.38, 5.53), new Rotation2d(Math.toRadians(180))))); //Score in amp and speaker
-    Buttons.JoystickButton3.whileTrue(new VisionDriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, new Pose2d(new Translation2d(0.78, 4.2), new Rotation2d(Math.toRadians(120))))); //Score in amp and speaker
+    Buttons.JoystickButton2.whileTrue(new VisionDriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, new Pose2d(new Translation2d(1.38, 5.43), new Rotation2d(Math.toRadians(180))))); //Score in amp and speaker
+    Buttons.JoystickButton3.whileTrue(new VisionDriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, new Pose2d(new Translation2d(0.78, 4.25), new Rotation2d(Math.toRadians(120))))); //Score in amp and speaker
     
     // Buttons.JoystickButton2.whileTrue(new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 3)); //Score in amp and speaker
     
@@ -246,7 +246,7 @@ public class RobotContainer {
     ));
     NamedCommands.registerCommand("S3Approach->Score", new SequentialCommandGroup(
       // new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
-      new VisionDriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, new Pose2d(new Translation2d(0.71, 4.40), new Rotation2d(Math.toRadians(60))))
+      new VisionDriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, new Pose2d(new Translation2d(0.78, 4.25), new Rotation2d(Math.toRadians(120))))
       // new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));
 
@@ -256,8 +256,10 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("NF1_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Translation2d(8.28, 7.44))));
     NamedCommands.registerCommand("NF2_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Translation2d(8.28, 5.77))));
-    NamedCommands.registerCommand("NF4_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Translation2d(8.28, 2.44))));
-    NamedCommands.registerCommand("NF5_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Translation2d(8.28, 0.77))));
+    // NamedCommands.registerCommand("NF4_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Translation2d(8.28, 2.44))));
+    NamedCommands.registerCommand("NF4_OdomReset", new InstantCommand());
+    NamedCommands.registerCommand("NF5_OdomReset", new InstantCommand());
+    // NamedCommands.registerCommand("NF5_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Translation2d(8.28, 0.77))));
   }
 
   private void setupDashboard() {    
