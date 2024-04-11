@@ -34,13 +34,13 @@ public final class Constants {
 
     public static final class VisionConstants {
         public static final Pose2d aprilTagRedPose2d = new Pose2d(new Translation2d(1.23, 2.55), new Rotation2d());
-        // public static final String noteLimelite = "limelight-noteii";
+        public static final String noteLimelite = "limelight-noteii";
         // public static final String noteLimelite = "limelight-aprilgg";
 
-        public static final String aprilLimelite = "limelight-blahaj";
+        public static final String aprilLimelite = "limelight-aprilgg";
         // public static final String defaultAprilLimelite = "limelight-aprilgg";
 
-        // public static final String defaultAprilLimelite = "limelight-gg";
+        public static final String defaultAprilLimelite = "limelight-gg";
 
 
         public static final double kPThetaController = 5; 
