@@ -69,9 +69,9 @@ public class DriveToWaypointCommand extends Command {
       
       if (Math.abs(waypoint.getX()-xPos) > 1.25 || Math.abs(waypoint.getY()-yPos) > 0.7){
         if (Robot.isOnRedAlliance()) { //If the robot is further than 1.25 meters in x, rotate to face the apriltags instead of the waypoint to maintain them in FOV
-          thetaController.setSetpoint(Math.atan2(VisionConstants.aprilTagPos.getY()-yPos, VisionConstants.aprilTagPos.getX()+VisionConstants.kFieldWidth-xPos));
+          thetaController.setSetpoint(Math.atan2(VisionConstants.aprilTagPos.getY()-yPos, VisionConstants.aprilTagPos.getX()+VisionConstants.kFieldWidth-xPos) + Math.PI);
         } else {
-          thetaController.setSetpoint(Math.atan2(VisionConstants.aprilTagPos.getY()-yPos, VisionConstants.aprilTagPos.getX()-xPos));
+          thetaController.setSetpoint(Math.atan2(VisionConstants.aprilTagPos.getY()-yPos, VisionConstants.aprilTagPos.getX()-xPos) + Math.PI);
         }
       } else {
         if (Robot.isOnRedAlliance()) {
@@ -82,7 +82,7 @@ public class DriveToWaypointCommand extends Command {
       }
       double thetaDrive = thetaController.calculate(gyro.getContinuousYawRad());
 
-      if (getDist(waypoint, drivetrainSubsystem.getPose()) > 1.2) {
+      if (getDist(waypoint, drivetrainSubsystem.getPose()) > 1) {
         xDrive = MathUtil.clamp(xDrive, -AutoConstants.kMaxWaypointTranslateSpeed, AutoConstants.kMaxWaypointTranslateSpeed);
         yDrive = MathUtil.clamp(yDrive, -AutoConstants.kMaxWaypointTranslateSpeed, AutoConstants.kMaxWaypointTranslateSpeed);
       } else {
@@ -90,8 +90,6 @@ public class DriveToWaypointCommand extends Command {
         yDrive = MathUtil.clamp(yDrive, -AutoConstants.kMinWaypointTranslateSpeed, AutoConstants.kMinWaypointTranslateSpeed);
       }
       
-      System.out.println(this.getName());
-
       if (Robot.isOnRedAlliance()) {
         drivetrainSubsystem.drive(xDrive, -yDrive, thetaDrive, true);
       } else {
@@ -123,7 +121,7 @@ public class DriveToWaypointCommand extends Command {
       System.out.println(this.getName() + " | ABORTED - UNRELIABLE APRILTAG DETECTION");
       return true;
     }
-    return finishedInc > 25;
+    return finishedInc > 10;
   }
 
   public double getDist (Pose2d pos1, Pose2d pos2) {

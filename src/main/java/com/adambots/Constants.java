@@ -18,7 +18,7 @@ public final class Constants {
     public static final Boolean enableAutomaticShuffleboardRecording = false;
 
     public static final class LEDConstants {
-        public static final int LEDS_IN_STRIP = 62;
+        public static final int LEDS_IN_STRIP = 80;
 
         public static final Color off = new Color(0, 0, 0);
         public static final Color adambotsYellow = new Color(255, 255, 0);
@@ -49,7 +49,7 @@ public final class Constants {
         public static final double kPOdomThetaController = 4.7; 
         public static final double kDOdomThetaController = 0.25;
 
-        public static final double kPTranslateController = 0.03; 
+        public static final double kPTranslateController = 0.05; 
         public static final double kDTranslateController = 0.0001;
 
         public static final Translation2d blueTargetPoint = new Translation2d(0.11, 5.47);
@@ -125,9 +125,9 @@ public final class Constants {
         public static final double kDThetaController = 0.01;
 
         public static final double kPWaypointTranslation = 5; 
-        public static final double kDWaypointTranslation = 0.15;
+        public static final double kDWaypointTranslation = 0.2;
 
-        public static final double kMaxWaypointTranslateSpeed = 1.6;
+        public static final double kMaxWaypointTranslateSpeed = 2;
         public static final double kMinWaypointTranslateSpeed = 0.7;
     }
 
@@ -222,10 +222,10 @@ public final class Constants {
         public static final double hangShoulderAngle = 146.5; 
 
         //Close Floor Shoot State
-        public static final double closeFloorShootWristAngle = 310; //322
+        public static final double closeFloorShootWristAngle = 315; //322
         public static final double closeFloorShootShoulderAngle = 123.7;
 
-        // Bottom 2 note floor shoot **NOT TUNED**
+        // Bottom 2 note floor shoot **NOT TUNED**g
         public static final double bottomFloorShootWristAngle = 324.8;
         public static final double bottomfloorShootShoulderAngle = 125.7; 
 

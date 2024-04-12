@@ -24,7 +24,9 @@ import com.adambots.commands.intakeCommands.AutonIntakeCommand;
 import com.adambots.commands.intakeCommands.ForceFeedShooterCommand;
 import com.adambots.commands.intakeCommands.IntakeToFlywheelCommand;
 import com.adambots.commands.intakeCommands.SpinFlywheelsCommand;
+import com.adambots.commands.visionCommands.AlignWhileDrivingCommand;
 import com.adambots.commands.visionCommands.DriveToNoteCommand;
+import com.adambots.commands.visionCommands.InterpolateDistanceCommand;
 import com.adambots.commands.visionCommands.OdomSpeakerAlignCommand;
 import com.adambots.subsystems.ArmSubsystem;
 import com.adambots.subsystems.CANdleSubsystem;
@@ -34,6 +36,7 @@ import com.adambots.subsystems.IntakeSubsystem;
 import com.adambots.subsystems.ShooterSubsystem;
 import com.adambots.utils.Buttons;
 import com.adambots.utils.Dash;
+import com.adambots.utils.VisionLookUpTable;
 import com.adambots.vision.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -129,9 +132,25 @@ public class RobotContainer {
      * Manual Adjusts
      */
 
-    Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem)); //Score in amp and speaker
+    // Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem)); //Score in amp and speaker
+    Buttons.JoystickButton1.whileTrue(new SequentialCommandGroup(
+      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
+      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, new Pose2d(new Translation2d(0.86, 6.61), new Rotation2d(Math.toRadians(60)))),
+      new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
+    ));
+    Buttons.JoystickButton2.whileTrue(new SequentialCommandGroup(
+      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
+      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, new Pose2d(new Translation2d(1.38, 5.53), new Rotation2d(Math.toRadians(0)))),
+      new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
+    ));
+    Buttons.JoystickButton3.whileTrue(new SequentialCommandGroup(
+      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
+      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, new Pose2d(new Translation2d(0.78, 4.25), new Rotation2d(Math.toRadians(-60)))),
+      new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
+    ));
+    Buttons.JoystickButton4.whileTrue(new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 1.5)); //Rotate to huaman station
     
-    Buttons.JoystickButton2.whileTrue(new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 3)); //Score in amp and speaker
+    // Buttons.JoystickButton2.whileTrue(new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 2)); //Score in amp and speaker
     
     // Buttons.JoystickButton6.whileTrue(new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 1)); //Score in amp and speaker
 
@@ -146,8 +165,9 @@ public class RobotContainer {
 
     //Both lock rotation to apriltag with driver control
 
-    Buttons.JoystickButton3.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, 90, RobotMap.gyro)); //Rotate to amp
-    Buttons.JoystickButton4.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, -60, RobotMap.gyro)); //Rotate to huaman station
+    //TODO: FIX BINDINGS
+    // Buttons.JoystickButton3.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, 90, RobotMap.gyro)); //Rotate to amp
+    // Buttons.JoystickButton4.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, -60, RobotMap.gyro)); //Rotate to huaman station
 
     Buttons.JoystickButton10.whileTrue(new SpinCommand(drivetrainSubsystem)); //Spin while drive driving (defense)
 
@@ -156,9 +176,9 @@ public class RobotContainer {
 
     Buttons.JoystickButton8.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro, candleSubsytem)); //Hang on the chain
 
-    // Buttons.JoystickButton7.whileTrue(new AlignWhileDrivingCommand(drivetrainSubsystem, candleSubsytem, VisionConstants.defaultAprilLimelite));
+    Buttons.JoystickButton7.whileTrue(new AlignWhileDrivingCommand(drivetrainSubsystem, candleSubsytem, VisionConstants.defaultAprilLimelite));
     Buttons.JoystickButton7.whileTrue(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, shooterSubsystem, candleSubsytem, VisionConstants.defaultAprilLimelite));
-    // Buttons.JoystickButton7.whileTrue(new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem, VisionLookUpTable.defaultShooterConfig));
+    Buttons.JoystickButton7.whileTrue(new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem, VisionLookUpTable.defaultShooterConfig));
     // Buttons.JoystickButton7.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
 
 
@@ -243,7 +263,7 @@ public class RobotContainer {
     ));
     NamedCommands.registerCommand("S1Approach->Score", new SequentialCommandGroup(
       new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
-      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, new Pose2d(new Translation2d(0.71, 6.70), new Rotation2d(Math.toRadians(60)))),
+      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, new Pose2d(new Translation2d(0.86, 6.61), new Rotation2d(Math.toRadians(60)))),
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));
     NamedCommands.registerCommand("S2Approach->Score", new SequentialCommandGroup(
@@ -257,7 +277,7 @@ public class RobotContainer {
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));
 
-    NamedCommands.registerCommand("DriveToNote", new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 1.5));
+    NamedCommands.registerCommand("DriveToNote", new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 2));
 
     NamedCommands.registerCommand("StopCommand", new StopCommand(drivetrainSubsystem));
 
@@ -273,7 +293,7 @@ public class RobotContainer {
     //Adds various data to the dashboard that is useful for driving and debugging
     SmartDashboard.putData("Auton Mode", autoChooser);
     SmartDashboard.putData("AprilTagField", Constants.aprilTagfield);   
-    SmartDashboard.putData("Field", Constants.field);
+    SmartDashboard.putData("Field", Constants.debugField);
 
     // Dash.add("getY", Buttons.forwardSupplier);
     // Dash.add("getX", Buttons.sidewaysSupplier);

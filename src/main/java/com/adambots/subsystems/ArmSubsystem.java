@@ -122,7 +122,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public double getCurrentWristShaftAngle(){
-    return wristEncoder.getAbsolutePositionDegrees() - 60;
+    return MathUtil.inputModulus(wristEncoder.getAbsolutePositionDegrees() - 60, 0, 360);
   }
 
   public double getCurrentShoulderShaftAngle(){
@@ -196,7 +196,7 @@ public class ArmSubsystem extends SubsystemBase {
     failSafes();
 
     if(failsafeOverride){
-     shoulderSpeed = MathUtil.clamp(shoulderSpeed, -ArmConstants.maxShoulderDownSpeedNitro, ArmConstants.maxShoulderUpSpeed);
+      shoulderSpeed = MathUtil.clamp(shoulderSpeed, -ArmConstants.maxShoulderDownSpeedNitro, ArmConstants.maxShoulderUpSpeed);
     }else{
       shoulderSpeed = MathUtil.clamp(shoulderSpeed, -ArmConstants.maxShoulderDownSpeed, ArmConstants.maxShoulderUpSpeed);
     }

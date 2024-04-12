@@ -1,4 +1,6 @@
 package com.adambots.commands.visionCommands;
+import org.opencv.core.Mat;
+
 import com.adambots.Robot;
 import com.adambots.RobotMap;
 import com.adambots.Constants.LEDConstants;
@@ -16,16 +18,15 @@ public class DriveToNoteCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
   private IntakeSubsystem intakeSubsystem;
   private CANdleSubsystem ledSubsystem;
-
-  private PIDController translateController = new PIDController(VisionConstants.kPTranslateController, 0, VisionConstants.kDTranslateController);
-  private PIDController thetaController = new PIDController(VisionConstants.kPThetaController, 0, VisionConstants.kDThetaController);
-
+  private final PIDController pidController = new PIDController(VisionConstants.kPTranslateController, 0, VisionConstants.kDTranslateController);
+  private final PIDController rotatePidController = new PIDController(0.1, 0, 0.00001);
+  private double drive_output;
   private double speed;
   private double debounce;
-
-
   public DriveToNoteCommand(DrivetrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem, CANdleSubsystem ledSubsystem, double speed) {
     addRequirements(driveTrainSubsystem);
+
+    rotatePidController.enableContinuousInput(-Math.PI, Math.PI);
 
     this.intakeSubsystem = intakeSubsystem;
     this.driveTrainSubsystem = driveTrainSubsystem;
@@ -36,57 +37,58 @@ public class DriveToNoteCommand extends Command {
   @Override
   public void initialize() {
     ledSubsystem.setColor(LEDConstants.red);
-    debounce = 0;
-
-    if (Robot.isOnRedAlliance()) {
-      thetaController.setSetpoint(Math.PI);
+    pidController.reset();
+    if (DriverStation.isAutonomous()) {
+      rotatePidController.setSetpoint(0);
     } else {
-      thetaController.setSetpoint(0);
+      rotatePidController.setSetpoint(RobotMap.gyro.getContinuousYawRad());
     }
+    debounce = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if (!VisionHelpers.isDetected(VisionConstants.noteLimelite)){
-    //   debounce++;
-    // } else {
-    //   debounce = 0;
-    // }
+    if (!VisionHelpers.isDetected(VisionConstants.noteLimelite)){
+      debounce++;
+    } else {
+      debounce = 0;
+    }
 
-    // double horizAngle = VisionHelpers.getHorizAngle(VisionConstants.noteLimelite);
-    
-    // double translate_output = translateController.calculate(horizAngle, 0);
-    // double theta_output = thetaController.calculate(RobotMap.gyro.getContinuousYawRad());
+    drive_output = pidController.calculate(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite), 0);
+    double rotate_output = rotatePidController.calculate(RobotMap.gyro.getContinuousYawRad());
+    driveTrainSubsystem.drive(speed, drive_output, rotate_output, false);
 
-    // driveTrainSubsystem.drive(speed, translate_output, theta_output, false);
+    double rotate = VisionHelpers.getHorizAngle(VisionConstants.noteLimelite);
 
-    // if (VisionHelpers.isDetected(VisionConstants.noteLimelite)) {
-    //   if (Math.abs(horizAngle) < 5) {
-    //     ledSubsystem.setColor(LEDConstants.green);
-    //   } else {
-    //     ledSubsystem.setColor(LEDConstants.yellow);
-    //   }
-    // } else {
-    //   ledSubsystem.setColor(LEDConstants.purple);
-    // }
+    if (VisionHelpers.isDetected(VisionConstants.noteLimelite)) {
+      if (Math.abs(rotate) < 5) {
+        ledSubsystem.setColor(LEDConstants.green);
+      } else if (Math.abs(rotate) < 12) {
+        ledSubsystem.setColor(LEDConstants.yellow);
+      } else {
+        ledSubsystem.setColor(LEDConstants.red);
+      }
+    } else {
+      ledSubsystem.setColor(LEDConstants.purple);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    driveTrainSubsystem.stop();
-
-    ledSubsystem.setColor(LEDConstants.adambotsYellow);
-    ledSubsystem.setAnimation(CANdleSubsystem.AnimationTypes.Larson);
+      driveTrainSubsystem.stop();
+      System.out.println("DriveToNoteCommand DONE" + interrupted);
+      ledSubsystem.setAnimation(CANdleSubsystem.AnimationTypes.Larson);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (DriverStation.isAutonomous()){
-      return debounce > 50;
-    }
-    return intakeSubsystem.isFirstPieceInRobot();
+      if (DriverStation.isAutonomous()){
+          return debounce > 50 || intakeSubsystem.isFirstPieceInRobot();
+      } else {
+        return intakeSubsystem.isFirstPieceInRobot();
+      }
   }
 }
