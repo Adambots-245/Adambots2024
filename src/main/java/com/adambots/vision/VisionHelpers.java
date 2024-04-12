@@ -1,7 +1,6 @@
 
 package com.adambots.vision;
 
-import com.adambots.Constants.VisionConstants;
 import com.adambots.vision.LimelightHelpers.LimelightTarget_Detector;
 
 import edu.wpi.first.math.geometry.Pose2d;

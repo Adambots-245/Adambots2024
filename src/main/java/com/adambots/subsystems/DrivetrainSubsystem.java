@@ -7,11 +7,11 @@ package com.adambots.subsystems;
 import java.util.HashMap;
 
 import com.adambots.Constants;
-import com.adambots.Robot;
 import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.DriveConstants;
-import com.adambots.Constants.VisionConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
+import com.adambots.Constants.VisionConstants;
+import com.adambots.Robot;
 import com.adambots.RobotMap;
 import com.adambots.sensors.BaseGyro;
 import com.adambots.utils.ModuleMap;
@@ -29,9 +29,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -42,14 +40,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private SwerveDrivePoseEstimator m_poseEstimator;
 
   // Odometry class for tracking robot pose
-  // private SwerveDriveOdometry m_odometry;
   private HashMap<ModulePosition, SwerveModule> swerveModules;
 
   public DrivetrainSubsystem(HashMap<ModulePosition, SwerveModule> modules, BaseGyro gyro) {
     this.swerveModules = modules;
     m_gyro = gyro;
-
-    // m_odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, m_gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules));
 
     AutoBuilder.configureHolonomic(
         this::getPose, // Robot pose supplier
@@ -79,25 +74,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    // m_odometry.update(
-    //     m_gyro.getContinuousYawRotation2d(),
-    //     ModuleMap.orderedModulePositions(swerveModules)
-    // );
-    // if(VisionHelpers.isDetected(VisionConstants.aprilLimelite)){
-    //   m_poseEstimator.addVisionMeasurement(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite), VisionHelpers.getTimestamp(VisionConstants.aprilLimelite));
-    // }
     if (VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
       Pose2d visionPose = VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite); //TODO: Check pose vetting on red side
       if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians(), RobotMap.gyro.getContinuousYawRad()) < Math.toRadians(20) && VisionHelpers.getAprilHorizDist(VisionConstants.aprilLimelite) < 3.5) {
-        // m_poseEstimator.addVisionMeasurement(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite), VisionHelpers.getTimestamp(VisionConstants.aprilLimelite));
         m_poseEstimator.addVisionMeasurement(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite), System.currentTimeMillis()/1000);
       }
     }
     m_poseEstimator.updateWithTime(System.currentTimeMillis()/1000, m_gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules));
 
     // Update the position of the robot on the ShuffleBoard field
-    // Constants.field.setRobotPose(getPose());
-        // Constants.field.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite));
+    // Constants.field.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite));
     Constants.debugField.setRobotPose(getPose());
      
     Constants.aprilTagfield.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite));
