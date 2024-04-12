@@ -1,6 +1,7 @@
 package com.adambots;
 
 import com.adambots.Constants.ArmConstants;
+import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.ShooterConstants;
 import com.adambots.Constants.VisionConstants;
@@ -18,7 +19,6 @@ import com.adambots.commands.hangCommands.HangLevelCommand;
 import com.adambots.commands.hangCommands.RunHangCommand;
 import com.adambots.commands.hangCommands.RunLeftHangCommand;
 import com.adambots.commands.hangCommands.RunRightHangCommand;
-import com.adambots.commands.intakeCommands.AdaptiveScoreCommand;
 import com.adambots.commands.intakeCommands.AdjustNoteCommand;
 import com.adambots.commands.intakeCommands.AutonIntakeCommand;
 import com.adambots.commands.intakeCommands.ForceFeedShooterCommand;
@@ -135,17 +135,17 @@ public class RobotContainer {
     // Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem)); //Score in amp and speaker
     Buttons.JoystickButton1.whileTrue(new SequentialCommandGroup(
       new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
-      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, new Pose2d(new Translation2d(0.86, 6.61), new Rotation2d(Math.toRadians(60)))),
+      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S1_POSE2D),
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));
     Buttons.JoystickButton2.whileTrue(new SequentialCommandGroup(
       new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
-      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, new Pose2d(new Translation2d(1.38, 5.53), new Rotation2d(Math.toRadians(0)))),
+      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S2_POSE2D),
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));
     Buttons.JoystickButton3.whileTrue(new SequentialCommandGroup(
       new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
-      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, new Pose2d(new Translation2d(0.78, 4.25), new Rotation2d(Math.toRadians(-60)))),
+      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S3_POSE2D),
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));
     Buttons.JoystickButton4.whileTrue(new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 1.5)); //Rotate to huaman station
@@ -185,15 +185,9 @@ public class RobotContainer {
 
     Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw())); //Reset Gyro
 
-    // Buttons.JoystickButton10.whileTrue(new ShootWhenAligned(drivetrainSubsystem, candleSubsytem, intakeSubsystem, armSubsystem, shooterSubsystem));
-
-
     Buttons.JoystickButton11.whileTrue(new InstantCommand(() -> drivetrainSubsystem.resetOdometry(new Pose2d(1.38, 5.53, new Rotation2d(0)))));
     
     Buttons.JoystickButton16.onTrue(new SyncShoulderCommand(armSubsystem));
-
-    // Buttons.JoystickButton15.onTrue(new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem));
-
 
     // Buttons.JoystickButton3.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, -150, RobotMap.gyro)); //Rotate to shoot across field
 
@@ -205,26 +199,19 @@ public class RobotContainer {
     // Buttons.XboxStartButton.whileTrue(new PrimeShooterCommandFeed(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed)); //Raise arm to human station
     // Buttons.XboxStartButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
 
-    // Buttons.XboxBButton.whileTrue(new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem, VisionLookUpTable.lowShooterConfig));
     Buttons.XboxBButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem, ShooterConstants.highSpeed, ArmConstants.defaultSpeakerState)); //Speaker state and prime shooter
     Buttons.XboxBButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
     
     Buttons.XboxStartButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem, ShooterConstants.highSpeed, ArmConstants.closeFloorShootState));
     Buttons.XboxStartButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
-    // Buttons.XboxStartButton.whileTrue(new VisionOdomResetCommand(drivetrainSubsystem));
-
-    // Buttons.XboxBButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, ShooterConstants.mediumSpeed, ArmConstants.closeFloorShootState)); //Floor state and spin shooter
-    // Buttons.XboxBButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
 
     Buttons.XboxXButton.whileTrue(new AmpCommand(armSubsystem)); //Move arm to amp pos
 
     Buttons.XboxYButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem, ShooterConstants.mediumSpeed, ArmConstants.speakerState)); //Speaker state and prime shooter
     Buttons.XboxYButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
 
-    // Buttons.XboxLeftBumper.onTrue(new SlowOuttakeCommand(intakeSubsystem)); 
-    Buttons.XboxRightBumper.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(0))); //Stop FLywheels
-
     Buttons.XboxLeftBumper.whileTrue(new SpinFlywheelsCommand(shooterSubsystem, intakeSubsystem)); //Spin up flywheels
+    Buttons.XboxRightBumper.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(0))); //Stop FLywheels
 
     //THESE COMMANDS DO NOT AUTO ENGAGE SOLENOIDS - which is why they are negative, where the solenoid should be left unpowered
     Buttons.XboxLeftTriggerButton.whileTrue(new RunLeftHangCommand(hangSubsystem, -0.25)); //Run left winch in 
@@ -262,29 +249,35 @@ public class RobotContainer {
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));
     NamedCommands.registerCommand("S1Approach->Score", new SequentialCommandGroup(
-      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
-      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, new Pose2d(new Translation2d(0.86, 6.61), new Rotation2d(Math.toRadians(60)))),
+      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)),
+      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S1_POSE2D),
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));
     NamedCommands.registerCommand("S2Approach->Score", new SequentialCommandGroup(
-      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
-      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, new Pose2d(new Translation2d(1.38, 5.53), new Rotation2d(Math.toRadians(0)))),
+      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)),
+      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S2_POSE2D),
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));
     NamedCommands.registerCommand("S3Approach->Score", new SequentialCommandGroup(
-      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
-      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, new Pose2d(new Translation2d(0.78, 4.25), new Rotation2d(Math.toRadians(120)))),
+      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)),
+      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S3_POSE2D),
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
+    ));
+    NamedCommands.registerCommand("AdjustNote", new SequentialCommandGroup(
+      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(0)),
+      new WaitCommand(0.1),
+      new AdjustNoteCommand(intakeSubsystem),
+      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.idleSpeed))
     ));
 
     NamedCommands.registerCommand("DriveToNote", new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 2));
 
     NamedCommands.registerCommand("StopCommand", new StopCommand(drivetrainSubsystem));
 
-    NamedCommands.registerCommand("NF1_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Translation2d(8.28, 7.44))));
-    NamedCommands.registerCommand("NF2_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Translation2d(8.28, 5.77))));
-    NamedCommands.registerCommand("NF4_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Translation2d(8.28, 2.44))));
-    NamedCommands.registerCommand("NF5_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Translation2d(8.28, 0.77))));
+    // NamedCommands.registerCommand("NF1_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Translation2d(8.28, 7.44))));
+    // NamedCommands.registerCommand("NF2_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Translation2d(8.28, 5.77))));
+    // NamedCommands.registerCommand("NF4_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Translation2d(8.28, 2.44))));
+    // NamedCommands.registerCommand("NF5_OdomReset", new InstantCommand(() -> drivetrainSubsystem.resetOdometryXY(new Translation2d(8.28, 0.77))));
   }
 
   private void setupDashboard() {    

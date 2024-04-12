@@ -129,6 +129,10 @@ public final class Constants {
 
         public static final double kMaxWaypointTranslateSpeed = 2;
         public static final double kMinWaypointTranslateSpeed = 0.7;
+        
+        public static final Pose2d S1_POSE2D = new Pose2d(new Translation2d(0.86, 6.61), new Rotation2d(Math.toRadians(60)));
+        public static final Pose2d S2_POSE2D = new Pose2d(new Translation2d(1.38, 5.53), new Rotation2d(Math.toRadians(0)));
+        public static final Pose2d S3_POSE2D = new Pose2d(new Translation2d(0.86, 4.45), new Rotation2d(Math.toRadians(-60)));
     }
 
     public static final class HangConstants{

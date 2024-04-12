@@ -66,19 +66,13 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.0
+                        "waitTime": 2.0
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "IntakeNote->ShootState"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NF2_OdomReset"
                       }
                     }
                   ]

@@ -1,10 +1,8 @@
 package com.adambots.commands.visionCommands;
-import org.opencv.core.Mat;
-
-import com.adambots.Robot;
-import com.adambots.RobotMap;
+import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
+import com.adambots.RobotMap;
 import com.adambots.subsystems.CANdleSubsystem;
 import com.adambots.subsystems.DrivetrainSubsystem;
 import com.adambots.subsystems.IntakeSubsystem;
@@ -19,14 +17,13 @@ public class DriveToNoteCommand extends Command {
   private IntakeSubsystem intakeSubsystem;
   private CANdleSubsystem ledSubsystem;
   private final PIDController pidController = new PIDController(VisionConstants.kPTranslateController, 0, VisionConstants.kDTranslateController);
-  private final PIDController rotatePidController = new PIDController(0.1, 0, 0.00001);
-  private double drive_output;
+  private PIDController thetaController = new PIDController(AutoConstants.kPThetaController, 0, AutoConstants.kDThetaController);
   private double speed;
   private double debounce;
   public DriveToNoteCommand(DrivetrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem, CANdleSubsystem ledSubsystem, double speed) {
     addRequirements(driveTrainSubsystem);
 
-    rotatePidController.enableContinuousInput(-Math.PI, Math.PI);
+    thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
     this.intakeSubsystem = intakeSubsystem;
     this.driveTrainSubsystem = driveTrainSubsystem;
@@ -39,9 +36,9 @@ public class DriveToNoteCommand extends Command {
     ledSubsystem.setColor(LEDConstants.red);
     pidController.reset();
     if (DriverStation.isAutonomous()) {
-      rotatePidController.setSetpoint(0);
+      thetaController.setSetpoint(0);
     } else {
-      rotatePidController.setSetpoint(RobotMap.gyro.getContinuousYawRad());
+      thetaController.setSetpoint(RobotMap.gyro.getContinuousYawRad());
     }
     debounce = 0;
   }
@@ -55,8 +52,8 @@ public class DriveToNoteCommand extends Command {
       debounce = 0;
     }
 
-    drive_output = pidController.calculate(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite), 0);
-    double rotate_output = rotatePidController.calculate(RobotMap.gyro.getContinuousYawRad());
+    double drive_output = pidController.calculate(VisionHelpers.getHorizAngle(VisionConstants.noteLimelite), 0);
+    double rotate_output = thetaController.calculate(RobotMap.gyro.getContinuousYawRad());
     driveTrainSubsystem.drive(speed, drive_output, rotate_output, false);
 
     double rotate = VisionHelpers.getHorizAngle(VisionConstants.noteLimelite);
