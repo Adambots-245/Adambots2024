@@ -64,7 +64,7 @@ public class DriveToWaypointCommand extends Command {
       double xDrive = xController.calculate(xPos);
       double yDrive = yController.calculate(yPos);
       
-      if (Math.abs(waypoint.getX()-xPos) > 1.25 || Math.abs(waypoint.getY()-yPos) > 0.7){
+      if ((Math.abs(waypoint.getX()-xPos) > 1.25 || Math.abs(waypoint.getY()-yPos) > 0.7) && waypoint != AutoConstants.S2_POSE2D){
         if (Robot.isOnRedAlliance()) { //If the robot is further than 1.25 meters in x, rotate to face the apriltags instead of the waypoint to maintain them in FOV
           thetaController.setSetpoint(Math.atan2(VisionConstants.aprilTagPos.getY()-yPos, VisionConstants.aprilTagPos.getX()+VisionConstants.kFieldWidth-xPos) + Math.PI);
         } else {
@@ -79,7 +79,7 @@ public class DriveToWaypointCommand extends Command {
       }
       double thetaDrive = thetaController.calculate(gyro.getContinuousYawRad());
 
-      if (getDist(waypoint, drivetrainSubsystem.getPose()) > 1) {
+      if (getDist(waypoint, drivetrainSubsystem.getPose()) > 1.4) {
         xDrive = MathUtil.clamp(xDrive, -AutoConstants.kMaxWaypointTranslateSpeed, AutoConstants.kMaxWaypointTranslateSpeed);
         yDrive = MathUtil.clamp(yDrive, -AutoConstants.kMaxWaypointTranslateSpeed, AutoConstants.kMaxWaypointTranslateSpeed);
       } else {
@@ -93,7 +93,7 @@ public class DriveToWaypointCommand extends Command {
         drivetrainSubsystem.drive(xDrive, yDrive, thetaDrive, true);
       }
 
-      if (Math.abs(waypoint.getX()-xPos) < 0.1 && Math.abs(waypoint.getY()-yPos) < 0.1 && Math.abs(thetaController.getPositionError()) < Math.toRadians(1)) {
+      if (Math.abs(waypoint.getX()-xPos) < 0.15 && Math.abs(waypoint.getY()-yPos) < 0.15 && Math.abs(thetaController.getPositionError()) < Math.toRadians(2)) {
         finishedInc++;
       } else if (finishedInc > 0) {
         finishedInc--;

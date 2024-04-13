@@ -133,17 +133,18 @@ public class RobotContainer {
 
     // Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem)); //Score in amp and speaker
     Buttons.JoystickButton1.whileTrue(new SequentialCommandGroup(
-      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
+      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)),
+      new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.topFloorShootState)),
       new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S1_POSE2D),
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));
     Buttons.JoystickButton2.whileTrue(new SequentialCommandGroup(
-      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
+      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)),
       new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S2_POSE2D),
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));
     Buttons.JoystickButton3.whileTrue(new SequentialCommandGroup(
-      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
+      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)),
       new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S3_POSE2D),
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));
@@ -244,21 +245,29 @@ public class RobotContainer {
     );
     NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
       new InstantCommand(() -> drivetrainSubsystem.stop()),
-      new WaitCommand(0.1),
+      // new WaitCommand(0.05),
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));
     NamedCommands.registerCommand("S1Approach->Score", new SequentialCommandGroup(
       new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)),
+      new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.topFloorShootState)),
       new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S1_POSE2D),
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));
+    // NamedCommands.registerCommand("S1Approach->ScoreDefault", new SequentialCommandGroup(
+    //   new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
+    //   new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S1_POSE2D),
+    //   new WaitCommand(0.15),
+    //   new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem),
+    //   new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.closeFloorShootState))
+    // ));
     NamedCommands.registerCommand("S2Approach->Score", new SequentialCommandGroup(
-      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)),
+      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
       new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S2_POSE2D),
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));
     NamedCommands.registerCommand("S3Approach->Score", new SequentialCommandGroup(
-      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)),
+      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
       new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S3_POSE2D),
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));

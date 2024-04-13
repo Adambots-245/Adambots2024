@@ -76,7 +76,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // Update the odometry in the periodic block
     if (VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
       Pose2d visionPose = VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite); //TODO: Check pose vetting on red side
-      if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians(), RobotMap.gyro.getContinuousYawRad()) < Math.toRadians(20) && VisionHelpers.getAprilHorizDist(VisionConstants.aprilLimelite) < 3.5) {
+      if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians(), RobotMap.gyro.getContinuousYawRad()) < Math.toRadians(20) && VisionHelpers.getAprilHorizDist(VisionConstants.aprilLimelite) < 4.5) {
         m_poseEstimator.addVisionMeasurement(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite), System.currentTimeMillis()/1000);
       }
     }

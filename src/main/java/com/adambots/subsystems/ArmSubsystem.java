@@ -177,7 +177,7 @@ public class ArmSubsystem extends SubsystemBase {
     if (DriverStation.isEnabled()){
       shoulderSpeed = shoulderPID.calculate(getCurrentShoulderMotorAngle(), targetShoulderAngle);
       if (currentState.getStateName() == StateName.FLOOR) {
-        shoulderSpeed = shoulderSpeed - 0.55;
+        shoulderSpeed = shoulderSpeed - 0.3;
       }
       wristSpeed = wristPID.calculate(getCurrentWristShaftAngle(), targetWristAngle);
     } else {

@@ -125,14 +125,14 @@ public final class Constants {
         public static final double kDThetaController = 0.01;
 
         public static final double kPWaypointTranslation = 5; 
-        public static final double kDWaypointTranslation = 0.2;
+        public static final double kDWaypointTranslation = 0.55;
 
         public static final double kMaxWaypointTranslateSpeed = 2;
         public static final double kMinWaypointTranslateSpeed = 0.7;
         
-        public static final Pose2d S1_POSE2D = new Pose2d(new Translation2d(0.86, 6.61), new Rotation2d(Math.toRadians(60)));
-        public static final Pose2d S2_POSE2D = new Pose2d(new Translation2d(1.38, 5.53), new Rotation2d(Math.toRadians(0)));
-        public static final Pose2d S3_POSE2D = new Pose2d(new Translation2d(0.86, 4.45), new Rotation2d(Math.toRadians(-60)));
+        public static final Pose2d S1_POSE2D = new Pose2d(new Translation2d(1.33, 6.76), new Rotation2d(Math.toRadians(44)));
+        public static final Pose2d S2_POSE2D = new Pose2d(new Translation2d(1.40, 5.45), new Rotation2d(Math.toRadians(0)));
+        public static final Pose2d S3_POSE2D = new Pose2d(new Translation2d(0.86, 4.45), new Rotation2d(Math.toRadians(-44)));
     }
 
     public static final class HangConstants{
@@ -218,15 +218,15 @@ public final class Constants {
         public static final double defaultPodiumShoulderAngle = 162; 
      
         // Top 2 note floor shoot
-        public static final double topFloorShootWristAngle = 320.2;
-        public static final double topfloorShootShoulderAngle = 125.7; 
+        public static final double topFloorShootWristAngle = 318.8;
+        public static final double topfloorShootShoulderAngle = 123.6; 
 
         //Hang
         public static final double hangWristAngle = 186;
         public static final double hangShoulderAngle = 146.5; 
 
         //Close Floor Shoot State
-        public static final double closeFloorShootWristAngle = 315; //322
+        public static final double closeFloorShootWristAngle = 310; //CHANGE THIS ONE (ONLY IF YOUI NEED TO CHANGE THE SHOOT STATE) :D
         public static final double closeFloorShootShoulderAngle = 123.7;
 
         // Bottom 2 note floor shoot **NOT TUNED**g

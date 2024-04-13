@@ -101,22 +101,9 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "NF1_S1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AdjustNote"
-                }
-              }
-            ]
+            "pathName": "NF1_S1"
           }
         },
         {
