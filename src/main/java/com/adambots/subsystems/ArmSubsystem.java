@@ -117,8 +117,8 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public boolean isAtTargetStateTele () {
-    // System.out.println(Math.abs(wristPID.getPositionError()));
-    return Math.abs(shoulderPID.getPositionError()) < 5 && Math.abs(wristPID.getPositionError()) < 4; 
+    System.out.println(Math.abs(wristPID.getPositionError()));
+    return Math.abs(shoulderPID.getPositionError()) < 5 && Math.abs(wristPID.getPositionError()) < 0.7; 
   }
 
   public double getCurrentWristShaftAngle(){
@@ -168,8 +168,13 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void syncShoulderEncoders() {
-    shoulderAngleOffset = shoulderEncoder.getAbsolutePositionDegrees();
+    shoulderAngleOffset = getCurrentShoulderShaftAngle();
     shoulderMotor.setPosition(0);
+  }
+
+  public void syncWristEncoders() {
+    wristAngleOffset = getCurrentWristShaftAngle();
+    wristMotor.setPosition(0);
   }
   
   @Override
@@ -179,7 +184,7 @@ public class ArmSubsystem extends SubsystemBase {
       if (currentState.getStateName() == StateName.FLOOR) {
         shoulderSpeed = shoulderSpeed - 0.3;
       }
-      wristSpeed = wristPID.calculate(getCurrentWristShaftAngle(), targetWristAngle);
+      wristSpeed = wristPID.calculate(getCurrentWristMotorAngle(), targetWristAngle);
     } else {
       wristSpeed = 0;
       shoulderSpeed = 0;
@@ -188,8 +193,16 @@ public class ArmSubsystem extends SubsystemBase {
     // System.out.println("WRIST ERROR: " + wristPID.getPositionError());
 
     if(Math.abs(getCurrentShoulderShaftAngle() - getCurrentShoulderMotorAngle()) > 25) {
-      System.out.println("RESET");
+      for (int i = 0; i < 10; i++) {
+        System.err.println("RESET SHOULDER");
+      }
       syncShoulderEncoders();
+    }
+    if(Math.abs(getCurrentWristShaftAngle() - getCurrentWristMotorAngle()) > 20) {
+      for (int i = 0; i < 10; i++) {
+        System.err.println("RESET WRIST");
+      }
+      syncWristEncoders();
     }
 
     setPids();
@@ -226,11 +239,11 @@ public class ArmSubsystem extends SubsystemBase {
      wristPID.setPID(0.0062, 0.009, 0.00062);
     }else if(currentState.getStateName() == StateName.CUSTOM){
      shoulderPID.setPID(0.02, 0.1, 0.0028);
-     wristPID.setPID(0.0062, 0.009, 0.0004);
+     wristPID.setPID(0.01, 0.009, 0.0003);
     //  wristPID.setPID(0.008, 0.01, 0.00045);
     }else if(currentState.getStateName() == StateName.DEFAULT_SPEAKER){
      shoulderPID.setPID(0.02, 0.1, 0.0028);
-          wristPID.setPID(0.0056, 0.0, 0.0003);
+          wristPID.setPID(0.01, 0.0, 0.0003);
 
     //  wristPID.setPID(0.0062, 0.007, 0.0004);
     //  wristPID.setPID(0.008, 0.01, 0.00045);

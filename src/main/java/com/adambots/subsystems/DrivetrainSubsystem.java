@@ -39,12 +39,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
   //Pose Estimator
   private SwerveDrivePoseEstimator m_poseEstimator;
 
+  private Boolean frontLimelightFlag = false;
+
   // Odometry class for tracking robot pose
   private HashMap<ModulePosition, SwerveModule> swerveModules;
 
   public DrivetrainSubsystem(HashMap<ModulePosition, SwerveModule> modules, BaseGyro gyro) {
     this.swerveModules = modules;
     m_gyro = gyro;
+    frontLimelightFlag = false;
 
     AutoBuilder.configureHolonomic(
         this::getPose, // Robot pose supplier
@@ -75,9 +78,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     if (VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
-      Pose2d visionPose = VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite); //TODO: Check pose vetting on red side
+      Pose2d visionPose = VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite);
       if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians(), RobotMap.gyro.getContinuousYawRad()) < Math.toRadians(20) && VisionHelpers.getAprilHorizDist(VisionConstants.aprilLimelite) < 4.5) {
         m_poseEstimator.addVisionMeasurement(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite), System.currentTimeMillis()/1000);
+      }
+    }
+    if (VisionHelpers.isDetected(VisionConstants.defaultAprilLimelite) && frontLimelightFlag) {
+      Pose2d visionPose = VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.defaultAprilLimelite);
+      if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians(), RobotMap.gyro.getContinuousYawRad()) < Math.toRadians(20) && VisionHelpers.getAprilHorizDist(VisionConstants.defaultAprilLimelite) < 5) {
+        m_poseEstimator.addVisionMeasurement(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.defaultAprilLimelite), System.currentTimeMillis()/1000);
+        // System.out.println("DEFAULT ODOM UPDATE");
       }
     }
     m_poseEstimator.updateWithTime(System.currentTimeMillis()/1000, m_gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules));
@@ -86,7 +96,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // Constants.field.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite));
     Constants.debugField.setRobotPose(getPose());
      
-    Constants.aprilTagfield.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite));
+    Constants.aprilTagfield.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.defaultAprilLimelite));
+  }
+
+  public void setArmLimelightFlag (Boolean flagState) {
+    frontLimelightFlag = flagState;
   }
 
 

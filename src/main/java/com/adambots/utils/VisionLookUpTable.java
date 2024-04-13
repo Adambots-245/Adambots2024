@@ -24,13 +24,13 @@ public class VisionLookUpTable {
         lowShooterConfig.getShooterConfigs().add(new ShooterPreset(125, 330, 90, 3));
         lowShooterConfig.getShooterConfigs().add(new ShooterPreset(125, 335, 90, 3.5));
 
-        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 205, 90, 1.4));
-        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 191, 90, 2));
-        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 187, 90, 2.5));
-        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 182, 90, 3));
-        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 179, 90, 3.5));
-        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(160, 171, 90, 4));
-        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(160, 168, 90, 4.5));
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 200, 90, 1.4));
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 190, 90, 2));
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 179, 90, 2.5));
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 174, 90, 3));
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 170, 90, 3.5));
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(160, 165, 90, 4));
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(160, 162, 90, 4.5));
 
         Collections.sort(lowShooterConfig.getShooterConfigs());
         Collections.sort(defaultShooterConfig.getShooterConfigs());

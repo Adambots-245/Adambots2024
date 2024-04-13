@@ -234,8 +234,8 @@ public final class Constants {
         public static final double bottomfloorShootShoulderAngle = 125.7; 
 
         // Bottom 2 note floor shoot **NOT TUNED**
-        public static final double feedWristAngle = 312+wristOffset;
-        public static final double feedShoulderAngle = 123.7+shoulderOffset; 
+        public static final double feedWristAngle = 191;
+        public static final double feedShoulderAngle = 157; 
 
         public static class State {
             private double wristAngle;
@@ -293,21 +293,23 @@ public final class Constants {
             BOTTOM_FLOOR_SHOOT,
             CLOSE_FLOOR_SHOOT,
             HANG,
-            CUSTOM
+            CUSTOM,
+            FEED
         }
 
         public final static State floorState = new State(floorWristAngle, floorShoulderAngle, StateName.FLOOR);
         public final static State ampState = new State(ampWristAngle, ampShoulderAngle, StateName.AMP, 3.5, 3.5);
-        public final static State humanState = new State(humanWristAngle, humanShoulderAngle, StateName.HUMAN, 2, 2);
-        public final static State trapState = new State(trapWristAngle, trapShoulderAngle, StateName.TRAP);
+        // public final static State humanState = new State(humanWristAngle, humanShoulderAngle, StateName.HUMAN, 2, 2);
+        // public final static State trapState = new State(trapWristAngle, trapShoulderAngle, StateName.TRAP);
         public final static State defaultState = new State(defaultWristAngle, defaultShoulderAngle, StateName.DEFAULT, 8, 3);
         public final static State defaultSpeakerState = new State(defaultSpeakerWristAngle, defaultSpeakerShoulderAngle, StateName.DEFAULT_SPEAKER, 1, 1);
         public final static State speakerState = new State(speakerWristAngle, speakerShoulderAngle, StateName.SPEAKER, 1, 1);
-        public final static State centerFloorShootState = new State(centerFloorShootWristAngle, centerfloorShootShoulderAngle, StateName.CENTER_FLOOR_SHOOT);
+        // public final static State centerFloorShootState = new State(centerFloorShootWristAngle, centerfloorShootShoulderAngle, StateName.CENTER_FLOOR_SHOOT);
         public final static State defaultPodiumState = new State(defaultPodiumWristAngle, defaultPodiumShoulderAngle, StateName.DEFAULT_PODIUM_SHOOT);
         public final static State topFloorShootState = new State(topFloorShootWristAngle, topfloorShootShoulderAngle, StateName.TOP_FLOOR_SHOOT);
-        public final static State bottomFloorShootState = new State(bottomFloorShootWristAngle, bottomfloorShootShoulderAngle, StateName.BOTTOM_FLOOR_SHOOT);
+        // public final static State bottomFloorShootState = new State(bottomFloorShootWristAngle, bottomfloorShootShoulderAngle, StateName.BOTTOM_FLOOR_SHOOT);
         public final static State closeFloorShootState = new State(closeFloorShootWristAngle, closeFloorShootShoulderAngle, StateName.CLOSE_FLOOR_SHOOT);
         public final static State hangState = new State(hangWristAngle, hangShoulderAngle, StateName.HANG);
+        public final static State feedState = new State(feedWristAngle, feedShoulderAngle, StateName.FEED);
     }
 }

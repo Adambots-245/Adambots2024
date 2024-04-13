@@ -46,7 +46,7 @@ public class InterpolateDistanceCommand extends Command {
   @Override
   public void execute() {
     if (!intakeSubsystem.getLockOut()) {
-      shooterSubsystem.setTargetWheelSpeed(89);
+      shooterSubsystem.setTargetWheelSpeed(90);
     }
 
     Pose2d currentPose = drivetrainSubsystem.getPose(); //Get odometry data from drivetrain

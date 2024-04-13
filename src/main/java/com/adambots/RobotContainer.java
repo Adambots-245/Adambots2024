@@ -19,6 +19,7 @@ import com.adambots.commands.hangCommands.HangLevelCommand;
 import com.adambots.commands.hangCommands.RunHangCommand;
 import com.adambots.commands.hangCommands.RunLeftHangCommand;
 import com.adambots.commands.hangCommands.RunRightHangCommand;
+import com.adambots.commands.intakeCommands.AdaptiveScoreCommand;
 import com.adambots.commands.intakeCommands.AdjustNoteCommand;
 import com.adambots.commands.intakeCommands.AutonIntakeCommand;
 import com.adambots.commands.intakeCommands.ForceFeedShooterCommand;
@@ -131,43 +132,48 @@ public class RobotContainer {
      * Manual Adjusts
      */
 
-    // Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem)); //Score in amp and speaker
-    Buttons.JoystickButton1.whileTrue(new SequentialCommandGroup(
-      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)),
-      new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.topFloorShootState)),
-      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S1_POSE2D),
-      new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
-    ));
-    Buttons.JoystickButton2.whileTrue(new SequentialCommandGroup(
-      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)),
-      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S2_POSE2D),
-      new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
-    ));
-    Buttons.JoystickButton3.whileTrue(new SequentialCommandGroup(
-      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)),
-      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S3_POSE2D),
-      new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
-    ));
-    Buttons.JoystickButton4.whileTrue(new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 1.5)); //Rotate to huaman station
+    Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem)); //Score in amp and speaker
+    // Buttons.JoystickButton1.whileTrue(new SequentialCommandGroup(
+    //   new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)),
+    //   new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.topFloorShootState)),
+    //   new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S1_POSE2D),
+    //   new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
+    // ));
+    // Buttons.JoystickButton2.whileTrue(new SequentialCommandGroup(
+    //   new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)),
+    //   new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S2_POSE2D),
+    //   new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
+    // ));
+    // Buttons.JoystickButton3.whileTrue(new SequentialCommandGroup(
+    //   new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)),
+    //   new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S3_POSE2D),
+    //   new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
+    // ));
+    // Buttons.JoystickButton4.whileTrue(new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 1.5)); //Rotate to huaman station
     
-    // Buttons.JoystickButton2.whileTrue(new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 2)); //Score in amp and speaker
+    Buttons.JoystickButton2.whileTrue(new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 2)); //Score in amp and speaker
     
     // Buttons.JoystickButton6.whileTrue(new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 1)); //Score in amp and speaker
 
-    Buttons.JoystickButton5.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, 153, RobotMap.gyro)); //Rotate to huaman station
-    Buttons.JoystickButton5.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem, ShooterConstants.highSpeed, ArmConstants.defaultPodiumState)); //Speaker state and prime shooter
-    Buttons.JoystickButton5.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
-    Buttons.JoystickButton5.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(90))); //Stop FLywheels
+    // Buttons.JoystickButton5.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, 153, RobotMap.gyro)); //Rotate to huaman station
+    // Buttons.JoystickButton5.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem, ShooterConstants.highSpeed, ArmConstants.defaultPodiumState)); //Speaker state and prime shooter
+    // Buttons.JoystickButton5.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
+    // Buttons.JoystickButton5.onTrue(new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(90))); //Stop FLywheels
 
 
     // Buttons.JoystickButton6.whileTrue(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, shooterSubsystem, candleSubsytem, VisionConstants.defaultAprilLimelite));
-    Buttons.JoystickButton6.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, 180, RobotMap.gyro)); //Rotate to huaman station
+    Buttons.JoystickButton5.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, 180, RobotMap.gyro)); //Rotate to huaman station
+
+
+    Buttons.JoystickButton6.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, 145, RobotMap.gyro)); //Rotate to feed
+    Buttons.JoystickButton6.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem, ShooterConstants.highSpeed, ArmConstants.feedState)); //Rotate to huaman station
+    Buttons.JoystickButton6.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
 
     //Both lock rotation to apriltag with driver control
 
     //TODO: FIX BINDINGS
-    // Buttons.JoystickButton3.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, 90, RobotMap.gyro)); //Rotate to amp
-    // Buttons.JoystickButton4.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, -60, RobotMap.gyro)); //Rotate to huaman station
+    Buttons.JoystickButton3.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, 90, RobotMap.gyro)); //Rotate to amp
+    Buttons.JoystickButton4.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, -60, RobotMap.gyro)); //Rotate to huaman station
 
     Buttons.JoystickButton10.whileTrue(new SpinCommand(drivetrainSubsystem)); //Spin while drive driving (defense)
 
@@ -176,7 +182,7 @@ public class RobotContainer {
 
     Buttons.JoystickButton8.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro, candleSubsytem)); //Hang on the chain
 
-    Buttons.JoystickButton7.whileTrue(new AlignWhileDrivingCommand(drivetrainSubsystem, candleSubsytem, VisionConstants.defaultAprilLimelite));
+    // Buttons.JoystickButton7.whileTrue(new AlignWhileDrivingCommand(drivetrainSubsystem, candleSubsytem, VisionConstants.defaultAprilLimelite));
     Buttons.JoystickButton7.whileTrue(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, shooterSubsystem, candleSubsytem, VisionConstants.defaultAprilLimelite));
     Buttons.JoystickButton7.whileTrue(new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem, VisionLookUpTable.defaultShooterConfig));
     // Buttons.JoystickButton7.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
@@ -342,7 +348,7 @@ public class RobotContainer {
 
     intakeSubsystem.setDefaultCommand(
       new RunCommand(
-        () -> intakeSubsystem.setMotorSpeed(Buttons.applyCurve(Buttons.XboxController.getLeftY(), Buttons.forwardCurve) * 0.2), 
+        () -> intakeSubsystem.setMotorSpeed(Buttons.applyCurve(Buttons.XboxController.getLeftY(), Buttons.forwardCurve) * 0.25), 
         intakeSubsystem));
   }
 

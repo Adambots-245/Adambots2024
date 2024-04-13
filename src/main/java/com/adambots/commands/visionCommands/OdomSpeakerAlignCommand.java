@@ -41,8 +41,8 @@ public class OdomSpeakerAlignCommand extends Command {
 
   @Override
   public void initialize() {
-    // candleSubsystem.setColor(LEDConstants.yellow);
-
+    candleSubsystem.setColor(LEDConstants.yellow);
+    driveTrainSubsystem.setArmLimelightFlag(true);
     // activateDelay = 0;
   }
 
@@ -83,17 +83,17 @@ public class OdomSpeakerAlignCommand extends Command {
       } 
       //   rotation_output = turningPIDController.calculate(currentRotation, targetRotation);
       // }
-    //   if(armSubsystem.getCurrentStateName() == ArmConstants.StateName.CUSTOM){
-    //     if (armSubsystem.isAtTargetStateTele() && absErrorDeg < 5 && shooterSubsystem.getShooterVelocity() >= 82){
-    //       candleSubsystem.setColor(LEDConstants.purple);
-    //     }
-    //   } else if (absErrorDeg < 5) {
-    //     candleSubsystem.setColor(LEDConstants.green);
-    //   } else if (absErrorDeg < 12) {
-    //     candleSubsystem.setColor(LEDConstants.yellow);
-    //   } else {
-    //     candleSubsystem.setColor(LEDConstants.red);
-    //   }
+      if(armSubsystem.getCurrentStateName() == ArmConstants.StateName.CUSTOM){
+        if (armSubsystem.isAtTargetStateTele() && absErrorDeg < 5 && shooterSubsystem.getShooterVelocity() >= 88){
+          candleSubsystem.setColor(LEDConstants.purple);
+        }
+      } else if (absErrorDeg < 5) {
+        candleSubsystem.setColor(LEDConstants.green);
+      } else if (absErrorDeg < 12) {
+        candleSubsystem.setColor(LEDConstants.yellow);
+      } else {
+        candleSubsystem.setColor(LEDConstants.red);
+      }
     // // } else {
     //   activateDelay++;
     //   driveTrainSubsystem.drive(Buttons.forwardSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond,
@@ -106,7 +106,8 @@ public class OdomSpeakerAlignCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     driveTrainSubsystem.stop();
-    // candleSubsystem.setAnimation(CANdleSubsystem.AnimationTypes.Larson);
+    driveTrainSubsystem.setArmLimelightFlag(false);
+    candleSubsystem.setAnimation(CANdleSubsystem.AnimationTypes.Larson);
   }
 
   // Returns true when the command should end.
