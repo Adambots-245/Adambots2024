@@ -79,7 +79,7 @@ public class DriveToWaypointCommand extends Command {
       }
       double thetaDrive = thetaController.calculate(gyro.getContinuousYawRad());
 
-      if (getDist(waypoint, drivetrainSubsystem.getPose()) > 1.4) {
+      if (getDist(waypoint, drivetrainSubsystem.getPose()) > 1.6) {
         xDrive = MathUtil.clamp(xDrive, -AutoConstants.kMaxWaypointTranslateSpeed, AutoConstants.kMaxWaypointTranslateSpeed);
         yDrive = MathUtil.clamp(yDrive, -AutoConstants.kMaxWaypointTranslateSpeed, AutoConstants.kMaxWaypointTranslateSpeed);
       } else {

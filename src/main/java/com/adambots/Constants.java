@@ -102,7 +102,7 @@ public final class Constants {
         public static final int kTurningCurrentLimit = 21; //Current limit in amps of turning motors
         public static final double kNominalVoltage = 12.6; //Nominal battery voltage for motor voltage compensation
 
-        public static final double kWheelRadiusMeters = 0.047625; //Should be as precise as you can get it
+        public static final double kWheelRadiusMeters = 0.0478; //0.047625 //Should be as precise as you can get it
         public static final double kSwerveModuleFinalGearRatio = 1/6.75; //Google the swerve module model to find this value
 
         // Convert drive motor rpm to linear wheel speed                  Motor RPM to Wheel RPM -> RPM to rad/s -> Wheel rad/s to linear m/s 
@@ -132,7 +132,7 @@ public final class Constants {
         
         public static final Pose2d S1_POSE2D = new Pose2d(new Translation2d(1.33, 6.76), new Rotation2d(Math.toRadians(44)));
         public static final Pose2d S2_POSE2D = new Pose2d(new Translation2d(1.40, 5.45), new Rotation2d(Math.toRadians(0)));
-        public static final Pose2d S3_POSE2D = new Pose2d(new Translation2d(0.86, 4.45), new Rotation2d(Math.toRadians(-44)));
+        public static final Pose2d S3_POSE2D = new Pose2d(new Translation2d(1.33, 4.26), new Rotation2d(Math.toRadians(-44)));
     }
 
     public static final class HangConstants{

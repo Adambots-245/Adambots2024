@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.357498827558303,
-        "y": 0.3133545525312087
+        "x": 4.124620403306426,
+        "y": -0.08197585582047037
       },
       "isLocked": false,
       "linkedName": null
@@ -20,12 +20,12 @@
         "y": 3.4437620040611896
       },
       "prevControl": {
-        "x": 2.4324283942685514,
+        "x": 2.432428394268551,
         "y": 2.369821920553941
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "NF4_5_S3_Endpoint"
     }
   ],
   "rotationTargets": [],

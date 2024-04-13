@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3842846515935527,
-      "y": 5.53
+      "x": 0.7358234536288891,
+      "y": 4.418968117215514
     },
-    "rotation": 0.0
+    "rotation": -56.860000000000014
   },
   "command": {
     "type": "sequential",
@@ -18,7 +18,7 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -27,6 +27,44 @@
                   "name": "IntakeNote->ShootState"
                 }
               },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "S3_NF4"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "DriveToNote"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NF4_S3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "S3Approach->Score"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
               {
                 "type": "sequential",
                 "data": {
@@ -34,53 +72,16 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.5
+                        "waitTime": 2.0
                       }
                     },
                     {
-                      "type": "path",
+                      "type": "named",
                       "data": {
-                        "pathName": "S2_NC2"
+                        "name": "IntakeNote->ShootState"
                       }
                     }
                   ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SpinUpShooter"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "NC2_S2"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.4
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "IntakeNote->ShootState"
                 }
               },
               {
@@ -90,7 +91,13 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "S2_NC3"
+                        "pathName": "S3_NF5"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "DriveToNote"
                       }
                     }
                   ]
@@ -100,9 +107,15 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "NF5_S3"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "S2Approach->Score"
+            "name": "S3Approach->Score"
           }
         }
       ]

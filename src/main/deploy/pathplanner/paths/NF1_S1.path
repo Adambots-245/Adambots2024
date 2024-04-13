@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 2.150263039264817,
-        "y": 6.508271034560088
+        "x": 3.3634160278306275,
+        "y": 6.651755158003897
       },
       "prevControl": {
-        "x": 3.2335471094398307,
-        "y": 6.784173156121187
+        "x": 4.446700098005641,
+        "y": 6.927657279564996
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "NF_1_2_Endpoint"
     }
   ],
   "rotationTargets": [],
@@ -39,7 +39,7 @@
   },
   "goalEndState": {
     "velocity": 1.0,
-    "rotation": 24.362453015312166,
+    "rotation": 24.36,
     "rotateFast": false
   },
   "reversed": false,

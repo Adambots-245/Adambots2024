@@ -234,7 +234,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootPreload", new SequentialCommandGroup(
       new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem, ShooterConstants.mediumSpeed, ArmConstants.speakerState),
       new WaitCommand(1),
-      new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
+      new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem),
+      new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.closeFloorShootState))
     ));
     NamedCommands.registerCommand("IntakeNote->ShootState", new SequentialCommandGroup(
       new AutonIntakeCommand(armSubsystem, intakeSubsystem, candleSubsytem),
@@ -254,20 +255,14 @@ public class RobotContainer {
       new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S1_POSE2D),
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));
-    // NamedCommands.registerCommand("S1Approach->ScoreDefault", new SequentialCommandGroup(
-    //   new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
-    //   new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S1_POSE2D),
-    //   new WaitCommand(0.15),
-    //   new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem),
-    //   new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.closeFloorShootState))
-    // ));
     NamedCommands.registerCommand("S2Approach->Score", new SequentialCommandGroup(
       new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
       new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S2_POSE2D),
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));
     NamedCommands.registerCommand("S3Approach->Score", new SequentialCommandGroup(
-      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
+      new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)),
+      new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.topFloorShootState)),
       new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S3_POSE2D),
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));

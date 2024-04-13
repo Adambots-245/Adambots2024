@@ -35,11 +35,11 @@ public class DriveToNoteCommand extends Command {
   public void initialize() {
     ledSubsystem.setColor(LEDConstants.red);
     pidController.reset();
-    if (DriverStation.isAutonomous()) {
-      thetaController.setSetpoint(0);
-    } else {
+    // if (DriverStation.isAutonomous()) {
+    //   thetaController.setSetpoint(0);
+    // } else {
       thetaController.setSetpoint(RobotMap.gyro.getContinuousYawRad());
-    }
+    // }
     debounce = 0;
   }
 
