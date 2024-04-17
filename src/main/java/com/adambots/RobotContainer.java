@@ -25,7 +25,6 @@ import com.adambots.commands.intakeCommands.AutonIntakeCommand;
 import com.adambots.commands.intakeCommands.ForceFeedShooterCommand;
 import com.adambots.commands.intakeCommands.IntakeToFlywheelCommand;
 import com.adambots.commands.intakeCommands.SpinFlywheelsCommand;
-import com.adambots.commands.visionCommands.AlignWhileDrivingCommand;
 import com.adambots.commands.visionCommands.DriveToNoteCommand;
 import com.adambots.commands.visionCommands.InterpolateDistanceCommand;
 import com.adambots.commands.visionCommands.OdomSpeakerAlignCommand;
