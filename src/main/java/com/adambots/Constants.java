@@ -12,9 +12,9 @@ import edu.wpi.first.wpilibj.util.Color;
  */
 public final class Constants {
     public static final String kDefaultShuffleboardTab = "debug";
-    public static Field2d field = new Field2d();    
-    public static Field2d aprilTagfield = new Field2d();
-    public static Field2d debugField = new Field2d();
+    public static Field2d odomField = new Field2d();    
+    public static Field2d frontLLField = new Field2d();
+    public static Field2d rearLLField = new Field2d();
     public static final Boolean enableAutomaticShuffleboardRecording = false;
 
     public static final class LEDConstants {

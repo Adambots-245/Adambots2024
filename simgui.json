@@ -5,7 +5,10 @@
       "/Shuffleboard/debug/Field": "Field2d",
       "/SmartDashboard/AprilTagField": "Field2d",
       "/SmartDashboard/Auton Mode": "String Chooser",
-      "/SmartDashboard/Field": "Field2d"
+      "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/FrontLL Field": "Field2d",
+      "/SmartDashboard/Odom Field": "Field2d",
+      "/SmartDashboard/RearLL Field": "Field2d"
     }
   },
   "NetworkTables": {
