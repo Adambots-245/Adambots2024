@@ -234,7 +234,7 @@ public final class Constants {
         public static final double bottomFloorShootWristAngle = 324.8;
         public static final double bottomfloorShootShoulderAngle = 125.7; 
 
-        public static final double feedWristAngle = 208;
+        public static final double feedWristAngle = 204;
         public static final double feedShoulderAngle = 157; 
 
         public static class State {
