@@ -26,8 +26,8 @@ public class VisionLookUpTable {
 
         defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 200, 90, 1.4));
         defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 190, 90, 2));
-        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 179, 90, 2.5));
-        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 174, 90, 3));
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 181, 90, 2.5));
+        defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 176, 90, 3));
         defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(162, 170, 90, 3.5));
         defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(160, 165, 90, 4));
         defaultShooterConfig.getShooterConfigs().add(new ShooterPreset(160, 162, 90, 4.5));

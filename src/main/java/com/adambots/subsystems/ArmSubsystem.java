@@ -72,18 +72,15 @@ public class ArmSubsystem extends SubsystemBase {
     targetShoulderAngle = getCurrentShoulderShaftAngle();
     targetWristAngle = getCurrentWristShaftAngle();
 
-    Dash.add("Shoulder Encoder", () -> getCurrentShoulderShaftAngle());
-    Dash.add("Wrist Encoder", () -> getCurrentWristShaftAngle());
-    Dash.add("Shoulder Motor Encoder", () -> shoulderMotor.getPosition()*ArmConstants.kShoulderEncoderPositionConversionFactor + shoulderAngleOffset);
-    Dash.add("Wrist Motor Encoder", () -> wristMotor.getPosition()*ArmConstants.kWristEncoderPositionConversionFactor + wristAngleOffset);
+    Dash.add("Shldr Enc", () -> getCurrentShoulderShaftAngle());
+    Dash.add("Wrist Enc", () -> getCurrentWristShaftAngle());
+    Dash.add("Shldr M Enc", () -> shoulderMotor.getPosition()*ArmConstants.kShoulderEncoderPositionConversionFactor + shoulderAngleOffset);
+    Dash.add("Wrist M Enc", () -> wristMotor.getPosition()*ArmConstants.kWristEncoderPositionConversionFactor + wristAngleOffset);
     Dash.add("wristSpeed", () ->  wristSpeed);
-    Dash.add("shoulderSpeed", () ->  shoulderSpeed);
+    Dash.add("shldrSpeed", () ->  shoulderSpeed);
+    Dash.add("wristPIDErr", () -> Math.abs(wristPID.getPositionError()));
 
-    // Dash.add("Shld Fwd Lim", () -> shoulderMotor.getForwardLimitSwitch());
-    // Dash.add("Shld Rev Lim", () -> shoulderMotor.getReverseLimitSwitch());
-
-    // Dash.add("Wrst Fwd Lim", () -> wristMotor.getForwardLimitSwitch());
-    // Dash.add("Wrst Rev Lim", () -> wristMotor.getReverseLimitSwitch());
+    Dash.add("wrist Enc Err", () ->  Math.abs(getCurrentWristShaftAngle() - getCurrentWristMotorAngle()));
   }
 
   private void setPidTolerence(State state) {
@@ -117,8 +114,12 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public boolean isAtTargetStateTele () {
-    System.out.println(Math.abs(wristPID.getPositionError()));
-    return Math.abs(shoulderPID.getPositionError()) < 5 && Math.abs(wristPID.getPositionError()) < 0.7; 
+    // System.out.println(Math.abs(wristPID.getPositionError()));
+    if(currentState.getStateName() == StateName.CUSTOM){
+      return Math.abs(shoulderPID.getPositionError()) < 5 && Math.abs(wristPID.getPositionError()) < 0.7; 
+    } else {
+      return Math.abs(shoulderPID.getPositionError()) < 5 && Math.abs(wristPID.getPositionError()) < 4; 
+    }
   }
 
   public double getCurrentWristShaftAngle(){
@@ -198,10 +199,10 @@ public class ArmSubsystem extends SubsystemBase {
       }
       syncShoulderEncoders();
     }
-    if(Math.abs(getCurrentWristShaftAngle() - getCurrentWristMotorAngle()) > 20) {
-      for (int i = 0; i < 10; i++) {
+    if(Math.abs(getCurrentWristShaftAngle() - getCurrentWristMotorAngle()) > 2.5) { //20
+      // for (int i = 0; i < 10; i++) {
         System.err.println("RESET WRIST");
-      }
+      // }
       syncWristEncoders();
     }
 

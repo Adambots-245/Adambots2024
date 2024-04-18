@@ -14,6 +14,7 @@ import com.adambots.Constants.VisionConstants;
 import com.adambots.Robot;
 import com.adambots.RobotMap;
 import com.adambots.sensors.BaseGyro;
+import com.adambots.utils.Dash;
 import com.adambots.utils.ModuleMap;
 import com.adambots.vision.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -49,6 +50,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     m_gyro = gyro;
     frontLimelightFlag = false;
 
+    // Dash.add("Flag", );
+
     AutoBuilder.configureHolonomic(
         this::getPose, // Robot pose supplier
         this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
@@ -79,16 +82,29 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // Update the odometry in the periodic block
     if (VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
       Pose2d visionPose = VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite);
-      if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians(), RobotMap.gyro.getContinuousYawRad()) < Math.toRadians(20) && VisionHelpers.getAprilHorizDist(VisionConstants.aprilLimelite) < 4.5) {
-        m_poseEstimator.addVisionMeasurement(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite), System.currentTimeMillis()/1000);
-      }
+      // if (Robot.isOnRedAlliance()) {
+      //   if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians() + Math.PI, RobotMap.gyro.getContinuousYawRad()) < Math.toRadians(20) && VisionHelpers.getAprilHorizDist(VisionConstants.aprilLimelite) < 4.5) {
+      //     m_poseEstimator.addVisionMeasurement(new Pose2d(visionPose.getTranslation().getX(), visionPose.getTranslation().getY(), visionPose.getRotation().plus(new Rotation2d(Math.PI))), System.currentTimeMillis()/1000);
+      //   }
+      // } else {
+        if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians(), RobotMap.gyro.getContinuousYawRad()) < Math.toRadians(20) && VisionHelpers.getAprilHorizDist(VisionConstants.aprilLimelite) < 4.5) {
+          m_poseEstimator.addVisionMeasurement(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite), System.currentTimeMillis()/1000);
+        }
+      // }
     }
     if (VisionHelpers.isDetected(VisionConstants.defaultAprilLimelite) && frontLimelightFlag) {
       Pose2d visionPose = VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.defaultAprilLimelite);
-      if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians(), RobotMap.gyro.getContinuousYawRad()) < Math.toRadians(20) && VisionHelpers.getAprilHorizDist(VisionConstants.defaultAprilLimelite) < 5) {
-        m_poseEstimator.addVisionMeasurement(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.defaultAprilLimelite), System.currentTimeMillis()/1000);
-        // System.out.println("DEFAULT ODOM UPDATE");
-      }
+      // if (Robot.isOnRedAlliance()) {
+      //   if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians() + Math.PI, RobotMap.gyro.getContinuousYawRad()) < Math.toRadians(20) && VisionHelpers.getAprilHorizDist(VisionConstants.defaultAprilLimelite) < 4.5) {
+      //     // m_poseEstimator.addVisionMeasurement(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite), System.currentTimeMillis()/1000);
+      //     // System.out.println(Math.toDegrees(getContinuousAngleError(visionPose.getRotation().getRadians() + Math.PI, RobotMap.gyro.getContinuousYawRad())));
+      //     m_poseEstimator.addVisionMeasurement(new Pose2d(visionPose.getTranslation().getX(), visionPose.getTranslation().getY(), visionPose.getRotation().plus(new Rotation2d(Math.PI))), System.currentTimeMillis()/1000);
+      //   }
+      // } else {
+        if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians(), RobotMap.gyro.getContinuousYawRad()) < Math.toRadians(20) && VisionHelpers.getAprilHorizDist(VisionConstants.defaultAprilLimelite) < 4.5) {
+          m_poseEstimator.addVisionMeasurement(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.defaultAprilLimelite), System.currentTimeMillis()/1000);
+        }
+      // }
     }
     m_poseEstimator.updateWithTime(System.currentTimeMillis()/1000, m_gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules));
 
@@ -110,6 +126,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
+    // if (Robot.isOnRedAlliance()) {
+    //   return new Pose2d(m_poseEstimator.getEstimatedPosition().getTranslation(), m_poseEstimator.getEstimatedPosition().getRotation().plus(new Rotation2d(Math.PI)));
+    // }
     return m_poseEstimator.getEstimatedPosition();
   }
 
@@ -145,7 +164,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
     if (fieldRelative) {
-      setChassisSpeeds(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getContinuousYawRotation2d()));
+      if (Robot.isOnRedAlliance()) {
+        setChassisSpeeds(ChassisSpeeds.fromFieldRelativeSpeeds(-xSpeed, -ySpeed, rot, m_gyro.getContinuousYawRotation2d()));
+      } else {
+        setChassisSpeeds(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getContinuousYawRotation2d()));
+      }
     } else {
       setChassisSpeeds(new ChassisSpeeds(xSpeed, ySpeed, rot));
     }

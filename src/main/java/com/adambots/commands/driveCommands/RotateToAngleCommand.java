@@ -38,7 +38,7 @@ public class RotateToAngleCommand extends Command {
   public void execute() {
     // Calculates the drive rotation
     if (Robot.isOnRedAlliance()) {
-      drive_output = angleTurningPIDController.calculate(gyro.getContinuousYawRad(), -targetAngleRad);
+      drive_output = angleTurningPIDController.calculate(gyro.getContinuousYawRad(), Math.PI-targetAngleRad);
     } else {
       drive_output = angleTurningPIDController.calculate(gyro.getContinuousYawRad(), targetAngleRad);
     }

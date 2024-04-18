@@ -41,7 +41,7 @@ public class DriveToWaypointCommand extends Command {
   @Override
   public void initialize() {
     if (Robot.isOnRedAlliance()) {
-      xController.setSetpoint(waypoint.getX() + VisionConstants.kFieldWidth);
+      xController.setSetpoint(VisionConstants.kFieldWidth - waypoint.getX());
     } else {
       xController.setSetpoint(waypoint.getX());
     }
@@ -55,10 +55,11 @@ public class DriveToWaypointCommand extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    
+  public void execute() {    
     xPos = drivetrainSubsystem.getPose().getX();
     yPos = drivetrainSubsystem.getPose().getY();
+
+    System.out.println("X Setpoint: " + xController.getSetpoint() + " | X val: " +  xPos + " | X err: " + xController.getPositionError());
       
     if (xPos != 0 && yPos != 0) {
       double xDrive = xController.calculate(xPos);
@@ -72,7 +73,7 @@ public class DriveToWaypointCommand extends Command {
         }
       } else {
         if (Robot.isOnRedAlliance()) {
-          thetaController.setSetpoint(-waypoint.getRotation().getRadians());
+          thetaController.setSetpoint(waypoint.getRotation().getRadians() + Math.PI);
         } else {
           thetaController.setSetpoint(waypoint.getRotation().getRadians());
         }
@@ -88,7 +89,7 @@ public class DriveToWaypointCommand extends Command {
       }
       
       if (Robot.isOnRedAlliance()) {
-        drivetrainSubsystem.drive(xDrive, -yDrive, thetaDrive, true);
+        drivetrainSubsystem.drive(-xDrive, -yDrive, thetaDrive, true);
       } else {
         drivetrainSubsystem.drive(xDrive, yDrive, thetaDrive, true);
       }

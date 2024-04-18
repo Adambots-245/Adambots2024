@@ -52,12 +52,13 @@ public final class Constants {
         public static final double kPTranslateController = 0.05; 
         public static final double kDTranslateController = 0.0001;
 
-        public static final Translation2d blueTargetPoint = new Translation2d(0.11, 5.47);
-        public static final Translation2d redTargetPoint = new Translation2d(16.45, 5.47);
+        public static final Translation2d blueTargetPoint = new Translation2d(0.0, 5.32);
+        public static final Translation2d redTargetPoint = new Translation2d(16.6, 5.32);
 
         public static final Translation2d aprilTagPos = new Translation2d(0.0, 5.55);
 
-        public static final double kFieldWidth = 16.53;
+        public static final double kFieldWidth = 16.6;
+        // public static final double kFieldWidth = 16.53;
     }
 
     public static final class DriveConstants {
@@ -229,12 +230,11 @@ public final class Constants {
         public static final double closeFloorShootWristAngle = 310; //CHANGE THIS ONE (ONLY IF YOUI NEED TO CHANGE THE SHOOT STATE) :D
         public static final double closeFloorShootShoulderAngle = 123.7;
 
-        // Bottom 2 note floor shoot **NOT TUNED**g
+        // Bottom 2 note floor shoot
         public static final double bottomFloorShootWristAngle = 324.8;
         public static final double bottomfloorShootShoulderAngle = 125.7; 
 
-        // Bottom 2 note floor shoot **NOT TUNED**
-        public static final double feedWristAngle = 191;
+        public static final double feedWristAngle = 208;
         public static final double feedShoulderAngle = 157; 
 
         public static class State {

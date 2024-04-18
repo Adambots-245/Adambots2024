@@ -51,6 +51,8 @@ public class PrimeShooterCommand extends Command {
       armSubsystem.setCurrentState(armState);
       shooterSubsystem.setTargetWheelSpeed(shooterSpeed);
       finished = true;
+    } else {
+      shooterSubsystem.setTargetWheelSpeed(0);
     }
     
     if (armSubsystem.isAtTargetStateTele() && shooterSubsystem.isAtTargetSpeed()){

@@ -23,7 +23,7 @@ public class OdomSpeakerAlignCommand extends Command {
   private ShooterSubsystem shooterSubsystem;
   private ArmSubsystem armSubsystem;
   // private double activateDelay;
-  private String limelight;
+  // private String limelight;
   private PIDController turningPIDController = new PIDController(VisionConstants.kPOdomThetaController, 0, VisionConstants.kDOdomThetaController);
 
   public OdomSpeakerAlignCommand(DrivetrainSubsystem driveTrainSubsystem, ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, CANdleSubsystem ledSubsystem, String limelight) {
@@ -34,7 +34,7 @@ public class OdomSpeakerAlignCommand extends Command {
 
     this.driveTrainSubsystem = driveTrainSubsystem;
     this.shooterSubsystem = shooterSubsystem;
-    this.limelight = limelight;
+    // this.limelight = limelight;
     this.armSubsystem = armSubsystem;
     this.candleSubsystem = ledSubsystem;
   }

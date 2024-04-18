@@ -57,7 +57,7 @@ public class InterpolateDistanceCommand extends Command {
       targetPose = VisionConstants.redTargetPoint;
     }
 
-    double targetDistance = Math.hypot(targetPose.getY()-currentTranslation.getY(), targetPose.getX()-currentTranslation.getX());
+    double targetDistance = Math.hypot(targetPose.getY()-currentTranslation.getY(), targetPose.getX()-currentTranslation.getX()) - 0.4;
 
     ShooterPreset preset = VisionLookUpTable.getShooterPreset(shooterConfig, targetDistance);
     // System.out.println(preset.getWristAngle());

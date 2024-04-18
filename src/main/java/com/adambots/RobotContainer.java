@@ -96,10 +96,6 @@ public class RobotContainer {
       armSubsystem.setCurrentState(ArmConstants.defaultState);
       intakeSubsystem.setLockOut(false);
     }
-
-    if (Robot.isOnRedAlliance() && DriverStation.isFMSAttached()) {
-      RobotMap.gyro.offsetYawByAngle(180);
-    }
   }
 
   /**
@@ -143,7 +139,7 @@ public class RobotContainer {
     //   new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S2_POSE2D),
     //   new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     // ));
-    // Buttons.JoystickButton3.whileTrue(new SequentialCommandGroup(
+    // Buttons.JoystickButton2.whileTrue(new SequentialCommandGroup(
     //   new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)),
     //   new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S3_POSE2D),
     //   new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
@@ -190,7 +186,7 @@ public class RobotContainer {
 
     Buttons.JoystickButton13.onTrue(new InstantCommand(() -> RobotMap.gyro.resetYaw())); //Reset Gyro
 
-    Buttons.JoystickButton11.whileTrue(new InstantCommand(() -> drivetrainSubsystem.resetOdometry(new Pose2d(1.38, 5.53, new Rotation2d(0)))));
+    Buttons.JoystickButton11.whileTrue(new InstantCommand(() -> drivetrainSubsystem.resetOdometry(new Pose2d(1.38, 5.53, new Rotation2d(Math.PI)))));
     
     Buttons.JoystickButton16.onTrue(new SyncShoulderCommand(armSubsystem));
 
