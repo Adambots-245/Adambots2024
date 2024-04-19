@@ -80,31 +80,31 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    // Update the position of the robot on the ShuffleBoard field
+    // Constants.odomField.setRobotPose(getPose());
+
+    m_poseEstimator.updateWithTime(System.currentTimeMillis()/1000, m_gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules));
+
     // Update the odometry in the periodic block
-    if (frontLimelightFlag && !DriverStation.isAutonomous() && VisionHelpers.isDetected(VisionConstants.defaultAprilLimelite)) {
+    if (frontLimelightFlag && VisionHelpers.isDetected(VisionConstants.defaultAprilLimelite)) {
       Pose2d visionPose = VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.defaultAprilLimelite);
       if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians(), m_gyro.getContinuousYawRad()) < Math.toRadians(20) && VisionHelpers.getAprilHorizDist(VisionConstants.defaultAprilLimelite) < 4.5) {
         m_poseEstimator.addVisionMeasurement(visionPose, System.currentTimeMillis()/1000);
       }
     } else if (VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
-      if (DriverStation.isAutonomous()) {
-        if (DriverStation.getMatchTime() < 13) {
+      // if (DriverStation.isAutonomous()) {
           Pose2d visionPose = VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite);
           if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians(), m_gyro.getContinuousYawRad()) < Math.toRadians(20) && VisionHelpers.getAprilHorizDist(VisionConstants.aprilLimelite) < 4.5) {
             m_poseEstimator.addVisionMeasurement(visionPose, System.currentTimeMillis()/1000);
           }
-        }
-      } else {
-        Pose2d visionPose = VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite);
-        if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians(), m_gyro.getContinuousYawRad()) < Math.toRadians(20) && VisionHelpers.getAprilHorizDist(VisionConstants.aprilLimelite) < 4.5) {
-          m_poseEstimator.addVisionMeasurement(visionPose, System.currentTimeMillis()/1000);
-        }
-      }
+        // }
+      // } else {
+      //   Pose2d visionPose = VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite);
+      //   if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians(), m_gyro.getContinuousYawRad()) < Math.toRadians(20) && VisionHelpers.getAprilHorizDist(VisionConstants.aprilLimelite) < 4.5) {
+      //     m_poseEstimator.addVisionMeasurement(visionPose, System.currentTimeMillis()/1000);
+      //   }
+      // }
     }
-    m_poseEstimator.updateWithTime(System.currentTimeMillis()/1000, m_gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules));
-
-    // Update the position of the robot on the ShuffleBoard field
-    Constants.odomField.setRobotPose(getPose());
 
     // Constants.frontLLField.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.defaultAprilLimelite));
     // Constants.rearLLField.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite));

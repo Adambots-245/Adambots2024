@@ -195,10 +195,8 @@ public class ArmSubsystem extends SubsystemBase {
     // System.out.println("SHOULDER ERROR: " + shoulderPID.getPositionError());
     // System.out.println("WRIST ERROR: " + wristPID.getPositionError());
 
-    if(Math.abs(getCurrentShoulderShaftAngle() - getCurrentShoulderMotorAngle()) > 25) {
-      for (int i = 0; i < 10; i++) {
-        System.err.println("RESET SHOULDER");
-      }
+    if(Math.abs(getCurrentShoulderShaftAngle() - getCurrentShoulderMotorAngle()) > 10) {
+      System.err.println("RESET SHOULDER");
       syncShoulderEncoders();
     }
     if(Math.abs(getCurrentWristShaftAngle() - getCurrentWristMotorAngle()) > 2.5) { //20

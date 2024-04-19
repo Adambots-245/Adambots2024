@@ -212,14 +212,20 @@ public class RobotContainer {
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));
 
-    NamedCommands.registerCommand("DriveToNote", new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 2));
+    NamedCommands.registerCommand("DriveToNote", new SequentialCommandGroup(
+      new InstantCommand(() -> drivetrainSubsystem.stop()),
+      new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 1.5)
+    ));
 
     NamedCommands.registerCommand("StopCommand", new StopCommand(drivetrainSubsystem));
 
     NamedCommands.registerCommand("S1Approach->Score", new SequentialCommandGroup(
       new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)),
       new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.topFloorShootState)),
-      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S1_POSE2D),
+      new ParallelDeadlineGroup(
+        new WaitCommand(3.5), 
+        new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S1_POSE2D)
+      ),
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));
     NamedCommands.registerCommand("S2Approach->Score", new SequentialCommandGroup(
@@ -234,7 +240,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("S3Approach->Score", new SequentialCommandGroup(
       new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed)),
       new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.topFloorShootState)),
-      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S3_POSE2D),
+      new ParallelDeadlineGroup(
+        new WaitCommand(3.5), 
+        new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S3_POSE2D)
+      ),
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));
   }
@@ -255,10 +264,8 @@ public class RobotContainer {
 
     Dash.add("getRawZ", () -> Buttons.ex3dPro.getZ());
 
-    Dash.add("Trigger", Buttons.JoystickButton1);
-
-    Dash.add("odom x", () -> drivetrainSubsystem.getPose().getX());
-    Dash.add("odom y", () -> drivetrainSubsystem.getPose().getY());
+    // Dash.add("odom x", () -> drivetrainSubsystem.getPose().getX());
+    // Dash.add("odom y", () -> drivetrainSubsystem.getPose().getY());
 
     Dash.add("yaw", () -> RobotMap.gyro.getContinuousYawDeg());
     Dash.add("pitch", () -> RobotMap.gyro.getPitch());
