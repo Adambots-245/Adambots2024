@@ -40,6 +40,8 @@ public class ForceFeedShooterCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println(this.getName() + " + ending. Interrupted?  " + interrupted);
+
     intakeSubsystem.setMotorSpeed(0);
     shooterSubsystem.setTargetWheelSpeed(ShooterConstants.idleSpeed);
   }

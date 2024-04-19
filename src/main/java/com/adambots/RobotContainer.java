@@ -48,6 +48,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -126,21 +127,22 @@ public class RobotContainer {
 
     Buttons.JoystickButton1.whileTrue(new AdaptiveScoreCommand(armSubsystem, shooterSubsystem, intakeSubsystem)); //Score in amp and speaker
     
-    Buttons.JoystickButton2.whileTrue(new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 2)); //Score in amp and speaker
+    Buttons.JoystickButton2.whileTrue(new DriveToNoteCommand(drivetrainSubsystem, intakeSubsystem, candleSubsytem, 1.5)); //Score in amp and speaker
 
     Buttons.JoystickButton3.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, 90, RobotMap.gyro)); //Rotate to amp
     Buttons.JoystickButton4.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, -60, RobotMap.gyro)); //Rotate to huaman station
 
     Buttons.JoystickButton5.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, 180, RobotMap.gyro)); //Rotate to huaman station
 
-    Buttons.JoystickButton6.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, 145, RobotMap.gyro)); //Rotate to feed
+    Buttons.JoystickButton6.whileTrue(new RotateToAngleCommand(drivetrainSubsystem, 155, RobotMap.gyro)); //Rotate to feed
     Buttons.JoystickButton6.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem, ShooterConstants.highSpeed, ArmConstants.feedState)); //Rotate to huaman station
     Buttons.JoystickButton6.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
 
+    // Buttons.JoystickButton7.whileTrue(new AlignWhileDrivingCommand(drivetrainSubsystem, candleSubsytem, VisionConstants.defaultAprilLimelite));
     Buttons.JoystickButton7.whileTrue(new OdomSpeakerAlignCommand(drivetrainSubsystem, armSubsystem, shooterSubsystem, candleSubsytem, VisionConstants.defaultAprilLimelite));
     // Buttons.JoystickButton7.whileTrue(new InterpolateDistanceCommand(armSubsystem, shooterSubsystem, drivetrainSubsystem, intakeSubsystem, VisionLookUpTable.defaultShooterConfig));
-    Buttons.JoystickButton7.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem, ShooterConstants.highSpeed, ArmConstants.defaultSpeakerState)); //Default state and prime shooter
-    Buttons.JoystickButton7.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
+    // Buttons.JoystickButton7.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem, ShooterConstants.highSpeed, ArmConstants.defaultSpeakerState)); //Default state and prime shooter
+    // Buttons.JoystickButton7.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
 
     Buttons.JoystickButton8.whileTrue(new HangLevelCommand(hangSubsystem, armSubsystem, RobotMap.gyro, candleSubsytem)); //Hang on the chain
 
@@ -155,12 +157,12 @@ public class RobotContainer {
 
     //Xbox Button Bindings 
     Buttons.XboxAButton.whileTrue(new IntakeToFlywheelCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem)); //Intake off floor
-    Buttons.XboxAButton.onFalse(new AdjustNoteCommand(intakeSubsystem)); //Adjust fully intaked note
+    Buttons.XboxAButton.onFalse(new AdjustNoteCommand(intakeSubsystem, shooterSubsystem)); //Adjust fully intaked note
 
     Buttons.XboxBButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem, ShooterConstants.highSpeed, ArmConstants.defaultSpeakerState)); //Speaker state and prime shooter
     Buttons.XboxBButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem));
 
-    Buttons.XboxXButton.whileTrue(new AmpCommand(armSubsystem)); //Move arm to amp pos
+    Buttons.XboxXButton.whileTrue(new AmpCommand(armSubsystem, shooterSubsystem)); //Move arm to amp pos
 
     Buttons.XboxYButton.whileTrue(new PrimeShooterCommand(armSubsystem, shooterSubsystem, intakeSubsystem, candleSubsytem, ShooterConstants.mediumSpeed, ArmConstants.speakerState)); //Speaker state and prime shooter
     Buttons.XboxYButton.onFalse(new RetractShooterCommand(armSubsystem, shooterSubsystem)); //Default state and stop shooter
@@ -222,7 +224,11 @@ public class RobotContainer {
     ));
     NamedCommands.registerCommand("S2Approach->Score", new SequentialCommandGroup(
       new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
-      new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S2_POSE2D),
+      new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.closeFloorShootState)),
+      new ParallelDeadlineGroup(
+        new WaitCommand(3.5), 
+        new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S2_POSE2D)
+      ),
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
     ));
     NamedCommands.registerCommand("S3Approach->Score", new SequentialCommandGroup(
@@ -239,8 +245,8 @@ public class RobotContainer {
     //Adds various data to the dashboard that is useful for driving and debugging
     SmartDashboard.putData("Auton Mode", autoChooser);
 
-    SmartDashboard.putData("FrontLL Field", Constants.frontLLField);   
-    SmartDashboard.putData("RearLL Field", Constants.rearLLField);   
+    // SmartDashboard.putData("FrontLL Field", Constants.frontLLField);   
+    // SmartDashboard.putData("RearLL Field", Constants.rearLLField);   
     SmartDashboard.putData("Odom Field", Constants.odomField);
 
     // Dash.add("getY", Buttons.forwardSupplier);
@@ -248,6 +254,8 @@ public class RobotContainer {
     // Dash.add("getZ", Buttons.rotateSupplier);
 
     Dash.add("getRawZ", () -> Buttons.ex3dPro.getZ());
+
+    Dash.add("Trigger", Buttons.JoystickButton1);
 
     Dash.add("odom x", () -> drivetrainSubsystem.getPose().getX());
     Dash.add("odom y", () -> drivetrainSubsystem.getPose().getY());

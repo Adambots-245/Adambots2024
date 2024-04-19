@@ -68,9 +68,6 @@ public class OdomSpeakerAlignCommand extends Command {
 
     //Light up LEDs depending on our alignment
     double absErrorDeg = Math.abs(Math.toDegrees(turningPIDController.getPositionError()));
-    if (DriverStation.isAutonomous()){
-      absErrorDeg = Math.abs(Math.toDegrees(turningPIDController.getPositionError()));
-    } 
 
     if(armSubsystem.getCurrentStateName() == ArmConstants.StateName.CUSTOM){
       if (armSubsystem.isAtTargetStateTele() && absErrorDeg < 5 && shooterSubsystem.getShooterVelocity() >= 88) {

@@ -38,6 +38,8 @@ public class SpinFlywheelsCommand extends Command {
   public void end(boolean interrupted) {
     if (!intakeSubsystem.getLockOut()) {
       shooterSubsystem.setTargetWheelSpeed(ShooterConstants.highSpeed);
+    } else {
+      shooterSubsystem.setTargetWheelSpeed(0);
     }
   }
 

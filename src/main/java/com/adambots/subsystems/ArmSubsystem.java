@@ -143,6 +143,8 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setCurrentState(State newState) {
+    System.out.println(this.getName() + " + Change state to " + newState.getStateName());
+
     //Enable override if we are moving directly from speaker to floor states (auton) or if we are targeting the hang state
     failsafeOverride = (currentState.getStateName() == StateName.SPEAKER && newState.getStateName() == StateName.FLOOR) || newState.getStateName() == StateName.HANG;
 
@@ -201,7 +203,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
     if(Math.abs(getCurrentWristShaftAngle() - getCurrentWristMotorAngle()) > 2.5) { //20
       // for (int i = 0; i < 10; i++) {
-        System.err.println("RESET WRIST");
+        // System.err.println("RESET WRIST");
       // }
       syncWristEncoders();
     }

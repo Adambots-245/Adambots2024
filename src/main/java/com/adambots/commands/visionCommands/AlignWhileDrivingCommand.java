@@ -1,7 +1,6 @@
 package com.adambots.commands.visionCommands;
 
 import com.adambots.Constants.DriveConstants;
-import com.adambots.Constants.LEDConstants;
 import com.adambots.Constants.VisionConstants;
 import com.adambots.RobotMap;
 import com.adambots.subsystems.CANdleSubsystem;
@@ -14,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class AlignWhileDrivingCommand extends Command {
   private DrivetrainSubsystem driveTrainSubsystem;
-  private CANdleSubsystem candleSubsystem;
   private PIDController turningPIDController = new PIDController(VisionConstants.kPThetaController, 0, VisionConstants.kDThetaController);
   private double rotation_output;
   private String limelight;
@@ -26,13 +24,12 @@ public class AlignWhileDrivingCommand extends Command {
     turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
 
     this.driveTrainSubsystem = driveTrainSubsystem;
-    this.candleSubsystem = ledSubsystem;
     this.limelight = limelight;
   }
 
   @Override
   public void initialize() {
-    candleSubsystem.setColor(LEDConstants.yellow);
+    // candleSubsystem.setColor(LEDConstants.yellow);
     rotate = 0;
   }
 
@@ -66,26 +63,12 @@ public class AlignWhileDrivingCommand extends Command {
       //     Buttons.sidewaysSupplier.getAsDouble() * DriveConstants.kMaxSpeedMetersPerSecond,
       //     Buttons.rotateSupplier.getAsDouble() * DriveConstants.kTeleopRotationalSpeed, true);
     }
-
-    // Checks to see if the angle is within the aligned bounds
-    if (VisionHelpers.isDetected(limelight)) {
-      if (Math.abs(rotate) < 5) {
-        candleSubsystem.setColor(LEDConstants.green);
-      } else if (Math.abs(rotate) < 12) {
-        candleSubsystem.setColor(LEDConstants.yellow);
-      } else {
-        candleSubsystem.setColor(LEDConstants.red);
-      }
-    } else {
-      candleSubsystem.setColor(LEDConstants.purple);
-    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     driveTrainSubsystem.stop();
-    candleSubsystem.setAnimation(CANdleSubsystem.AnimationTypes.Larson);
   }
 
   // Returns true when the command should end.

@@ -4,6 +4,7 @@
 
 package com.adambots.commands.intakeCommands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import com.adambots.Constants.ArmConstants;
@@ -42,6 +43,9 @@ public class IntakeToFlywheelCommand extends Command {
       intakeSubsystem.setMotorSpeed(IntakeConstants.intakeSpeed);
     // }
     shooterSubsystem.setTargetWheelSpeed(0);
+    if (!DriverStation.isAutonomous()) {
+      intakeSubsystem.setLockOut(true); //Prevent going to shoot state while still adjusting
+    }
     state = "initial";
     inc = 0;
     ledSubsystem.setColor(LEDConstants.white);
@@ -67,6 +71,7 @@ public class IntakeToFlywheelCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     armSubsystem.setCurrentState(ArmConstants.defaultState);
+    shooterSubsystem.setTargetWheelSpeed(0);
 
     intakeSubsystem.setMotorSpeed(0);
 

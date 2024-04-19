@@ -6,22 +6,26 @@ package com.adambots.commands.armCommands;
 
 import com.adambots.Constants.ArmConstants;
 import com.adambots.subsystems.ArmSubsystem;
+import com.adambots.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class AmpCommand extends Command {
   /** Creates a new AmpCommand. */
   private ArmSubsystem armSubsystem;
+  private ShooterSubsystem shooterSubsystem;
   
-  public AmpCommand(ArmSubsystem armSubsystem) {
+  public AmpCommand(ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem) {
     addRequirements(armSubsystem);
     
     this.armSubsystem = armSubsystem;
+    this.shooterSubsystem = shooterSubsystem;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    shooterSubsystem.setTargetWheelSpeed(0);
     armSubsystem.setCurrentState(ArmConstants.ampState);
   }
 

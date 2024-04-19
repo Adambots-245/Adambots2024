@@ -59,7 +59,7 @@ public class DriveToWaypointCommand extends Command {
     xPos = drivetrainSubsystem.getPose().getX();
     yPos = drivetrainSubsystem.getPose().getY();
 
-    System.out.println("X Setpoint: " + xController.getSetpoint() + " | X val: " +  xPos + " | X err: " + xController.getPositionError());
+    System.out.println("X err: " + xController.getPositionError() + " | Y err: " + yController.getPositionError() + " | Theta err: " + thetaController.getPositionError() + " | Inc " + finishedInc);
       
     if (xPos != 0 && yPos != 0) {
       double xDrive = xController.calculate(xPos);
@@ -94,13 +94,12 @@ public class DriveToWaypointCommand extends Command {
         drivetrainSubsystem.drive(xDrive, yDrive, thetaDrive, true);
       }
 
-      if (Math.abs(waypoint.getX()-xPos) < 0.15 && Math.abs(waypoint.getY()-yPos) < 0.15 && Math.abs(thetaController.getPositionError()) < Math.toRadians(2)) {
+      if (Math.abs(xController.getPositionError()) < 0.15 && Math.abs(yController.getPositionError()) < 0.15 && Math.abs(thetaController.getPositionError()) < Math.toRadians(3)) {
         finishedInc++;
       } else if (finishedInc > 0) {
         finishedInc--;
       }
     }
-    // Constants.debugField.setRobotPose(new Pose2d(xPos, yPos, new Rotation2d(drivetrainSubsystem.getPose().getRotation().getRadians())));
   }
 
   // Called once the command ends or is interrupted.

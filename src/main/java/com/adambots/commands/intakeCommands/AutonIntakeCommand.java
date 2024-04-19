@@ -32,6 +32,7 @@ public class AutonIntakeCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println(this.getName() + " + Initializing");
     armSubsystem.setCurrentState(ArmConstants.floorState);
     intakeSubsystem.setMotorSpeed(IntakeConstants.intakeSpeed);
     candle.setColor(LEDConstants.orange);
