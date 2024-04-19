@@ -94,10 +94,18 @@ public class DriveToWaypointCommand extends Command {
         drivetrainSubsystem.drive(xDrive, yDrive, thetaDrive, true);
       }
 
-      if (Math.abs(xController.getPositionError()) < 0.15 && Math.abs(yController.getPositionError()) < 0.15 && Math.abs(thetaController.getPositionError()) < Math.toRadians(3)) {
-        finishedInc++;
-      } else if (finishedInc > 0) {
-        finishedInc--;
+      if (waypoint.equals(AutoConstants.S2_POSE2D)) {
+        if (Math.abs(xController.getPositionError()) < 0.35 && Math.abs(yController.getPositionError()) < 0.15 && Math.abs(thetaController.getPositionError()) < Math.toRadians(3)) {
+          finishedInc++;
+        } else if (finishedInc > 0) {
+          finishedInc--;
+        }
+      } else {
+        if (Math.abs(xController.getPositionError()) < 0.15 && Math.abs(yController.getPositionError()) < 0.15 && Math.abs(thetaController.getPositionError()) < Math.toRadians(3)) {
+          finishedInc++;
+        } else if (finishedInc > 0) {
+          finishedInc--;
+        }
       }
     }
   }

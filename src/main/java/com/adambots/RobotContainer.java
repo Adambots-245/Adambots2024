@@ -226,7 +226,7 @@ public class RobotContainer {
       new InstantCommand(() -> shooterSubsystem.setTargetWheelSpeed(ShooterConstants.mediumSpeed)),
       new InstantCommand(() -> armSubsystem.setCurrentState(ArmConstants.closeFloorShootState)),
       new ParallelDeadlineGroup(
-        new WaitCommand(3.5), 
+        new WaitCommand(2.75), 
         new DriveToWaypointCommand(drivetrainSubsystem, RobotMap.gyro, AutoConstants.S2_POSE2D)
       ),
       new ForceFeedShooterCommand(intakeSubsystem, shooterSubsystem)
