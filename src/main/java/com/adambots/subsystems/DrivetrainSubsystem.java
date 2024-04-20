@@ -39,6 +39,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private SwerveDrivePoseEstimator m_poseEstimator;
 
   private Boolean frontLimelightFlag = false;
+  private int inc = 0;
 
   // Odometry class for tracking robot pose
   private HashMap<ModulePosition, SwerveModule> swerveModules;
@@ -47,6 +48,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     this.swerveModules = modules;
     m_gyro = gyro;
     frontLimelightFlag = false;
+
+    System.out.println(this.getName() + "Initializing");
 
     AutoBuilder.configureHolonomic(
         this::getPose, // Robot pose supplier
@@ -80,25 +83,23 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    inc++;
     // Update the position of the robot on the ShuffleBoard field
     // Constants.odomField.setRobotPose(getPose());
+    // System.out.println(this.getName() + ".periodic()");
 
     m_poseEstimator.updateWithTime(System.currentTimeMillis()/1000, m_gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules));
 
     // Update the odometry in the periodic block
-    if (frontLimelightFlag && VisionHelpers.isDetected(VisionConstants.defaultAprilLimelite)) {
-      Pose2d visionPose = VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.defaultAprilLimelite);
-      if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians(), m_gyro.getContinuousYawRad()) < Math.toRadians(20) && VisionHelpers.getAprilHorizDist(VisionConstants.defaultAprilLimelite) < 4.5) {
-        m_poseEstimator.addVisionMeasurement(visionPose, System.currentTimeMillis()/1000);
-      }
-    } else if (VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
-      // if (DriverStation.isAutonomous()) {
-          Pose2d visionPose = VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite);
-          if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians(), m_gyro.getContinuousYawRad()) < Math.toRadians(20) && VisionHelpers.getAprilHorizDist(VisionConstants.aprilLimelite) < 4.5) {
-            m_poseEstimator.addVisionMeasurement(visionPose, System.currentTimeMillis()/1000);
-          }
-        // }
-      // } else {
+    // if (inc % 10 == 0) {
+    if (!DriverStation.isAutonomous()) {
+      if (frontLimelightFlag && VisionHelpers.isDetected(VisionConstants.defaultAprilLimelite)) {
+        Pose2d visionPose = VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.defaultAprilLimelite);
+        if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians(), m_gyro.getContinuousYawRad()) < Math.toRadians(20) && VisionHelpers.getAprilHorizDist(VisionConstants.defaultAprilLimelite) < 4.5) {
+          m_poseEstimator.addVisionMeasurement(visionPose, System.currentTimeMillis()/1000);
+        }
+      } 
+      // else if (VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
       //   Pose2d visionPose = VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite);
       //   if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians(), m_gyro.getContinuousYawRad()) < Math.toRadians(20) && VisionHelpers.getAprilHorizDist(VisionConstants.aprilLimelite) < 4.5) {
       //     m_poseEstimator.addVisionMeasurement(visionPose, System.currentTimeMillis()/1000);

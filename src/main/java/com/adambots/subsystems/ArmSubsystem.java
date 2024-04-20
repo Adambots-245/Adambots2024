@@ -216,6 +216,9 @@ public class ArmSubsystem extends SubsystemBase {
     }
     
     wristSpeed = MathUtil.clamp(wristSpeed, -ArmConstants.maxWristSpeed, ArmConstants.maxWristSpeed);
+    // wristSpeed = MathUtil.clamp(wristSpeed, -0.1, 0.1);
+    // shoulderSpeed = MathUtil.clamp(wristSpeed, -0.1, 0.1);
+
     
     shoulderMotor.set(shoulderSpeed);
     wristMotor.set(wristSpeed);
