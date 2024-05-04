@@ -10,8 +10,6 @@ package com.adambots.utils;
 import java.util.ArrayList;
 import java.util.function.DoubleSupplier;
 
-import com.adambots.RobotMap;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -23,8 +21,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class Buttons {
         // Initialize controllers
-        public static final CommandXboxController XboxController = new CommandXboxController(RobotMap.kXboxControllerPort);
-        public static final CommandJoystick ex3dPro = new CommandJoystick(RobotMap.kJoystickControllerPort);
+        public static final CommandXboxController XboxController = new CommandXboxController(1);
+        public static final CommandJoystick ex3dPro = new CommandJoystick(0);
 
         // Xbox Controller Buttons
         public static final Trigger XboxBackButton = XboxController.back();

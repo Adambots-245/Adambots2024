@@ -6,28 +6,18 @@ package com.adambots.subsystems;
 
 import java.util.HashMap;
 
-import com.adambots.Constants;
-import com.adambots.Constants.AutoConstants;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
 import com.adambots.Constants.VisionConstants;
-import com.adambots.Robot;
 import com.adambots.RobotMap;
 import com.adambots.sensors.BaseGyro;
 import com.adambots.utils.ModuleMap;
 import com.adambots.vision.VisionHelpers;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -50,22 +40,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     frontLimelightFlag = false;
 
     System.out.println(this.getName() + "Initializing");
-
-    AutoBuilder.configureHolonomic(
-        this::getPose, // Robot pose supplier
-        this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
-        this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-        this::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
-        new HolonomicPathFollowerConfig(
-            new PIDConstants(AutoConstants.kPTranslationController, 0, AutoConstants.kDTranslationController),
-            new PIDConstants(AutoConstants.kPThetaController, 0, AutoConstants.kDThetaController),
-            DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
-            DriveConstants.kDrivebaseRadius, // Drive base radius in meters. Distance from robot center to furthest module
-            new ReplanningConfig(false, false) // Default path replanning config. See the API for the options here
-        ), 
-        () -> Robot.isOnRedAlliance(), //Flips path if on the red side of the field
-        this // Reference to this subsystem to set requirements
-    );
 
     m_poseEstimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics, gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules), 
       new Pose2d(), VecBuilder.fill(0.1, 0.1, 0.01), VecBuilder.fill(0.9, 0.9, 6));
@@ -112,15 +86,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   /**
-   * Sets whether or not we should upate odom using the limelight on the front of the robot.
-   *
-   * @param flagState set the flag true or false.
-   */
-  public void setArmLimelightFlag (Boolean flagState) {
-    frontLimelightFlag = flagState;
-  }
-
-  /**
    * Returns the currently-estimated pose of the robot.
    *
    * @return The pose.
@@ -138,60 +103,5 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public void resetOdometry(Pose2d pose) {
     RobotMap.gyro.resetYawToAngle(pose.getRotation().getDegrees());
     m_poseEstimator.resetPosition(pose.getRotation(), ModuleMap.orderedModulePositions(swerveModules), pose);
-  }
-
-
-  /**
-   * Method to drive the robot using joystick info.
-   *
-   * @param xSpeed
-   *                      Speed (m/s) of the robot in the x direction (forward).
-   * @param ySpeed
-   *                      Speed (m/s) of the robot in the y direction (sideways).
-   * @param rot
-   *                      Angular rate of the robot.
-   * @param fieldRelative
-   *                      Whether the provided x and y speeds are relative to the
-   *                      field.
-   */
-  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-    if (fieldRelative) {
-      if (Robot.isOnRedAlliance()) {
-        setChassisSpeeds(ChassisSpeeds.fromFieldRelativeSpeeds(-xSpeed, -ySpeed, rot, m_gyro.getContinuousYawRotation2d()));
-      } else {
-        setChassisSpeeds(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getContinuousYawRotation2d()));
-      }
-    } else {
-      setChassisSpeeds(new ChassisSpeeds(xSpeed, ySpeed, rot));
-    }
-  }
-
-  /**
-   * Stops the drivetrain
-   */
-  public void stop() {
-    ModuleMap.stopModules(swerveModules);
-  }
-
-  /**
-   * Sets the swerve module states as according to the chassis speeds requested
-   *
-   * @param chassisSpeeds The desired ChassisSpeeds of the robot
-   */
-  public void setChassisSpeeds(ChassisSpeeds chassisSpeeds) {
-    SwerveModuleState[] desiredStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kMaxSpeedMetersPerSecond);
-
-    ModuleMap.setDesiredState(swerveModules, desiredStates);
-  }
-
-  /**
-   * Gets the chassis speeds of the robot as calculated from the swerve module
-   * states
-   *
-   * @return The ChassisSpeeds of the robot
-   */
-  public ChassisSpeeds getChassisSpeeds() {
-    return DriveConstants.kDriveKinematics.toChassisSpeeds(ModuleMap.orderedModuleStates(swerveModules));
   }
 }

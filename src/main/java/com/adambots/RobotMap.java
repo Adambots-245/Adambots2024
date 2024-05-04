@@ -83,29 +83,6 @@ public class RobotMap {
     //Robot Devices
     public static final PowerDistribution PDM = new PowerDistribution(kPDMPort, ModuleType.kRev);
     public static final BaseGyro gyro = new Gyro(kGyroPort);
-    public static final CANdle candleLEDs = new CANdle(kCANdlePort);
-
-    // Arm Devices
-    public static final BaseMotor shoulderMotor = new TalonFXMotor(shoulderMotorPort, true, 45.0);
-    public static final BaseMotor wristMotor = new TalonFXMotor(wristMotorPort, true, 35.0); //35
-    public static final BaseAbsoluteEncoder shoulderEncoder = new ThroughBoreEncoder(shoulderEncoderPort);
-    public static final BaseAbsoluteEncoder wristEncoder = new ThroughBoreEncoder(wristEncoderPort);
-
-    // Shooter Devices
-    public static final BaseMotor shooterWheel = new TalonFXMotor(shooterWheelPort, true, 50);
-    public static final BaseMotor shooterWheel2 = new TalonFXMotor(shooterWheel2Port, true, 50);
-
-    // Intake Devices
-    public static final BaseMotor groundIntakeMotor = new TalonFXMotor(groundIntakeMotorPort, true, 45.0);
-    public static final BaseProximitySensor secondPieceInRobotEye = new PhotoEye(secondPieceInRobotEyePort, false);
-    public static final BaseProximitySensor firstPieceInRobotEye = new PhotoEye(firstPieceInRobotEyePort, false);
-
-    // Hang Devices
-    public static final BaseMotor leftHangMotor = new TalonFXMotor(leftHangMotorPort, false, 35);
-    public static final BaseMotor rightHangMotor = new TalonFXMotor(rightHangMotorPort, false, 35);
-    public static final BaseSolenoid leftHangSolenoid = new ElectricalSolenoid(leftRelayPort);
-    public static final BaseSolenoid rightHangSolenoid = new ElectricalSolenoid(rightRelayPort);
-
     
     // Robot Swerve Modules
     public static final HashMap<ModulePosition, SwerveModule> swerveModules = new HashMap<>(
