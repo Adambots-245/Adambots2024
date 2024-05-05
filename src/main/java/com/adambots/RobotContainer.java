@@ -7,7 +7,9 @@ import com.adambots.utils.Dash;
 import com.adambots.vision.VisionHelpers;
 import com.pathplanner.lib.auto.AutoBuilder;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -71,10 +73,12 @@ public class RobotContainer {
     // SmartDashboard.putData("Auton Mode", autoChooser);
 
     // SmartDashboard.putData("FrontLL Field", Constants.frontLLField);   
-    // SmartDashboard.putData("RearLL Field", Constants.rearLLField);   
+    SmartDashboard.putData("RearLL Field", Constants.rearLLField);   
     SmartDashboard.putData("Odom Field", Constants.odomField);
+    // SmartDashboard.putNumber("Odom Field", DriverStation.);
 
     Dash.add("getRawZ", () -> Buttons.ex3dPro.getZ());
+    
 
 
     Dash.add("distToSpeaker", () -> VisionHelpers.getAprilHorizDist(VisionConstants.defaultAprilLimelite));

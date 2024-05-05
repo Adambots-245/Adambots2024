@@ -9,16 +9,20 @@ import java.util.HashMap;
 import com.adambots.Constants.DriveConstants;
 import com.adambots.Constants.DriveConstants.ModulePosition;
 import com.adambots.Constants.VisionConstants;
+import com.adambots.Constants;
 import com.adambots.RobotMap;
 import com.adambots.sensors.BaseGyro;
 import com.adambots.utils.ModuleMap;
+import com.adambots.vision.LimelightHelpers;
 import com.adambots.vision.VisionHelpers;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -28,21 +32,19 @@ public class DrivetrainSubsystem extends SubsystemBase {
   //Pose Estimator
   private SwerveDrivePoseEstimator m_poseEstimator;
 
-  private Boolean frontLimelightFlag = false;
-  private int inc = 0;
-
   // Odometry class for tracking robot pose
   private HashMap<ModulePosition, SwerveModule> swerveModules;
 
   public DrivetrainSubsystem(HashMap<ModulePosition, SwerveModule> modules, BaseGyro gyro) {
     this.swerveModules = modules;
     m_gyro = gyro;
-    frontLimelightFlag = false;
 
     System.out.println(this.getName() + "Initializing");
 
     m_poseEstimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics, gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules), 
       new Pose2d(), VecBuilder.fill(0.1, 0.1, 0.01), VecBuilder.fill(0.9, 0.9, 6));
+
+    m_poseEstimator.resetPosition(new Rotation2d(0), ModuleMap.orderedModulePositions(swerveModules), new Pose2d(0, 0, new Rotation2d(Math.PI)));
   }
 
   /**
@@ -57,32 +59,26 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    inc++;
-    // Update the position of the robot on the ShuffleBoard field
-    // Constants.odomField.setRobotPose(getPose());
-    // System.out.println(this.getName() + ".periodic()");
 
-    m_poseEstimator.updateWithTime(System.currentTimeMillis()/1000, m_gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules));
+    // Update the position of the robot on the ShuffleBoard field
+    m_poseEstimator.updateWithTime(Timer.getFPGATimestamp(), m_gyro.getContinuousYawRotation2d(), ModuleMap.orderedModulePositions(swerveModules));
 
     // Update the odometry in the periodic block
-    // if (inc % 10 == 0) {
+    Pose2d visionPose = null;
     if (!DriverStation.isAutonomous()) {
-      if (frontLimelightFlag && VisionHelpers.isDetected(VisionConstants.defaultAprilLimelite)) {
-        Pose2d visionPose = VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.defaultAprilLimelite);
-        if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians(), m_gyro.getContinuousYawRad()) < Math.toRadians(20) && VisionHelpers.getAprilHorizDist(VisionConstants.defaultAprilLimelite) < 4.5) {
-          m_poseEstimator.addVisionMeasurement(visionPose, System.currentTimeMillis()/1000);
-        }
+      if (VisionHelpers.isDetected(VisionConstants.defaultAprilLimelite)) {
+        // visionPose = LimelightHelpers.getBotPose2d_wpiBlue(VisionConstants.defaultAprilLimelite);
+        visionPose = VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.defaultAprilLimelite);
+        System.out.println("X: " + visionPose.getX() + " | Y: " + visionPose.getY() + " | Rot: " + visionPose.getRotation().getDegrees());
+        // visionPose = new Pose2d(1.5 + (Math.random()-0.5)*20, 5 + (Math.random()-0.5)*20, new Rotation2d(Math.PI));
+        // m_poseEstimator.addVisionMeasurement(visionPose, Timer.getFPGATimestamp());
       } 
-      // else if (VisionHelpers.isDetected(VisionConstants.aprilLimelite)) {
-      //   Pose2d visionPose = VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite);
-      //   if (visionPose.getY() > 1 && getContinuousAngleError(visionPose.getRotation().getRadians(), m_gyro.getContinuousYawRad()) < Math.toRadians(20) && VisionHelpers.getAprilHorizDist(VisionConstants.aprilLimelite) < 4.5) {
-      //     m_poseEstimator.addVisionMeasurement(visionPose, System.currentTimeMillis()/1000);
-      //   }
-      // }
     }
 
-    // Constants.frontLLField.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.defaultAprilLimelite));
-    // Constants.rearLLField.setRobotPose(VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.aprilLimelite));
+    Constants.odomField.setRobotPose(getPose());
+    if (visionPose != null) {
+      Constants.rearLLField.setRobotPose(visionPose);
+    }
   }
 
   /**
