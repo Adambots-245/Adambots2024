@@ -67,11 +67,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     Pose2d visionPose = null;
     if (!DriverStation.isAutonomous()) {
       if (VisionHelpers.isDetected(VisionConstants.defaultAprilLimelite)) {
-        // visionPose = LimelightHelpers.getBotPose2d_wpiBlue(VisionConstants.defaultAprilLimelite);
-        visionPose = VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.defaultAprilLimelite);
+        visionPose = LimelightHelpers.getBotPose2d_wpiBlue(VisionConstants.defaultAprilLimelite);
+        visionPose = VisionHelpers.getAprilTagBotPose2dBlue(VisionConstants.defaultAprilLimelite); //THIS IS THE PROBLEM RIGHT HERE OFFICER
         System.out.println("X: " + visionPose.getX() + " | Y: " + visionPose.getY() + " | Rot: " + visionPose.getRotation().getDegrees());
         // visionPose = new Pose2d(1.5 + (Math.random()-0.5)*20, 5 + (Math.random()-0.5)*20, new Rotation2d(Math.PI));
-        // m_poseEstimator.addVisionMeasurement(visionPose, Timer.getFPGATimestamp());
+        m_poseEstimator.addVisionMeasurement(visionPose, Timer.getFPGATimestamp());
       } 
     }
 

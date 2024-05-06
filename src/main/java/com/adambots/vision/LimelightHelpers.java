@@ -743,7 +743,6 @@ public class LimelightHelpers {
      * Parses Limelight's JSON results dump into a LimelightResults Object
      */
     public static LimelightResults getLatestResults(String limelightName) {
-        System.out.println("AAAAAAAAAAAAAAAAAAAAA");
 
         long start = System.nanoTime();
         LimelightHelpers.LimelightResults results = new LimelightHelpers.LimelightResults();
@@ -751,15 +750,11 @@ public class LimelightHelpers {
             mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         }
 
-        System.out.println("BBBBBBBBBBBBBBBBBBB");
-
         try {
             results = mapper.readValue(getJSONDump(limelightName), LimelightResults.class);
         } catch (JsonProcessingException e) {
             System.err.println("lljson error: " + e.getMessage());
         }
-        System.out.println("CCCCCCCCCCCCCCCCCCCCCCCCC");
-
 
         long end = System.nanoTime();
         double millis = (end - start) * .000001;
@@ -767,8 +762,6 @@ public class LimelightHelpers {
         if (profileJSON) {
             System.out.printf("lljson: %.2f\r\n", millis);
         }
-
-        System.out.println("DDDDDDDDDDDDDDDDDDD");
 
         return results;
     }
